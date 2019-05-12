@@ -3,7 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class hTester : MonoBehaviour {
+	public bool basics;
+
 	void Start () {
-		Debug.Log(hInput.instance.name);
+		if (basics) {
+			Debug.Log("hInput gameObject name is : "+hInput.instance.name);
+			Debug.Log("OS is : "+hInput.os);
+		}
 	}
 }
