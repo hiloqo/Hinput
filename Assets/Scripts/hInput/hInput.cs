@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class hInput : MonoBehaviour {
+	//TODO : hStickDirection
+	//TODO : hDPadDirection
+	//TODO : hStickDiagonal
+	//TODO : hDPadDiagonal
+	//TODO : hAbstractInput : hide public variables
+	//TODO : test hStick
+
 	// --------------------
 	// SETTINGS
 	// --------------------
@@ -64,10 +71,10 @@ public class hInput : MonoBehaviour {
 
 	[SerializeField]
 	[Tooltip("The camera on which the worldPosition property of hStick and hDPad should be calculated. If null, hInput will use the main camera.")]
-	private Camera _worldCamera = null;
-	public static Camera worldCamera { 
+	private Transform _worldCamera = null;
+	public static Transform worldCamera { 
 		get { 
-			if (instance._worldCamera == null) instance._worldCamera = Camera.main; 
+			if (instance._worldCamera == null) instance._worldCamera = Camera.main.transform; 
 			return instance._worldCamera; 
 		} 
 		set { instance._worldCamera = value; } 
@@ -134,9 +141,9 @@ public class hInput : MonoBehaviour {
 	private hGamepad _allGamepads;
 	public static hGamepad allGamepads { 
 		get { 
-			if (instance._allGamepads == null) instance._allGamepads = new hGamepad(); 
+			if (instance._allGamepads == null) instance._allGamepads = new hGamepad(os+"_AllGamepads"); 
 			return instance._allGamepads; 
-		} 
+		}
 	}
 
 	private List<hGamepad> _gamepad;
@@ -144,7 +151,7 @@ public class hInput : MonoBehaviour {
 		get {
 			if (instance._gamepad == null) {
 				instance._gamepad = new List<hGamepad>();
-				for (int i=0; i<maxGamepads; i++) gamepad.Add(new hGamepad());
+				for (int i=0; i<maxGamepads; i++) gamepad.Add(new hGamepad(os+"_Gamepad"+(i+1)));
 			}
 			return instance._gamepad; 
 		} 
@@ -159,4 +166,5 @@ public class hInput : MonoBehaviour {
 		allGamepads.Update();
 		foreach(hGamepad hg in gamepad) hg.Update();
 	}
+
 }

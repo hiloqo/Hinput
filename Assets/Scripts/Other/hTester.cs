@@ -11,4 +11,9 @@ public class hTester : MonoBehaviour {
 			Debug.Log("OS is : "+hInput.os);
 		}
 	}
+
+	void Update () {
+		Vector2 v2 = hInput.gamepad[0].leftStick.positionRaw;
+		Debug.Log("("+v2.x+"  ,  "+v2.y+")");
+	}
 }

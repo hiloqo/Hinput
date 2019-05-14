@@ -5,27 +5,17 @@ using UnityEngine;
 public abstract class hAbstractInput {
 	public static implicit operator bool (hAbstractInput hAI) { return hAI.pressed; }
 
-	public abstract float position { get; }
 	public abstract float positionRaw { get; }
+	public abstract float position { get; }
 
-	public bool pressed { get { return position >= hInput.triggerZone; } }
+	public abstract bool pressed { get; }
 	public bool released { get { return !pressed; } }
-	public bool inDeadZone { get { return position >= hInput.deadZone; } }
+	public bool inDeadZone { get { return positionRaw >= hInput.deadZone; } }
 
 	public float lastPressed = 0f;
 	public float lastpressStart = 0f;
 	private float penultimatePressStart = 0f;
 	public float lastReleased = 0f;
-
-	public void Update () {
-		if (pressed) lastPressed = Time.time;
-		else lastReleased = Time.time;
-
-		if (justPressed) {
-			penultimatePressStart = lastpressStart;
-			lastpressStart = Time.time;			
-		}
-	}
 
 	public bool justPressed { get { return (pressed && (lastPressed - lastReleased) <= Time.deltaTime); } }
 	public bool justReleased { get { return (released && (lastReleased - lastPressed) <= Time.deltaTime); } }
@@ -41,4 +31,16 @@ public abstract class hAbstractInput {
 
 	public float pressDuration { get { if (pressed) return (Time.time - lastpressStart); return 0f; } }
 	public float releaseDuration { get { if (released) return (Time.time - lastPressed); return 0f; } }
+
+	public void Update () {
+		float time = Time.time;
+
+		if (pressed) lastPressed = time;
+		else lastReleased = time;
+
+		if (justPressed) {
+			penultimatePressStart = lastpressStart;
+			lastpressStart = time;			
+		}
+	}
 }
