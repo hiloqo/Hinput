@@ -7,12 +7,28 @@ public class hInput : MonoBehaviour {
 	//TODO : hDPadDirection
 	//TODO : hStickDiagonal
 	//TODO : hDPadDiagonal
-	//TODO : hAbstractInput : hide public variables
-	//TODO : test hStick
+	//TODO : add worldPositionAbsolute ?? -> camera plane, absolute horizontal plane, camera plane projected on horizontal ?
+	//TODO : update doc
+	//TODO : add all gamepad inputs
+	//TODO : clean useless variables in scripts
+	//TODO : write whole hTester script
+	//TODO : test all gamepad inputs
 
 	// --------------------
 	// SETTINGS
 	// --------------------
+
+	[SerializeField]
+	[Range(0,1)]
+	[Tooltip("The precision with which to evaluate Time.deltatime (in %).")]
+	private float _epsilon = 0.05f;
+	public static float epsilon { 
+		get { return instance._epsilon; } 
+		set { instance._epsilon = value; } 
+	}
+
+	private float _deltaTime;
+	public static float deltaTime { get { return instance._deltaTime; } }
 
 	[SerializeField]
 	[Range(0,1)]
@@ -70,12 +86,15 @@ public class hInput : MonoBehaviour {
 	}
 
 	[SerializeField]
-	[Tooltip("The camera on which the worldPosition property of hStick and hDPad should be calculated. If null, hInput will use the main camera.")]
+	[Tooltip("The camera on which the worldPosition property of hStick and hDPad should be calculated. If not set, hInput will try to find one on the scene.")]
 	private Transform _worldCamera = null;
 	public static Transform worldCamera { 
 		get { 
-			if (instance._worldCamera == null) instance._worldCamera = Camera.main.transform; 
-			return instance._worldCamera; 
+			if (instance._worldCamera != null) return instance._worldCamera;
+			else if (Camera.main != null) instance._worldCamera = Camera.main.transform;
+			else if (GameObject.FindObjectOfType<Camera>() != null) instance._worldCamera = GameObject.FindObjectOfType<Camera>().transform;
+			else { Debug.LogError ("hInput error : No camera found !"); return null; }
+			return instance._worldCamera;
 		} 
 		set { instance._worldCamera = value; } 
 	}
@@ -163,6 +182,7 @@ public class hInput : MonoBehaviour {
 	// --------------------
 
 	private void Update () {
+		_deltaTime = (Time.deltaTime * (1+epsilon));
 		allGamepads.Update();
 		foreach(hGamepad hg in gamepad) hg.Update();
 	}

@@ -19,10 +19,17 @@ public class hButton : hAbstractInput {
 		this.fullButtonName = gamepad.name+"_"+this.buttonName;
 	}
 
-	//For sticks
-	public hButton(string axisName, hGamepad gamepad, hStick hStick, bool negative, float angle) {
+	//For triggers
+	public hButton(hGamepad gamepad, string axisName) {
 		this.gamepad = gamepad;
-		this.fullAxisName = gamepad.name+"_"+axisName;
+		this.axisName = axisName;
+		this.fullAxisName = gamepad.name+"_"+this.axisName;
+	}
+
+	//For sticks
+	public hButton(string axisName, hGamepad gamepad, hStick hStick, string stickName, bool negative, float angle) {
+		this.gamepad = gamepad;
+		this.fullAxisName = gamepad.name+"_"+stickName+"_"+axisName;
 		this.axisName = axisName;
 		this.hStick = hStick;
 		this.negative = negative;
@@ -30,14 +37,15 @@ public class hButton : hAbstractInput {
 	}
 
 	//For DPad
-	public hButton(string buttonName, string axisName, hGamepad gamepad, hStick hStick, bool negative) {
+	public hButton(string buttonName, string axisName, hGamepad gamepad, hStick hStick, string stickName, bool negative, float angle) {
 		this.buttonName = buttonName;
 		this.gamepad = gamepad;
 		this.axisName = axisName;
-		this.fullButtonName = gamepad.name+"_"+buttonName;
-		this.fullAxisName = gamepad.name+"_"+axisName;
+		this.fullButtonName = gamepad.name+"_"+stickName+"_"+buttonName;
+		this.fullAxisName = gamepad.name+"_"+stickName+"_"+axisName;
 		this.hStick = hStick;
 		this.negative = negative;
+		this.angle = angle;
 	}
 
 	float GetButton () {
@@ -91,7 +99,14 @@ public class hButton : hAbstractInput {
 	public override bool pressed { 
 		get { 
 			if (hStick == null) return position >= hInput.triggerZone; 
-			else return ((hStick.distance >= hInput.triggerZone) && (Mathf.Abs(angle - hStick.angle) <= hInput.directionAngle));
+			else return ((hStick.distance >= hInput.triggerZone) && (Mathf.Abs(angle - hStick.angle) <= hInput.directionAngle/2));
 		} 
+	}
+
+	public override bool inDeadZone {
+		get {
+			if (hStick == null) return position <= hInput.deadZone;
+			else return hStick.distance <= hInput.deadZone;
+		}
 	}
 }

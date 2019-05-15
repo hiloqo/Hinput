@@ -7,40 +7,44 @@ public abstract class hAbstractInput {
 
 	public abstract float positionRaw { get; }
 	public abstract float position { get; }
-
 	public abstract bool pressed { get; }
+	public abstract bool inDeadZone { get; }
+
 	public bool released { get { return !pressed; } }
-	public bool inDeadZone { get { return positionRaw >= hInput.deadZone; } }
 
-	public float lastPressed = 0f;
-	public float lastpressStart = 0f;
+	private float _lastReleased = 0f;
+	private float _lastPressed = 0f;
+	private float _lastPressStart = 0f;
 	private float penultimatePressStart = 0f;
-	public float lastReleased = 0f;
 
-	public bool justPressed { get { return (pressed && (lastPressed - lastReleased) <= Time.deltaTime); } }
-	public bool justReleased { get { return (released && (lastReleased - lastPressed) <= Time.deltaTime); } }
+	public float lastReleased { get { return _lastReleased; } }
+	public float lastPressed { get { return _lastPressed; } }
+	public float lastPressStart { get { return _lastPressStart; } }
 
-	//DoublePress takes a bit more resources than the rest.
-	//Could do a cheaper justDoublePressed and justDoubleReleased, but nothing in between.
-	public bool doublePress { get { return (lastpressStart - penultimatePressStart) <= hInput.doublePressDuration; } }
-	public bool doublePressJustPressed { get { return justPressed && doublePress; } }
-	public bool doublePressJustReleased { get { return justReleased && doublePress; } }
+	public bool justPressed { get { return (pressed && (_lastPressed - _lastReleased) <= hInput.deltaTime); } }
+	public bool justReleased { get { return (released && (_lastReleased - _lastPressed) <= hInput.deltaTime); } }
 
-	public bool longPress { get { return (lastPressed - lastpressStart) >= hInput.longPressDuration; } }
-	public bool longPressJustReleased { get { return (justReleased && (lastReleased - lastPressed) >= hInput.longPressDuration); } }
+	private bool lastPressWasDouble { get { return (_lastPressStart - penultimatePressStart) <= hInput.doublePressDuration; } }
+	public bool doublePress { get { return pressed && lastPressWasDouble; } }
+	public bool doublePressJustPressed { get { return justPressed && lastPressWasDouble; } }
+	public bool doublePressJustReleased { get { return justReleased && lastPressWasDouble; } }
 
-	public float pressDuration { get { if (pressed) return (Time.time - lastpressStart); return 0f; } }
-	public float releaseDuration { get { if (released) return (Time.time - lastPressed); return 0f; } }
+	private bool lastPressWasLong { get { return (_lastPressed - _lastPressStart) >= hInput.longPressDuration; }}
+	public bool longPress { get { return pressed && lastPressWasLong; } }
+	public bool longPressJustReleased { get { return justReleased && lastPressWasLong; } }
+
+	public float pressDuration { get { if (pressed) return (Time.time - _lastPressStart); return 0f; } }
+	public float releaseDuration { get { if (released) return (Time.time - _lastPressed); return 0f; } }
 
 	public void Update () {
 		float time = Time.time;
 
-		if (pressed) lastPressed = time;
-		else lastReleased = time;
+		if (pressed) _lastPressed = time;
+		else _lastReleased = time;
 
 		if (justPressed) {
-			penultimatePressStart = lastpressStart;
-			lastpressStart = time;			
+			penultimatePressStart = _lastPressStart;
+			_lastPressStart = time;			
 		}
 	}
 }
