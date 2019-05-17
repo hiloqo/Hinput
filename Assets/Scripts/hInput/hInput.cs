@@ -3,16 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class hInput : MonoBehaviour {
-	//TODO : hStickDirection
-	//TODO : hDPadDirection
 	//TODO : hStickDiagonal
 	//TODO : hDPadDiagonal
 	//TODO : add worldPositionAbsolute ?? -> camera plane, absolute horizontal plane, camera plane projected on horizontal ?
 	//TODO : update doc
-	//TODO : add all gamepad inputs
-	//TODO : clean useless variables in scripts
 	//TODO : write whole hTester script
 	//TODO : test all gamepad inputs
+	//TODO : Proofread all
 
 	// --------------------
 	// SETTINGS
@@ -112,13 +109,13 @@ public class hInput : MonoBehaviour {
 					instance._os = "Windows";
 				#elif UNITY_STANDALONE_WIN
 					instance._os = "Windows";
-				#elif UNITY_STANDALONE_OSX
-					instance._os = "Mac";
 				#elif UNITY_EDITOR_OSX
 					instance._os = "Mac";
-				#elif UNITY_STANDALONE_LINUX
-					instance._os = "Linux";
+				#elif UNITY_STANDALONE_OSX
+					instance._os = "Mac";
 				#elif UNITY_EDITOR_LINUX
+					instance._os = "Linux";
+				#elif UNITY_STANDALONE_LINUX
 					instance._os = "Linux";
 				#else
 					Debug.LogError("hInput Error : Unknown OS !");

@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class hTester : MonoBehaviour {
 	[Header("GENERAL")]
-	public bool basics;
+	public bool startMessage;
+	public bool individualGamepads;
+	public bool allGamepads;
 
-	[Header("HSTICK")]
+	[Header("STICKS")]
 	public bool stickPosition;
 	public bool stickPositionRaw;
 	public bool horizontal;
@@ -20,10 +22,11 @@ public class hTester : MonoBehaviour {
 	public bool stickInTriggerZone;
 	public bool worldPosition;
 	public bool worldPositionFlat;
+
+	[Header("STICK DIRECTIONS")]
 	public bool stickDirections;
 
-	[Header("HBUTTON")]
-	public bool implicitCast;
+	[Header("BUTTONS")]
 	public bool buttonPosition;
 	public bool buttonPositionRaw;
 	public bool pressed;
@@ -52,9 +55,9 @@ public class hTester : MonoBehaviour {
 
 	void Start () {
 		if (basics) {
-			Debug.Log("hInput gameObject name is : "+hInput.instance.name);
 			Debug.Log("OS is : "+hInput.os);
-			Debug.Log(hInput.worldCamera.name);
+			Debug.Log("hInput gameObject name is : "+hInput.instance.name);
+			Debug.Log("camera gameObject name is : "+hInput.worldCamera.name);
 		}
 	}
 
@@ -69,9 +72,9 @@ public class hTester : MonoBehaviour {
 				if (angle) Debug.Log("Gamepad "+(i+1)+" Left Stick : "+leftStick.angle);
 				if (distance) Debug.Log("Gamepad "+(i+1)+" Left Stick : "+leftStick.distance);
 				if (stickInTriggerZone) Debug.Log("Gamepad "+(i+1)+" Left Stick : "+leftStick.inTriggerZone);
-				if (worldPosition) Debug.Log("Gamepad "+(i+1)+" Left Stick : "+leftStick.worldPosition);
+				if (worldPosition) Debug.Log("Gamepad "+(i+1)+" Left Stick : "+leftStick.cameraPosition);
 				if (worldPositionFlat) Debug.Log("Gamepad "+(i+1)+" Left Stick : "+leftStick.worldPositionFlat);
-				if (moveBlueSphere) blueSphere.transform.position += leftStick.worldPosition * Time.deltaTime * moveSpeed;
+				if (moveBlueSphere) blueSphere.transform.position += leftStick.cameraPosition * Time.deltaTime * moveSpeed;
 				if (moveRedCube) redCube.transform.position += leftStick.worldPositionFlat * Time.deltaTime * moveSpeed;
 			}
 
@@ -91,10 +94,9 @@ public class hTester : MonoBehaviour {
 
 			hAbstractInput A = hInput.gamepad[i].leftTrigger;
 
-			if (implicitCast) Debug.Log("Gamepad "+(i+1)+" A : "+((bool)A));
 			if (buttonPosition) Debug.Log ("Gamepad "+(i+1)+" A : "+A.position);
 			if (buttonPositionRaw) Debug.Log("Gamepad "+(i+1)+" A : "+A.positionRaw);
-			if (pressed) Debug.Log ("Gamepad "+(i+1)+" A : "+A.pressed);
+			if (pressed) Debug.Log ("Gamepad "+(i+1)+" A : "+(bool)A);
 			if (released) Debug.Log("Gamepad "+(i+1)+" A : "+A.released);
 			if (justPressed) Debug.Log ("Gamepad "+(i+1)+" A : "+A.justPressed);
 			if (justReleased) Debug.Log ("Gamepad "+(i+1)+" A : "+A.justReleased);

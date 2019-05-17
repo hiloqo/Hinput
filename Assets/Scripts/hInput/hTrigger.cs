@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class hTrigger : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
+public class hTrigger : hAbstractSimpleInput {
+	public hTrigger (string fullInputName) {
+		this.fullInputName = fullInputName;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	public override float positionRaw { 
+		get { 
+			if (hInput.os == "Windows") return Input.GetAxisRaw(fullInputName);
+			return (Input.GetAxisRaw(fullInputName) + 1)/2;			
+		} 
 	}
 }
