@@ -3,13 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class hInput : MonoBehaviour {
+	//FEATURES
 	//TODO : hStickDiagonal
 	//TODO : hDPadDiagonal
 	//TODO : add worldPositionAbsolute ?? -> camera plane, absolute horizontal plane, camera plane projected on horizontal ?
-	//TODO : update doc
+
+	//TESTING
 	//TODO : write whole hTester script
 	//TODO : test all gamepad inputs
+
+	//SHIPPING
+	//TODO : update doc
 	//TODO : Proofread all
+	//TODO : add tooltips to hAbstractStick & hAbstractInput properties
 
 	// --------------------
 	// SETTINGS

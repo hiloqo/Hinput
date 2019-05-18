@@ -2,19 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class hAbstractStickDirection : hAbstractInput {
+public class hStickDiagonal : hAbstractInput {
 	protected hAbstractStick hAbstractStick;
-	protected string axisName;
-	protected string fullAxisName;
-	protected bool negative;
 	protected float angle;
+
+	public hStickDiagonal (hAbstractStick hAbstractStick, float angle) {
+		this.hAbstractStick = hAbstractStick;
+		this.angle = angle;
+	}
+
+	public override float positionRaw { 
+		get { 
+			return Mathf.Cos(hAbstractStick.angleRaw - angle);
+		} 
+	}
 
 	public override float position { 
 		get { 
 			if (hAbstractStick.distanceRaw < hInput.deadZone) return 0f;
-			else if (axisName == "Horizontal") return hAbstractStick.position.x;
-			else if (axisName == "Vertical") return hAbstractStick.position.y;
-			else Debug.Log("Erreur : axe non reconnu : "+axisName); return 0f;
+			return Mathf.Cos(hAbstractStick.angle - angle);
 		} 
 	}
 
