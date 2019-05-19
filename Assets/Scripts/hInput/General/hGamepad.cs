@@ -7,6 +7,8 @@ public class hGamepad {
 	// PRIVATE VARIABLES
 	// --------------------
 
+	private string _name;
+
 	private hButton _A;
 	private hButton _B;
 	private hButton _X;
@@ -39,33 +41,35 @@ public class hGamepad {
 	// CONSTRUCTOR
 	// --------------------
 
-	public hGamepad (string name) {
-		_A = new hButton (name+"_A");
-		_B = new hButton (name+"_B");
-		_X = new hButton (name+"_X");
-		_Y = new hButton (name+"_Y");
+	public hGamepad (string os, string name) {
+		this._name = os+"_"+name;
 
-		_leftBumper = new hButton (name+"_LeftBumper");
-		_rightBumper = new hButton (name+"_RightBumper");
+		_A = new hButton (_name, "A");
+		_B = new hButton (_name, "B");
+		_X = new hButton (_name, "X");
+		_Y = new hButton (_name, "Y");
 
-		_back = new hButton (name+"_Back");
-		_start = new hButton (name+"_Start");
+		_leftBumper = new hButton (_name, "LeftBumper");
+		_rightBumper = new hButton (_name, "RightBumper");
 
-		_leftStickClick = new hButton (name+"_LeftStickClick");
-		_rightStickClick = new hButton (name+"_RightStickClick");
+		_back = new hButton (_name, "Back");
+		_start = new hButton (_name, "Start");
 
-		_xBoxButton = new hButton (name+"_XBoxButton");
+		_leftStickClick = new hButton (_name, "LeftStickClick");
+		_rightStickClick = new hButton (_name, "RightStickClick");
 
-
-		_leftTrigger = new hTrigger (name+"_LeftTrigger");
-		_rightTrigger = new hTrigger (name+"_RightTrigger");
+		_xBoxButton = new hButton (_name, "XBoxButton");
 
 
-		_leftStick = new hStick (name+"_LeftStick");
-		_rightStick = new hStick (name+"_RightStick");
+		_leftTrigger = new hTrigger (_name, "LeftTrigger");
+		_rightTrigger = new hTrigger (_name, "RightTrigger");
 
 
-		_dPad = new hDPad (name+"_DPad");
+		_leftStick = new hStick (_name, "LeftStick");
+		_rightStick = new hStick (_name, "RightStick");
+
+
+		_dPad = new hDPad (_name, "DPad");
 	}
 
 	
@@ -106,6 +110,8 @@ public class hGamepad {
 	// --------------------
 	// PUBLIC PROPERTIES
 	// --------------------
+
+	public string name { get { return _name; } }
 
 	public hButton A { get { return _A; } }
 	public hButton B { get { return _B; } }

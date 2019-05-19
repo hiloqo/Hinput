@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class hDPadDirection : hAbstractStickDirection {
-	private string fullButtonName;
+public class hDPadDirection : hAbstractSimpleStickDirection {
+	public hDPadDirection (string stickName, string buttonName, string axisName, hDPad hDPad, bool negative, float angle) {
+		this._name = stickName+"_"+buttonName;
+		this._fullName = hDPad.fullName+"_"+buttonName;
 
-	public hDPadDirection (string fullStickName, string buttonName, string axisName, hDPad hDPad, bool negative, float angle) {
-		this.fullButtonName = fullStickName+"_"+buttonName;
-		this.fullAxisName = fullStickName+"_"+axisName;
+		this.fullAxisName = _fullName+"_"+axisName;
 		this.axisName = axisName;
 		this.hAbstractStick = hDPad;
 		this.negative = negative;
@@ -24,7 +24,7 @@ public class hDPadDirection : hAbstractStickDirection {
 
 			float buttonValue = 0f;
 			try { 
-				if (Input.GetButton(fullButtonName)) buttonValue = 1;
+				if (Input.GetButton(_fullName)) buttonValue = 1;
 			 } catch { } //Dont care if error here
 
 			return (axisValue + buttonValue);

@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class hInput : MonoBehaviour {
 	//FEATURES
-	//TODO : hStickDiagonal
-	//TODO : hDPadDiagonal
 	//TODO : add worldPositionAbsolute ?? -> camera plane, absolute horizontal plane, camera plane projected on horizontal ?
+	//TODO : hInputSettings script ?
+	//TODO : Change allgamepad to anygamepad
+	//TODO : epsilon not serialized
 
 	//TESTING
-	//TODO : write whole hTester script
 	//TODO : test all gamepad inputs
 
 	//SHIPPING
@@ -20,18 +20,6 @@ public class hInput : MonoBehaviour {
 	// --------------------
 	// SETTINGS
 	// --------------------
-
-	[SerializeField]
-	[Range(0,1)]
-	[Tooltip("The precision with which to evaluate Time.deltatime (in %).")]
-	private float _epsilon = 0.05f;
-	public static float epsilon { 
-		get { return instance._epsilon; } 
-		set { instance._epsilon = value; } 
-	}
-
-	private float _deltaTime;
-	public static float deltaTime { get { return instance._deltaTime; } }
 
 	[SerializeField]
 	[Range(0,1)]
@@ -104,6 +92,17 @@ public class hInput : MonoBehaviour {
 
 
 	// --------------------
+	// TIME
+	// --------------------
+
+	private float _deltaTimeEpsilon = 0.1f;
+	public static float deltaTimeEpsilon { get { return instance._deltaTimeEpsilon; } }
+
+	private float _maxDeltaTime;
+	public static float maxDeltaTime { get { return instance._maxDeltaTime; } }
+
+
+	// --------------------
 	// OPERATING SYSTEM
 	// --------------------
 
@@ -160,11 +159,11 @@ public class hInput : MonoBehaviour {
 	// GAMEPADS
 	// --------------------
 
-	private hGamepad _allGamepads;
-	public static hGamepad allGamepads { 
+	private hGamepad _anyGamepad;
+	public static hGamepad anyGamepad { 
 		get { 
-			if (instance._allGamepads == null) instance._allGamepads = new hGamepad(os+"_AllGamepads"); 
-			return instance._allGamepads; 
+			if (instance._anyGamepad == null) instance._anyGamepad = new hGamepad(os, "AllGamepads"); 
+			return instance._anyGamepad; 
 		}
 	}
 
@@ -173,7 +172,7 @@ public class hInput : MonoBehaviour {
 		get {
 			if (instance._gamepad == null) {
 				instance._gamepad = new List<hGamepad>();
-				for (int i=0; i<maxGamepads; i++) gamepad.Add(new hGamepad(os+"_Gamepad"+(i+1)));
+				for (int i=0; i<maxGamepads; i++) gamepad.Add(new hGamepad(os, "Gamepad"+(i+1)));
 			}
 			return instance._gamepad; 
 		} 
@@ -185,8 +184,8 @@ public class hInput : MonoBehaviour {
 	// --------------------
 
 	private void Update () {
-		_deltaTime = (Time.deltaTime * (1+epsilon));
-		allGamepads.Update();
+		_maxDeltaTime = (Time.deltaTime * (1+deltaTimeEpsilon));
+		anyGamepad.Update();
 		foreach(hGamepad hg in gamepad) hg.Update();
 	}
 

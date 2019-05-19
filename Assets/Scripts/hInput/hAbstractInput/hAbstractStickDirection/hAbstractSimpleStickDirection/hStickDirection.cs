@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class hStickDirection : hAbstractStickDirection {
-	public hStickDirection (string fullStickName, string axisName, hStick hStick, bool negative, float angle) {
-		this.fullAxisName = fullStickName+"_"+axisName;
+public class hStickDirection : hAbstractSimpleStickDirection {
+	public hStickDirection (string stickName, string buttonName, string axisName, hStick hStick, bool negative, float angle) {
+		this._name = stickName+"_"+buttonName;
+		this._fullName = hStick.fullName+"_"+buttonName;
+
+		this.fullAxisName = hStick.fullName+"_"+axisName;
 		this.axisName = axisName;
 		this.hAbstractStick = hStick;
 		this.negative = negative;

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class hAbstractSimpleInput : hAbstractInput {
-	protected string fullInputName;
-
 	public override float position { 
 		get { 
 			float posRaw = positionRaw;
@@ -17,5 +15,5 @@ public abstract class hAbstractSimpleInput : hAbstractInput {
 
 	public override bool pressed { get { return position >= hInput.triggerZone; } }
 
-	public override bool inDeadZone { get { return position <= hInput.deadZone; } }
+	public override bool inDeadZone { get { return position < hInput.deadZone; } }
 }

@@ -11,6 +11,17 @@ public abstract class hAbstractInput {
 
 	
 	// --------------------
+	// NAME
+	// --------------------
+
+	protected string _name;
+	public string name { get { return _name; } }
+
+	protected string _fullName;
+	public string fullName { get { return _fullName; } }
+
+	
+	// --------------------
 	// ABSTRACT PROPERTIES
 	// --------------------
 
@@ -52,8 +63,8 @@ public abstract class hAbstractInput {
 	public float lastPressed { get { return _lastPressed; } }
 	public float lastPressStart { get { return _lastPressStart; } }
 
-	public bool justPressed { get { return (pressed && (lastPressed - lastReleased) <= hInput.deltaTime); } }
-	public bool justReleased { get { return (released && (lastReleased - lastPressed) <= hInput.deltaTime); } }
+	public bool justPressed { get { return (pressed && (lastPressed - lastReleased) <= hInput.maxDeltaTime); } }
+	public bool justReleased { get { return (released && (lastReleased - lastPressed) <= hInput.maxDeltaTime); } }
 
 	public bool lastPressWasDouble { get { return (lastPressStart - penultimatePressStart) <= hInput.doublePressDuration; } }
 	public bool doublePress { get { return pressed && lastPressWasDouble; } }

@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class hButton : hAbstractSimpleInput {
-	public hButton (string fullInputName) {
-		this.fullInputName = fullInputName;
+	public hButton (string gamepadName, string inputName) {
+		this._name = inputName;
+		this._fullName = gamepadName+"_"+inputName;
 	}
 
 	public override float positionRaw { 
 		get { 
-			if (Input.GetButton(fullInputName)) return 1;
+			if (Input.GetButton(_fullName)) return 1;
 			else return 0;
 		} 
 	}
