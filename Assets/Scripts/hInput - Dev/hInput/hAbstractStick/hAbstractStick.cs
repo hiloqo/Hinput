@@ -13,6 +13,13 @@ public abstract class hAbstractStick {
 	protected string _fullName;
 	public string fullName { get { return _fullName; } }
 
+	
+	// --------------------
+	// IMPLICIT CONVERSION
+	// --------------------
+
+	public static implicit operator Vector2 (hAbstractStick hAbstractStick) { return hAbstractStick.position; }
+
 
 	// --------------------
 	// STICK DIRECTIONS
@@ -79,7 +86,7 @@ public abstract class hAbstractStick {
 
 	public float horizontal { get { return position.x; } }
 	public float vertical { get { return position.y; } }
-	public float distance { get { return Mathf.Clamp01(position.magnitude); } }
+	public float distance { get { return Mathf.Clamp01((1 + hInput.diagonalIncrease)*position.magnitude); } }
 	public bool inTriggerZone { get { return distance >= hInput.triggerZone; } }
 
 	public float angleRaw { get { return Vector2.SignedAngle(Vector2.right, positionRaw); } }

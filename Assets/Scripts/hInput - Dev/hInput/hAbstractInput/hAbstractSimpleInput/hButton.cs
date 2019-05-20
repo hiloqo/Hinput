@@ -10,8 +10,10 @@ public class hButton : hAbstractSimpleInput {
 
 	public override float positionRaw { 
 		get { 
-			if (Input.GetButton(_fullName)) return 1;
-			else return 0;
+			try {
+				if (Input.GetButton(_fullName)) return 1;
+				else return 0;
+			} catch { return 0; }
 		} 
 	}
 }

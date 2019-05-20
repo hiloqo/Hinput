@@ -7,7 +7,7 @@ public class hDPadDirection : hAbstractSimpleStickDirection {
 		this._name = stickName+"_"+buttonName;
 		this._fullName = hDPad.fullName+"_"+buttonName;
 
-		this.fullAxisName = _fullName+"_"+axisName;
+		this.fullAxisName = hDPad.fullName+"_"+axisName;
 		this.axisName = axisName;
 		this.hAbstractStick = hDPad;
 		this.negative = negative;

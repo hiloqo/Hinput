@@ -13,5 +13,10 @@ public abstract class hAbstractStickDirection : hAbstractInput {
 		} 
 	}
 
-	public override bool inDeadZone { get { return hAbstractStick.distance < hInput.deadZone; } }
+	public override bool inDeadZone { 
+		get { 
+			return (hAbstractStick.distance < hInput.deadZone
+				|| (Mathf.Abs(angle - hAbstractStick.angle) > hInput.directionAngle/2));
+		} 
+	}
 }

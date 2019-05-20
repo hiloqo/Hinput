@@ -51,11 +51,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62c8b5db00a02c840aa683961eb70ea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _epsilon: 0.05
   _deadZone: 0.2
   _triggerZone: 0.5
-  _maxGamepads: 4
+  _maxGamepads: 2
   _directionAngle: 90
-  _doublePressDuration: 0.2
-  _longPressDuration: 0.1
+  _doublePressDuration: 0.3
+  _longPressDuration: 0.3
   _worldCamera: {fileID: 0}

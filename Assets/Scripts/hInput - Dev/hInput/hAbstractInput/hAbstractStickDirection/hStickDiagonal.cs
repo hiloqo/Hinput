@@ -19,7 +19,7 @@ public class hStickDiagonal : hAbstractStickDirection {
 		if (angle < 0) y = -y;
 		if (Mathf.Abs(angle) > 90) x = -x;
 		 
-		return (x+y)/Mathf.Sqrt(2);
+		return Mathf.Clamp01((1 + hInput.diagonalIncrease)*(x+y)/Mathf.Sqrt(2));
 	}
 
 	public override float positionRaw { get { return positionToDiagonal (hAbstractStick.positionRaw); } }

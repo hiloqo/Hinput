@@ -4,13 +4,6 @@ using UnityEngine;
 
 public abstract class hAbstractInput {
 	// --------------------
-	// IMPLICIT CONVERSION
-	// --------------------
-
-	public static implicit operator bool (hAbstractInput hAbstractInput) { return hAbstractInput.pressed; }
-
-	
-	// --------------------
 	// NAME
 	// --------------------
 
@@ -19,6 +12,13 @@ public abstract class hAbstractInput {
 
 	protected string _fullName;
 	public string fullName { get { return _fullName; } }
+
+	
+	// --------------------
+	// IMPLICIT CONVERSION
+	// --------------------
+
+	public static implicit operator bool (hAbstractInput hAbstractInput) { return hAbstractInput.pressed; }
 
 	
 	// --------------------

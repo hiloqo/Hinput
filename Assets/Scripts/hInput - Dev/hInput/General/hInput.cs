@@ -4,13 +4,10 @@ using UnityEngine;
 
 public class hInput : MonoBehaviour {
 	//FEATURES
-	//TODO : add worldPositionAbsolute ?? -> camera plane, absolute horizontal plane, camera plane projected on horizontal ?
-	//TODO : hInputSettings script ?
-	//TODO : Change allgamepad to anygamepad
-	//TODO : epsilon not serialized
+	//TODO : separer stickInput et stickVirtualButton
+	//TODO : DontDestroyOnLoad
 
 	//TESTING
-	//TODO : test all gamepad inputs
 
 	//SHIPPING
 	//TODO : update doc
@@ -40,17 +37,9 @@ public class hInput : MonoBehaviour {
 	}
 
 	[SerializeField]
-	[Range(0,4)]
-	[Tooltip("The maximum amount of gamepads to prepare. Reduce for better performances.")]
-	private int _maxGamepads = 4;
-	public static int maxGamepads { 
-		get { return instance._maxGamepads; } 
-		set { instance._maxGamepads = value; }  
-	}
-
-	[SerializeField]
 	[Range(45,90)]
-	[Tooltip("The size of the angle that defines a stick direction. Note that if it is higher than 45 degrees, directions like (up) and (leftUp) will overlap." 
+	[Tooltip("The size of the angle that defines a stick direction.\n\n"+
+	"Note : if it is higher than 45 degrees, directions like (up) and (leftUp) will overlap. " 
 	+"Likewise, if it is lower than 90 degrees, there will be a gap between directions like (up) and (left).")]
 	private float _directionAngle = 90f;
 	public static float directionAngle { 
@@ -61,7 +50,7 @@ public class hInput : MonoBehaviour {
 	[SerializeField]
 	[Range(0,2)]
 	[Tooltip("The maximum duration between the start of two presses for them to be considered a double press.")]
-	private float _doublePressDuration = 0.2f;
+	private float _doublePressDuration = 0.3f;
 	public static float doublePressDuration { 
 		get { return instance._doublePressDuration; } 
 		set { instance._doublePressDuration = value; }  
@@ -70,7 +59,7 @@ public class hInput : MonoBehaviour {
 	[SerializeField]
 	[Range(0,2)]
 	[Tooltip("The minimum duration of a press for it to be considered a long press.")]
-	private float _longPressDuration = 0.1f;
+	private float _longPressDuration = 0.3f;
 	public static float longPressDuration { 
 		get { return instance._longPressDuration; } 
 		set { instance._longPressDuration = value; }  
@@ -92,14 +81,28 @@ public class hInput : MonoBehaviour {
 
 
 	// --------------------
+	// ADDITIONAL SETTINGS
+	// --------------------
+
+	//By how much to increase diagonals (in %), because otherwise the max stick distance is sometimes less than 1.
+	private float _diagonalIncrease = 0.01f;
+	public static float diagonalIncrease { get { return instance._diagonalIncrease; } }
+
+	//Maximum amount of gamepads supported by the game
+	private float _maxGamepads = 4;
+	public static float maxGamepads { get { return instance._maxGamepads; } }
+
+
+	// --------------------
 	// TIME
 	// --------------------
 
+	//By how much to increase deltaTime (in %)
 	private float _deltaTimeEpsilon = 0.1f;
 	public static float deltaTimeEpsilon { get { return instance._deltaTimeEpsilon; } }
 
-	private float _maxDeltaTime;
-	public static float maxDeltaTime { get { return instance._maxDeltaTime; } }
+	//We assume that next frame will be processed in less than this duration.
+	public static float maxDeltaTime { get { return Time.deltaTime * (1+deltaTimeEpsilon); } }
 
 
 	// --------------------
@@ -162,7 +165,7 @@ public class hInput : MonoBehaviour {
 	private hGamepad _anyGamepad;
 	public static hGamepad anyGamepad { 
 		get { 
-			if (instance._anyGamepad == null) instance._anyGamepad = new hGamepad(os, "AllGamepads"); 
+			if (instance._anyGamepad == null) instance._anyGamepad = new hGamepad(os, "AnyGamepad"); 
 			return instance._anyGamepad; 
 		}
 	}
@@ -184,9 +187,7 @@ public class hInput : MonoBehaviour {
 	// --------------------
 
 	private void Update () {
-		_maxDeltaTime = (Time.deltaTime * (1+deltaTimeEpsilon));
 		anyGamepad.Update();
-		foreach(hGamepad hg in gamepad) hg.Update();
+		for (int i=0; i<maxGamepads; i++) gamepad[i].Update ();
 	}
-
 }
