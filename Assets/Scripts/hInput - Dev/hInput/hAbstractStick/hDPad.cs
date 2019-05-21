@@ -3,18 +3,44 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class hDPad : hAbstractStick {
-	public hDPad (string gamepadName, string dPadName) {
-		_name = dPadName;
-		_fullName = gamepadName+"_"+dPadName;
+	// --------------------
+	// CONSTRUCTOR
+	// --------------------
+	
+	public hDPad (int gamepadIndex, int stickIndex, string gamepadFullName, string dPadName) {
+		this._name = dPadName;
+		this._gamepadIndex = gamepadIndex;
+		this._fullName = gamepadFullName+"_"+dPadName;
+		this._stickIndex = stickIndex;
+	}
 
-		_up = new hDPadDirection (_name, "Up", "Vertical", this, true, 90);
-		_down = new hDPadDirection (_name, "Down", "Vertical", this, false, -90);
-		_left = new hDPadDirection (_name, "Left", "Horizontal", this, true, 180);
-		_right = new hDPadDirection (_name, "Right", "Horizontal", this, false, 0);
+	
+	// --------------------
+	// DIRECTIONS
+	// --------------------
 
-		_upLeft = new hStickDiagonal (this, "UpLeft", 135);
-		_downLeft =  new hStickDiagonal (this, "DownLeft", -135);
-		_upRight = new hStickDiagonal (this, "UpRight", 45);
-		_downRight = new hStickDiagonal (this, "DownRight", -45);
+	public override hAbstractInput up { 
+		get {
+			if (_up == null) _up = new hDPadDirection (gamepadIndex, stickIndex, name, fullName, "Up", "Vertical", true, 90);
+			return _up;
+		} 
+	}
+	public override hAbstractInput down { 
+		get {
+			if (_down == null) _down = new hDPadDirection (gamepadIndex, stickIndex, name, fullName, "Down", "Vertical", false, -90);
+			return _down;
+		} 
+	}
+	public override hAbstractInput left { 
+		get {
+			if (_left == null) _left = new hDPadDirection (gamepadIndex, stickIndex, name, fullName, "Left", "Horizontal", true, 180);
+			return _left;
+		} 
+	}
+	public override hAbstractInput right { 
+		get {
+			if (_right == null) _right = new hDPadDirection (gamepadIndex, stickIndex, name, fullName, "Right", "Horizontal", false, 0);
+			return _right;
+		} 
 	}
 }

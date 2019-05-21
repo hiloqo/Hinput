@@ -4,19 +4,29 @@ using UnityEngine;
 
 public class hInput : MonoBehaviour {
 	//FEATURES
-	//TODO : separer stickInput et stickVirtualButton
-	//TODO : DontDestroyOnLoad
+	// hAbstractInput : store lasFramePressed value, make justPressed non frame dependent
+	// separer stickInput et stickVirtualButton
 
 	//TESTING
+	// Test build all on startup
 
 	//SHIPPING
-	//TODO : update doc
-	//TODO : Proofread all
-	//TODO : add tooltips to hAbstractStick & hAbstractInput properties
+	// update doc
+	// Proofread all
+	// add tooltips to hAbstractStick & hAbstractInput properties
 
 	// --------------------
 	// SETTINGS
 	// --------------------
+
+	[SerializeField]
+	[Tooltip ("If enabled, hInput will start tracking every control of every gamepad from startup. "
+	+"Otherwise, each control will only start being registered the first time you ask for it.")]
+	private bool _buildAllOnStartUp = false;
+	public static bool buildAllOnStartUp {
+		get { return instance._buildAllOnStartUp; }
+		set { instance._buildAllOnStartUp = value; }
+	}
 
 	[SerializeField]
 	[Range(0,1)]
@@ -155,6 +165,12 @@ public class hInput : MonoBehaviour {
 	private void Awake () {
 		if (_instance == null) _instance = this;
 		if (_instance != this) Destroy(this);
+		DontDestroyOnLoad (this);
+
+		if (buildAllOnStartUp) {
+			anyGamepad.BuildAll();
+			for (int i=0; i<maxGamepads; i++) gamepad[i].BuildAll();
+		}
 	}
 
 
@@ -165,7 +181,7 @@ public class hInput : MonoBehaviour {
 	private hGamepad _anyGamepad;
 	public static hGamepad anyGamepad { 
 		get { 
-			if (instance._anyGamepad == null) instance._anyGamepad = new hGamepad(os, "AnyGamepad"); 
+			if (instance._anyGamepad == null) instance._anyGamepad = new hGamepad(os, -1); 
 			return instance._anyGamepad; 
 		}
 	}
@@ -175,7 +191,7 @@ public class hInput : MonoBehaviour {
 		get {
 			if (instance._gamepad == null) {
 				instance._gamepad = new List<hGamepad>();
-				for (int i=0; i<maxGamepads; i++) gamepad.Add(new hGamepad(os, "Gamepad"+(i+1)));
+				for (int i=0; i<maxGamepads; i++) gamepad.Add(new hGamepad(os, i));
 			}
 			return instance._gamepad; 
 		} 

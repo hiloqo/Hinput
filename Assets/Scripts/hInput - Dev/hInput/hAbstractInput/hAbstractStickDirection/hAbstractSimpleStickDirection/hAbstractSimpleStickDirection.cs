@@ -9,16 +9,16 @@ public abstract class hAbstractSimpleStickDirection : hAbstractStickDirection {
 
 	public override float position { 
 		get { 
-			if (hAbstractStick.distanceRaw < hInput.deadZone) return 0f;
+			if (hStick.distanceRaw < hInput.deadZone) return 0f;
 			else {
 				float position = 0f;
 
 				if (axisName == "Horizontal") {
-					position = hAbstractStick.position.x;
+					position = hStick.position.x;
 					if (negative) position = -position;
 				} 
 				else if (axisName == "Vertical") {
-					position = hAbstractStick.position.y;
+					position = hStick.position.y;
 					if (!negative) position = -position;
 				}
 				else Debug.Log("Erreur : axe non reconnu : "+axisName);

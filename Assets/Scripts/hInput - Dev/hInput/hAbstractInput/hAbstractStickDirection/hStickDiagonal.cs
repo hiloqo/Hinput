@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class hStickDiagonal : hAbstractStickDirection {
 
-	public hStickDiagonal (hAbstractStick hAbstractStick, string buttonName, float angle) {
-		this._name = hAbstractStick.name+"_"+buttonName;
-		this._fullName = hAbstractStick.fullName+"_"+buttonName;
+	public hStickDiagonal (int gamepadIndex, int stickIndex, string stickName, string stickFullName, string buttonName, float angle) {
+		this._name = stickName+"_"+buttonName;
+		this._gamepadIndex = gamepadIndex;
+		this._fullName = stickFullName+"_"+buttonName;
 
-		this.hAbstractStick = hAbstractStick;
+		this._stickIndex = stickIndex;
+
 		this.angle = angle;
 	}
 
@@ -22,7 +24,7 @@ public class hStickDiagonal : hAbstractStickDirection {
 		return Mathf.Clamp01((1 + hInput.diagonalIncrease)*(x+y)/Mathf.Sqrt(2));
 	}
 
-	public override float positionRaw { get { return positionToDiagonal (hAbstractStick.positionRaw); } }
+	public override float positionRaw { get { return positionToDiagonal (hStick.positionRaw); } }
 
-	public override float position { get { return positionToDiagonal (hAbstractStick.position); } }
+	public override float position { get { return positionToDiagonal (hStick.position); } }
 }

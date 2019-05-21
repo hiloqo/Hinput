@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class hTrigger : hAbstractSimpleInput {
-	public hTrigger (string gamepadName, string inputName) {
+	public hTrigger (int gamepadIndex, string gamepadFullName, string inputName) {
 		this._name = inputName;
-		this._fullName = gamepadName+"_"+inputName;
+		this._gamepadIndex = gamepadIndex;
+		this._fullName = gamepadFullName+"_"+inputName;
 	}
 
 	public override float positionRaw { 

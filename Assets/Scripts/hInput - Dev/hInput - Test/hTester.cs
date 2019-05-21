@@ -67,6 +67,7 @@ public class hTester : MonoBehaviour {
 	void Update () {
 		TestSticks ();
 		TestButtons ();
+		Debug.Log(Input.GetAxis("Windows_Gamepad1_LeftTrigger"));
 	}
 
 

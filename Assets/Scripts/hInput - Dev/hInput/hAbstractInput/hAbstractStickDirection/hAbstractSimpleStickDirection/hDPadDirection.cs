@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class hDPadDirection : hAbstractSimpleStickDirection {
-	public hDPadDirection (string stickName, string buttonName, string axisName, hDPad hDPad, bool negative, float angle) {
+	public hDPadDirection (int gamepadIndex, int stickIndex, string stickName, string stickFullName, string buttonName, string axisName, bool negative, float angle) {
 		this._name = stickName+"_"+buttonName;
-		this._fullName = hDPad.fullName+"_"+buttonName;
+		this._fullName = stickFullName+"_"+buttonName;
+		this._gamepadIndex = gamepadIndex;
+		this._stickIndex = stickIndex;
 
-		this.fullAxisName = hDPad.fullName+"_"+axisName;
+		this.fullAxisName = stickFullName+"_"+axisName;
 		this.axisName = axisName;
-		this.hAbstractStick = hDPad;
 		this.negative = negative;
 		this.angle = angle;
 	}

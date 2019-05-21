@@ -13,6 +13,16 @@ public abstract class hAbstractInput {
 	protected string _fullName;
 	public string fullName { get { return _fullName; } }
 
+	protected int _gamepadIndex;
+	public int gamepadIndex { get { return _gamepadIndex; } }
+
+	public hGamepad gamepad { 
+		get { 
+			if (gamepadIndex >= 0) return hInput.gamepad[gamepadIndex]; 
+			else return hInput.anyGamepad;
+		} 
+	}
+
 	
 	// --------------------
 	// IMPLICIT CONVERSION
@@ -40,6 +50,11 @@ public abstract class hAbstractInput {
 	private float _lastPressStart = 0f;
 	private float penultimatePressStart = 0f;
 
+	
+	// --------------------
+	// UPDATE
+	// --------------------
+
 	public void Update () {
 		float time = Time.time;
 
@@ -54,7 +69,7 @@ public abstract class hAbstractInput {
 
 	
 	// --------------------
-	// PROPERTIES
+	// PUBLIC PROPERTIES
 	// --------------------
 
 	public bool released { get { return !pressed; } }

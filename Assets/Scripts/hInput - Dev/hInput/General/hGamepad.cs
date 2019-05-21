@@ -4,10 +4,19 @@ using UnityEngine;
 
 public class hGamepad {
 	// --------------------
-	// PRIVATE VARIABLES
+	// NAME
 	// --------------------
 
-	private string _name;
+	private string _fullName;
+	private int _index;
+
+	public int index { get { return _index; } }
+	public string fullName { get { return _fullName; } }
+
+
+	// --------------------
+	// PRIVATE VARIABLES
+	// --------------------
 
 	private hButton _A;
 	private hButton _B;
@@ -37,39 +46,17 @@ public class hGamepad {
 	private hDPad _dPad;
 
 
+	private List<hAbstractStick> _sticks;
+
+
 	// --------------------
 	// CONSTRUCTOR
 	// --------------------
 
-	public hGamepad (string os, string name) {
-		this._name = os+"_"+name;
-
-		_A = new hButton (_name, "A");
-		_B = new hButton (_name, "B");
-		_X = new hButton (_name, "X");
-		_Y = new hButton (_name, "Y");
-
-		_leftBumper = new hButton (_name, "LeftBumper");
-		_rightBumper = new hButton (_name, "RightBumper");
-
-		_back = new hButton (_name, "Back");
-		_start = new hButton (_name, "Start");
-
-		_leftStickClick = new hButton (_name, "LeftStickClick");
-		_rightStickClick = new hButton (_name, "RightStickClick");
-
-		_xBoxButton = new hButton (_name, "XBoxButton");
-
-
-		_leftTrigger = new hTrigger (_name, "LeftTrigger");
-		_rightTrigger = new hTrigger (_name, "RightTrigger");
-
-
-		_leftStick = new hStick (_name, "LeftStick");
-		_rightStick = new hStick (_name, "RightStick");
-
-
-		_dPad = new hDPad (_name, "DPad");
+	public hGamepad (string os, int index) {
+		this._index = index;
+		if (_index >= 0) this._fullName = os+"_Gamepad"+(index+1);
+		else this._fullName = os+"_AnyGamepad";
 	}
 
 	
@@ -78,32 +65,57 @@ public class hGamepad {
 	// --------------------
 
 	public void Update () {
-		_A.Update();
-		_B.Update();
-		_X.Update();
-		_Y.Update();
+		if ((hButton)_A != null) _A.Update();
+		if ((hButton)_B != null) _B.Update();
+		if ((hButton)_X != null) _X.Update();
+		if ((hButton)_Y != null) _Y.Update();
 
-		_leftBumper.Update();
-		_rightBumper.Update();
+		if ((hButton)_leftBumper != null) _leftBumper.Update();
+		if ((hButton)_rightBumper != null) _rightBumper.Update();
 
-		_back.Update();
-		_start.Update();
+		if ((hButton)_back != null) _back.Update();
+		if ((hButton)_start != null) _start.Update();
 
-		_leftStickClick.Update();
-		_rightStickClick.Update();
+		if ((hButton)_leftStickClick != null) _leftStickClick.Update();
+		if ((hButton)_rightStickClick != null) _rightStickClick.Update();
 
-		_xBoxButton.Update();
-
-
-		_leftTrigger.Update();
-		_rightTrigger.Update();
+		if ((hButton)_xBoxButton != null) _xBoxButton.Update();
 
 
-		_leftStick.Update();
-		_rightStick.Update();
+		if ((hTrigger)_leftTrigger != null) _leftTrigger.Update();
+		if ((hTrigger)_rightTrigger != null) _rightTrigger.Update();
 
 
-		_dPad.Update();
+		if ((hStick)_leftStick != null) _leftStick.Update();
+		if ((hStick)_rightStick != null) _rightStick.Update();
+
+
+		if ((hDPad)_dPad != null) _dPad.Update();
+	}
+
+	
+	// --------------------
+	// BUILD
+	// --------------------
+
+	public void BuildAll () {
+		int indices = A.gamepadIndex;
+		indices = B.gamepadIndex;
+		indices = X.gamepadIndex;
+		indices = Y.gamepadIndex;
+		indices = leftBumper.gamepadIndex;
+		indices = rightBumper.gamepadIndex;
+		indices = back.gamepadIndex;
+		indices = start.gamepadIndex;
+		indices = leftStickClick.gamepadIndex;
+		indices = rightStickClick.gamepadIndex;
+		indices = xBoxButton.gamepadIndex;
+		indices = leftTrigger.gamepadIndex;
+		indices = rightTrigger.gamepadIndex;
+		
+		leftStick.BuildAll ();
+		rightStick.BuildAll ();
+		dPad.BuildAll ();
 	}
 
 	
@@ -111,32 +123,118 @@ public class hGamepad {
 	// PUBLIC PROPERTIES
 	// --------------------
 
-	public string name { get { return _name; } }
+	public hButton A { 
+		get {
+			if ((hButton)_A == null) _A = new hButton (index, fullName, "A");
+			return _A; 
+		} 
+	}
+	public hButton B { 
+		get {
+			if ((hButton)_B == null) _B = new hButton (index, fullName, "B");
+			return _B; 
+		} 
+	}
+	public hButton X { 
+		get {
+			if ((hButton)_X == null) _X = new hButton (index, fullName, "X");
+			return _X; 
+		} 
+	}
+	public hButton Y { 
+		get {
+			if ((hButton)_Y == null) _Y = new hButton (index, fullName, "Y");
+			return _Y; 
+		} 
+	}
 
-	public hButton A { get { return _A; } }
-	public hButton B { get { return _B; } }
-	public hButton X { get { return _X; } }
-	public hButton Y { get { return _Y; } }
+	public hButton leftBumper { 
+		get {
+			if ((hButton)_leftBumper == null) _leftBumper = new hButton (index, fullName, "LeftBumper");
+			return _leftBumper; 
+		} 
+	}
+	public hButton rightBumper { 
+		get {
+			if ((hButton)_rightBumper == null) _rightBumper = new hButton (index, fullName, "RightBumper");
+			return _rightBumper; 
+		} 
+	}
 
-	public hButton leftBumper { get { return _leftBumper; } }
-	public hButton rightBumper { get { return _rightBumper; } }
+	public hButton back { 
+		get {
+			if ((hButton)_back == null) _back = new hButton (index, fullName, "Back");
+			return _back; 
+		} 
+	}
+	public hButton start { 
+		get {
+			if ((hButton)_start == null) _start = new hButton (index, fullName, "Start");
+			return _start; 
+		} 
+	}
 
-	public hButton back { get { return _back; } }
-	public hButton start { get { return _start; } }
+	public hButton leftStickClick { 
+		get {
+			if ((hButton)_leftStickClick == null) _leftStickClick = new hButton (index, fullName, "LeftStickClick");
+			return _leftStickClick; 
+		} 
+	}
+	public hButton rightStickClick { 
+		get {
+			if ((hButton)_rightStickClick == null) _rightStickClick = new hButton (index, fullName, "RightStickClick");
+			return _rightStickClick; 
+		} 
+	}
 
-	public hButton leftStickClick { get { return _leftStickClick; } }
-	public hButton rightStickClick { get { return _rightStickClick; } }
-
-	public hButton xBoxButton { get { return _xBoxButton; } }
-
-
-	public hTrigger leftTrigger { get { return _leftTrigger; } }
-	public hTrigger rightTrigger { get { return _rightTrigger; } }
+	public hButton xBoxButton { 
+		get {
+			if ((hButton)_xBoxButton == null) _xBoxButton = new hButton (index, fullName, "XBoxButton");
+			return _xBoxButton; 
+		} 
+	}
 
 
-	public hStick leftStick { get { return _leftStick; } }
-	public hStick rightStick { get { return _rightStick; } }
+	public hTrigger leftTrigger { 
+		get {
+			if ((hTrigger)_leftTrigger == null) _leftTrigger = new hTrigger (index, fullName, "LeftTrigger");
+			return _leftTrigger; 
+		} 
+	}
+	public hTrigger rightTrigger { 
+		get {
+			if ((hTrigger)_rightTrigger == null) _rightTrigger = new hTrigger (index, fullName, "RightTrigger");
+			return _rightTrigger; 
+		} 
+	}
+
+
+	public hStick leftStick { 
+		get {
+			if ((hStick)_leftStick == null) _leftStick = new hStick (index, 0, fullName, "LeftStick");
+			return _leftStick; 
+		} 
+	}
+	public hStick rightStick { 
+		get {
+			if ((hStick)_rightStick == null) _rightStick = new hStick (index, 1, fullName, "RightStick");
+			return _rightStick; 
+		} 
+	}
 	
 
-	public hDPad dPad { get { return _dPad; } }
+	public hDPad dPad { 
+		get {
+			if ((hDPad)_dPad == null) _dPad = new hDPad (index, 2, fullName, "DPad");
+			return _dPad; 
+		} 
+	}
+
+
+	public List<hAbstractStick> sticks { 
+		get {
+			if (_sticks == null) _sticks = new List<hAbstractStick>() { leftStick, rightStick, dPad };
+			return _sticks;
+		}
+	}
 }

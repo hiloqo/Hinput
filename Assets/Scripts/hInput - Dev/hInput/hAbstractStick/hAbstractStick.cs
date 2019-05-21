@@ -13,6 +13,19 @@ public abstract class hAbstractStick {
 	protected string _fullName;
 	public string fullName { get { return _fullName; } }
 
+	protected int _gamepadIndex;
+	public int gamepadIndex { get { return _gamepadIndex; } }
+
+	protected int _stickIndex;
+	public int stickIndex { get { return _stickIndex; } }
+
+	public hGamepad gamepad { 
+		get { 
+			if (gamepadIndex >= 0) return hInput.gamepad[gamepadIndex]; 
+			else return hInput.anyGamepad;
+		} 
+	}
+
 	
 	// --------------------
 	// IMPLICIT CONVERSION
@@ -22,7 +35,7 @@ public abstract class hAbstractStick {
 
 
 	// --------------------
-	// STICK DIRECTIONS
+	// VERTICALS AND HORIZONTALS
 	// --------------------
 
 	protected hAbstractInput _up;
@@ -30,37 +43,86 @@ public abstract class hAbstractStick {
 	protected hAbstractInput _left;
 	protected hAbstractInput _right;
 
+	public abstract hAbstractInput up { get; }
+	public abstract hAbstractInput down { get; }
+	public abstract hAbstractInput left { get; }
+	public abstract hAbstractInput right { get; }
+
+	
+	// --------------------
+	// DIAGONALS
+	// --------------------
+
 	protected hStickDiagonal _upLeft;
 	protected hStickDiagonal _downLeft;
 	protected hStickDiagonal _upRight;
 	protected hStickDiagonal _downRight;
 	
-	public void Update () {
-		_up.Update();
-		_down.Update();
-		_left.Update();
-		_right.Update();
-		
-		_upLeft.Update();
-		_downLeft.Update();
-		_upRight.Update();
-		_downRight.Update();
+	public hStickDiagonal leftUp { get { return upLeft; } }
+	public hStickDiagonal upLeft { 
+		get {
+			if (_upLeft == null) _upLeft = new hStickDiagonal (gamepadIndex, stickIndex, name, fullName, "UpLeft", 135);
+			return _upLeft;
+		} 
 	}
 
-	public hAbstractInput up { get { return _up; } }
-	public hAbstractInput down { get { return _down; } }
-	public hAbstractInput left { get { return _left; } }
-	public hAbstractInput right { get { return _right; } }
+	public hStickDiagonal leftDown { get { return downLeft; } }
+	public hStickDiagonal downLeft { 
+		get {
+			if (_downLeft == null) _downLeft = new hStickDiagonal (gamepadIndex, stickIndex, name, fullName, "DownLeft", -135);
+			return _downLeft;
+		} 
+	}
+
+	public hStickDiagonal rightUp { get { return upRight; } }
+	public hStickDiagonal upRight { 
+		get {
+			if (_upRight == null) _upRight = new hStickDiagonal (gamepadIndex, stickIndex, name, fullName, "UpRight", 45);
+			return _upRight;
+		} 
+	}
+
+	public hStickDiagonal rightDown { get { return downRight; } }
+	public hStickDiagonal downRight { 
+		get {
+			if (_downRight == null) _downRight = new hStickDiagonal (gamepadIndex, stickIndex, name, fullName, "DownRight", -45);
+			return _downRight;
+		} 
+	}
 	
-	public hStickDiagonal upLeft { get { return _upLeft; } }
-	public hStickDiagonal downLeft { get { return _downLeft; } }
-	public hStickDiagonal upRight { get { return _upRight; } }
-	public hStickDiagonal downRight { get { return _downRight; } }
+
 	
-	public hStickDiagonal leftUp { get { return _upLeft; } }
-	public hStickDiagonal leftDown { get { return _downLeft; } }
-	public hStickDiagonal rightUp { get { return _upRight; } }
-	public hStickDiagonal rightDown { get { return _downRight; } }
+	// --------------------
+	// UPDATE
+	// --------------------
+	
+	public void Update () {
+		if ((hAbstractStickDirection)_up != null) _up.Update();
+		if ((hAbstractStickDirection)_down != null) _down.Update();
+		if ((hAbstractStickDirection)_left != null) _left.Update();
+		if ((hAbstractStickDirection)_right != null) _right.Update();
+		
+		if ((hAbstractStickDirection)_upLeft != null) _upLeft.Update();
+		if ((hAbstractStickDirection)_downLeft != null) _downLeft.Update();
+		if ((hAbstractStickDirection)_upRight != null) _upRight.Update();
+		if ((hAbstractStickDirection)_downRight != null) _downRight.Update();
+	}
+
+	
+	// --------------------
+	// BUILD ALL
+	// --------------------
+
+	public void BuildAll () {
+		int indices = up.gamepadIndex;
+		indices = down.gamepadIndex;
+		indices = left.gamepadIndex;
+		indices = right.gamepadIndex;
+		indices = upLeft.gamepadIndex;
+		indices = upRight.gamepadIndex;
+		indices = downLeft.gamepadIndex;
+		indices = downRight.gamepadIndex;
+	}
 
 	
 	// --------------------
