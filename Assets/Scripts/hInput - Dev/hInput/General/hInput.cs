@@ -6,14 +6,16 @@ public class hInput : MonoBehaviour {
 	//FEATURES
 	// hAbstractInput : store lasFramePressed value, make justPressed non frame dependent
 	// separer stickInput et stickVirtualButton
+	// Change names of abstract classes to sth more understandable ?
+	// fix triggers ?
 
 	//TESTING
-	// Test build all on startup
 
 	//SHIPPING
 	// update doc
 	// Proofread all
 	// add tooltips to hAbstractStick & hAbstractInput properties
+	// Check xInput
 
 	// --------------------
 	// SETTINGS
@@ -108,11 +110,14 @@ public class hInput : MonoBehaviour {
 	// --------------------
 
 	//By how much to increase deltaTime (in %)
-	private float _deltaTimeEpsilon = 0.1f;
+	private float _deltaTimeEpsilon = -0.0f;
 	public static float deltaTimeEpsilon { get { return instance._deltaTimeEpsilon; } }
 
+	private float _timeLastFrame;
+	private float _timePenultimateFrame;
+
 	//We assume that next frame will be processed in less than this duration.
-	public static float maxDeltaTime { get { return Time.deltaTime * (1+deltaTimeEpsilon); } }
+	public static float maxDeltaTime { get { return (instance._timeLastFrame - instance._timePenultimateFrame) * (1+deltaTimeEpsilon); } }
 
 
 	// --------------------
@@ -201,8 +206,10 @@ public class hInput : MonoBehaviour {
 	// --------------------
 	// UPDATE
 	// --------------------
-
-	private void Update () {
+	
+	private void LateUpdate () {
+		_timePenultimateFrame = _timeLastFrame;
+		_timeLastFrame = Time.time;
 		anyGamepad.Update();
 		for (int i=0; i<maxGamepads; i++) gamepad[i].Update ();
 	}

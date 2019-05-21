@@ -66,7 +66,6 @@ public abstract class hAbstractInput {
 			_lastPressStart = time;			
 		}
 	}
-
 	
 	// --------------------
 	// PUBLIC PROPERTIES

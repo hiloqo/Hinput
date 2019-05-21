@@ -64,10 +64,30 @@ public class hTester : MonoBehaviour {
 		}
 	}
 
+	float time = 0f;
+
 	void Update () {
+		//Debug.LogError("New Frame");
 		TestSticks ();
 		TestButtons ();
-		Debug.Log(Input.GetAxis("Windows_Gamepad1_LeftTrigger"));
+		
+		//Debug.Log(100*(Time.time - time)/hInput.maxDeltaTime);
+		//Debug.Log((Time.time - time)+"     --     "+hInput.maxDeltaTime);
+		//time = Time.time;
+
+		AddRendomLag();
+
+		hButton A = hInput.gamepad[0].A;
+		Debug.Log((A.pressed?"PRESSED":"released")+", Time : "+(int)(Time.time*1000)+",  delta time : "+(int)(hInput.maxDeltaTime*1000)
+		+", (released : "+(int)((A.lastReleased)*1000)+", pressed : "+(int)((A.lastPressed)*1000)
+		+", press duration : "+(int)((A.lastPressed - A.lastReleased)*1000)+", "+(100*(A.lastPressed - A.lastReleased)/hInput.maxDeltaTime)+"%dt)");
+	}
+
+	void AddRendomLag () {
+		int nb = 0;
+		int ran = (int)Mathf.Pow(10, Random.Range(4, 9));
+		for (int i = 0; i<ran; i++) nb *= nb;
+
 	}
 
 
