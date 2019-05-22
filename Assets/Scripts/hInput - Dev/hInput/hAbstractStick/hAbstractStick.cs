@@ -89,24 +89,6 @@ public abstract class hAbstractStick {
 			return _downRight;
 		} 
 	}
-	
-
-	
-	// --------------------
-	// UPDATE
-	// --------------------
-	
-	public void Update () {
-		if ((hAbstractStickDirection)_up != null) _up.Update();
-		if ((hAbstractStickDirection)_down != null) _down.Update();
-		if ((hAbstractStickDirection)_left != null) _left.Update();
-		if ((hAbstractStickDirection)_right != null) _right.Update();
-		
-		if ((hAbstractStickDirection)_upLeft != null) _upLeft.Update();
-		if ((hAbstractStickDirection)_downLeft != null) _downLeft.Update();
-		if ((hAbstractStickDirection)_upRight != null) _upRight.Update();
-		if ((hAbstractStickDirection)_downRight != null) _downRight.Update();
-	}
 
 	
 	// --------------------
@@ -123,15 +105,50 @@ public abstract class hAbstractStick {
 		indices = downLeft.gamepadIndex;
 		indices = downRight.gamepadIndex;
 	}
+	
+
+	
+	// --------------------
+	// UPDATE
+	// --------------------
+	
+	public void Update () {
+		UpdatePositionRaw ();
+
+		if ((hAbstractStickDirection)_up != null) _up.Update();
+		if ((hAbstractStickDirection)_down != null) _down.Update();
+		if ((hAbstractStickDirection)_left != null) _left.Update();
+		if ((hAbstractStickDirection)_right != null) _right.Update();
+		
+		if ((hAbstractStickDirection)_upLeft != null) _upLeft.Update();
+		if ((hAbstractStickDirection)_downLeft != null) _downLeft.Update();
+		if ((hAbstractStickDirection)_upRight != null) _upRight.Update();
+		if ((hAbstractStickDirection)_downRight != null) _downRight.Update();
+	}
+
+	private void UpdatePositionRaw() {
+		_horizontalRaw = right.positionRaw;
+		_verticalRaw = up.positionRaw;
+	}
+
+	
+	// --------------------
+	// POSITION RAW
+	// --------------------
+
+	private float _horizontalRaw;
+	public float horizontalRaw { get { return _horizontalRaw; } }
+
+	private float _verticalRaw;
+	public float verticalRaw { get { return _verticalRaw; } }
+
+	public Vector2 positionRaw { get { return new Vector2 (horizontalRaw, verticalRaw); } }
 
 	
 	// --------------------
 	// PUBLIC PROPERTIES
 	// --------------------
 
-	public float horizontalRaw { get { return right.positionRaw; } }
-	public float verticalRaw { get { return up.positionRaw; } }
-	public Vector2 positionRaw { get { return new Vector2 (horizontalRaw, verticalRaw); } }
 	public float distanceRaw { get { return positionRaw.magnitude; } }
 	public bool inDeadZone { get { return distanceRaw < hInput.deadZone; } }
 

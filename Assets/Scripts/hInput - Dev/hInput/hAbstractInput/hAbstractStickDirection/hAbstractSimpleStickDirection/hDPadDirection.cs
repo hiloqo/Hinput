@@ -15,20 +15,18 @@ public class hDPadDirection : hAbstractSimpleStickDirection {
 		this.angle = angle;
 	}
 
-	public override float positionRaw { 
-		get { 
-			float axisValue = 0f;
-			try { 
-				if (negative) axisValue = -Input.GetAxisRaw(fullAxisName);
-				else axisValue = Input.GetAxisRaw(fullAxisName);
-			 } catch { } //Dont care if error here
+	protected override void UpdatePositionRaw () {
+		float axisValue = 0f;
+		try { 
+			if (negative) axisValue = -Input.GetAxisRaw(fullAxisName);
+			else axisValue = Input.GetAxisRaw(fullAxisName);
+			} catch { } //Dont care if error here
 
-			float buttonValue = 0f;
-			try { 
-				if (Input.GetButton(_fullName)) buttonValue = 1;
-			 } catch { } //Dont care if error here
+		float buttonValue = 0f;
+		try { 
+			if (Input.GetButton(_fullName)) buttonValue = 1;
+			} catch { } //Dont care if error here
 
-			return (axisValue + buttonValue);
-		} 
+		_positionRaw = (axisValue + buttonValue);
 	}
 }

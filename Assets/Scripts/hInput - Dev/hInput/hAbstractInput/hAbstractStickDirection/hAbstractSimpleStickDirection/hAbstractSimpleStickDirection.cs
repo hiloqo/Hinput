@@ -9,7 +9,7 @@ public abstract class hAbstractSimpleStickDirection : hAbstractStickDirection {
 
 	public override float position { 
 		get { 
-			if (hStick.distanceRaw < hInput.deadZone) return 0f;
+			if (hStick.inDeadZone) return 0f;
 			else {
 				float position = 0f;
 

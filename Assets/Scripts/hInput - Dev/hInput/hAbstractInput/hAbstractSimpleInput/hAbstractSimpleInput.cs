@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class hAbstractSimpleInput : hAbstractInput {
+
 	public override float position { 
 		get { 
 			float posRaw = positionRaw;

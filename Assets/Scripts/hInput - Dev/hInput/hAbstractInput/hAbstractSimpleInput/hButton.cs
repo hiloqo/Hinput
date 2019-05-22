@@ -9,12 +9,10 @@ public class hButton : hAbstractSimpleInput {
 		this._fullName = gamepadFullName+"_"+inputName;
 	}
 
-	public override float positionRaw { 
-		get { 
-			try {
-				if (Input.GetButton(_fullName)) return 1;
-				else return 0;
-			} catch { return 0; }
-		} 
+	protected override void UpdatePositionRaw () {
+		try {
+			if (Input.GetButton(_fullName)) _positionRaw = 1;
+			else _positionRaw = 0;
+		} catch { _positionRaw = 0; }
 	}
 }

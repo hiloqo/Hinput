@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class hInput : MonoBehaviour {
 	//FEATURES
-	// hAbstractInput : store lasFramePressed value, make justPressed non frame dependent
-	// separer stickInput et stickVirtualButton
+	// split stickAxis (= gamepad input) and stickDirection (= user output)
 	// Change names of abstract classes to sth more understandable ?
-	// fix triggers ?
+	// Support plugging & unplugging gamepads
+	// Store stick & button positions if needed (so that we only have to make one call per frame)
+
 
 	//TESTING
 
@@ -109,15 +110,20 @@ public class hInput : MonoBehaviour {
 	// TIME
 	// --------------------
 
-	//By how much to increase deltaTime (in %)
-	private float _deltaTimeEpsilon = -0.0f;
+	//By how much to increase deltaTime (in %) when comparing it, to account for rounding errors.
+	private float _deltaTimeEpsilon = 0.1f;
 	public static float deltaTimeEpsilon { get { return instance._deltaTimeEpsilon; } }
 
 	private float _timeLastFrame;
 	private float _timePenultimateFrame;
 
-	//We assume that next frame will be processed in less than this duration.
-	public static float maxDeltaTime { get { return (instance._timeLastFrame - instance._timePenultimateFrame) * (1+deltaTimeEpsilon); } }
+	private void UpdateTime () {
+		_timePenultimateFrame = _timeLastFrame;
+		_timeLastFrame = Time.time;
+	}
+
+	//The previous frame was processed in less than this duration.
+	public static float maxDeltaTime { get { return (instance._timeLastFrame - instance._timePenultimateFrame)*(1 + deltaTimeEpsilon); } }
 
 
 	// --------------------
@@ -208,8 +214,7 @@ public class hInput : MonoBehaviour {
 	// --------------------
 	
 	private void LateUpdate () {
-		_timePenultimateFrame = _timeLastFrame;
-		_timeLastFrame = Time.time;
+		UpdateTime ();
 		anyGamepad.Update();
 		for (int i=0; i<maxGamepads; i++) gamepad[i].Update ();
 	}

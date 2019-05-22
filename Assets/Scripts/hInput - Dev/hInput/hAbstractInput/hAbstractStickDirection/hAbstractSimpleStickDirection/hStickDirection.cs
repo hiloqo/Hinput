@@ -16,10 +16,8 @@ public class hStickDirection : hAbstractSimpleStickDirection {
 		this.angle = angle;
 	}
 
-	public override float positionRaw { 
-		get { 
-			if (negative) return -Input.GetAxisRaw(fullAxisName);
-			return Input.GetAxisRaw(fullAxisName);
-		} 
+	protected override void UpdatePositionRaw () {
+		if (negative) _positionRaw = -Input.GetAxisRaw(fullAxisName);
+		else _positionRaw = Input.GetAxisRaw(fullAxisName);
 	}
 }

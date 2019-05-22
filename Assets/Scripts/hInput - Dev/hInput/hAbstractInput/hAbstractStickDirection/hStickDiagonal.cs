@@ -24,7 +24,9 @@ public class hStickDiagonal : hAbstractStickDirection {
 		return Mathf.Clamp01((1 + hInput.diagonalIncrease)*(x+y)/Mathf.Sqrt(2));
 	}
 
-	public override float positionRaw { get { return positionToDiagonal (hStick.positionRaw); } }
+	protected override void UpdatePositionRaw () {
+		_positionRaw = positionToDiagonal (hStick.positionRaw);
+	}
 
 	public override float position { get { return positionToDiagonal (hStick.position); } }
 }

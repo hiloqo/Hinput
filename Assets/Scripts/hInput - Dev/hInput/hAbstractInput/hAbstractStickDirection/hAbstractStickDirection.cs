@@ -12,15 +12,15 @@ public abstract class hAbstractStickDirection : hAbstractInput {
 
 	public override bool pressed { 
 		get { 
-			return ( hStick.inTriggerZone 
-				&& (Mathf.Abs(angle - hStick.angle) <= hInput.directionAngle/2));
+			return (hStick.inTriggerZone 
+				&& (Mathf.Abs(Mathf.DeltaAngle(angle, hStick.angle)) <= hInput.directionAngle/2));
 		} 
 	}
 
 	public override bool inDeadZone { 
 		get { 
 			return (hStick.distance < hInput.deadZone
-				|| (Mathf.Abs(angle - hStick.angle) > hInput.directionAngle/2));
+				|| (Mathf.Abs(Mathf.DeltaAngle(angle, hStick.angle)) > hInput.directionAngle/2));
 		} 
 	}
 }

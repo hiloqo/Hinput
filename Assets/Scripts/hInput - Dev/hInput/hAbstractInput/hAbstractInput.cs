@@ -35,7 +35,6 @@ public abstract class hAbstractInput {
 	// ABSTRACT PROPERTIES
 	// --------------------
 
-	public abstract float positionRaw { get; }
 	public abstract float position { get; }
 	public abstract bool pressed { get; }
 	public abstract bool inDeadZone { get; }
@@ -56,6 +55,8 @@ public abstract class hAbstractInput {
 	// --------------------
 
 	public void Update () {
+		UpdatePositionRaw ();
+
 		float time = Time.time;
 
 		if (pressed) _lastPressed = time;
@@ -66,6 +67,17 @@ public abstract class hAbstractInput {
 			_lastPressStart = time;			
 		}
 	}
+
+	protected abstract void UpdatePositionRaw();
+
+	
+	// --------------------
+	// POSITION RAW
+	// --------------------
+
+	protected float _positionRaw;
+	public float positionRaw { get { return _positionRaw; } }
+
 	
 	// --------------------
 	// PUBLIC PROPERTIES

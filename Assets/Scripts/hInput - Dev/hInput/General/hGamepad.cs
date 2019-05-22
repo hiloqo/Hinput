@@ -61,6 +61,31 @@ public class hGamepad {
 
 	
 	// --------------------
+	// BUILD
+	// --------------------
+
+	public void BuildAll () {
+		int indices = A.gamepadIndex;
+		indices = B.gamepadIndex;
+		indices = X.gamepadIndex;
+		indices = Y.gamepadIndex;
+		indices = leftBumper.gamepadIndex;
+		indices = rightBumper.gamepadIndex;
+		indices = back.gamepadIndex;
+		indices = start.gamepadIndex;
+		indices = leftStickClick.gamepadIndex;
+		indices = rightStickClick.gamepadIndex;
+		indices = xBoxButton.gamepadIndex;
+		indices = leftTrigger.gamepadIndex;
+		indices = rightTrigger.gamepadIndex;
+		
+		leftStick.BuildAll ();
+		rightStick.BuildAll ();
+		dPad.BuildAll ();
+	}
+
+	
+	// --------------------
 	// UPDATE
 	// --------------------
 
@@ -91,31 +116,6 @@ public class hGamepad {
 
 
 		if ((hDPad)_dPad != null) _dPad.Update();
-	}
-
-	
-	// --------------------
-	// BUILD
-	// --------------------
-
-	public void BuildAll () {
-		int indices = A.gamepadIndex;
-		indices = B.gamepadIndex;
-		indices = X.gamepadIndex;
-		indices = Y.gamepadIndex;
-		indices = leftBumper.gamepadIndex;
-		indices = rightBumper.gamepadIndex;
-		indices = back.gamepadIndex;
-		indices = start.gamepadIndex;
-		indices = leftStickClick.gamepadIndex;
-		indices = rightStickClick.gamepadIndex;
-		indices = xBoxButton.gamepadIndex;
-		indices = leftTrigger.gamepadIndex;
-		indices = rightTrigger.gamepadIndex;
-		
-		leftStick.BuildAll ();
-		rightStick.BuildAll ();
-		dPad.BuildAll ();
 	}
 
 	

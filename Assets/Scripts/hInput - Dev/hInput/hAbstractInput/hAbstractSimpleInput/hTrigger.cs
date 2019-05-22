@@ -7,12 +7,24 @@ public class hTrigger : hAbstractSimpleInput {
 		this._name = inputName;
 		this._gamepadIndex = gamepadIndex;
 		this._fullName = gamepadFullName+"_"+inputName;
+
+		initialValue = measuredPosition;
 	}
 
-	public override float positionRaw { 
-		get { 
+	private float initialValue;
+	private bool hasBeenMoved;
+
+	protected override void UpdatePositionRaw () {
+		if (hasBeenMoved || measuredPosition != initialValue) {
+			hasBeenMoved = true;
+			_positionRaw = measuredPosition;
+		}
+	}
+
+	private float measuredPosition { 
+		get {
 			if (hInput.os == "Windows") return Input.GetAxisRaw(_fullName);
-			return (Input.GetAxisRaw(_fullName) + 1)/2;			
-		} 
+			return (Input.GetAxisRaw(_fullName) + 1)/2;	
+		}
 	}
 }

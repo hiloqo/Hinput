@@ -64,30 +64,9 @@ public class hTester : MonoBehaviour {
 		}
 	}
 
-	float time = 0f;
-
 	void Update () {
-		//Debug.LogError("New Frame");
 		TestSticks ();
 		TestButtons ();
-		
-		//Debug.Log(100*(Time.time - time)/hInput.maxDeltaTime);
-		//Debug.Log((Time.time - time)+"     --     "+hInput.maxDeltaTime);
-		//time = Time.time;
-
-		AddRendomLag();
-
-		hButton A = hInput.gamepad[0].A;
-		Debug.Log((A.pressed?"PRESSED":"released")+", Time : "+(int)(Time.time*1000)+",  delta time : "+(int)(hInput.maxDeltaTime*1000)
-		+", (released : "+(int)((A.lastReleased)*1000)+", pressed : "+(int)((A.lastPressed)*1000)
-		+", press duration : "+(int)((A.lastPressed - A.lastReleased)*1000)+", "+(100*(A.lastPressed - A.lastReleased)/hInput.maxDeltaTime)+"%dt)");
-	}
-
-	void AddRendomLag () {
-		int nb = 0;
-		int ran = (int)Mathf.Pow(10, Random.Range(4, 9));
-		for (int i = 0; i<ran; i++) nb *= nb;
-
 	}
 
 
@@ -149,30 +128,30 @@ public class hTester : MonoBehaviour {
 
 	private void TestCurrentButton () {
 		if (pressedAndReleased) {
-			if (currentButton) Debug.Log(currentButton.fullName+" is pressed !");
-			else Debug.Log (currentButton.fullName+" is released !");
+			if (currentButton) Debug.Log(currentButton.fullName+" is pressed !!!");
+			else Debug.Log (currentButton.fullName+" is released");
 		}
 		if (buttonPosition) Debug.Log (currentButton.fullName+" position : "+currentButton.position+", position raw : "+currentButton.positionRaw);
 		if (justPressedAndReleased) {
-			if (currentButton.justPressed) Debug.Log (currentButton.fullName+" was just pressed !");
-			else if (currentButton.justReleased) Debug.Log (currentButton.fullName+" was just released !");
+			if (currentButton.justPressed) Debug.Log (currentButton.fullName+" was just pressed !!!");
+			else if (currentButton.justReleased) Debug.Log (currentButton.fullName+" was just released");
 		}
 		if (lastPressedAndReleased) Debug.Log (currentButton.fullName+" last pressed : "+currentButton.lastPressed
 			+", last released : "+currentButton.lastReleased+", last press start : "+currentButton.lastPressStart);
-		if (buttonInDeadZone) Debug.Log (currentButton.fullName+" is "+(currentButton.inDeadZone?"":"not ")+"in dead zone");
+		if (buttonInDeadZone) Debug.Log (currentButton.fullName+" is "+(currentButton.inDeadZone?"":"not ")+"in dead zone"+(currentButton.inDeadZone?"":" !!!"));
 		if (doublePress && currentButton.doublePress) Debug.Log (currentButton.fullName+" is being double pressed !");
 		if (doublePressJustPressedAndReleased) {
 			if (currentButton.doublePressJustPressed) Debug.Log (currentButton.fullName+" was double pressed !");
 			if (currentButton.doublePressJustReleased) Debug.Log (currentButton.fullName+" was released after a double press !");
 		}
-		if (lastPressWasDouble) Debug.Log (currentButton.fullName+"'s last press was a "+(currentButton.lastPressWasDouble?"double ":"simple ")+"press");
+		if (lastPressWasDouble) Debug.Log (currentButton.fullName+"'s last press was a "+(currentButton.lastPressWasDouble?"double ":"simple ")+"press"+(currentButton.lastPressWasDouble?" !!!":""));
 		if (longPress) {
 			if (currentButton.longPress) Debug.Log (currentButton.fullName+" is being long pressed");
 			if (currentButton.longPressJustReleased) Debug.Log (currentButton.fullName+" has just been released after a long press");
 		}
-		if (lastPressWasLong) Debug.Log (currentButton.fullName+"'s last press was a "+(currentButton.lastPressWasLong?"long ":"short ")+"press");
+		if (lastPressWasLong) Debug.Log (currentButton.fullName+"'s last press was a "+(currentButton.lastPressWasLong?"long ":"short ")+"press"+(currentButton.lastPressWasLong?" !!!":""));
 		if (pressAndReleaseDuration) {
-			if (currentButton) Debug.Log (currentButton.fullName+" has been pressed for "+currentButton.pressDuration);
+			if (currentButton) Debug.Log (currentButton.fullName+" has been pressed for "+currentButton.pressDuration+" !!!");
 			else Debug.Log (currentButton.fullName+" has been released for "+currentButton.releaseDuration);
 		}
 	}
@@ -211,8 +190,8 @@ public class hTester : MonoBehaviour {
 		if (vertical) Debug.Log (currentStick.fullName+" vertical : "+currentStick.vertical+", vertical raw : "+currentStick.verticalRaw);
 		if (angle) Debug.Log (currentStick.fullName+" angle : "+currentStick.angle+", angle raw : "+currentStick.angleRaw);
 		if (distance) Debug.Log (currentStick.fullName+" distance : "+currentStick.distance+", distance raw : "+currentStick.distanceRaw);
-		if (stickInDeadZone) Debug.Log (currentStick.fullName+" is "+(currentStick.inDeadZone?"":"not ")+"in dead zone");
-		if (stickInTriggerZone) Debug.Log (currentStick.fullName+" is "+(currentStick.inTriggerZone?"":"not ")+"pushed");
+		if (stickInDeadZone) Debug.Log (currentStick.fullName+" is "+(currentStick.inDeadZone?"":"not ")+"in dead zone"+(currentStick.inDeadZone?"":" !!!"));
+		if (stickInTriggerZone) Debug.Log (currentStick.fullName+" is "+(currentStick.inTriggerZone?"":"not ")+"pushed"+(currentStick.inTriggerZone?" !!!":""));
 		if (worldPositionCamera) {
 			Debug.Log (currentStick.fullName+" is controlling the blue sphere");
 			blueSphere.transform.position += currentStick.worldPositionCamera * Time.deltaTime * moveSpeed;
