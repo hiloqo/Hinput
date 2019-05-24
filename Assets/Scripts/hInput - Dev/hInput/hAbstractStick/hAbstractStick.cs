@@ -114,6 +114,7 @@ public abstract class hAbstractStick {
 	
 	public void Update () {
 		UpdatePositionRaw ();
+		UpdatePosition ();
 
 		if ((hAbstractStickDirection)_up != null) _up.Update();
 		if ((hAbstractStickDirection)_down != null) _down.Update();
@@ -129,6 +130,9 @@ public abstract class hAbstractStick {
 	private void UpdatePositionRaw() {
 		_horizontalRaw = right.positionRaw;
 		_verticalRaw = up.positionRaw;
+	}
+
+	private void UpdatePosition() {
 	}
 
 	
@@ -152,14 +156,20 @@ public abstract class hAbstractStick {
 	public float distanceRaw { get { return positionRaw.magnitude; } }
 	public bool inDeadZone { get { return distanceRaw < hInput.deadZone; } }
 
+	private Vector2 _position;
+	private float _positionDate;
 	public Vector2 position { 
-		get {  
-			if (inDeadZone) return Vector2.zero;
-			else {
-				Vector2 pos = positionRaw;
-				Vector2 deadZonedPos = ((pos - pos.normalized*hInput.deadZone)/(1 - hInput.deadZone));
-				return new Vector2 (Mathf.Clamp(deadZonedPos.x, -1, 1), Mathf.Clamp(deadZonedPos.y, -1, 1));
+		get {
+			float time = Time.time;
+			if (time == 0 || _positionDate != time) {
+				if (inDeadZone) _position = Vector2.zero;
+				else {
+					Vector2 deadZonedPos = ((positionRaw - positionRaw.normalized*hInput.deadZone)/(1 - hInput.deadZone));
+					_position = new Vector2 (Mathf.Clamp(deadZonedPos.x, -1, 1), Mathf.Clamp(deadZonedPos.y, -1, 1));
+				}
+				_positionDate = time;
 			}
+			return _position; 
 		} 
 	}
 

@@ -295,6 +295,66 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114758676489209894, guid: 8c6c4bc8d8e148e4a96142615f05cd04,
+        type: 2}
+      propertyPath: justPressedAndReleased
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114758676489209894, guid: 8c6c4bc8d8e148e4a96142615f05cd04,
+        type: 2}
+      propertyPath: stickPosition
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114758676489209894, guid: 8c6c4bc8d8e148e4a96142615f05cd04,
+        type: 2}
+      propertyPath: horizontal
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114758676489209894, guid: 8c6c4bc8d8e148e4a96142615f05cd04,
+        type: 2}
+      propertyPath: vertical
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114758676489209894, guid: 8c6c4bc8d8e148e4a96142615f05cd04,
+        type: 2}
+      propertyPath: angle
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114758676489209894, guid: 8c6c4bc8d8e148e4a96142615f05cd04,
+        type: 2}
+      propertyPath: distance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114758676489209894, guid: 8c6c4bc8d8e148e4a96142615f05cd04,
+        type: 2}
+      propertyPath: stickInDeadZone
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114758676489209894, guid: 8c6c4bc8d8e148e4a96142615f05cd04,
+        type: 2}
+      propertyPath: stickInTriggerZone
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114758676489209894, guid: 8c6c4bc8d8e148e4a96142615f05cd04,
+        type: 2}
+      propertyPath: worldPositionCamera
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114758676489209894, guid: 8c6c4bc8d8e148e4a96142615f05cd04,
+        type: 2}
+      propertyPath: worldPositionCameraRaw
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114758676489209894, guid: 8c6c4bc8d8e148e4a96142615f05cd04,
+        type: 2}
+      propertyPath: worldPositionFlatRaw
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114758676489209894, guid: 8c6c4bc8d8e148e4a96142615f05cd04,
+        type: 2}
+      propertyPath: worldPositionFlat
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8c6c4bc8d8e148e4a96142615f05cd04, type: 2}
   m_IsPrefabAsset: 0

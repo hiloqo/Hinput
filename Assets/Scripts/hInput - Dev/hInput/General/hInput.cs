@@ -6,8 +6,8 @@ public class hInput : MonoBehaviour {
 	//FEATURES
 	// split stickAxis (= gamepad input) and stickDirection (= user output)
 	// Change names of abstract classes to sth more understandable ?
+	// Make settings class to hide useless variables, leave original in instance
 	// Support plugging & unplugging gamepads
-	// Store stick & button positions if needed (so that we only have to make one call per frame)
 
 
 	//TESTING
@@ -16,7 +16,7 @@ public class hInput : MonoBehaviour {
 	// update doc
 	// Proofread all
 	// add tooltips to hAbstractStick & hAbstractInput properties
-	// Check xInput
+	// Check XInput
 
 	// --------------------
 	// SETTINGS
@@ -28,7 +28,6 @@ public class hInput : MonoBehaviour {
 	private bool _buildAllOnStartUp = false;
 	public static bool buildAllOnStartUp {
 		get { return instance._buildAllOnStartUp; }
-		set { instance._buildAllOnStartUp = value; }
 	}
 
 	[SerializeField]
@@ -110,20 +109,24 @@ public class hInput : MonoBehaviour {
 	// TIME
 	// --------------------
 
+	//The time it was last time the game was updated
+	private float _lastUpdated;
+
+	//The duration it took to process the previous frame
+	private float _deltaTime;
+
 	//By how much to increase deltaTime (in %) when comparing it, to account for rounding errors.
 	private float _deltaTimeEpsilon = 0.1f;
 	public static float deltaTimeEpsilon { get { return instance._deltaTimeEpsilon; } }
 
-	private float _timeLastFrame;
-	private float _timePenultimateFrame;
-
 	private void UpdateTime () {
-		_timePenultimateFrame = _timeLastFrame;
-		_timeLastFrame = Time.time;
+		float time = Time.time;
+		_deltaTime = time - _lastUpdated;
+		_lastUpdated = time;
 	}
 
 	//The previous frame was processed in less than this duration.
-	public static float maxDeltaTime { get { return (instance._timeLastFrame - instance._timePenultimateFrame)*(1 + deltaTimeEpsilon); } }
+	public static float maxDeltaTime { get { return (instance._deltaTime)*(1 + deltaTimeEpsilon); } }
 
 
 	// --------------------
@@ -192,7 +195,9 @@ public class hInput : MonoBehaviour {
 	private hGamepad _anyGamepad;
 	public static hGamepad anyGamepad { 
 		get { 
-			if (instance._anyGamepad == null) instance._anyGamepad = new hGamepad(os, -1); 
+			if (instance._anyGamepad == null) instance._anyGamepad = new hGamepad(os, -1);
+
+			instance.UpdateGamepads();
 			return instance._anyGamepad; 
 		}
 	}
@@ -204,6 +209,8 @@ public class hInput : MonoBehaviour {
 				instance._gamepad = new List<hGamepad>();
 				for (int i=0; i<maxGamepads; i++) gamepad.Add(new hGamepad(os, i));
 			}
+
+			instance.UpdateGamepads();
 			return instance._gamepad; 
 		} 
 	}
@@ -213,9 +220,16 @@ public class hInput : MonoBehaviour {
 	// UPDATE
 	// --------------------
 	
-	private void LateUpdate () {
-		UpdateTime ();
-		anyGamepad.Update();
-		for (int i=0; i<maxGamepads; i++) gamepad[i].Update ();
+	private void Update () {
+		UpdateGamepads();
+	}
+
+	// If the gamepads have not been updated this frame, update them.
+	private void UpdateGamepads () {
+		if (instance._lastUpdated != Time.time) {
+			UpdateTime ();
+			anyGamepad.Update();
+			for (int i=0; i<maxGamepads; i++) gamepad[i].Update ();
+		}
 	}
 }

@@ -65,6 +65,8 @@ public class hTester : MonoBehaviour {
 	}
 
 	void Update () {
+		Debug.LogError("new frame");
+		Debug.Log(Input.GetButton("Windows_Gamepad1_A")?"PRESSED":"released");
 		TestSticks ();
 		TestButtons ();
 	}
