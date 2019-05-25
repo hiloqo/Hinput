@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class hInput : MonoBehaviour {
 	//FEATURES
-	// split stickAxis (= gamepad input) and stickDirection (= user output)
-	// Change names of abstract classes to sth more understandable ?
-	// Make settings class to hide useless variables, leave original in instance
+	// Make settings class to hide useless variables, leave original in instance -> possible ?
 	// Support plugging & unplugging gamepads
 
 
@@ -15,6 +13,7 @@ public class hInput : MonoBehaviour {
 	//SHIPPING
 	// update doc
 	// Proofread all
+	// add comments
 	// add tooltips to hAbstractStick & hAbstractInput properties
 	// Check XInput
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class hAbstractSimpleInput : hAbstractInput {
+public abstract class hAbstractPressableButNotADirection : hAbstractPressable {
 
 	public override float position { 
 		get { 

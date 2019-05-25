@@ -47,8 +47,8 @@ public class hTester : MonoBehaviour {
 	public Transform blueSphere;
 	public float moveSpeed;
 
-	private hAbstractStick currentStick;
-	private hAbstractInput currentButton;
+	private hStick currentStick;
+	private hAbstractPressable currentButton;
 
 
 	// --------------------
@@ -65,8 +65,6 @@ public class hTester : MonoBehaviour {
 	}
 
 	void Update () {
-		Debug.LogError("new frame");
-		Debug.Log(Input.GetButton("Windows_Gamepad1_A")?"PRESSED":"released");
 		TestSticks ();
 		TestButtons ();
 	}
@@ -89,7 +87,7 @@ public class hTester : MonoBehaviour {
 	}
 
 	private void UpdateCurrentButtonFromGamepad (hGamepad gamepad) {
-		foreach (hAbstractInput button in AllGamepadButtons(gamepad)) 
+		foreach (hAbstractPressable button in AllGamepadButtons(gamepad)) 
 			if (!button.inDeadZone) {
 				currentButton = button;
 				break;
@@ -101,20 +99,20 @@ public class hTester : MonoBehaviour {
 	// GET ALL GAMEPAD BUTTONS
 	// --------------------
 
-	private List<hAbstractInput> AllGamepadButtons (hGamepad gamepad) {
-		List<hAbstractInput> buttons = new List<hAbstractInput>() {
+	private List<hAbstractPressable> AllGamepadButtons (hGamepad gamepad) {
+		List<hAbstractPressable> buttons = new List<hAbstractPressable>() {
 			gamepad.A, gamepad.B, gamepad.X, gamepad.Y, gamepad.leftBumper, gamepad.rightBumper, 
 			gamepad.leftTrigger, gamepad.rightTrigger, gamepad.leftStickClick, gamepad.rightStickClick, 
 			gamepad.back, gamepad.start, gamepad.xBoxButton
 		};
 
-		if (stickVerticalsAndHorizontals) buttons.AddRange (new List<hAbstractInput>() {
+		if (stickVerticalsAndHorizontals) buttons.AddRange (new List<hAbstractPressable>() {
 			gamepad.leftStick.up, gamepad.leftStick.down, gamepad.leftStick.left, gamepad.leftStick.right,
 			gamepad.rightStick.up, gamepad.rightStick.down, gamepad.rightStick.left, gamepad.rightStick.right,
 			gamepad.dPad.up, gamepad.dPad.down, gamepad.dPad.left, gamepad.dPad.right
 		});
 
-		if (stickDiagonals) buttons.AddRange (new List<hAbstractInput>() {
+		if (stickDiagonals) buttons.AddRange (new List<hAbstractPressable>() {
 			gamepad.leftStick.upLeft, gamepad.leftStick.upRight, gamepad.leftStick.downLeft, gamepad.leftStick.downRight,
 			gamepad.rightStick.upLeft, gamepad.rightStick.upRight, gamepad.rightStick.downLeft, gamepad.rightStick.downRight,
 			gamepad.dPad.upLeft, gamepad.dPad.upRight, gamepad.dPad.downLeft, gamepad.dPad.downRight

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class hAbstractStick {
+public class hStick {
 	// --------------------
 	// NAME
 	// --------------------
@@ -16,9 +16,6 @@ public abstract class hAbstractStick {
 	protected int _gamepadIndex;
 	public int gamepadIndex { get { return _gamepadIndex; } }
 
-	protected int _stickIndex;
-	public int stickIndex { get { return _stickIndex; } }
-
 	public hGamepad gamepad { 
 		get { 
 			if (gamepadIndex >= 0) return hInput.gamepad[gamepadIndex]; 
@@ -26,66 +23,121 @@ public abstract class hAbstractStick {
 		} 
 	}
 
+	protected int _index;
+	public int index { get { return _index; } }
+
 	
 	// --------------------
 	// IMPLICIT CONVERSION
 	// --------------------
 
-	public static implicit operator Vector2 (hAbstractStick hAbstractStick) { return hAbstractStick.position; }
+	public static implicit operator Vector2 (hStick hStick) { return hStick.position; }
 
 
 	// --------------------
-	// VERTICALS AND HORIZONTALS
+	// CONSTRUCTORS
 	// --------------------
 
-	protected hAbstractInput _up;
-	protected hAbstractInput _down;
-	protected hAbstractInput _left;
-	protected hAbstractInput _right;
+	// For sticks
+	public hStick (string name, hGamepad gamepad, int index) {
+		this._name = name;
+		this._gamepadIndex = gamepad.index;
+		this._fullName = gamepad.fullName+"_"+name;
+		this._index = index;
 
-	public abstract hAbstractInput up { get; }
-	public abstract hAbstractInput down { get; }
-	public abstract hAbstractInput left { get; }
-	public abstract hAbstractInput right { get; }
+		horizontalAxis = new hAxis (fullName+"_Horizontal");
+		verticalAxis = new hAxis (fullName+"_Vertical");
+	}
 
-	
+	// For the D-pad
+	public hStick (string name, hGamepad gamepad) {
+		this._name = name;
+		this._gamepadIndex = gamepad.index;
+		this._fullName = gamepad.fullName+"_"+name;
+		this._index = 2;
+
+		horizontalAxis = new hAxis (fullName+"_Horizontal", fullName+"_Left", fullName+"_Right");
+		verticalAxis = new hAxis (fullName+"_Vertical", fullName+"_Down", fullName+"_Up");
+	}
+
+
 	// --------------------
-	// DIAGONALS
+	// AXES
 	// --------------------
 
-	protected hStickDiagonal _upLeft;
-	protected hStickDiagonal _downLeft;
-	protected hStickDiagonal _upRight;
-	protected hStickDiagonal _downRight;
-	
-	public hStickDiagonal leftUp { get { return upLeft; } }
-	public hStickDiagonal upLeft { 
+	protected hAxis horizontalAxis;
+	protected hAxis verticalAxis;
+
+
+	// --------------------
+	// DIRECTIONS
+	// --------------------
+
+	protected hDirection _up;
+	public hDirection up { 
 		get {
-			if (_upLeft == null) _upLeft = new hStickDiagonal (gamepadIndex, stickIndex, name, fullName, "UpLeft", 135);
+			if (_up == null) _up = new hDirection ("Up", 90, this);
+			return _up;
+		} 
+	}
+
+	protected hDirection _down;
+	public hDirection down { 
+		get {
+			if (_down == null) _down = new hDirection ("Down", -90, this);
+			return _down;
+		} 
+	}
+
+	protected hDirection _left;
+	public hDirection left { 
+		get {
+			if (_left == null) _left = new hDirection ("Left", 180, this);
+			return _left;
+		} 
+	}
+
+	protected hDirection _right;
+	public hDirection right { 
+		get {
+			if (_right == null) _right = new hDirection ("Right", 0, this);
+			return _right;
+		} 
+	}
+
+	
+	protected hDirection _upLeft;
+	public hDirection leftUp { get { return upLeft; } }
+	public hDirection upLeft { 
+		get {
+			if (_upLeft == null) _upLeft = new hDirection ("UpLeft", 135, this);
 			return _upLeft;
 		} 
 	}
 
-	public hStickDiagonal leftDown { get { return downLeft; } }
-	public hStickDiagonal downLeft { 
+	protected hDirection _downLeft;
+	public hDirection leftDown { get { return downLeft; } }
+	public hDirection downLeft { 
 		get {
-			if (_downLeft == null) _downLeft = new hStickDiagonal (gamepadIndex, stickIndex, name, fullName, "DownLeft", -135);
+			if (_downLeft == null) _downLeft = new hDirection ("DownLeft", -135, this);
 			return _downLeft;
 		} 
 	}
 
-	public hStickDiagonal rightUp { get { return upRight; } }
-	public hStickDiagonal upRight { 
+	protected hDirection _upRight;
+	public hDirection rightUp { get { return upRight; } }
+	public hDirection upRight { 
 		get {
-			if (_upRight == null) _upRight = new hStickDiagonal (gamepadIndex, stickIndex, name, fullName, "UpRight", 45);
+			if (_upRight == null) _upRight = new hDirection ("UpRight", 45, this);
 			return _upRight;
 		} 
 	}
 
-	public hStickDiagonal rightDown { get { return downRight; } }
-	public hStickDiagonal downRight { 
+	protected hDirection _downRight;
+	public hDirection rightDown { get { return downRight; } }
+	public hDirection downRight { 
 		get {
-			if (_downRight == null) _downRight = new hStickDiagonal (gamepadIndex, stickIndex, name, fullName, "DownRight", -45);
+			if (_downRight == null) _downRight = new hDirection ("DownRight", -45, this);
 			return _downRight;
 		} 
 	}
@@ -116,20 +168,20 @@ public abstract class hAbstractStick {
 		UpdatePositionRaw ();
 		UpdatePosition ();
 
-		if ((hAbstractStickDirection)_up != null) _up.Update();
-		if ((hAbstractStickDirection)_down != null) _down.Update();
-		if ((hAbstractStickDirection)_left != null) _left.Update();
-		if ((hAbstractStickDirection)_right != null) _right.Update();
+		if ((hDirection)_up != null) _up.Update();
+		if ((hDirection)_down != null) _down.Update();
+		if ((hDirection)_left != null) _left.Update();
+		if ((hDirection)_right != null) _right.Update();
 		
-		if ((hAbstractStickDirection)_upLeft != null) _upLeft.Update();
-		if ((hAbstractStickDirection)_downLeft != null) _downLeft.Update();
-		if ((hAbstractStickDirection)_upRight != null) _upRight.Update();
-		if ((hAbstractStickDirection)_downRight != null) _downRight.Update();
+		if ((hDirection)_upLeft != null) _upLeft.Update();
+		if ((hDirection)_downLeft != null) _downLeft.Update();
+		if ((hDirection)_upRight != null) _upRight.Update();
+		if ((hDirection)_downRight != null) _downRight.Update();
 	}
 
 	private void UpdatePositionRaw() {
-		_horizontalRaw = right.positionRaw;
-		_verticalRaw = up.positionRaw;
+		_horizontalRaw = horizontalAxis.positionRaw;
+		_verticalRaw = -verticalAxis.positionRaw;
 	}
 
 	private void UpdatePosition() {
