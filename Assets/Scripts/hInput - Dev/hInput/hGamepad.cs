@@ -79,9 +79,9 @@ public class hGamepad {
 		indices = leftTrigger.gamepadIndex;
 		indices = rightTrigger.gamepadIndex;
 		
-		leftStick.BuildAll ();
-		rightStick.BuildAll ();
-		dPad.BuildAll ();
+		leftStick.BuildDirections ();
+		rightStick.BuildDirections ();
+		dPad.BuildDirections ();
 	}
 
 	

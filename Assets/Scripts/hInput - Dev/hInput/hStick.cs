@@ -7,13 +7,13 @@ public class hStick {
 	// NAME
 	// --------------------
 
-	protected string _name;
+	private string _name;
 	public string name { get { return _name; } }
 
-	protected string _fullName;
+	private string _fullName;
 	public string fullName { get { return _fullName; } }
 
-	protected int _gamepadIndex;
+	private int _gamepadIndex;
 	public int gamepadIndex { get { return _gamepadIndex; } }
 
 	public hGamepad gamepad { 
@@ -23,7 +23,7 @@ public class hStick {
 		} 
 	}
 
-	protected int _index;
+	private int _index;
 	public int index { get { return _index; } }
 
 	
@@ -65,15 +65,15 @@ public class hStick {
 	// AXES
 	// --------------------
 
-	protected hAxis horizontalAxis;
-	protected hAxis verticalAxis;
+	private hAxis horizontalAxis;
+	private hAxis verticalAxis;
 
 
 	// --------------------
 	// DIRECTIONS
 	// --------------------
 
-	protected hDirection _up;
+	private hDirection _up;
 	public hDirection up { 
 		get {
 			if (_up == null) _up = new hDirection ("Up", 90, this);
@@ -81,7 +81,7 @@ public class hStick {
 		} 
 	}
 
-	protected hDirection _down;
+	private hDirection _down;
 	public hDirection down { 
 		get {
 			if (_down == null) _down = new hDirection ("Down", -90, this);
@@ -89,7 +89,7 @@ public class hStick {
 		} 
 	}
 
-	protected hDirection _left;
+	private hDirection _left;
 	public hDirection left { 
 		get {
 			if (_left == null) _left = new hDirection ("Left", 180, this);
@@ -97,7 +97,7 @@ public class hStick {
 		} 
 	}
 
-	protected hDirection _right;
+	private hDirection _right;
 	public hDirection right { 
 		get {
 			if (_right == null) _right = new hDirection ("Right", 0, this);
@@ -106,7 +106,7 @@ public class hStick {
 	}
 
 	
-	protected hDirection _upLeft;
+	private hDirection _upLeft;
 	public hDirection leftUp { get { return upLeft; } }
 	public hDirection upLeft { 
 		get {
@@ -115,7 +115,7 @@ public class hStick {
 		} 
 	}
 
-	protected hDirection _downLeft;
+	private hDirection _downLeft;
 	public hDirection leftDown { get { return downLeft; } }
 	public hDirection downLeft { 
 		get {
@@ -124,7 +124,7 @@ public class hStick {
 		} 
 	}
 
-	protected hDirection _upRight;
+	private hDirection _upRight;
 	public hDirection rightUp { get { return upRight; } }
 	public hDirection upRight { 
 		get {
@@ -133,7 +133,7 @@ public class hStick {
 		} 
 	}
 
-	protected hDirection _downRight;
+	private hDirection _downRight;
 	public hDirection rightDown { get { return downRight; } }
 	public hDirection downRight { 
 		get {
@@ -142,12 +142,7 @@ public class hStick {
 		} 
 	}
 
-	
-	// --------------------
-	// BUILD ALL
-	// --------------------
-
-	public void BuildAll () {
+	public void BuildDirections () {
 		int indices = up.gamepadIndex;
 		indices = down.gamepadIndex;
 		indices = left.gamepadIndex;
@@ -157,17 +152,8 @@ public class hStick {
 		indices = downLeft.gamepadIndex;
 		indices = downRight.gamepadIndex;
 	}
-	
 
-	
-	// --------------------
-	// UPDATE
-	// --------------------
-	
-	public void Update () {
-		UpdatePositionRaw ();
-		UpdatePosition ();
-
+	private void UpdateDirections () {
 		if ((hDirection)_up != null) _up.Update();
 		if ((hDirection)_down != null) _down.Update();
 		if ((hDirection)_left != null) _left.Update();
@@ -178,19 +164,27 @@ public class hStick {
 		if ((hDirection)_upRight != null) _upRight.Update();
 		if ((hDirection)_downRight != null) _downRight.Update();
 	}
+	
 
-	private void UpdatePositionRaw() {
-		_horizontalRaw = horizontalAxis.positionRaw;
-		_verticalRaw = -verticalAxis.positionRaw;
-	}
-
-	private void UpdatePosition() {
+	
+	// --------------------
+	// UPDATE
+	// --------------------
+	
+	public void Update () {
+		UpdateAxes ();
+		UpdateDirections ();
 	}
 
 	
 	// --------------------
-	// POSITION RAW
+	// PUBLIC PROPERTIES - RAW
 	// --------------------
+
+	private void UpdateAxes () {
+		_horizontalRaw = horizontalAxis.positionRaw;
+		_verticalRaw = -verticalAxis.positionRaw;
+	}
 
 	private float _horizontalRaw;
 	public float horizontalRaw { get { return _horizontalRaw; } }
@@ -200,12 +194,30 @@ public class hStick {
 
 	public Vector2 positionRaw { get { return new Vector2 (horizontalRaw, verticalRaw); } }
 
+	public float distanceRaw { get { return positionRaw.magnitude; } }
+
+	private float _angleRaw;
+	private float _angleRawDate;
+	public float angleRaw { 
+		get { 
+			float time = Time.time;
+			if (time == 0 || _angleRawDate != time) {
+				_angleRaw = Vector2.SignedAngle(Vector2.right, positionRaw);
+				_angleRawDate = time;
+			}
+			return _angleRaw;
+		} 
+	}
+
+	public Vector3 worldPositionCameraRaw { get { return (hInput.worldCamera.right*horizontalRaw + hInput.worldCamera.up*verticalRaw); } }
+
+	public Vector3 worldPositionFlatRaw { get { return new Vector3 (horizontalRaw, 0, verticalRaw); } }
+
 	
 	// --------------------
-	// PUBLIC PROPERTIES
+	// PUBLIC PROPERTIES - DEADZONED
 	// --------------------
 
-	public float distanceRaw { get { return positionRaw.magnitude; } }
 	public bool inDeadZone { get { return distanceRaw < hInput.deadZone; } }
 
 	private Vector2 _position;
@@ -227,16 +239,25 @@ public class hStick {
 
 	public float horizontal { get { return position.x; } }
 	public float vertical { get { return position.y; } }
-	public float distance { get { return Mathf.Clamp01((1 + hInput.diagonalIncrease)*position.magnitude); } }
+
+	public float distance { get { return Mathf.Clamp01((1 + hInput.distanceIncrease)*position.magnitude); } }
+
 	public bool inTriggerZone { get { return distance >= hInput.triggerZone; } }
 
-	public float angleRaw { get { return Vector2.SignedAngle(Vector2.right, positionRaw); } }
-	public float angle { get { return Vector2.SignedAngle(Vector2.right, position); } }
-
+	private float _angle;
+	private float _angleDate;
+	public float angle { 
+		get { 
+			float time = Time.time;
+			if (time == 0 || _angleDate != time) {
+				_angle = Vector2.SignedAngle(Vector2.right, position);
+				_angleDate = time;
+			}
+			return _angle;
+		} 
+	}
 
 	public Vector3 worldPositionCamera { get { return (hInput.worldCamera.right*horizontal + hInput.worldCamera.up*vertical); } }
-	public Vector3 worldPositionFlat { get { return new Vector3 (horizontal, 0, vertical); } }
 
-	public Vector3 worldPositionCameraRaw { get { return (hInput.worldCamera.right*horizontalRaw + hInput.worldCamera.up*verticalRaw); } }
-	public Vector3 worldPositionFlatRaw { get { return new Vector3 (horizontalRaw, 0, verticalRaw); } }
+	public Vector3 worldPositionFlat { get { return new Vector3 (horizontal, 0, vertical); } }
 }

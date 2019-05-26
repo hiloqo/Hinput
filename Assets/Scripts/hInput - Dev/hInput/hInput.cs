@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This is the main class from which you can access stuff
+/// </summary>
 public class hInput : MonoBehaviour {
 	//FEATURES
-	// Make settings class to hide useless variables, leave original in instance -> possible ?
 	// Support plugging & unplugging gamepads
 
 
@@ -25,14 +27,11 @@ public class hInput : MonoBehaviour {
 	[Tooltip ("If enabled, hInput will start tracking every control of every gamepad from startup. "
 	+"Otherwise, each control will only start being registered the first time you ask for it.")]
 	private bool _buildAllOnStartUp = false;
-	public static bool buildAllOnStartUp {
-		get { return instance._buildAllOnStartUp; }
-	}
 
 	[SerializeField]
 	[Range(0,1)]
 	[Tooltip("The distance from the center beyond which stick and trigger inputs start being registered.")]
-	private float _deadZone = 0.2f;
+	protected float _deadZone = 0.2f;
 	public static float deadZone { 
 		get { return instance._deadZone; } 
 		set { instance._deadZone = value; } 
@@ -96,8 +95,8 @@ public class hInput : MonoBehaviour {
 	// --------------------
 
 	//By how much to increase diagonals (in %), because otherwise the max stick distance is sometimes less than 1.
-	private float _diagonalIncrease = 0.01f;
-	public static float diagonalIncrease { get { return instance._diagonalIncrease; } }
+	private float _diastanceIncrease = 0.01f;
+	public static float distanceIncrease { get { return instance._diastanceIncrease; } }
 
 	//Maximum amount of gamepads supported by the game
 	private float _maxGamepads = 4;
@@ -180,7 +179,7 @@ public class hInput : MonoBehaviour {
 		if (_instance != this) Destroy(this);
 		DontDestroyOnLoad (this);
 
-		if (buildAllOnStartUp) {
+		if (_buildAllOnStartUp) {
 			anyGamepad.BuildAll();
 			for (int i=0; i<maxGamepads; i++) gamepad[i].BuildAll();
 		}

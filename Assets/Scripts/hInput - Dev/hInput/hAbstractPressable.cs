@@ -63,7 +63,7 @@ public abstract class hAbstractPressable {
 
 		if (justPressed) {
 			penultimatePressStart = _lastPressStart;
-			_lastPressStart = time;			
+			_lastPressStart = time;		
 		}
 	}
 

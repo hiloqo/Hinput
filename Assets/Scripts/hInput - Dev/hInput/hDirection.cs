@@ -7,12 +7,13 @@ public class hDirection : hAbstractPressable {
 	// NAME
 	// --------------------
 
-	protected int _index;
-	public int index { get { return _index; } }
+	private int _stickIndex;
+	public int stickIndex { get { return _stickIndex; } }
 
-	public hStick stick { get { return gamepad.sticks[index]; } }
+	public hStick stick { get { return gamepad.sticks[stickIndex]; } }
 
-	protected float angle;
+	private float _angle;
+	public float angle { get { return _angle; } }
 
 
 	// --------------------
@@ -21,10 +22,10 @@ public class hDirection : hAbstractPressable {
 
 	public hDirection (string name, float angle, hStick stick) {
 		this._name = name;
-		this._index = stick.index;
+		this._stickIndex = stick.index;
 		this._fullName = stick.fullName+"_"+name;
 		this._gamepadIndex = stick.gamepadIndex;
-		this.angle = angle;
+		this._angle = angle;
 	}
 
 
