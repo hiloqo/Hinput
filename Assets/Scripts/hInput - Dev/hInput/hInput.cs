@@ -7,17 +7,21 @@ using UnityEngine;
 /// </summary>
 public class hInput : MonoBehaviour {
 	//FEATURES
+	// Check XInput
 	// Support plugging & unplugging gamepads
+	// Build all : look up properties, dont assign
 
 
 	//TESTING
+	// Mac
+	// Linux
+	// Cheap controllers
 
 	//SHIPPING
-	// update doc
-	// Proofread all
 	// add comments
 	// add tooltips to hAbstractStick & hAbstractInput properties
-	// Check XInput
+	// make a unity store account
+	// write a readme/user manual
 
 	// --------------------
 	// SETTINGS

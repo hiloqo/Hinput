@@ -194,7 +194,18 @@ public class hStick {
 
 	public Vector2 positionRaw { get { return new Vector2 (horizontalRaw, verticalRaw); } }
 
-	public float distanceRaw { get { return positionRaw.magnitude; } }
+	private float _distanceRaw;
+	private float _distanceRawDate;
+	public float distanceRaw { 
+		get { 
+			float time = Time.time;
+			if (time == 0 || _distanceRawDate != time) {
+				_distanceRaw = positionRaw.magnitude;
+				_distanceRawDate = time;
+			}
+			return _distanceRaw; 
+		} 
+	}
 
 	private float _angleRaw;
 	private float _angleRawDate;
@@ -228,7 +239,7 @@ public class hStick {
 			if (time == 0 || _positionDate != time) {
 				if (inDeadZone) _position = Vector2.zero;
 				else {
-					Vector2 deadZonedPos = ((positionRaw - positionRaw.normalized*hInput.deadZone)/(1 - hInput.deadZone));
+					Vector2 deadZonedPos = ((1 + hInput.distanceIncrease)*(positionRaw - positionRaw.normalized*hInput.deadZone)/(1 - hInput.deadZone));
 					_position = new Vector2 (Mathf.Clamp(deadZonedPos.x, -1, 1), Mathf.Clamp(deadZonedPos.y, -1, 1));
 				}
 				_positionDate = time;
@@ -240,7 +251,18 @@ public class hStick {
 	public float horizontal { get { return position.x; } }
 	public float vertical { get { return position.y; } }
 
-	public float distance { get { return Mathf.Clamp01((1 + hInput.distanceIncrease)*position.magnitude); } }
+	private float _distance;
+	private float _distanceDate;
+	public float distance { 
+		get { 
+			float time = Time.time;
+			if (time == 0 || _distanceDate != time) {
+				_distance = Mathf.Clamp01(position.magnitude);
+				_distanceDate = time;
+			}
+			return _distance; 
+		} 
+	}
 
 	public bool inTriggerZone { get { return distance >= hInput.triggerZone; } }
 
