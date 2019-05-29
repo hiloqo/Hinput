@@ -3,9 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class hAxis {
+	// --------------------
+	// NAME
+	// --------------------
+
 	private string fullAxisName;
 	private string fullPositiveButtonName;
 	private string fullNegativeButtonName;
+
+
+	// --------------------
+	// CONSTRUCTORS
+	// --------------------
 
 	public hAxis (string fullAxisName, string fullPositiveButtonName, string fullNegativeButtonName) {
 		this.fullAxisName = fullAxisName;
@@ -19,6 +28,12 @@ public class hAxis {
 		this.fullNegativeButtonName = "";
 	}
 
+	
+	// --------------------
+	// PROPERTIES
+	// --------------------
+
+	private float _positionRaw;
 	public float positionRaw { 
 		get {
 			float axisValue = 0f;

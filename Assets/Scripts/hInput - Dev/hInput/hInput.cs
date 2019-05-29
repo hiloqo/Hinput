@@ -2,27 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// This is the main class from which you can access stuff
-/// </summary>
 public class hInput : MonoBehaviour {
-	//FEATURES
-	// Check XInput
-	// Support plugging & unplugging gamepads
-	// Build all : look up properties, dont assign
-
-
-	//TESTING
-	// Mac
-	// Linux
-	// Cheap controllers
-
-	//SHIPPING
-	// add comments
-	// add tooltips to hAbstractStick & hAbstractInput properties
-	// make a unity store account
-	// write a readme/user manual
-
 	// --------------------
 	// SETTINGS
 	// --------------------
@@ -99,6 +79,7 @@ public class hInput : MonoBehaviour {
 	// --------------------
 
 	//By how much to increase diagonals (in %), because otherwise the max stick distance is sometimes less than 1.
+	//Does not affect raw properties.
 	private float _diastanceIncrease = 0.01f;
 	public static float distanceIncrease { get { return instance._diastanceIncrease; } }
 
@@ -197,9 +178,12 @@ public class hInput : MonoBehaviour {
 	private hGamepad _anyGamepad;
 	public static hGamepad anyGamepad { 
 		get { 
-			if (instance._anyGamepad == null) instance._anyGamepad = new hGamepad(os, -1);
+			if (instance._anyGamepad == null) {
+				instance._anyGamepad = new hGamepad(os, -1);
+			} else {
+				instance.UpdateGamepads ();
+			}
 
-			instance.UpdateGamepads();
 			return instance._anyGamepad; 
 		}
 	}
@@ -210,9 +194,10 @@ public class hInput : MonoBehaviour {
 			if (instance._gamepad == null) {
 				instance._gamepad = new List<hGamepad>();
 				for (int i=0; i<maxGamepads; i++) gamepad.Add(new hGamepad(os, i));
-			}
+			} else {
+				instance.UpdateGamepads ();
+			} 
 
-			instance.UpdateGamepads();
 			return instance._gamepad; 
 		} 
 	}

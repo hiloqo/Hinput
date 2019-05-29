@@ -28,12 +28,20 @@ public class hDirection : hAbstractPressable {
 		this._angle = angle;
 	}
 
+	
+	// --------------------
+	// UPDATE
+	// --------------------
+
+	protected override void UpdatePositionRaw() {
+		_positionRaw = ProjectedDistance (stick.positionRaw, stick.angleRaw);
+	}
+
 
 	// --------------------
 	// PROPERTIES
 	// --------------------
-
-	public override float positionRaw { get { return ProjectedDistance (stick.positionRaw, stick.angleRaw); } }
+	
 	public override float position { get { return ProjectedDistance (stick.position, stick.angle); } }
 	public override bool pressed { get { return (stick.inTriggerZone && StickWithinAngle()); } }
 	public override bool inDeadZone { get { return (stick.inDeadZone || ! StickWithinAngle()); } }

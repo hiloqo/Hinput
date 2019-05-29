@@ -13,19 +13,24 @@ public class hButton : hAbstractPressable {
 		this._fullName = gamepad.fullName+"_"+name;
 	}
 
+	
+	// --------------------
+	// UPDATE
+	// --------------------
+
+	protected override void UpdatePositionRaw() {
+		try {
+			if (Input.GetButton(fullName)) _positionRaw = 1;
+			else _positionRaw = 0;
+		} catch {
+			_positionRaw = 0;
+		}
+	}
+
 
 	// --------------------
 	// PROPERTIES
 	// --------------------
-	
-	public override float positionRaw { 
-		get { 
-			try {
-				if (Input.GetButton(fullName)) return 1;
-			} catch { } // Dont care if error here
-			return 0;
-		} 
-	}
 	
 	public override float position { get { return positionRaw; } }
 

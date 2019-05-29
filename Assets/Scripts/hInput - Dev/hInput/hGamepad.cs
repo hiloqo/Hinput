@@ -65,19 +65,21 @@ public class hGamepad {
 	// --------------------
 
 	public void BuildAll () {
-		int indices = A.gamepadIndex;
-		indices = B.gamepadIndex;
-		indices = X.gamepadIndex;
-		indices = Y.gamepadIndex;
-		indices = leftBumper.gamepadIndex;
-		indices = rightBumper.gamepadIndex;
-		indices = back.gamepadIndex;
-		indices = start.gamepadIndex;
-		indices = leftStickClick.gamepadIndex;
-		indices = rightStickClick.gamepadIndex;
-		indices = xBoxButton.gamepadIndex;
-		indices = leftTrigger.gamepadIndex;
-		indices = rightTrigger.gamepadIndex;
+		if (A.gamepadIndex == 0
+		|| B.gamepadIndex == 0
+		|| X.gamepadIndex == 0
+		|| Y.gamepadIndex == 0
+		|| leftBumper.gamepadIndex == 0
+		|| rightBumper.gamepadIndex == 0
+		|| back.gamepadIndex == 0
+		|| start.gamepadIndex == 0
+		|| leftStickClick.gamepadIndex == 0
+		|| rightStickClick.gamepadIndex == 0
+		|| xBoxButton.gamepadIndex == 0
+		|| leftTrigger.gamepadIndex == 0
+		|| rightTrigger.gamepadIndex == 0) {
+			// Do nothing, I'm just looking them up so that they are assigned.
+		}
 		
 		leftStick.BuildDirections ();
 		rightStick.BuildDirections ();

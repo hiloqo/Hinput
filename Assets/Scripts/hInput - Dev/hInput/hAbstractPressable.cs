@@ -35,7 +35,7 @@ public abstract class hAbstractPressable {
 	// ABSTRACT PROPERTIES
 	// --------------------
 
-	public abstract float positionRaw { get; }
+	protected float _positionRaw;
 	public abstract float position { get; }
 	public abstract bool pressed { get; }
 	public abstract bool inDeadZone { get; }
@@ -55,8 +55,10 @@ public abstract class hAbstractPressable {
 	// UPDATE
 	// --------------------
 
-	public void Update () {
+	public void Update () {		
 		float time = Time.time;
+
+		UpdatePositionRaw ();
 
 		if (pressed) _lastPressed = time;
 		else _lastReleased = time;
@@ -67,10 +69,14 @@ public abstract class hAbstractPressable {
 		}
 	}
 
+	protected abstract void UpdatePositionRaw ();
+
 	
 	// --------------------
 	// PUBLIC PROPERTIES
 	// --------------------
+
+	public float positionRaw { get { return _positionRaw; } }
 
 	public bool released { get { return !pressed; } }
 

@@ -30,22 +30,27 @@ public class hTrigger : hAbstractPressable {
 		}
 	}
 
+	
+	// --------------------
+	// UPDATE
+	// --------------------
+
+	protected override void UpdatePositionRaw() {
+		float mesPos = measuredPosition;
+
+		if (hasBeenMoved) {
+			_positionRaw = mesPos;
+		} else if (mesPos != initialValue) {
+			hasBeenMoved = true;
+			_positionRaw = mesPos;
+		}
+		else _positionRaw = 0f;
+	}
+
 
 	// --------------------
 	// PROPERTIES
 	// --------------------
-
-	public override float positionRaw { 
-		get { 
-			if (hasBeenMoved) {
-				return measuredPosition;
-			} else if (measuredPosition != initialValue) {
-				hasBeenMoved = true;
-				return measuredPosition;
-			}
-			else return 0f;
-		}
-	}
 
 	public override float position { 
 		get { 

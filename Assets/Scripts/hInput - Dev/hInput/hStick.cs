@@ -143,14 +143,16 @@ public class hStick {
 	}
 
 	public void BuildDirections () {
-		int indices = up.gamepadIndex;
-		indices = down.gamepadIndex;
-		indices = left.gamepadIndex;
-		indices = right.gamepadIndex;
-		indices = upLeft.gamepadIndex;
-		indices = upRight.gamepadIndex;
-		indices = downLeft.gamepadIndex;
-		indices = downRight.gamepadIndex;
+		if (up.gamepadIndex == 0
+		|| down.gamepadIndex == 0
+		|| left.gamepadIndex == 0
+		|| right.gamepadIndex == 0
+		|| upLeft.gamepadIndex == 0
+		|| upRight.gamepadIndex == 0
+		|| downLeft.gamepadIndex == 0
+		|| downRight.gamepadIndex == 0) {
+			// Do nothing, I'm just looking them up so that they are assigned.
+		}
 	}
 
 	private void UpdateDirections () {
