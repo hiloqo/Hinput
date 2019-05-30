@@ -7,6 +7,9 @@ public class hInput : MonoBehaviour {
 	// SETTINGS
 	// --------------------
 
+	[Header("hINPUT SETTINGS")]
+	[Space(10)]
+
 	[SerializeField]
 	[Tooltip ("If enabled, hInput will start tracking every control of every gamepad from startup. "
 	+"Otherwise, each control will only start being registered the first time you ask for it.")]
