@@ -16,12 +16,14 @@ public class hAxis {
 	// CONSTRUCTORS
 	// --------------------
 
+	// D-pad constructor
 	public hAxis (string fullAxisName, string fullPositiveButtonName, string fullNegativeButtonName) {
 		this.fullAxisName = fullAxisName;
 		this.fullPositiveButtonName = fullPositiveButtonName;
 		this.fullNegativeButtonName = fullNegativeButtonName;
 	}
 
+	// left/right stick constructor
 	public hAxis (string fullAxisName) {
 		this.fullAxisName = fullAxisName;
 		this.fullPositiveButtonName = "";
@@ -33,21 +35,17 @@ public class hAxis {
 	// PROPERTIES
 	// --------------------
 
+	// The D-pad will be recorded as two axes or four buttons, depending on the gamepad driver used.
+	// Measure both the axes and the buttons, and ignore the one that returns an error.
 	private float _positionRaw;
 	public float positionRaw { 
 		get {
-			float axisValue = 0f;
+			float axisValue = hInputUtils.GetAxis(fullAxisName, false);
+
 			float buttonValue = 0f;
-
-			try { 
-				axisValue = Input.GetAxisRaw(fullAxisName);
-			} catch { } //Dont care if error here
-
 			if (fullPositiveButtonName != "" && fullNegativeButtonName != "") {
-				try { 
-					if (Input.GetButton(fullPositiveButtonName)) buttonValue = 1;
-					if (Input.GetButton(fullNegativeButtonName)) buttonValue = -1;
-				} catch { } //Dont care if error here
+				if (hInputUtils.GetButton(fullPositiveButtonName, false)) buttonValue = 1;
+				if (hInputUtils.GetButton(fullNegativeButtonName, false)) buttonValue = -1;
 			}
 
 			return (axisValue + buttonValue);

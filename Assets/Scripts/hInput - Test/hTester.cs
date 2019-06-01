@@ -58,7 +58,7 @@ public class hTester : MonoBehaviour {
 
 	void Start () {
 		if (startMessage) {
-			Debug.Log("OS is : "+hInput.os);
+			Debug.Log("OS is : "+hInputUtils.os);
 			Debug.Log("hInput gameObject name is : "+hInput.instance.name);
 			Debug.Log("camera gameObject name is : "+hInput.worldCamera.name);
 		}
@@ -81,7 +81,7 @@ public class hTester : MonoBehaviour {
 
 	private void GetNewCurrentButton () {
 		if (individualGamepads)	
-			for (int i=0; i<hInput.maxGamepads; i++) UpdateCurrentButtonFromGamepad(hInput.gamepad[i]);
+			for (int i=0; i<8; i++) UpdateCurrentButtonFromGamepad(hInput.gamepad[i]);
 
 		if (anyGamepad) UpdateCurrentButtonFromGamepad(hInput.anyGamepad);
 	}
@@ -179,7 +179,7 @@ public class hTester : MonoBehaviour {
 
 	private void GetNewCurrentStick () {
 		if (individualGamepads)	
-			for (int i=0; i<hInput.maxGamepads; i++) UpdateCurrentStickFromGamepad(hInput.gamepad[i]);
+			for (int i=0; i<8; i++) UpdateCurrentStickFromGamepad(hInput.gamepad[i]);
 
 		if (anyGamepad) UpdateCurrentStickFromGamepad(hInput.anyGamepad);
 	}
