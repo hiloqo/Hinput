@@ -3,20 +3,50 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// The main class of hInput, from which you can access gamepads. <br/><br/>
+/// hinput class responsible for handling settings, as well as gamepad updates.<br/><br/>
 /// You can attach it to a GameObject to expose settings. 
-/// If you don’t, it will be instantiated at runtime the first time you call it, with default settings.
+/// If you don’t, it will automatically be instantiated at runtime the first time you call hinput, with default settings.
 /// </summary>
-public class hInput : MonoBehaviour {
+public class hinputSettings : MonoBehaviour {
+	// --------------------
+	// SINGLETON PATTERN
+	// --------------------
+
+	//The instance of hinputSettings. Assigned when first called.
+	private static hinputSettings _instance;
+	public static hinputSettings instance { 
+		get {
+			if (_instance == null) {
+				GameObject go = new GameObject();
+				go.name = "hinput";
+				_instance = go.AddComponent<hinputSettings>();
+			}
+			
+			return _instance;
+		} 
+	}
+
+	private void Awake () {
+		if (_instance == null) _instance = this;
+		if (_instance != this) Destroy(this);
+		DontDestroyOnLoad (this);
+
+		if (_buildAllOnStartUp) {
+			hinput.anyGamepad.BuildAll();
+			for (int i=0; i<hinputUtils.maxGamepads; i++) hinput.gamepad[i].BuildAll();
+		}
+	}
+
+
 	// --------------------
 	// SETTINGS
 	// --------------------
 
-	[Header("hINPUT SETTINGS")]
+	[Header("hinput settings")]
 	[Space(10)]
 
 	[SerializeField]
-	[Tooltip ("If enabled, hInput will start tracking every control of every gamepad from startup. "
+	[Tooltip ("If enabled, hinput will start tracking every control of every gamepad from startup. "
 	+"Otherwise, each control will only start being registered the first time you ask for it.")]
 	private bool _buildAllOnStartUp = false;
 
@@ -85,105 +115,19 @@ public class hInput : MonoBehaviour {
 	}
 
 	[SerializeField]
-	[Tooltip("The camera on which the worldPosition property of hStick and hDPad should be calculated. If not set, hInput will try to find one on the scene.")]
+	[Tooltip("The camera on which the worldPosition property of hStick and hDPad should be calculated. If not set, hinput will try to find one on the scene.")]
 	private Transform _worldCamera = null;
 	/// <summary>
-	/// The camera on which the worldPosition property of hStick and hDPad should be calculated. If not set, hInput will try to find one on the scene.
+	/// The camera on which the worldPosition property of hStick and hDPad should be calculated. If not set, hinput will try to find one on the scene.
 	/// </summary>
 	public static Transform worldCamera { 
 		get { 
 			if (instance._worldCamera != null) return instance._worldCamera;
 			else if (Camera.main != null) instance._worldCamera = Camera.main.transform;
 			else if (GameObject.FindObjectOfType<Camera>() != null) instance._worldCamera = GameObject.FindObjectOfType<Camera>().transform;
-			else { Debug.LogError ("hInput error : No camera found !"); return null; }
+			else { Debug.LogError ("hinput error : No camera found !"); return null; }
 			return instance._worldCamera;
 		} 
 		set { instance._worldCamera = value; } 
-	}
-
-
-	// --------------------
-	// SINGLETON PATTERN
-	// --------------------
-
-	//The instance of hInput. Assigned when first called.
-	private static hInput _instance;
-	public static hInput instance { 
-		get {
-			if (_instance == null) {
-				GameObject go = new GameObject();
-				go.name = "hInput";
-				_instance = go.AddComponent<hInput>();
-			}
-			
-			return _instance;
-		} 
-	}
-
-	private void Awake () {
-		if (_instance == null) _instance = this;
-		if (_instance != this) Destroy(this);
-		DontDestroyOnLoad (this);
-
-		if (_buildAllOnStartUp) {
-			anyGamepad.BuildAll();
-			for (int i=0; i<hInputUtils.maxGamepads; i++) gamepad[i].BuildAll();
-		}
-	}
-
-
-	// --------------------
-	// GAMEPADS
-	// --------------------
-
-	private hGamepad _anyGamepad;
-	/// <summary>
-	/// A virtual gamepad that returns the biggest absolute value for each control of all connected gamepads.
-	/// </summary>
-	public static hGamepad anyGamepad { 
-		get { 
-			if (instance._anyGamepad == null) {
-				instance._anyGamepad = new hGamepad(hInputUtils.os, -1);
-			} else {
-				instance.UpdateGamepads ();
-			}
-
-			return instance._anyGamepad; 
-		}
-	}
-
-	private List<hGamepad> _gamepad;
-	/// <summary>
-	/// An array of 8 gamepads, labelled 0 to 7.
-	/// </summary>
-	public static List<hGamepad> gamepad { 
-		get {
-			if (instance._gamepad == null) {
-				instance._gamepad = new List<hGamepad>();
-				for (int i=0; i<hInputUtils.maxGamepads; i++) gamepad.Add(new hGamepad(hInputUtils.os, i));
-			} else {
-				instance.UpdateGamepads ();
-			} 
-
-			return instance._gamepad; 
-		} 
-	}
-
-
-	// --------------------
-	// UPDATE
-	// --------------------
-	
-	private void Update () {
-		UpdateGamepads();
-	}
-
-	// If the gamepads have not been updated this frame, update them.
-	private void UpdateGamepads () {
-		if (!hInputUtils.isUpToDate) {
-			hInputUtils.UpdateTime ();
-			anyGamepad.Update();
-			for (int i=0; i<hInputUtils.maxGamepads; i++) gamepad[i].Update ();
-		}
 	}
 }

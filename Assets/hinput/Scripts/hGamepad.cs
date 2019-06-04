@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// hInput class representing a gamepad.
+/// hinput class representing a gamepad.
 /// </summary>
 public class hGamepad {
 	// --------------------
@@ -12,14 +12,16 @@ public class hGamepad {
 
 	private int _index;
 	/// <summary>
-	/// The index of a gamepad in the (gamepad) array of hInput, like 3 for (hInput.gamepad[3].index). <br/><br/> 
-	/// Note : (hInput.anyGamepad.index) will return -1.
+	/// The index of a gamepad in the (gamepad) array of hinput, like 3 for (hinput.gamepad[3].index). <br/><br/> 
+	/// Note : (hinput.anyGamepad.index) will return -1.
 	/// </summary>
 	public int index { get { return _index; } }
 
 	private string _fullName;
 	/// <summary>
-	/// The full name of a gamepad, like “Linux_Gamepad4”.
+	/// The full name of a gamepad, like “Linux_Gamepad4”.<br/><br/>
+	/// Note : the number at the end of the gamepad’s name is the one used by Unity, not by hinput. 
+	/// It is NOT equal to (index), but to (index)+1.
 	/// </summary>
 	public string fullName { get { return _fullName; } }
 

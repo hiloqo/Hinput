@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Class representing a physical button of the controller, such as the A button, the bumpers or the stick clicks.
+/// hinput class representing a physical button of the controller, such as the A button, the bumpers or the stick clicks.
 /// </summary>
 public class hButton : hAbstractPressable {
 	// --------------------
@@ -23,7 +23,7 @@ public class hButton : hAbstractPressable {
 
 	protected override void UpdatePositionRaw() {
 		try {
-			if (hInputUtils.GetButton(fullName, (name !="XBoxButton"))) _positionRaw = 1;
+			if (hinputUtils.GetButton(fullName, (name !="XBoxButton"))) _positionRaw = 1;
 			else _positionRaw = 0;
 		} catch {
 			_positionRaw = 0;

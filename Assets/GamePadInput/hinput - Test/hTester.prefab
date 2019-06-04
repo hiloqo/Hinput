@@ -302,7 +302,7 @@ MonoBehaviour:
   startMessage: 1
   individualGamepads: 1
   anyGamepad: 0
-  stickVerticalsAndHorizontals: 0
+  stickVerticalsAndHorizontals: 1
   stickDiagonals: 0
   buttonPosition: 0
   pressedAndReleased: 0

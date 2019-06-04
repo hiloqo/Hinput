@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// hinput class measuring a stick axis, and feeding it to a hStick.
 public class hAxis {
 	// --------------------
 	// NAME
@@ -40,12 +41,12 @@ public class hAxis {
 	private float _positionRaw;
 	public float positionRaw { 
 		get {
-			float axisValue = hInputUtils.GetAxis(fullAxisName, false);
+			float axisValue = hinputUtils.GetAxis(fullAxisName, false);
 
 			float buttonValue = 0f;
 			if (fullPositiveButtonName != "" && fullNegativeButtonName != "") {
-				if (hInputUtils.GetButton(fullPositiveButtonName, false)) buttonValue = 1;
-				if (hInputUtils.GetButton(fullNegativeButtonName, false)) buttonValue = -1;
+				if (hinputUtils.GetButton(fullPositiveButtonName, false)) buttonValue = 1;
+				if (hinputUtils.GetButton(fullNegativeButtonName, false)) buttonValue = -1;
 			}
 
 			return (axisValue + buttonValue);

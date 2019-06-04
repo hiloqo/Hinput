@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Class representing the left or right trigger of a controller.
+/// hinput class representing the left or right trigger of a controller.
 /// </summary>
 public class hTrigger : hAbstractPressable {
 	// --------------------
@@ -30,8 +30,8 @@ public class hTrigger : hAbstractPressable {
 	// In some instances, until an input is recorded triggers will have a non-zero measured resting position.
 	private float measuredPosition { 
 		get {
-			if (hInputUtils.os == "Windows") return hInputUtils.GetAxis(fullName);
-			return (hInputUtils.GetAxis(fullName) + 1)/2;	
+			if (hinputUtils.os == "Windows") return hinputUtils.GetAxis(fullName);
+			return (hinputUtils.GetAxis(fullName) + 1)/2;	
 		}
 	}
 
@@ -66,18 +66,18 @@ public class hTrigger : hAbstractPressable {
 		get { 
 			float posRaw = positionRaw;
 
-			if (posRaw < hInput.deadZone) return 0f;
-			else return ((posRaw - hInput.deadZone)/(1 - hInput.deadZone));
+			if (posRaw < hinputSettings.deadZone) return 0f;
+			else return ((posRaw - hinputSettings.deadZone)/(1 - hinputSettings.deadZone));
 		} 
 	}
 
 	/// <summary>
-	/// Returns true if the position of the trigger is beyond (hInput.triggerZone). Returns false otherwise.
+	/// Returns true if the position of the trigger is beyond (hinput.triggerZone). Returns false otherwise.
 	/// </summary>
-	public override bool pressed { get { return position >= hInput.triggerZone; } }
+	public override bool pressed { get { return position >= hinputSettings.triggerZone; } }
 
 	/// <summary>
-	/// Returns true if if the position of the trigger is within (hInput.deadZone). Returns false otherwise.
+	/// Returns true if if the position of the trigger is within (hinput.deadZone). Returns false otherwise.
 	/// </summary>
-	public override bool inDeadZone { get { return position < hInput.deadZone; } }
+	public override bool inDeadZone { get { return position < hinputSettings.deadZone; } }
 }

@@ -58,9 +58,9 @@ public class hTester : MonoBehaviour {
 
 	void Start () {
 		if (startMessage) {
-			Debug.Log("OS is : "+hInputUtils.os);
-			Debug.Log("hInput gameObject name is : "+hInput.instance.name);
-			Debug.Log("camera gameObject name is : "+hInput.worldCamera.name);
+			Debug.Log("OS is : "+hinputUtils.os);
+			Debug.Log("hinput gameObject name is : "+hinputSettings.instance.name);
+			Debug.Log("camera gameObject name is : "+hinputSettings.worldCamera.name);
 		}
 	}
 
@@ -81,9 +81,9 @@ public class hTester : MonoBehaviour {
 
 	private void GetNewCurrentButton () {
 		if (individualGamepads)	
-			for (int i=0; i<8; i++) UpdateCurrentButtonFromGamepad(hInput.gamepad[i]);
+			for (int i=0; i<8; i++) UpdateCurrentButtonFromGamepad(hinput.gamepad[i]);
 
-		if (anyGamepad) UpdateCurrentButtonFromGamepad(hInput.anyGamepad);
+		if (anyGamepad) UpdateCurrentButtonFromGamepad(hinput.anyGamepad);
 	}
 
 	private void UpdateCurrentButtonFromGamepad (hGamepad gamepad) {
@@ -179,9 +179,9 @@ public class hTester : MonoBehaviour {
 
 	private void GetNewCurrentStick () {
 		if (individualGamepads)	
-			for (int i=0; i<8; i++) UpdateCurrentStickFromGamepad(hInput.gamepad[i]);
+			for (int i=0; i<8; i++) UpdateCurrentStickFromGamepad(hinput.gamepad[i]);
 
-		if (anyGamepad) UpdateCurrentStickFromGamepad(hInput.anyGamepad);
+		if (anyGamepad) UpdateCurrentStickFromGamepad(hinput.anyGamepad);
 	}
 
 	private void UpdateCurrentStickFromGamepad (hGamepad gamepad) {

@@ -11,42 +11,42 @@ public class CubeInAHat : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (hInput.gamepad[0].start) Pause ();
+		if (hinput.gamepad[0].start) Pause ();
 
-		if (hInput.gamepad[1].B) Dash ();
+		if (hinput.gamepad[1].B) Dash ();
 
-		transform.position += hInput.gamepad[0].leftStick.worldPositionFlat * speed;
+		transform.position += hinput.gamepad[0].leftStick.worldPositionFlat * speed;
 
-		if (hInput.anyGamepad.A.justPressed) Jump ();
+		if (hinput.anyGamepad.A.justPressed) Jump ();
 
-		if (hInput.gamepad[3].X.doublePress) HeavyAttack ();
+		if (hinput.gamepad[3].X.doublePress) HeavyAttack ();
 
-		if (hInput.gamepad[2].rightTrigger) Shoot ();
+		if (hinput.gamepad[2].rightTrigger) Shoot ();
 
-		if (hInput.anyGamepad.dPad.up) GoUp ();
+		if (hinput.anyGamepad.dPad.up) GoUp ();
 
-		if (hInput.gamepad[0].rightStick.angle < 0) MoveBack ();
+		if (hinput.gamepad[0].rightStick.angle < 0) MoveBack ();
 
-		if (hInput.gamepad[0].Y.longPress) Heal ();
+		if (hinput.gamepad[0].Y.longPress) Heal ();
 
-		if (hInput.anyGamepad.rightStickClick.justReleased) ChangeWeapon (); 
+		if (hinput.anyGamepad.rightStickClick.justReleased) ChangeWeapon (); 
 
-		if (hInput.gamepad[2].leftStick.distance > 0.5f) Sprint ();
-
-
+		if (hinput.gamepad[2].leftStick.distance > 0.5f) Sprint ();
 
 
 
 
 
-		if (hInput.gamepad[0].start) Pause (); if (hInput.gamepad[1]. B) Dash 
-		(); transform.position += hInput.gamepad[0].leftStick.worldPositionFlat 
-		* speed; if (hInput.anyGamepad.A.justPressed) Jump (); if (hInput.
-		gamepad [3].X.doublePress) HeavyAttack (); if (hInput.gamepad[2].
-		rightTrigger) Shoot (); if (hInput.anyGamepad. dPad.up) GoUp (); if 
-		(hInput.gamepad[0].rightStick.angle < 0) MoveBack (); if (hInput.gamepad
-		[0].Y.longPress) Heal (); if (hInput.anyGamepad.rightStickClick.justReleased) 
-		ChangeWeapon (); if (hInput.gamepad [2].leftStick.distance > 0.5f) Sprint ();
+
+
+		if (hinput.gamepad[0].start) Pause (); if (hinput.gamepad[1]. B) Dash 
+		(); transform.position += hinput.gamepad[0].leftStick.worldPositionFlat 
+		* speed; if (hinput.anyGamepad.A.justPressed) Jump (); if (hinput.
+		gamepad [3].X.doublePress) HeavyAttack (); if (hinput.gamepad[2].
+		rightTrigger) Shoot (); if (hinput.anyGamepad. dPad.up) GoUp (); if 
+		(hinput.gamepad[0].rightStick.angle < 0) MoveBack (); if (hinput.gamepad
+		[0].Y.longPress) Heal (); if (hinput.anyGamepad.rightStickClick.justReleased) 
+		ChangeWeapon (); if (hinput.gamepad [2].leftStick.distance > 0.5f) Sprint ();
 
 	}
 

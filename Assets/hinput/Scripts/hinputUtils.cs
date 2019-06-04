@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// This class gathers a couple of useful things that I didnt want to expose in the hInput class.
-public static class hInputUtils {
+// This class gathers a couple of useful variable and methods.
+public static class hinputUtils {
 	// --------------------
-	// SETTINGS
+	// INTERNAL SETTINGS
 	// --------------------
+
+	//The maximum amount of gamepads supported by the game
+	public static float maxGamepads { get { return 8; } }
 
 	//By how much to increase diagonals (in %), because otherwise the max stick distance is sometimes less than 1.
 	//Does not affect raw inputs.
 	public static float distanceIncrease { get { return 0.01f; } }
-
-	//The maximum amount of gamepads supported by the game
-	public static float maxGamepads { get { return 8; } }
 
 	//By how much to increase deltaTime (in %) when comparing it, to account for rounding errors.
 	public static float deltaTimeEpsilon { get { return 0.1f; } }
@@ -28,7 +28,7 @@ public static class hInputUtils {
 		try {
 			return Input.GetButton (fullName);
 		} catch {
-			if (logError) hInputNotSetUpError ();
+			if (logError) hinputNotSetUpError ();
 			return false;
 		}
 	}
@@ -38,14 +38,14 @@ public static class hInputUtils {
 		try {
 			return Input.GetAxisRaw (fullName);
 		} catch {
-			if (logError) hInputNotSetUpError ();
+			if (logError) hinputNotSetUpError ();
 			return 0;
 		}
 	}
 
-	private static void hInputNotSetUpError () {
-		Debug.LogWarning("Warning : hInput has not been set up, so gamepad inputs cannot be recorded."+
-		"To set it up, go to the hInput menu and click \"Set Up hInput\".");
+	private static void hinputNotSetUpError () {
+		Debug.LogWarning("Warning : hinput has not been set up, so gamepad inputs cannot be recorded."+
+		"To set it up, go to the hinput menu (at the top of your screen, next to File and Edit) and click \"Set Up hinput\".");
 	}
 
 
@@ -60,9 +60,9 @@ public static class hInputUtils {
 	private static float deltaTime;
 
 	public static void UpdateTime () {
-		float time = Time.time;
-		deltaTime = time - lastUpdated;
-		lastUpdated = time;
+		float currentTime = Time.time;
+		deltaTime = currentTime - lastUpdated;
+		lastUpdated = currentTime;
 	}
 
 	//The previous frame was processed in less than this duration.
@@ -93,7 +93,7 @@ public static class hInputUtils {
 				#elif UNITY_STANDALONE_LINUX
 					_os = "Linux";
 				#else
-					Debug.LogError("hInput Error : Unknown OS !");
+					Debug.LogError("hinput Error : Unknown OS !");
 				#endif
 			}
 

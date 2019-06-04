@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Abstract class representing anything that can be pressed. 
+/// hinput abstract class representing anything that can be pressed. 
 /// It can be an actual button, a stick click, a trigger, or a stick or D-pad direction.<br/><br/>
 /// If no property of the hAbstractPressable is used, it will automatically be cast to a boolean with the value (pressed). 
-/// For instance, (hInput.gamepad[0].A) will return (hInput.gamepad[0].A.pressed).
+/// For instance, (hinput.gamepad[0].A) will return (hinput.gamepad[0].A.pressed).
 /// </summary>
 public abstract class hAbstractPressable {
 	// --------------------
@@ -21,7 +21,9 @@ public abstract class hAbstractPressable {
 
 	protected string _fullName;
 	/// <summary>
-	/// Returns the full name of the input , like “Mac_AnyGamepad_RightStickClick”
+	/// Returns the full name of the input , like “Mac_Gamepad2_RightStickClick”<br/><br/>
+	/// Note : the number at the end of the gamepad’s name is the one used by Unity, not by hinput. 
+	/// It is NOT equal to (index), but to (index)+1.
 	/// </summary>
 	public string fullName { get { return _fullName; } }
 
@@ -36,8 +38,8 @@ public abstract class hAbstractPressable {
 	/// </summary>
 	public hGamepad gamepad { 
 		get { 
-			if (gamepadIndex >= 0) return hInput.gamepad[gamepadIndex]; 
-			else return hInput.anyGamepad;
+			if (gamepadIndex >= 0) return hinput.gamepad[gamepadIndex]; 
+			else return hinput.anyGamepad;
 		} 
 	}
 
@@ -46,7 +48,7 @@ public abstract class hAbstractPressable {
 	// IMPLICIT CONVERSION
 	// --------------------
 
-	public static implicit operator bool (hAbstractPressable hAbstractInput) { return hAbstractInput.pressed; }
+	public static implicit operator bool (hAbstractPressable hAbstractPressable) { return hAbstractPressable.pressed; }
 
 	
 	// --------------------
@@ -64,9 +66,9 @@ public abstract class hAbstractPressable {
 	public abstract bool pressed { get; }
 
 	/// <summary>
-	/// For a button, return (pressed)<br/><br/>
-	/// For a trigger, return true if the trigger’s raw position is higher than (deadZone).<br/><br/>
-	/// For a stick direction, return true if the stick’s raw distance is higher than (deadZone)
+	/// For a button, returns (pressed)<br/><br/>
+	/// For a trigger, returns true if the trigger’s raw position is higher than (deadZone).<br/><br/>
+	/// For a stick direction, returns true if the stick’s raw distance is higher than (deadZone)
 	/// </summary>
 	public abstract bool inDeadZone { get; }
 
@@ -142,56 +144,56 @@ public abstract class hAbstractPressable {
 	/// <summary>
 	/// Returns true if the input is currently (pressed) and was (released) last frame. Returns false otherwise.
 	/// </summary>
-	public bool justPressed { get { return (pressed && (lastPressed - lastReleased) <= hInputUtils.maxDeltaTime); } }
+	public bool justPressed { get { return (pressed && (lastPressed - lastReleased) <= hinputUtils.maxDeltaTime); } }
 
 	/// <summary>
 	/// Returns true if the input is currently (released) and was (pressed) last frame. Returns false otherwise.
 	/// </summary>
-	public bool justReleased { get { return (released && (lastReleased - lastPressed) <= hInputUtils.maxDeltaTime); } }
+	public bool justReleased { get { return (released && (lastReleased - lastPressed) <= hinputUtils.maxDeltaTime); } }
 
 	/// <summary>
-	/// Returns true if the last two presses started less than (hInput.doublePressDuration) seconds apart 
+	/// Returns true if the last two presses started less than (hinput.doublePressDuration) seconds apart 
 	/// (including current press if the input is (pressed)). Returns false otherwise.
 	/// </summary>
-	public bool lastPressWasDouble { get { return (lastPressStart - penultimatePressStart) <= hInput.doublePressDuration; } }
+	public bool lastPressWasDouble { get { return (lastPressStart - penultimatePressStart) <= hinputSettings.doublePressDuration; } }
 
 	/// <summary>
 	/// Returns true if the input is currently (pressed), 
-	/// and the last two presses started less than (hInput.doublePressDuration) seconds apart. 
+	/// and the last two presses started less than (hinput.doublePressDuration) seconds apart. 
 	/// Returns false otherwise.
 	/// </summary>
 	public bool doublePress { get { return pressed && lastPressWasDouble; } }
 
 	/// <summary>
 	/// Returns true if the input is currently (justPressed), 
-	/// and the last two presses started less than (hInput.doublePressDuration) seconds apart. 
+	/// and the last two presses started less than (hinput.doublePressDuration) seconds apart. 
 	/// Returns false otherwise.
 	/// </summary>
 	public bool doublePressJustPressed { get { return justPressed && lastPressWasDouble; } }
 
 	/// <summary>
 	/// Returns true if the input is currently (justReleased), 
-	/// and the last two presses started less than (hInput.doublePressDuration) seconds apart. 
+	/// and the last two presses started less than (hinput.doublePressDuration) seconds apart. 
 	/// Returns false otherwise.
 	/// </summary>
 	public bool doublePressJustReleased { get { return justReleased && lastPressWasDouble; } }
 
 	/// <summary>
-	/// Returns true if the last press has lasted longer than (hInput.longPressDuration) seconds 
+	/// Returns true if the last press has lasted longer than (hinput.longPressDuration) seconds 
 	/// (including current press if the input is (pressed)). Returns false otherwise.
 	/// </summary>
-	public bool lastPressWasLong { get { return (lastPressed - lastPressStart) >= hInput.longPressDuration; }}
+	public bool lastPressWasLong { get { return (lastPressed - lastPressStart) >= hinputSettings.longPressDuration; }}
 
 	/// <summary>
 	/// Returns true if the input is currently (pressed) 
-	/// and the press has lasted longer than (hInput.longPressDuration) seconds. 
+	/// and the press has lasted longer than (hinput.longPressDuration) seconds. 
 	/// Returns false otherwise.
 	/// </summary>
 	public bool longPress { get { return pressed && lastPressWasLong; } }
 
 	/// <summary>
 	/// Returns true if the input is currently (justReleased), 
-	/// and the last press has lasted longer than (hInput.longPressDuration) seconds. 
+	/// and the last press has lasted longer than (hinput.longPressDuration) seconds. 
 	/// Returns false otherwise.
 	/// </summary>
 	public bool longPressJustReleased { get { return justReleased && lastPressWasLong; } }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Class representing a given direction of a stick or D-pad, such as the up or down-left directions.
+/// hinput class representing a given direction of a stick or D-pad, such as the up or down-left directions.
 /// </summary>
 public class hDirection : hAbstractPressable {
 	// --------------------
@@ -60,12 +60,12 @@ public class hDirection : hAbstractPressable {
 	public override float position { get { return DotProduct (stick.position, stick.angle); } }
 
 	/// <summary>
-	/// Returns true if (stick) is (inTriggerZone), and within (hInput.directionAngle) degrees of (angle). Returns false otherwise.
+	/// Returns true if (stick) is (inTriggerZone), and within (hinput.directionAngle) degrees of (angle). Returns false otherwise.
 	/// </summary>
 	public override bool pressed { get { return (stick.inTriggerZone && StickWithinAngle()); } }
 
 	/// <summary>
-	/// Returns true if (stick) is (inDeadZone), or beyond (hInput.directionAngle) degrees of (angle). Returns false otherwise.
+	/// Returns true if (stick) is (inDeadZone), or beyond (hinput.directionAngle) degrees of (angle). Returns false otherwise.
 	/// </summary>
 	public override bool inDeadZone { get { return (stick.inDeadZone || ! StickWithinAngle()); } }
 
@@ -83,6 +83,10 @@ public class hDirection : hAbstractPressable {
 		return Mathf.Clamp01(cos*position.x + sin*position.y);
 	}
 
-	// True if the stick is currently within a (hInput.directionAngle) degree cone from this direction
-	private bool StickWithinAngle () { return (Mathf.Abs(Mathf.DeltaAngle(angle, stick.angle)) <= hInput.directionAngle/2); }
+	// True if the stick is currently within a (hinput.directionAngle) degree cone from this direction
+	private bool StickWithinAngle () { 
+		float distanceToAngle = Mathf.Abs(Mathf.DeltaAngle(angle, stick.angle));
+		float maxDistance = hinputSettings.directionAngle/2;
+		return (distanceToAngle <= maxDistance); 
+	}
 }
