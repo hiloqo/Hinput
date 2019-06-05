@@ -58,9 +58,9 @@ public class hTester : MonoBehaviour {
 
 	void Start () {
 		if (startMessage) {
-			Debug.Log("OS is : "+hinputUtils.os);
-			Debug.Log("hinput gameObject name is : "+hinputSettings.instance.name);
-			Debug.Log("camera gameObject name is : "+hinputSettings.worldCamera.name);
+			Debug.Log("OS is : "+hUtils.os);
+			Debug.Log("hinput gameObject name is : "+hSettings.instance.name);
+			Debug.Log("camera gameObject name is : "+hSettings.worldCamera.name);
 		}
 	}
 

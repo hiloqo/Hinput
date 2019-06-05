@@ -7,19 +7,19 @@ using UnityEngine;
 /// You can attach it to a GameObject to expose settings. 
 /// If you don’t, it will automatically be instantiated at runtime the first time you call hinput, with default settings.
 /// </summary>
-public class hinputSettings : MonoBehaviour {
+public class hSettings : MonoBehaviour {
 	// --------------------
 	// SINGLETON PATTERN
 	// --------------------
 
 	//The instance of hinputSettings. Assigned when first called.
-	private static hinputSettings _instance;
-	public static hinputSettings instance { 
+	private static hSettings _instance;
+	public static hSettings instance { 
 		get {
 			if (_instance == null) {
 				GameObject go = new GameObject();
 				go.name = "hinput";
-				_instance = go.AddComponent<hinputSettings>();
+				_instance = go.AddComponent<hSettings>();
 			}
 			
 			return _instance;
@@ -33,7 +33,7 @@ public class hinputSettings : MonoBehaviour {
 
 		if (_buildAllOnStartUp) {
 			hinput.anyGamepad.BuildAll();
-			for (int i=0; i<hinputUtils.maxGamepads; i++) hinput.gamepad[i].BuildAll();
+			for (int i=0; i<hUtils.maxGamepads; i++) hinput.gamepad[i].BuildAll();
 		}
 	}
 

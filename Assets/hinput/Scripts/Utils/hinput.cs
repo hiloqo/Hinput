@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿// Author : Henri Couvreur for hiloqo, 2019
+// Contact : couvreurhenri@gmail.com, hiloqo.games@gmail.com
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,9 +20,9 @@ public static class hinput {
 	public static hGamepad anyGamepad { 
 		get { 
 			if (_anyGamepad == null) {
-				_anyGamepad = new hGamepad(hinputUtils.os, -1);
+				_anyGamepad = new hGamepad(hUtils.os, -1);
 			} else {
-				hinputUpdater.instance.UpdateGamepads ();
+				hUpdater.instance.UpdateGamepads ();
 			}
 
 			return _anyGamepad; 
@@ -34,9 +37,9 @@ public static class hinput {
 		get {
 			if (_gamepad == null) {
 				_gamepad = new List<hGamepad>();
-				for (int i=0; i<hinputUtils.maxGamepads; i++) gamepad.Add(new hGamepad(hinputUtils.os, i));
+				for (int i=0; i<hUtils.maxGamepads; i++) gamepad.Add(new hGamepad(hUtils.os, i));
 			} else {
-				hinputUpdater.instance.UpdateGamepads ();
+				hUpdater.instance.UpdateGamepads ();
 			} 
 
 			return _gamepad; 

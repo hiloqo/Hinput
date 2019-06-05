@@ -5,19 +5,19 @@ using UnityEngine;
 // hinput’s class responsible for updating gamepads. 
 // It is automatically instantiated at runtime, or added to the gameobject with the hinputSettings component if you created one.
 // You don’t need to do anything about it.
-public class hinputUpdater : MonoBehaviour {
+public class hUpdater : MonoBehaviour {
 	// --------------------
 	// SINGLETON PATTERN
 	// --------------------
 
 	//The instance of hinputSettings. Assigned when first called.
-	private static hinputUpdater _instance;
-	public static hinputUpdater instance { 
+	private static hUpdater _instance;
+	public static hUpdater instance { 
 		get {
 			if (_instance == null) {
 				// Add hinputUpdater component to hinputSettings
 				// If it didnt exist, it will be created
-				_instance = hinputSettings.instance.gameObject.AddComponent<hinputUpdater>();
+				_instance = hSettings.instance.gameObject.AddComponent<hUpdater>();
 			}
 
 			return _instance;
@@ -41,10 +41,10 @@ public class hinputUpdater : MonoBehaviour {
 
 	// If the gamepads have not been updated this frame, update them.
 	public void UpdateGamepads () {
-		if (!hinputUtils.isUpToDate) {
-			hinputUtils.UpdateTime ();
+		if (!hUtils.isUpToDate) {
+			hUtils.UpdateTime ();
 			hinput.anyGamepad.Update();
-			for (int i=0; i<hinputUtils.maxGamepads; i++) hinput.gamepad[i].Update ();
+			for (int i=0; i<hUtils.maxGamepads; i++) hinput.gamepad[i].Update ();
 		}
 	}
 }

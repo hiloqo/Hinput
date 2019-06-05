@@ -86,7 +86,7 @@ public class hDirection : hAbstractPressable {
 	// True if the stick is currently within a (hinput.directionAngle) degree cone from this direction
 	private bool StickWithinAngle () { 
 		float distanceToAngle = Mathf.Abs(Mathf.DeltaAngle(angle, stick.angle));
-		float maxDistance = hinputSettings.directionAngle/2;
+		float maxDistance = hSettings.directionAngle/2;
 		return (distanceToAngle <= maxDistance); 
 	}
 }

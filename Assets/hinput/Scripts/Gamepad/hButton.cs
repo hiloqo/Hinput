@@ -23,7 +23,7 @@ public class hButton : hAbstractPressable {
 
 	protected override void UpdatePositionRaw() {
 		try {
-			if (hinputUtils.GetButton(fullName, (name !="XBoxButton"))) _positionRaw = 1;
+			if (hUtils.GetButton(fullName, (name !="XBoxButton"))) _positionRaw = 1;
 			else _positionRaw = 0;
 		} catch {
 			_positionRaw = 0;

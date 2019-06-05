@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // This class gathers a couple of useful variable and methods.
-public static class hinputUtils {
+public static class hUtils {
 	// --------------------
 	// INTERNAL SETTINGS
 	// --------------------
@@ -44,8 +44,8 @@ public static class hinputUtils {
 	}
 
 	private static void hinputNotSetUpError () {
-		Debug.LogWarning("Warning : hinput has not been set up, so gamepad inputs cannot be recorded."+
-		"To set it up, go to the hinput menu (at the top of your screen, next to File and Edit) and click \"Set Up hinput\".");
+		//Debug.LogWarning("Warning : hinput has not been set up, so gamepad inputs cannot be recorded."+
+		//"To set it up, go to the hinput menu (at the top of your screen, next to File and Edit) and click \"Set Up hinput\".");
 	}
 
 

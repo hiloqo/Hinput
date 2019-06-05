@@ -47,7 +47,7 @@ public class hGamepad {
 
 	public hGamepad (string os, int index) {
 		this._index = index;
-		if (_index >= 0) this._fullName = os+"_Gamepad"+(index+1);
+		if (_index >= 0) this._fullName = os+"_Gamepad"+index;
 		else this._fullName = os+"_AnyGamepad";
 	}
 

@@ -30,8 +30,8 @@ public class hTrigger : hAbstractPressable {
 	// In some instances, until an input is recorded triggers will have a non-zero measured resting position.
 	private float measuredPosition { 
 		get {
-			if (hinputUtils.os == "Windows") return hinputUtils.GetAxis(fullName);
-			return (hinputUtils.GetAxis(fullName) + 1)/2;	
+			if (hUtils.os == "Windows") return hUtils.GetAxis(fullName);
+			return (hUtils.GetAxis(fullName) + 1)/2;	
 		}
 	}
 
@@ -66,18 +66,18 @@ public class hTrigger : hAbstractPressable {
 		get { 
 			float posRaw = positionRaw;
 
-			if (posRaw < hinputSettings.deadZone) return 0f;
-			else return ((posRaw - hinputSettings.deadZone)/(1 - hinputSettings.deadZone));
+			if (posRaw < hSettings.deadZone) return 0f;
+			else return ((posRaw - hSettings.deadZone)/(1 - hSettings.deadZone));
 		} 
 	}
 
 	/// <summary>
 	/// Returns true if the position of the trigger is beyond (hinput.triggerZone). Returns false otherwise.
 	/// </summary>
-	public override bool pressed { get { return position >= hinputSettings.triggerZone; } }
+	public override bool pressed { get { return position >= hSettings.triggerZone; } }
 
 	/// <summary>
 	/// Returns true if if the position of the trigger is within (hinput.deadZone). Returns false otherwise.
 	/// </summary>
-	public override bool inDeadZone { get { return position < hinputSettings.deadZone; } }
+	public override bool inDeadZone { get { return position < hSettings.deadZone; } }
 }

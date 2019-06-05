@@ -249,7 +249,7 @@ public class hStick {
 
 	private void UpdateAxes () {
 		_horizontalRaw = horizontalAxis.positionRaw;
-		_verticalRaw = -verticalAxis.positionRaw;
+		_verticalRaw = verticalAxis.positionRaw;
 	}
 
 	private float _horizontalRaw;
@@ -308,7 +308,7 @@ public class hStick {
 	/// The stick’s horizontal and vertical axes are interpreted as the camera’s right and up directions. 
 	/// The dead zone is not taken into account.
 	/// </summary>
-	public Vector3 worldPositionCameraRaw { get { return (hinputSettings.worldCamera.right*horizontalRaw + hinputSettings.worldCamera.up*verticalRaw); } }
+	public Vector3 worldPositionCameraRaw { get { return (hSettings.worldCamera.right*horizontalRaw + hSettings.worldCamera.up*verticalRaw); } }
 
 	/// <summary>
 	/// Returns the coordinates of the stick as a Vector3 with a y value of 0. 
@@ -326,7 +326,7 @@ public class hStick {
 	/// Returns true if the current position of the stick is within a distance of (hinput.deadZone) of its origin. 
 	/// Returns false otherwise.
 	/// </summary>
-	public bool inDeadZone { get { return distanceRaw < hinputSettings.deadZone; } }
+	public bool inDeadZone { get { return distanceRaw < hSettings.deadZone; } }
 
 	private Vector2 _position;
 	private float _positionDate;
@@ -339,8 +339,8 @@ public class hStick {
 			if (time == 0 || _positionDate != time) {
 				if (inDeadZone) _position = Vector2.zero;
 				else {
-					Vector2 deadZonedPos = ((1 + hinputUtils.distanceIncrease)*
-						(positionRaw - positionRaw.normalized*hinputSettings.deadZone)/(1 - hinputSettings.deadZone));
+					Vector2 deadZonedPos = ((1 + hUtils.distanceIncrease)*
+						(positionRaw - positionRaw.normalized*hSettings.deadZone)/(1 - hSettings.deadZone));
 					_position = new Vector2 (Mathf.Clamp(deadZonedPos.x, -1, 1), Mathf.Clamp(deadZonedPos.y, -1, 1));
 				}
 				_positionDate = time;
@@ -379,7 +379,7 @@ public class hStick {
 	/// Returns true if the current position of the stick is beyond a distance of (hinput.triggerZone) of its origin. 
 	/// Returns false otherwise.
 	/// </summary>
-	public bool inTriggerZone { get { return distance >= hinputSettings.triggerZone; } }
+	public bool inTriggerZone { get { return distance >= hSettings.triggerZone; } }
 
 	private float _angle;
 	private float _angleDate;
@@ -402,7 +402,7 @@ public class hStick {
 	/// Returns the coordinates of the stick as a Vector3 facing (hinput.worldCamera). 
 	/// The stick’s horizontal and vertical axes are interpreted as the camera’s right and up directions.
 	/// </summary>
-	public Vector3 worldPositionCamera { get { return (hinputSettings.worldCamera.right*horizontal + hinputSettings.worldCamera.up*vertical); } }
+	public Vector3 worldPositionCamera { get { return (hSettings.worldCamera.right*horizontal + hSettings.worldCamera.up*vertical); } }
 
 	/// <summary>
 	/// Returns the coordinates of the stick as a Vector3 with a y value of 0. 

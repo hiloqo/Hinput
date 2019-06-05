@@ -41,12 +41,12 @@ public class hAxis {
 	private float _positionRaw;
 	public float positionRaw { 
 		get {
-			float axisValue = hinputUtils.GetAxis(fullAxisName, false);
+			float axisValue = hUtils.GetAxis(fullAxisName, false);
 
 			float buttonValue = 0f;
 			if (fullPositiveButtonName != "" && fullNegativeButtonName != "") {
-				if (hinputUtils.GetButton(fullPositiveButtonName, false)) buttonValue = 1;
-				if (hinputUtils.GetButton(fullNegativeButtonName, false)) buttonValue = -1;
+				if (hUtils.GetButton(fullPositiveButtonName, false)) buttonValue = 1;
+				if (hUtils.GetButton(fullNegativeButtonName, false)) buttonValue = -1;
 			}
 
 			return (axisValue + buttonValue);

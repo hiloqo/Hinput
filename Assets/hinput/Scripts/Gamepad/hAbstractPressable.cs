@@ -144,18 +144,18 @@ public abstract class hAbstractPressable {
 	/// <summary>
 	/// Returns true if the input is currently (pressed) and was (released) last frame. Returns false otherwise.
 	/// </summary>
-	public bool justPressed { get { return (pressed && (lastPressed - lastReleased) <= hinputUtils.maxDeltaTime); } }
+	public bool justPressed { get { return (pressed && (lastPressed - lastReleased) <= hUtils.maxDeltaTime); } }
 
 	/// <summary>
 	/// Returns true if the input is currently (released) and was (pressed) last frame. Returns false otherwise.
 	/// </summary>
-	public bool justReleased { get { return (released && (lastReleased - lastPressed) <= hinputUtils.maxDeltaTime); } }
+	public bool justReleased { get { return (released && (lastReleased - lastPressed) <= hUtils.maxDeltaTime); } }
 
 	/// <summary>
 	/// Returns true if the last two presses started less than (hinput.doublePressDuration) seconds apart 
 	/// (including current press if the input is (pressed)). Returns false otherwise.
 	/// </summary>
-	public bool lastPressWasDouble { get { return (lastPressStart - penultimatePressStart) <= hinputSettings.doublePressDuration; } }
+	public bool lastPressWasDouble { get { return (lastPressStart - penultimatePressStart) <= hSettings.doublePressDuration; } }
 
 	/// <summary>
 	/// Returns true if the input is currently (pressed), 
@@ -182,7 +182,7 @@ public abstract class hAbstractPressable {
 	/// Returns true if the last press has lasted longer than (hinput.longPressDuration) seconds 
 	/// (including current press if the input is (pressed)). Returns false otherwise.
 	/// </summary>
-	public bool lastPressWasLong { get { return (lastPressed - lastPressStart) >= hinputSettings.longPressDuration; }}
+	public bool lastPressWasLong { get { return (lastPressed - lastPressStart) >= hSettings.longPressDuration; }}
 
 	/// <summary>
 	/// Returns true if the input is currently (pressed) 
