@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// hinput class representing the left or right trigger of a controller.
 /// </summary>
-public class hTrigger : hAbstractPressable {
+public class hTrigger : hPressable {
 	// --------------------
 	// CONSTRUCTOR
 	// --------------------
@@ -72,9 +72,9 @@ public class hTrigger : hAbstractPressable {
 	}
 
 	/// <summary>
-	/// Returns true if the position of the trigger is beyond (hinput.triggerZone). Returns false otherwise.
+	/// Returns true if the position of the trigger is beyond (hinput.pressedZone). Returns false otherwise.
 	/// </summary>
-	public override bool pressed { get { return position >= hSettings.triggerZone; } }
+	public override bool pressed { get { return position >= hSettings.pressedZone; } }
 
 	/// <summary>
 	/// Returns true if if the position of the trigger is within (hinput.deadZone). Returns false otherwise.

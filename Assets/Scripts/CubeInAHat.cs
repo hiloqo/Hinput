@@ -36,7 +36,7 @@ public class MyCharacter : MonoBehaviour {
 
 
 
-
+#region er
 
 
 		if (hinput.gamepad[0].start) Pause (); if (hinput.gamepad[1]. B) Dash 
@@ -73,6 +73,10 @@ void Shoot () {}
 	public void DoubleJump () {
 		rigidbae.AddForce(Vector3.up * 200);
 		rigidbae.AddTorque(transform.right * -65);
+
+		#endregion
+
+
 	}
 
 }

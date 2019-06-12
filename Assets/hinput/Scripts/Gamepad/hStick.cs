@@ -81,6 +81,20 @@ public class hStick {
 		horizontalAxis = new hAxis (fullName+"_Horizontal", fullName+"_Left", fullName+"_Right");
 		verticalAxis = new hAxis (fullName+"_Vertical", fullName+"_Down", fullName+"_Up");
 	}
+	
+
+	
+	// --------------------
+	// UPDATE
+	// --------------------
+	
+	/// <summary>
+	/// Please never call that.
+	/// </summary>
+	public void Update () {
+		UpdateAxes ();
+		UpdateDirections ();
+	}
 
 
 	// --------------------
@@ -89,6 +103,11 @@ public class hStick {
 
 	private hAxis horizontalAxis;
 	private hAxis verticalAxis;
+
+	private void UpdateAxes () {
+		_horizontalRaw = horizontalAxis.positionRaw;
+		_verticalRaw = verticalAxis.positionRaw;
+	}
 
 
 	// --------------------
@@ -227,30 +246,11 @@ public class hStick {
 		if ((hDirection)_upRight != null) _upRight.Update();
 		if ((hDirection)_downRight != null) _downRight.Update();
 	}
-	
-
-	
-	// --------------------
-	// UPDATE
-	// --------------------
-	
-	/// <summary>
-	/// Please never call that.
-	/// </summary>
-	public void Update () {
-		UpdateAxes ();
-		UpdateDirections ();
-	}
 
 	
 	// --------------------
 	// PUBLIC PROPERTIES - RAW
 	// --------------------
-
-	private void UpdateAxes () {
-		_horizontalRaw = horizontalAxis.positionRaw;
-		_verticalRaw = verticalAxis.positionRaw;
-	}
 
 	private float _horizontalRaw;
 	/// <summary>
@@ -376,10 +376,10 @@ public class hStick {
 	}
 
 	/// <summary>
-	/// Returns true if the current position of the stick is beyond a distance of (hinput.triggerZone) of its origin. 
+	/// Returns true if the current position of the stick is beyond a distance of (hinput.pressedZone) of its origin. 
 	/// Returns false otherwise.
 	/// </summary>
-	public bool inTriggerZone { get { return distance >= hSettings.triggerZone; } }
+	public bool inPressedZone { get { return distance >= hSettings.pressedZone; } }
 
 	private float _angle;
 	private float _angleDate;

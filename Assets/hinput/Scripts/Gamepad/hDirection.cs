@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// hinput class representing a given direction of a stick or D-pad, such as the up or down-left directions.
 /// </summary>
-public class hDirection : hAbstractPressable {
+public class hDirection : hPressable {
 	// --------------------
 	// NAME
 	// --------------------
@@ -60,9 +60,9 @@ public class hDirection : hAbstractPressable {
 	public override float position { get { return DotProduct (stick.position, stick.angle); } }
 
 	/// <summary>
-	/// Returns true if (stick) is (inTriggerZone), and within (hinput.directionAngle) degrees of (angle). Returns false otherwise.
+	/// Returns true if (stick) is (inPressedZone), and within (hinput.directionAngle) degrees of (angle). Returns false otherwise.
 	/// </summary>
-	public override bool pressed { get { return (stick.inTriggerZone && StickWithinAngle()); } }
+	public override bool pressed { get { return (stick.inPressedZone && StickWithinAngle()); } }
 
 	/// <summary>
 	/// Returns true if (stick) is (inDeadZone), or beyond (hinput.directionAngle) degrees of (angle). Returns false otherwise.

@@ -5,10 +5,10 @@ using UnityEngine;
 /// <summary>
 /// hinput abstract class representing anything that can be pressed. 
 /// It can be an actual button, a stick click, a trigger, or a stick or D-pad direction.<br/><br/>
-/// If no property of the hAbstractPressable is used, it will automatically be cast to a boolean with the value (pressed). 
+/// If no property of the hPressable is used, it will automatically be cast to a boolean with the value (pressed). 
 /// For instance, (hinput.gamepad[0].A) will return (hinput.gamepad[0].A.pressed).
 /// </summary>
-public abstract class hAbstractPressable {
+public abstract class hPressable {
 	// --------------------
 	// NAME
 	// --------------------
@@ -48,7 +48,7 @@ public abstract class hAbstractPressable {
 	// IMPLICIT CONVERSION
 	// --------------------
 
-	public static implicit operator bool (hAbstractPressable hAbstractPressable) { return hAbstractPressable.pressed; }
+	public static implicit operator bool (hPressable hPressable) { return hPressable.pressed; }
 
 	
 	// --------------------

@@ -36,7 +36,7 @@ public class hTester : MonoBehaviour {
 	public bool angle;
 	public bool distance;
 	public bool stickInDeadZone;
-	public bool stickInTriggerZone;
+	public bool stickInPressedZone;
 	public bool worldPositionCamera;
 	public bool worldPositionCameraRaw;
 	public bool worldPositionFlat;
@@ -48,7 +48,7 @@ public class hTester : MonoBehaviour {
 	public float moveSpeed;
 
 	private hStick currentStick;
-	private hAbstractPressable currentButton;
+	private hPressable currentButton;
 
 
 	// --------------------
@@ -87,7 +87,7 @@ public class hTester : MonoBehaviour {
 	}
 
 	private void UpdateCurrentButtonFromGamepad (hGamepad gamepad) {
-		foreach (hAbstractPressable button in AllGamepadButtons(gamepad)) 
+		foreach (hPressable button in AllGamepadButtons(gamepad)) 
 			if (!button.inDeadZone) {
 				currentButton = button;
 				break;
@@ -99,20 +99,20 @@ public class hTester : MonoBehaviour {
 	// GET ALL GAMEPAD BUTTONS
 	// --------------------
 
-	private List<hAbstractPressable> AllGamepadButtons (hGamepad gamepad) {
-		List<hAbstractPressable> buttons = new List<hAbstractPressable>() {
+	private List<hPressable> AllGamepadButtons (hGamepad gamepad) {
+		List<hPressable> buttons = new List<hPressable>() {
 			gamepad.A, gamepad.B, gamepad.X, gamepad.Y, gamepad.leftBumper, gamepad.rightBumper, 
 			gamepad.leftTrigger, gamepad.rightTrigger, gamepad.leftStickClick, gamepad.rightStickClick, 
 			gamepad.back, gamepad.start, gamepad.xBoxButton
 		};
 
-		if (stickVerticalsAndHorizontals) buttons.AddRange (new List<hAbstractPressable>() {
+		if (stickVerticalsAndHorizontals) buttons.AddRange (new List<hPressable>() {
 			gamepad.leftStick.up, gamepad.leftStick.down, gamepad.leftStick.left, gamepad.leftStick.right,
 			gamepad.rightStick.up, gamepad.rightStick.down, gamepad.rightStick.left, gamepad.rightStick.right,
 			gamepad.dPad.up, gamepad.dPad.down, gamepad.dPad.left, gamepad.dPad.right
 		});
 
-		if (stickDiagonals) buttons.AddRange (new List<hAbstractPressable>() {
+		if (stickDiagonals) buttons.AddRange (new List<hPressable>() {
 			gamepad.leftStick.upLeft, gamepad.leftStick.upRight, gamepad.leftStick.downLeft, gamepad.leftStick.downRight,
 			gamepad.rightStick.upLeft, gamepad.rightStick.upRight, gamepad.rightStick.downLeft, gamepad.rightStick.downRight,
 			gamepad.dPad.upLeft, gamepad.dPad.upRight, gamepad.dPad.downLeft, gamepad.dPad.downRight
@@ -205,8 +205,8 @@ public class hTester : MonoBehaviour {
 			if (currentStick.inDeadZone) Debug.Log (currentStick.fullName+" is in dead zone");
 			else Debug.Log (currentStick.fullName+" is not in dead zone !!!");
 		} 
-		if (stickInTriggerZone) {
-			if (currentStick.inTriggerZone) Debug.Log (currentStick.fullName+" is pushed !!!");
+		if (stickInPressedZone) {
+			if (currentStick.inPressedZone) Debug.Log (currentStick.fullName+" is pushed !!!");
 			else Debug.Log (currentStick.fullName+" is not pushed");
 		}
 		if (worldPositionCamera) {

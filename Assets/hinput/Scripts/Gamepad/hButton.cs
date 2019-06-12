@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// hinput class representing a physical button of the controller, such as the A button, the bumpers or the stick clicks.
 /// </summary>
-public class hButton : hAbstractPressable {
+public class hButton : hPressable {
 	// --------------------
 	// CONSTRUCTOR
 	// --------------------

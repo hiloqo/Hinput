@@ -65,13 +65,13 @@ public class hSettings : MonoBehaviour {
 	[SerializeField]
 	[Range(0,1)]
 	[Tooltip("The distance from the end of the dead zone beyond which stick and trigger inputs are considered pushed or activated.")]
-	private float _triggerZone = 0.5f;
+	private float _pressedZone = 0.5f;
 	/// <summary>
 	/// The distance from the end of the dead zone beyond which stick and trigger inputs are considered pushed or activated.
 	/// </summary>
-	public static float triggerZone { 
-		get { return instance._triggerZone; } 
-		set { instance._triggerZone = value; }  
+	public static float pressedZone { 
+		get { return instance._pressedZone; } 
+		set { instance._pressedZone = value; }  
 	}
 
 	[SerializeField]
