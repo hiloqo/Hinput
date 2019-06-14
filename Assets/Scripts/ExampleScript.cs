@@ -2,19 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExampleScript : MonoBehaviour {
-
-	private hGamepad _gamepad;
-	private hGamepad gamepad {
-		get  {
-			if (_gamepad == null) {
-				_gamepad = hinput.gamepad[0];
-			}
-
-			return _gamepad;
-		}
-	}
-	
+public class ExampleScript : MonoBehaviour {	
+	// This is a "speed" variable that you can change in your Unity editor
+	public float speed = 5;
 
 	// Use this for initialization
 	void Start () {
@@ -23,10 +13,18 @@ public class ExampleScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
-		//This is a simple character controller for a 3D game
-		float speed = 5;
+		// To make a simple character controller, you can do this
+		// (for a 3D game or a top-down 2D game)
 		transform.position += hinput.gamepad[0].leftStick.worldPositionFlat * speed * Time.deltaTime;
+
+		// OR you can do this
+		// (for a side scrolling 2D game, or to move a cursor)
+		transform.position += hinput.gamepad[0].leftStick.worldPositionCamera * speed * Time.deltaTime;
+
+
+
+
+
 
 		//This is how to check if a button has just been pressed
 		if (hinput.anyGamepad.A.justPressed) {
