@@ -4,8 +4,8 @@ using UnityEngine;
 
 /// <summary>
 /// hinput class representing a gamepad stick, such as the left stick, the right stick, or the D-pad.<br/><br/>
-/// If no property of the hStick is used, it will automatically be cast to a Vector2 with the value (position). 
-/// For instance, (hinput.gamepad[0].leftStick) will return (hinput.gamepad[0].leftStick.position).
+/// If no property of the hStick is used, it will automatically be cast to a Vector2 with the value position. 
+/// For instance, hinput.gamepad[0].leftStick will return hinput.gamepad[0].leftStick.position.
 /// </summary>
 public class hStick {
 	// --------------------
@@ -20,9 +20,7 @@ public class hStick {
 
 	private string _fullName;
 	/// <summary>
-	/// Returns the full name of the stick, like “Mac_Gamepad2_RightStick”<br/><br/>
-	/// Note : the number at the end of the gamepad’s name is the one used by Unity, not by hinput. 
-	/// It is NOT equal to (index), but to (index)+1.
+	/// Returns the full name of the stick, like “Mac_Gamepad2_RightStick”
 	/// </summary>
 	public string fullName { get { return _fullName; } }
 
@@ -265,7 +263,7 @@ public class hStick {
 	public float verticalRaw { get { return _verticalRaw; } }
 
 	/// <summary>
-	/// Returns the coordinates of the stick in the shape of a Vector2. The dead zone is not taken into account.
+	/// Returns the coordinates of the stick. The dead zone is not taken into account.
 	/// </summary>
 	public Vector2 positionRaw { get { return new Vector2 (horizontalRaw, verticalRaw); } }
 
@@ -304,7 +302,7 @@ public class hStick {
 	}
 
 	/// <summary>
-	/// Returns the coordinates of the stick as a Vector3 facing (hinput.worldCamera). 
+	/// Returns the coordinates of the stick as a Vector3 facing hSettings.worldCamera. 
 	/// The stick’s horizontal and vertical axes are interpreted as the camera’s right and up directions. 
 	/// The dead zone is not taken into account.
 	/// </summary>
@@ -323,7 +321,7 @@ public class hStick {
 	// --------------------
 
 	/// <summary>
-	/// Returns true if the current position of the stick is within a distance of (hinput.deadZone) of its origin. 
+	/// Returns true if the current position of the stick is within a distance of hSettings.deadZone of its origin. 
 	/// Returns false otherwise.
 	/// </summary>
 	public bool inDeadZone { get { return distanceRaw < hSettings.deadZone; } }
@@ -331,7 +329,7 @@ public class hStick {
 	private Vector2 _position;
 	private float _positionDate;
 	/// <summary>
-	/// Returns the coordinates of the stick in the shape of a Vector2.
+	/// Returns the coordinates of the stick.
 	/// </summary>
 	public Vector2 position { 
 		get {
@@ -376,7 +374,7 @@ public class hStick {
 	}
 
 	/// <summary>
-	/// Returns true if the current position of the stick is beyond a distance of (hinput.pressedZone) of its origin. 
+	/// Returns true if the current position of the stick is beyond a distance of hSettings.pressedZone of its origin. 
 	/// Returns false otherwise.
 	/// </summary>
 	public bool inPressedZone { get { return distance >= hSettings.pressedZone; } }
@@ -399,7 +397,7 @@ public class hStick {
 	}
 
 	/// <summary>
-	/// Returns the coordinates of the stick as a Vector3 facing (hinput.worldCamera). 
+	/// Returns the coordinates of the stick as a Vector3 facing hSettings.worldCamera. 
 	/// The stick’s horizontal and vertical axes are interpreted as the camera’s right and up directions.
 	/// </summary>
 	public Vector3 worldPositionCamera { get { return (hSettings.worldCamera.right*horizontal + hSettings.worldCamera.up*vertical); } }

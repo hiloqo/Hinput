@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4499229791066702}
   - component: {fileID: 114597552863358616}
+  - component: {fileID: 114653318643692006}
   m_Layer: 0
   m_Name: hinputSettings
   m_TagString: Untagged
@@ -53,8 +54,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _buildAllOnStartUp: 0
   _deadZone: 0.2
-  _triggerZone: 0.5
+  _pressedZone: 0.5
   _directionAngle: 90
   _doublePressDuration: 0.3
   _longPressDuration: 0.3
   _worldCamera: {fileID: 0}
+--- !u!114 &114653318643692006
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1579596078794682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65803097d3547b4bad165e5abebb221, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

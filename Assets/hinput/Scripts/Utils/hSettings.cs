@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// hinput class responsible for handling settings, as well as gamepad updates.<br/><br/>
+/// hinput class responsible for handling settings.<br/><br/>
 /// You can attach it to a GameObject to expose settings. 
 /// If you don’t, it will automatically be instantiated at runtime the first time you call hinput, with default settings.
 /// </summary>
@@ -18,7 +18,7 @@ public class hSettings : MonoBehaviour {
 		get {
 			if (_instance == null) {
 				GameObject go = new GameObject();
-				go.name = "hinput";
+				go.name = "hinputSettings";
 				_instance = go.AddComponent<hSettings>();
 			}
 			

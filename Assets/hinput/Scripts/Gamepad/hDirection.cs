@@ -60,12 +60,12 @@ public class hDirection : hPressable {
 	public override float position { get { return DotProduct (stick.position, stick.angle); } }
 
 	/// <summary>
-	/// Returns true if (stick) is (inPressedZone), and within (hinput.directionAngle) degrees of (angle). Returns false otherwise.
+	/// Returns true if the stick is inPressedZone, and within hSettings.directionAngle degrees of angle. Returns false otherwise.
 	/// </summary>
 	public override bool pressed { get { return (stick.inPressedZone && StickWithinAngle()); } }
 
 	/// <summary>
-	/// Returns true if (stick) is (inDeadZone), or beyond (hinput.directionAngle) degrees of (angle). Returns false otherwise.
+	/// Returns true if the stick is inDeadZone, or beyond hSettings.directionAngle degrees of angle. Returns false otherwise.
 	/// </summary>
 	public override bool inDeadZone { get { return (stick.inDeadZone || ! StickWithinAngle()); } }
 
@@ -83,7 +83,7 @@ public class hDirection : hPressable {
 		return Mathf.Clamp01(cos*position.x + sin*position.y);
 	}
 
-	// True if the stick is currently within a (hinput.directionAngle) degree cone from this direction
+	// True if the stick is currently within a (hSettings.directionAngle) degree cone from this direction
 	private bool StickWithinAngle () { 
 		float distanceToAngle = Mathf.Abs(Mathf.DeltaAngle(angle, stick.angle));
 		float maxDistance = hSettings.directionAngle/2;

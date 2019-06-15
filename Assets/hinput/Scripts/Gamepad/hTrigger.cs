@@ -72,12 +72,12 @@ public class hTrigger : hPressable {
 	}
 
 	/// <summary>
-	/// Returns true if the position of the trigger is beyond (hinput.pressedZone). Returns false otherwise.
+	/// Returns true if the position of the trigger is beyond hSettings.pressedZone. Returns false otherwise.
 	/// </summary>
 	public override bool pressed { get { return position >= hSettings.pressedZone; } }
 
 	/// <summary>
-	/// Returns true if if the position of the trigger is within (hinput.deadZone). Returns false otherwise.
+	/// Returns true if if the position of the trigger is within hSettings.deadZone. Returns false otherwise.
 	/// </summary>
 	public override bool inDeadZone { get { return position < hSettings.deadZone; } }
 }

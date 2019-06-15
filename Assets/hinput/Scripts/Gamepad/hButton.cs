@@ -46,7 +46,7 @@ public class hButton : hPressable {
 	public override bool pressed { get { return position == 1; } }
 
 	/// <summary>
-	/// Returns true if the button is not (pressed). Returns false otherwise.
+	/// Returns true if the button is released. Returns false otherwise.
 	/// </summary>
 	public override bool inDeadZone { get { return !pressed; } }
 }

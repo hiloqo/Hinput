@@ -5,7 +5,7 @@ using System.IO;
 using UnityEditor;
 using System.Linq;
 
-public class hSetUp {
+public class hSetup {
 	// The location of the project's input manager file.
 	private static string inputManagerDir = "./ProjectSettings/inputManager.asset";
 

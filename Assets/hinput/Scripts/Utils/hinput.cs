@@ -15,7 +15,7 @@ public static class hinput {
 
 	private static hGamepad _anyGamepad;
 	/// <summary>
-	/// A virtual gamepad that returns the biggest absolute value for each control of all connected gamepads.
+	/// A virtual gamepad that returns the inputs of every gamepad at once.
 	/// </summary>
 	public static hGamepad anyGamepad { 
 		get { 
