@@ -65,8 +65,8 @@ public abstract class hPressable {
 
 	/// <summary>
 	/// For a button, returns released<br/><br/>
-	/// For a trigger, returns true if positionRaw is higher than hSettings.deadZone.<br/><br/>
-	/// For a stick direction, returns true if the distanceRaw of the stick is higher than hSettings.deadZone.
+	/// For a trigger, returns true if positionRaw is higher than hSettings.triggerDeadZone.<br/><br/>
+	/// For a stick direction, returns true if the distanceRaw of the stick is higher than hSettings.stickDeadZone.
 	/// </summary>
 	public abstract bool inDeadZone { get; }
 

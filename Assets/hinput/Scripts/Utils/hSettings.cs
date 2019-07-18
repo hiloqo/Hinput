@@ -52,26 +52,50 @@ public class hSettings : MonoBehaviour {
 
 	[SerializeField]
 	[Range(0,1)]
-	[Tooltip("The distance from the center beyond which stick and trigger inputs start being registered (except for raw inputs).")]
-	protected float _deadZone = 0.2f;
+	[Tooltip("The distance from the origin beyond which stick inputs start being registered (except for raw inputs).")]
+	protected float _stickDeadZone = 0.2f;
 	/// <summary>
-	/// The distance from the center beyond which stick and trigger inputs start being registered (except for raw inputs).
+	/// The distance from the origin beyond which stick inputs start being registered (except for raw inputs).
 	/// </summary>
-	public static float deadZone { 
-		get { return instance._deadZone; } 
-		set { instance._deadZone = value; } 
+	public static float stickDeadZone { 
+		get { return instance._stickDeadZone; } 
+		set { instance._stickDeadZone = value; } 
 	}
 
 	[SerializeField]
 	[Range(0,1)]
-	[Tooltip("The distance from the end of the dead zone beyond which stick and trigger inputs are considered pushed or activated.")]
-	private float _pressedZone = 0.5f;
+	[Tooltip("The distance from the origin beyond which trigger inputs start being registered (except for raw inputs).")]
+	protected float _triggerDeadZone = 0.1f;
 	/// <summary>
-	/// The distance from the end of the dead zone beyond which stick and trigger inputs are considered pushed or activated.
+	/// The distance from the origin beyond which trigger inputs start being registered (except for raw inputs).
 	/// </summary>
-	public static float pressedZone { 
-		get { return instance._pressedZone; } 
-		set { instance._pressedZone = value; }  
+	public static float triggerDeadZone { 
+		get { return instance._triggerDeadZone; } 
+		set { instance._triggerDeadZone = value; } 
+	}
+
+	[SerializeField]
+	[Range(0,1)]
+	[Tooltip("The distance from the end of the dead zone beyond which stick inputs are considered pushed or activated.")]
+	private float _stickPressedZone = 0.5f;
+	/// <summary>
+	/// The distance from the end of the dead zone beyond which stick inputs are considered pushed or activated.
+	/// </summary>
+	public static float stickPressedZone { 
+		get { return instance._stickPressedZone; } 
+		set { instance._stickPressedZone = value; }  
+	}
+
+	[SerializeField]
+	[Range(0,1)]
+	[Tooltip("The distance from the end of the dead zone beyond which trigger inputs are considered pushed or activated.")]
+	private float _triggerPressedZone = 0.5f;
+	/// <summary>
+	/// The distance from the end of the dead zone beyond which trigger inputs are considered pushed or activated.
+	/// </summary>
+	public static float triggerPressedZone { 
+		get { return instance._triggerPressedZone; } 
+		set { instance._triggerPressedZone = value; }  
 	}
 
 	[SerializeField]

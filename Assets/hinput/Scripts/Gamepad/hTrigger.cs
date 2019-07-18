@@ -66,18 +66,18 @@ public class hTrigger : hPressable {
 		get { 
 			float posRaw = positionRaw;
 
-			if (posRaw < hSettings.deadZone) return 0f;
-			else return ((posRaw - hSettings.deadZone)/(1 - hSettings.deadZone));
+			if (posRaw < hSettings.triggerDeadZone) return 0f;
+			else return ((posRaw - hSettings.triggerDeadZone)/(1 - hSettings.triggerDeadZone));
 		} 
 	}
 
 	/// <summary>
-	/// Returns true if the position of the trigger is beyond hSettings.pressedZone. Returns false otherwise.
+	/// Returns true if the position of the trigger is beyond hSettings.triggerPressedZone. Returns false otherwise.
 	/// </summary>
-	public override bool pressed { get { return position >= hSettings.pressedZone; } }
+	public override bool pressed { get { return position >= hSettings.triggerPressedZone; } }
 
 	/// <summary>
-	/// Returns true if if the position of the trigger is within hSettings.deadZone. Returns false otherwise.
+	/// Returns true if if the position of the trigger is within hSettings.triggerDeadZone. Returns false otherwise.
 	/// </summary>
-	public override bool inDeadZone { get { return position < hSettings.deadZone; } }
+	public override bool inDeadZone { get { return position < hSettings.triggerDeadZone; } }
 }

@@ -321,10 +321,10 @@ public class hStick {
 	// --------------------
 
 	/// <summary>
-	/// Returns true if the current position of the stick is within a distance of hSettings.deadZone of its origin. 
+	/// Returns true if the current position of the stick is within a distance of hSettings.stickDeadZone of its origin. 
 	/// Returns false otherwise.
 	/// </summary>
-	public bool inDeadZone { get { return distanceRaw < hSettings.deadZone; } }
+	public bool inDeadZone { get { return distanceRaw < hSettings.stickDeadZone; } }
 
 	private Vector2 _position;
 	private float _positionDate;
@@ -338,7 +338,7 @@ public class hStick {
 				if (inDeadZone) _position = Vector2.zero;
 				else {
 					Vector2 deadZonedPos = ((1 + hUtils.distanceIncrease)*
-						(positionRaw - positionRaw.normalized*hSettings.deadZone)/(1 - hSettings.deadZone));
+						(positionRaw - positionRaw.normalized*hSettings.stickDeadZone)/(1 - hSettings.stickDeadZone));
 					_position = new Vector2 (Mathf.Clamp(deadZonedPos.x, -1, 1), Mathf.Clamp(deadZonedPos.y, -1, 1));
 				}
 				_positionDate = time;
@@ -374,10 +374,10 @@ public class hStick {
 	}
 
 	/// <summary>
-	/// Returns true if the current position of the stick is beyond a distance of hSettings.pressedZone of its origin. 
+	/// Returns true if the current position of the stick is beyond a distance of hSettings.stickPressedZone of its origin. 
 	/// Returns false otherwise.
 	/// </summary>
-	public bool inPressedZone { get { return distance >= hSettings.pressedZone; } }
+	public bool inPressedZone { get { return distance >= hSettings.stickPressedZone; } }
 
 	private float _angle;
 	private float _angleDate;
