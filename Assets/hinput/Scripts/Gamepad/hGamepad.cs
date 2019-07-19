@@ -12,7 +12,7 @@ public class hGamepad {
 
 	private int _index;
 	/// <summary>
-	/// The index of a gamepad in the gamepad array of hinput, like 3 for hinput.gamepad[3].index. <br/><br/> 
+	/// The index of a gamepad in the gamepad array of hinput, like 3 for hinput.gamepad[3].index. <br/>
 	/// hinput.anyGamepad.index will return -1.
 	/// </summary>
 	public int index { get { return _index; } }
@@ -54,9 +54,6 @@ public class hGamepad {
 	// BUILD
 	// --------------------
 
-	/// <summary>
-	/// Please never call that.
-	/// </summary>
 	public void BuildAll () {
 		if (A.gamepadIndex == 0
 		|| B.gamepadIndex == 0
@@ -84,9 +81,6 @@ public class hGamepad {
 	// UPDATE
 	// --------------------
 
-	/// <summary>
-	/// Please never call that.
-	/// </summary>
 	public void Update () {
 		if ((hButton)_A != null) _A.Update();
 		if ((hButton)_B != null) _B.Update();
@@ -224,7 +218,7 @@ public class hGamepad {
 
 	/// <summary>
 	/// The xBox button of a gamepad.<br/>
-	/// <br/>Windows and Linux drivers can’t detect the value of this button. 
+	/// Windows and Linux drivers can’t detect the value of this button. 
 	/// Therefore it will be considered released at all times on these operating systems.
 	/// </summary>
 	public hButton xBoxButton { 

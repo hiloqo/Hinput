@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// hinput class responsible for handling settings.<br/><br/>
+/// hinput class responsible for handling settings.<br/>
 /// You can attach it to a GameObject to expose settings. 
 /// If you don’t, it will automatically be instantiated at runtime the first time you call hinput, with default settings.
 /// </summary>
@@ -105,7 +105,7 @@ public class hSettings : MonoBehaviour {
 	+"Likewise, if it is lower than 90 degrees, there will be a gap between directions like (up) and (left).")]
 	private float _directionAngle = 90f;
 	/// <summary>
-	/// The size of the angle that defines a stick direction. <br/><br/>
+	/// The size of the angle that defines a stick direction. <br/>
 	/// Note : if it is higher than 45 degrees, directions like (up) and (leftUp) will overlap.
 	/// Likewise, if it is lower than 90 degrees, there will be a gap between directions like (up) and (left).
 	/// </summary>

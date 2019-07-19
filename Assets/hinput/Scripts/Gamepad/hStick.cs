@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// hinput class representing a gamepad stick, such as the left stick, the right stick, or the D-pad.<br/><br/>
+/// hinput class representing a gamepad stick, such as the left stick, the right stick, or the D-pad.<br/>
 /// If no property of the hStick is used, it will automatically be cast to a Vector2 with the value position. 
 /// For instance, hinput.gamepad[0].leftStick will return hinput.gamepad[0].leftStick.position.
 /// </summary>
@@ -86,9 +86,6 @@ public class hStick {
 	// UPDATE
 	// --------------------
 	
-	/// <summary>
-	/// Please never call that.
-	/// </summary>
 	public void Update () {
 		UpdateAxes ();
 		UpdateDirections ();
@@ -217,9 +214,6 @@ public class hStick {
 		} 
 	}
 
-	/// <summary>
-	/// Please never call that.
-	/// </summary>
 	public void BuildDirections () {
 		if (up.gamepadIndex == 0
 		|| down.gamepadIndex == 0

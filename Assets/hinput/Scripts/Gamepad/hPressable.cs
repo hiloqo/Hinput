@@ -4,7 +4,7 @@ using UnityEngine;
 
 /// <summary>
 /// hinput abstract class representing anything that can be pressed. 
-/// It can be an actual button, a stick click, a trigger, or a stick or D-pad direction.<br/><br/>
+/// It can be an actual button, a stick click, a trigger, or a stick or D-pad direction.<br/>
 /// If no property of the hPressable is used, it will automatically be cast to a boolean with the value pressed. 
 /// For instance, hinput.gamepad[0].A will return hinput.gamepad[0].A.pressed.
 /// </summary>
@@ -64,8 +64,8 @@ public abstract class hPressable {
 	public abstract bool pressed { get; }
 
 	/// <summary>
-	/// For a button, returns released<br/><br/>
-	/// For a trigger, returns true if positionRaw is higher than hSettings.triggerDeadZone.<br/><br/>
+	/// For a button, returns released<br/>
+	/// For a trigger, returns true if positionRaw is higher than hSettings.triggerDeadZone.<br/>
 	/// For a stick direction, returns true if the distanceRaw of the stick is higher than hSettings.stickDeadZone.
 	/// </summary>
 	public abstract bool inDeadZone { get; }
@@ -85,9 +85,6 @@ public abstract class hPressable {
 	// UPDATE
 	// --------------------
 
-	/// <summary>
-	/// Please never call that.
-	/// </summary>
 	public void Update () {		
 		float time = Time.time;
 
