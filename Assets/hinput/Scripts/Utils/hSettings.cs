@@ -76,10 +76,10 @@ public class hSettings : MonoBehaviour {
 
 	[SerializeField]
 	[Range(0,1)]
-	[Tooltip("The distance from the end of the dead zone beyond which stick inputs are considered pushed or activated.")]
+	[Tooltip("The distance from the end of the dead zone beyond which stick inputs are considered pushed.")]
 	private float _stickPressedZone = 0.5f;
 	/// <summary>
-	/// The distance from the end of the dead zone beyond which stick inputs are considered pushed or activated.
+	/// The distance from the end of the dead zone beyond which stick inputs are considered pushed.
 	/// </summary>
 	public static float stickPressedZone { 
 		get { return instance._stickPressedZone; } 
@@ -88,10 +88,10 @@ public class hSettings : MonoBehaviour {
 
 	[SerializeField]
 	[Range(0,1)]
-	[Tooltip("The distance from the end of the dead zone beyond which trigger inputs are considered pushed or activated.")]
+	[Tooltip("The distance from the end of the dead zone beyond which trigger inputs are considered pushed.")]
 	private float _triggerPressedZone = 0.5f;
 	/// <summary>
-	/// The distance from the end of the dead zone beyond which trigger inputs are considered pushed or activated.
+	/// The distance from the end of the dead zone beyond which trigger inputs are considered pushed.
 	/// </summary>
 	public static float triggerPressedZone { 
 		get { return instance._triggerPressedZone; } 
@@ -139,11 +139,15 @@ public class hSettings : MonoBehaviour {
 	}
 
 	[SerializeField]
-	[Tooltip("The camera on which the worldPosition property of hStick and hDPad should be calculated. If not set, hinput will try to find one on the scene.")]
+	[Tooltip("The Camera on which the worldPositionCamera and worldPositionCameraRaw properties of hStick should be calculated. If no Camera is set, hinput will try to find one on your scene.")]
 	private Transform _worldCamera = null;
 	/// <summary>
-	/// The camera on which the worldPosition property of hStick and hDPad should be calculated. If not set, hinput will try to find one on the scene.
+	/// The Camera on which the worldPositionCamera and worldPositionCameraRaw properties of hStick should be calculated. If no Camera is set, hinput will try to find one on your scene.
 	/// </summary>
+	/// <remarks>
+	/// hinput will first try to get the gameobject tagged “MainCamera”. If there isn’t one, hinput will get the first gameobject on the game scene that has a Camera component.
+	/// If there is no Camera on the scene, hinput will return an error whenever you call a worldPositionCamera or worldPositionCameraRaw property.
+	/// </remarks>
 	public static Transform worldCamera { 
 		get { 
 			if (instance._worldCamera != null) return instance._worldCamera;
