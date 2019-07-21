@@ -61,4 +61,4 @@ Here is how to check which system you are using : In the **Edit** menu, click **
 
 # Contact :
 
-If you want to report a bug, request a feature of contribute to the project feel free to hit me up at **[hiloqo.games@gmail.com](mailto:hiloqo.games@gmail.com)** !
+If you want to report a bug, request a feature of contribute to the project feel free to hit me up at **[hiloqo.games@gmail.com](mailto:hiloqo.games@gmail.com)**!
