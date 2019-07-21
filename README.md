@@ -23,11 +23,11 @@ hinput manages all gamepad interactions for you. With this simple multi-OS solut
 
 # How to install hinput
 
-- Download and import the hinput package into your project.
+- **Download** and **import** the hinput package into your project.
 
 - In your Unity editor, navigate to the **Tools** menu then click **hinput** > **Setup hinput**
 
-- That’s it ! hinput is ready to use. Here are a few examples of how to get the state of a controller :
+- **That’s it** ! hinput is ready to use. Here are a few examples of how to get the state of a controller :
 
 ```csharp
 // For buttons, triggers and stick directions :
