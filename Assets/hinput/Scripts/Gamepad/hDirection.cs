@@ -46,7 +46,7 @@ public class hDirection : hPressable {
 	// --------------------
 
 	protected override void UpdatePositionRaw() {
-		_positionRaw = DotProduct (stick.positionRaw, stick.angleRaw);
+		_positionRaw = hUtils.DotProduct (stick.positionRaw, stick.angleRaw);
 	}
 
 
@@ -57,36 +57,15 @@ public class hDirection : hPressable {
 	/// <summary>
 	/// Returns the position of the stick along the direction, between -1 and 1. 
 	/// </summary>
-	public override float position { get { return DotProduct (stick.position, stick.angle); } }
+	public override float position { get { return hUtils.DotProduct (stick.position, stick.angle); } }
 
 	/// <summary>
 	/// Returns true if the stick is inPressedZone, and within hSettings.directionAngle degrees of angle. Returns false otherwise.
 	/// </summary>
-	public override bool pressed { get { return (stick.inPressedZone && StickWithinAngle()); } }
+	public override bool pressed { get { return (stick.inPressedZone && hUtils.StickWithinAngle(stick, angle)); } }
 
 	/// <summary>
 	/// Returns true if the stick is inDeadZone, or beyond hSettings.directionAngle degrees of angle. Returns false otherwise.
 	/// </summary>
-	public override bool inDeadZone { get { return (stick.inDeadZone || ! StickWithinAngle()); } }
-
-
-	// --------------------
-	// USEFUL METHODS
-	// --------------------
-
-	// Returns the dot product of a stick position by a unit vector defined by an angle.
-	// (i.e. the projected distance to the origin of a stick position on the line defined by the point (0,0) and an angle.)
-	private float DotProduct (Vector2 position, float angle) {
-		float radStickAngle = angle * Mathf.Deg2Rad;
-		float sin = Mathf.Sin(radStickAngle);
-		float cos = Mathf.Cos(radStickAngle);
-		return Mathf.Clamp01(cos*position.x + sin*position.y);
-	}
-
-	// True if the stick is currently within a (hSettings.directionAngle) degree cone from this direction
-	private bool StickWithinAngle () { 
-		float distanceToAngle = Mathf.Abs(Mathf.DeltaAngle(angle, stick.angle));
-		float maxDistance = hSettings.directionAngle/2;
-		return (distanceToAngle <= maxDistance); 
-	}
+	public override bool inDeadZone { get { return (stick.inDeadZone || ! hUtils.StickWithinAngle(stick, angle)); } }
 }
