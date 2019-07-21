@@ -5,7 +5,7 @@ hinput is a simple gamepad manager for Unity.
 
 hinput manages all gamepad interactions for you. With this simple multi-OS solution, you will never have to worry again about manually filling gamepad inputs, or handling settings for different operating systems. 
 
-#Featuring :
+# Featuring :
 
 - **Intuitive input system** : No library to import, no gameobject to create : you can start coding right away !
 
@@ -21,7 +21,7 @@ hinput manages all gamepad interactions for you. With this simple multi-OS solut
 
 - **Flexibility** : The settings panel exposes many useful properties, such as the duration of double presses, the width of stick directions, or the size of the dead zones.
 
-#How to install hinput
+# How to install hinput
 
 - Download and import the hinput package into your project.
 
@@ -53,12 +53,12 @@ Feel free to check out the **[Getting started](https://bit.ly/2MZCdlo)** guide o
 
 Here is how to check which system you are using : In the **Edit** menu, click **Project Settings**, then navigate to **Player** > **Other settings** > **Configuration**, and make sure that **Active Input Handling** is set to **Input Manager**.
 
-#Licence :
+# License :
 
 - You are allowed to download hinput for free, to use it, to edit it and to distribute it in free projects.
 
-- Purchasing hinput pro gives you or your company the right to sell stuff containing the plugin.
+- Purchasing **[hinput pro](https://henriforshort.itch.io/hinput)** gives you or your company the right to sell stuff containing the plugin.
 
-#Contact :
+# Contact :
 
 If you want to report a bug, request a feature of contribute to the project feel free to hit me up at **[hiloqo.games@gmail.com](mailto:hiloqo.games@gmail.com)** !
