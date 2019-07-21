@@ -155,14 +155,10 @@ public class hSettings : MonoBehaviour {
 	public static Transform worldCamera { 
 		get { 
 			if (instance._worldCamera == null) {
-				if (Camera.main != null) {
-					instance._worldCamera = Camera.main.transform;
-				} else if (GameObject.FindObjectOfType<Camera>() != null) {
+				if (Camera.main != null) instance._worldCamera = Camera.main.transform;
+				else if (GameObject.FindObjectOfType<Camera>() != null) 
 					instance._worldCamera = GameObject.FindObjectOfType<Camera>().transform;
-				} else {
-					Debug.LogError ("hinput error : No camera found !"); 
-					return null; 
-				}
+				else return null;
 			}
 
 			return instance._worldCamera;
