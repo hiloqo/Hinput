@@ -300,7 +300,15 @@ public class hStick {
 	/// The stick’s horizontal and vertical axes are interpreted as the camera’s right and up directions. 
 	/// The dead zone is not taken into account.
 	/// </summary>
-	public Vector3 worldPositionCameraRaw { get { return (hSettings.worldCamera.right*horizontalRaw + hSettings.worldCamera.up*verticalRaw); } }
+	public Vector3 worldPositionCameraRaw  { 
+		get { 
+			try { return (hSettings.worldCamera.right*horizontalRaw + hSettings.worldCamera.up*verticalRaw); }
+			catch { 
+				Debug.LogError ("hinput error : No camera found !");
+				return Vector2.zero;
+			}
+		} 
+	}
 
 	/// <summary>
 	/// Returns the coordinates of the stick as a Vector3 with a y value of 0. 
@@ -394,7 +402,15 @@ public class hStick {
 	/// Returns the coordinates of the stick as a Vector3 facing hSettings.worldCamera. 
 	/// The stick’s horizontal and vertical axes are interpreted as the camera’s right and up directions.
 	/// </summary>
-	public Vector3 worldPositionCamera { get { return (hSettings.worldCamera.right*horizontal + hSettings.worldCamera.up*vertical); } }
+	public Vector3 worldPositionCamera { 
+		get { 
+			try { return (hSettings.worldCamera.right*horizontal + hSettings.worldCamera.up*vertical); }
+			catch { 
+				Debug.LogError ("hinput error : No camera found !");
+				return Vector2.zero;
+			}
+		} 
+	}
 
 	/// <summary>
 	/// Returns the coordinates of the stick as a Vector3 with a y value of 0. 

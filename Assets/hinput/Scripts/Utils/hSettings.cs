@@ -53,7 +53,7 @@ public class hSettings : MonoBehaviour {
 	[SerializeField]
 	[Range(0,1)]
 	[Tooltip("The distance from the origin beyond which stick inputs start being registered (except for raw inputs).")]
-	protected float _stickDeadZone = 0.2f;
+	private float _stickDeadZone = 0.2f;
 	/// <summary>
 	/// The distance from the origin beyond which stick inputs start being registered (except for raw inputs).
 	/// </summary>
@@ -65,7 +65,7 @@ public class hSettings : MonoBehaviour {
 	[SerializeField]
 	[Range(0,1)]
 	[Tooltip("The distance from the origin beyond which trigger inputs start being registered (except for raw inputs).")]
-	protected float _triggerDeadZone = 0.1f;
+	private float _triggerDeadZone = 0.1f;
 	/// <summary>
 	/// The distance from the origin beyond which trigger inputs start being registered (except for raw inputs).
 	/// </summary>
@@ -139,21 +139,28 @@ public class hSettings : MonoBehaviour {
 	}
 
 	[SerializeField]
-	[Tooltip("The Camera on which the worldPositionCamera and worldPositionCameraRaw properties of hStick should be calculated. If no Camera is set, hinput will try to find one on your scene.")]
+	[Tooltip("The Camera on which the worldPositionCamera and worldPositionCameraRaw properties of hStick should be calculated. " 
+	+"If no Camera is set, hinput will try to find one on your scene.")]
 	private Transform _worldCamera = null;
 	/// <summary>
-	/// The Camera on which the worldPositionCamera and worldPositionCameraRaw properties of hStick should be calculated. If no Camera is set, hinput will try to find one on your scene.
+	/// The Camera on which the worldPositionCamera and worldPositionCameraRaw properties of hStick should be calculated. 
+	/// If no Camera is set, hinput will try to find one on your scene.
 	/// </summary>
 	/// <remarks>
-	/// hinput will first try to get the gameobject tagged “MainCamera”. If there isn’t one, hinput will get the first gameobject on the game scene that has a Camera component.
-	/// If there is no Camera on the scene, hinput will return an error whenever you call a worldPositionCamera or worldPositionCameraRaw property.
+	/// hinput will first try to get the gameobject tagged “MainCamera”. 
+	/// If there isn’t one, hinput will get the first gameobject on the game scene that has a Camera component.
+	/// If there is no Camera on the scene, hinput will return an error whenever you call a worldPositionCamera 
+	/// or worldPositionCameraRaw property.
 	/// </remarks>
 	public static Transform worldCamera { 
 		get { 
-			if (instance._worldCamera != null) return instance._worldCamera;
-			else if (Camera.main != null) instance._worldCamera = Camera.main.transform;
-			else if (GameObject.FindObjectOfType<Camera>() != null) instance._worldCamera = GameObject.FindObjectOfType<Camera>().transform;
-			else { Debug.LogError ("hinput error : No camera found !"); return null; }
+			if (instance._worldCamera == null) {
+				if (Camera.main != null) instance._worldCamera = Camera.main.transform;
+				else if (GameObject.FindObjectOfType<Camera>() != null) 
+					instance._worldCamera = GameObject.FindObjectOfType<Camera>().transform;
+				else return null;
+			}
+
 			return instance._worldCamera;
 		} 
 		set { instance._worldCamera = value; } 
