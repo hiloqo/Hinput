@@ -8,7 +8,7 @@ public static class hUtils {
 	// INTERNAL SETTINGS
 	// --------------------
 
-	//The maximum amount of gamepads supported by the game
+	//The maximum amount of gamepads supported by hinput
 	public static float maxGamepads { get { return 8; } }
 
 	//By how much to increase diagonals (in %), because otherwise the max stick distance is sometimes less than 1.
@@ -44,8 +44,8 @@ public static class hUtils {
 	}
 
 	private static void hinputNotSetUpError () {
-		Debug.LogWarning("Warning : hinput has not been set up, so gamepad inputs cannot be recorded."+
-		"To set it up, go to the Tools menu (at the top of your screen, next to File and Edit) and click \"hinput > Setup hinput\".");
+		Debug.LogWarning("Warning : hinput has not been set up, so gamepad inputs cannot be recorded. "+
+		"To set it up, go to the Tools menu and click \"hinput > Setup hinput\".");
 	}
 
 
@@ -67,6 +67,21 @@ public static class hUtils {
 		float distanceToAngle = Mathf.Abs(Mathf.DeltaAngle(angle, stick.angle));
 		float maxDistance = hSettings.directionAngle/2;
 		return (distanceToAngle <= maxDistance); 
+	}
+
+
+	// --------------------
+	// VIBRATION
+	// --------------------
+
+	// A way of delegating StartCoroutine for classes that don't inherit MonoBehaviour.
+	public static void Coroutine (IEnumerator coroutine) {
+		hSettings.instance.StartCoroutine(coroutine);
+	}
+
+	// A way of delegating StopAllCoroutines for classes that don't inherit MonoBehaviour.
+	public static void StopRoutines () {
+		hSettings.instance.StopAllCoroutines();
 	}
 
 

@@ -38,6 +38,8 @@ public class hGamepad {
 
 	private List<hStick> _sticks;
 
+	private hVibration vibration;
+
 
 	// --------------------
 	// CONSTRUCTOR
@@ -45,6 +47,9 @@ public class hGamepad {
 
 	public hGamepad (string os, int index) {
 		this._index = index;
+
+		this.vibration = new hVibration (index, this);
+
 		if (_index >= 0) this._fullName = os+"_Gamepad"+index;
 		else this._fullName = os+"_AnyGamepad";
 	}
@@ -82,6 +87,8 @@ public class hGamepad {
 	// --------------------
 
 	public void Update () {
+		vibration.Update ();
+
 		if ((hButton)_A != null) _A.Update();
 		if ((hButton)_B != null) _B.Update();
 		if ((hButton)_X != null) _X.Update();
@@ -286,5 +293,55 @@ public class hGamepad {
 			if (_sticks == null) _sticks = new List<hStick>() { leftStick, rightStick, dPad };
 			return _sticks;
 		}
+	}
+
+	// --------------------
+	// VIBRATION
+	// --------------------
+
+	
+	/// <summary>
+	/// Vibrate a gamepad for duration seconds. Default intensity can be tweaked in hinput settings.
+	/// </summary>
+	public void Vibrate (double duration) {
+		vibration.Vibrate(duration);
+	}
+
+	/// <summary>
+	/// Vibrate the left motor a gamepad for duration seconds. Default intensity can be tweaked in hinput settings.
+	/// </summary>
+	public void VibrateLeft (double duration) {
+		vibration.VibrateLeft(duration);
+	}
+
+	/// <summary>
+	/// Vibrate the right motor a gamepad for duration seconds. Default intensity can be tweaked in hinput settings.
+	/// </summary>
+	public void VibrateRight (double duration) {
+		vibration.VibrateRight(duration);
+	}
+
+
+	/// <summary>
+	/// Vibrate the left motor a gamepad with an intensity of leftIntensity, and the right motor with an intensity of rightIntensity, for duration seconds.
+	/// </summary>
+	public void VibrateAdvanced (double leftIntensity, double rightIntensity, double duration) {
+		vibration.VibrateAdvanced(leftIntensity, rightIntensity, duration);
+	}
+
+
+	/// <summary>
+	/// Vibrate the left motor a gamepad with an intensity of leftIntensity, and the right motor with an intensity of rightIntensity, forever. 
+	/// Don't forget to call StopVibration !
+	/// </summary>
+	public void VibrateAdvanced (double leftIntensity, double rightIntensity) {
+		vibration.VibrateAdvanced(leftIntensity, rightIntensity);
+	}
+
+	/// <summary>
+	/// Stop all vibrations on a gamepad.
+	/// </summary>
+	public void StopVibration () {
+		vibration.StopVibration();
 	}
 }

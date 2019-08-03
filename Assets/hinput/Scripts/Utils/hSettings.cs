@@ -42,101 +42,14 @@ public class hSettings : MonoBehaviour {
 	// SETTINGS
 	// --------------------
 
-	[Header("hinput settings")]
+	[Header("General")]
 	[Space(10)]
+	[Header("hinput settings")]
 
 	[SerializeField]
 	[Tooltip ("If enabled, hinput will start tracking every control of every gamepad from startup. "
 	+"Otherwise, each control will only start being registered the first time you ask for it.")]
 	private bool _buildAllOnStartUp = false;
-
-	[SerializeField]
-	[Range(0,1)]
-	[Tooltip("The distance from the origin beyond which stick inputs start being registered (except for raw inputs).")]
-	private float _stickDeadZone = 0.2f;
-	/// <summary>
-	/// The distance from the origin beyond which stick inputs start being registered (except for raw inputs).
-	/// </summary>
-	public static float stickDeadZone { 
-		get { return instance._stickDeadZone; } 
-		set { instance._stickDeadZone = value; } 
-	}
-
-	[SerializeField]
-	[Range(0,1)]
-	[Tooltip("The distance from the origin beyond which trigger inputs start being registered (except for raw inputs).")]
-	private float _triggerDeadZone = 0.1f;
-	/// <summary>
-	/// The distance from the origin beyond which trigger inputs start being registered (except for raw inputs).
-	/// </summary>
-	public static float triggerDeadZone { 
-		get { return instance._triggerDeadZone; } 
-		set { instance._triggerDeadZone = value; } 
-	}
-
-	[SerializeField]
-	[Range(0,1)]
-	[Tooltip("The distance from the end of the dead zone beyond which stick inputs are considered pushed.")]
-	private float _stickPressedZone = 0.5f;
-	/// <summary>
-	/// The distance from the end of the dead zone beyond which stick inputs are considered pushed.
-	/// </summary>
-	public static float stickPressedZone { 
-		get { return instance._stickPressedZone; } 
-		set { instance._stickPressedZone = value; }  
-	}
-
-	[SerializeField]
-	[Range(0,1)]
-	[Tooltip("The distance from the end of the dead zone beyond which trigger inputs are considered pushed.")]
-	private float _triggerPressedZone = 0.5f;
-	/// <summary>
-	/// The distance from the end of the dead zone beyond which trigger inputs are considered pushed.
-	/// </summary>
-	public static float triggerPressedZone { 
-		get { return instance._triggerPressedZone; } 
-		set { instance._triggerPressedZone = value; }  
-	}
-
-	[SerializeField]
-	[Range(45,90)]
-	[Tooltip("The size of the angle that defines a stick direction.\n\n"+
-	"Note : if it is higher than 45 degrees, directions like (up) and (leftUp) will overlap. " 
-	+"Likewise, if it is lower than 90 degrees, there will be a gap between directions like (up) and (left).")]
-	private float _directionAngle = 90f;
-	/// <summary>
-	/// The size of the angle that defines a stick direction. <br/>
-	/// Note : if it is higher than 45 degrees, directions like (up) and (leftUp) will overlap.
-	/// Likewise, if it is lower than 90 degrees, there will be a gap between directions like (up) and (left).
-	/// </summary>
-	public static float directionAngle { 
-		get { return instance._directionAngle; } 
-		set { instance._directionAngle = value; }  
-	}
-
-	[SerializeField]
-	[Range(0,2)]
-	[Tooltip("The maximum duration between the start of two presses for them to be considered a double press.")]
-	private float _doublePressDuration = 0.3f;
-	/// <summary>
-	/// The maximum duration between the start of two presses for them to be considered a double press.
-	/// </summary>
-	public static float doublePressDuration { 
-		get { return instance._doublePressDuration; } 
-		set { instance._doublePressDuration = value; }  
-	}
-
-	[SerializeField]
-	[Range(0,2)]
-	[Tooltip("The minimum duration of a press for it to be considered a long press.")]
-	private float _longPressDuration = 0.3f;
-	/// <summary>
-	/// The minimum duration of a press for it to be considered a long press.
-	/// </summary>
-	public static float longPressDuration { 
-		get { return instance._longPressDuration; } 
-		set { instance._longPressDuration = value; }  
-	}
 
 	[SerializeField]
 	[Tooltip("The Camera on which the worldPositionCamera and worldPositionCameraRaw properties of hStick should be calculated. " 
@@ -164,5 +77,131 @@ public class hSettings : MonoBehaviour {
 			return instance._worldCamera;
 		} 
 		set { instance._worldCamera = value; } 
+	}
+	
+	[Header("Sticks")]
+
+	[SerializeField]
+	[Range(0,1)]
+	[Tooltip("The distance from the origin beyond which stick inputs start being registered (except for raw inputs).")]
+	private float _stickDeadZone = 0.2f;
+	/// <summary>
+	/// The distance from the origin beyond which stick inputs start being registered (except for raw inputs).
+	/// </summary>
+	public static float stickDeadZone { 
+		get { return instance._stickDeadZone; } 
+		set { instance._stickDeadZone = value; } 
+	}
+
+	[SerializeField]
+	[Range(0,1)]
+	[Tooltip("The distance from the end of the dead zone beyond which stick inputs are considered pushed.")]
+	private float _stickPressedZone = 0.5f;
+	/// <summary>
+	/// The distance from the end of the dead zone beyond which stick inputs are considered pushed.
+	/// </summary>
+	public static float stickPressedZone { 
+		get { return instance._stickPressedZone; } 
+		set { instance._stickPressedZone = value; }  
+	}
+
+	[SerializeField]
+	[Range(45,90)]
+	[Tooltip("The size of the angle that defines a stick direction.\n\n"+
+	"Note : if it is higher than 45 degrees, directions like (up) and (leftUp) will overlap. " 
+	+"Likewise, if it is lower than 90 degrees, there will be a gap between directions like (up) and (left).")]
+	private float _directionAngle = 90f;
+	/// <summary>
+	/// The size of the angle that defines a stick direction. <br/>
+	/// Note : if it is higher than 45 degrees, directions like (up) and (leftUp) will overlap.
+	/// Likewise, if it is lower than 90 degrees, there will be a gap between directions like (up) and (left).
+	/// </summary>
+	public static float directionAngle { 
+		get { return instance._directionAngle; } 
+		set { instance._directionAngle = value; }  
+	}
+
+	[Header("Triggers")]
+
+	[SerializeField]
+	[Range(0,1)]
+	[Tooltip("The distance from the origin beyond which trigger inputs start being registered (except for raw inputs).")]
+	private float _triggerDeadZone = 0.1f;
+	/// <summary>
+	/// The distance from the origin beyond which trigger inputs start being registered (except for raw inputs).
+	/// </summary>
+	public static float triggerDeadZone { 
+		get { return instance._triggerDeadZone; } 
+		set { instance._triggerDeadZone = value; } 
+	}
+
+	[SerializeField]
+	[Range(0,1)]
+	[Tooltip("The distance from the end of the dead zone beyond which trigger inputs are considered pushed.")]
+	private float _triggerPressedZone = 0.5f;
+	/// <summary>
+	/// The distance from the end of the dead zone beyond which trigger inputs are considered pushed.
+	/// </summary>
+	public static float triggerPressedZone { 
+		get { return instance._triggerPressedZone; } 
+		set { instance._triggerPressedZone = value; }  
+	}
+	
+	[Header("Buttons")]
+
+	[SerializeField]
+	[Range(0,2)]
+	[Tooltip("The maximum duration between the start of two presses for them to be considered a double press.")]
+	private float _doublePressDuration = 0.3f;
+	/// <summary>
+	/// The maximum duration between the start of two presses for them to be considered a double press.
+	/// </summary>
+	public static float doublePressDuration { 
+		get { return instance._doublePressDuration; } 
+		set { instance._doublePressDuration = value; }  
+	}
+
+	[SerializeField]
+	[Range(0,2)]
+	[Tooltip("The minimum duration of a press for it to be considered a long press.")]
+	private float _longPressDuration = 0.3f;
+	/// <summary>
+	/// The minimum duration of a press for it to be considered a long press.
+	/// </summary>
+	public static float longPressDuration { 
+		get { return instance._longPressDuration; } 
+		set { instance._longPressDuration = value; }  
+	}
+
+	[Header("Vibration")]
+
+	[SerializeField]
+	[Range(0,1)]
+	[Tooltip("The default intensity of the left motor when controllers vibrate.")]
+	private float _leftVibrationIntensity = 1f;
+	/// <summary>
+	/// The default intensity of the left motor when controllers vibrate.
+	/// </summary>
+	/// <remarks>
+	/// The left motor is a low-frequency rumble motor.
+	/// </remarks>
+	public static float leftVibrationIntensity { 
+		get { return instance._leftVibrationIntensity; } 
+		set { instance._leftVibrationIntensity = value; }  
+	}
+
+	[SerializeField]
+	[Range(0,1)]
+	[Tooltip("The default intensity of the right motor when controllers vibrate.")]
+	private float _rightVibrationIntensity = 1f;
+	/// <summary>
+	/// The default intensity of the right motor when controllers vibrate.
+	/// </summary>
+	/// <remarks>
+	/// The right motor is a high-frequency rumble motor.
+	/// </remarks>
+	public static float rightVibrationIntensity { 
+		get { return instance._rightVibrationIntensity; } 
+		set { instance._rightVibrationIntensity = value; }  
 	}
 }

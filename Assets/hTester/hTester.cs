@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using XInputDotNetPure;
 
 public class hTester : MonoBehaviour {
 	// --------------------
@@ -42,7 +43,21 @@ public class hTester : MonoBehaviour {
 	public bool worldPositionFlat;
 	public bool worldPositionFlatRaw;
 
-	[Header("YOU DON'T NEED TO TOUCH THAT")]
+	[Header("VIBRATION")]
+	public bool vibrateOnVPressed;
+	public bool vibrateLeftOnLPressed;
+	public bool vibrateRightOnRPressed;
+	public bool vibrateAdvancedOnAPressed;
+	[Range(0,1)]
+	public float advancedLeftIntensity;
+	[Range(0,1)]
+	public float advancedRightIntensity;
+	public bool stopVibrationOnSPressed;
+
+	[Header("REFERENCES")]
+	[Space(20)]
+	[Header("--------------------")]
+	[Space(20)]
 	public Transform redCube;
 	public Transform blueSphere;
 	public float moveSpeed;
@@ -67,6 +82,7 @@ public class hTester : MonoBehaviour {
 	void Update () {
 		TestSticks ();
 		TestButtons ();
+		TestVibration ();
 	}
 
 
@@ -81,7 +97,8 @@ public class hTester : MonoBehaviour {
 
 	private void GetNewCurrentButton () {
 		if (individualGamepads)	
-			for (int i=0; i<8; i++) UpdateCurrentButtonFromGamepad(hinput.gamepad[i]);
+			for (int i=0; i<hUtils.maxGamepads; i++) 
+				UpdateCurrentButtonFromGamepad(hinput.gamepad[i]);
 
 		if (anyGamepad) UpdateCurrentButtonFromGamepad(hinput.anyGamepad);
 	}
@@ -179,7 +196,8 @@ public class hTester : MonoBehaviour {
 
 	private void GetNewCurrentStick () {
 		if (individualGamepads)	
-			for (int i=0; i<8; i++) UpdateCurrentStickFromGamepad(hinput.gamepad[i]);
+			for (int i=0; i<hUtils.maxGamepads; i++) 
+				UpdateCurrentStickFromGamepad(hinput.gamepad[i]);
 
 		if (anyGamepad) UpdateCurrentStickFromGamepad(hinput.anyGamepad);
 	}
@@ -224,6 +242,36 @@ public class hTester : MonoBehaviour {
 		if (worldPositionFlatRaw) {
 			Debug.Log (currentStick.fullName+" is controlling the red cube");
 			redCube.transform.position += currentStick.worldPositionFlatRaw * Time.deltaTime * moveSpeed;
+		}
+	}
+
+	// --------------------
+	// TEST VIBRATION
+	// --------------------
+
+	private void TestVibration () {
+		for (int i=0; i<4; i++) {
+			hGamepad gamepad = hinput.gamepad[i];
+
+			if (vibrateOnVPressed && Input.GetKeyDown(KeyCode.V)) {
+					gamepad.Vibrate(0.5f);
+			}
+
+			if (vibrateLeftOnLPressed && Input.GetKeyDown(KeyCode.L)) {
+					gamepad.VibrateLeft(0.5f);
+			}
+
+			if (vibrateRightOnRPressed && Input.GetKeyDown(KeyCode.R)) {
+					gamepad.VibrateRight(0.5f);
+			}
+
+			if (vibrateAdvancedOnAPressed && Input.GetKeyDown(KeyCode.A)) {
+					gamepad.VibrateAdvanced(advancedLeftIntensity, advancedRightIntensity, 0.5f);
+			}
+
+			if (stopVibrationOnSPressed && Input.GetKeyDown(KeyCode.S)) {
+					gamepad.StopVibration();
+			}
 		}
 	}
 }
