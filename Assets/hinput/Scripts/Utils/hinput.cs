@@ -48,7 +48,7 @@ public static class hinput {
 		get {
 			if (_gamepad == null) {
 				_gamepad = new List<hGamepad>();
-				for (int i=0; i<hUtils.maxGamepads; i++) gamepad.Add(new hGamepad(hUtils.os, i));
+				for (int i=0; i<hUtils.maxGamepads; i++) _gamepad.Add(new hGamepad(hUtils.os, i));
 			} else {
 				hUpdater.instance.UpdateGamepads ();
 			} 

@@ -86,7 +86,7 @@ public abstract class hPressable {
 	// --------------------
 
 	public void Update () {		
-		float time = Time.time;
+		float time = Time.unscaledTime;
 
 		UpdatePositionRaw ();
 
@@ -197,11 +197,11 @@ public abstract class hPressable {
 	/// If the input is pressed, returns the amount of time that has passed since it is pressed. 
 	/// Returns 0 otherwise.
 	/// </summary>
-	public float pressDuration { get { if (pressed) return (Time.time - lastPressStart); return 0f; } }
+	public float pressDuration { get { if (pressed) return (Time.unscaledTime - lastPressStart); return 0f; } }
 
 	/// <summary>
 	/// If the input is released, returns the amount of time that has passed since it is released. 
 	/// Returns 0 otherwise.
 	/// </summary>
-	public float releaseDuration { get { if (released) return (Time.time - lastPressed); return 0f; } }
+	public float releaseDuration { get { if (released) return (Time.unscaledTime - lastPressed); return 0f; } }
 }
