@@ -1,4 +1,6 @@
 # hinput
+**v1.2.1**
+
 hinput is a simple gamepad manager for Unity.
 
 **[install](http://tiny.cc/hinput_install)** | **[learn](http://tiny.cc/hinput_learn)** | **[documentation](http://tiny.cc/hinput_documentation)** 
