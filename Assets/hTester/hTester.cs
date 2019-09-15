@@ -9,9 +9,10 @@ public class hTester : MonoBehaviour {
 	// --------------------
 
 	[Header("GENERAL")]
+	public bool startMessage;
 	[Range(0,3)]
 	public float timeScale;
-	public bool startMessage;
+	public bool playInFixedUpdate;
 	public bool individualGamepads;
 	public bool anyGamepad;
 
@@ -83,9 +84,19 @@ public class hTester : MonoBehaviour {
 
 	void Update () {
 		Time.timeScale = timeScale;
-		TestSticks ();
-		TestButtons ();
-		TestVibration ();
+		if (!playInFixedUpdate) {
+			TestSticks ();
+			TestButtons ();
+			TestVibration ();
+		}
+	}
+
+	void FixedUpdate () {
+		if (playInFixedUpdate) {
+			TestSticks ();
+			TestButtons ();
+			TestVibration ();
+		}
 	}
 
 
