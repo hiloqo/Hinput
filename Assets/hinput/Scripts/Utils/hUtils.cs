@@ -96,7 +96,7 @@ public static class hUtils {
 	private static float deltaTime;
 
 	public static void UpdateTime () {
-		float currentTime = Time.time;
+		float currentTime = Time.unscaledTime;
 		deltaTime = currentTime - lastUpdated;
 		lastUpdated = currentTime;
 	}
@@ -104,7 +104,7 @@ public static class hUtils {
 	//The previous frame was processed in less than this duration.
 	public static float maxDeltaTime { get { return (deltaTime)*(1 + deltaTimeEpsilon); } }
 
-	public static bool isUpToDate { get { return lastUpdated == Time.time; } }
+	public static bool isUpToDate { get { return lastUpdated == Time.unscaledTime; } }
 
 
 	// --------------------

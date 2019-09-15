@@ -268,7 +268,7 @@ public class hStick {
 	/// </summary>
 	public float distanceRaw { 
 		get { 
-			float time = Time.time;
+			float time = Time.unscaledTime;
 			if (time == 0 || _distanceRawDate != time) {
 				_distanceRaw = positionRaw.magnitude;
 				_distanceRawDate = time;
@@ -286,7 +286,7 @@ public class hStick {
 	/// </summary>
 	public float angleRaw { 
 		get { 
-			float time = Time.time;
+			float time = Time.unscaledTime;
 			if (time == 0 || _angleRawDate != time) {
 				_angleRaw = Vector2.SignedAngle(Vector2.right, positionRaw);
 				_angleRawDate = time;
@@ -335,7 +335,7 @@ public class hStick {
 	/// </summary>
 	public Vector2 position { 
 		get {
-			float time = Time.time;
+			float time = Time.unscaledTime;
 			if (time == 0 || _positionDate != time) {
 				if (inDeadZone) _position = Vector2.zero;
 				else {
@@ -366,7 +366,7 @@ public class hStick {
 	/// </summary>
 	public float distance { 
 		get { 
-			float time = Time.time;
+			float time = Time.unscaledTime;
 			if (time == 0 || _distanceDate != time) {
 				_distance = Mathf.Clamp01(position.magnitude);
 				_distanceDate = time;
@@ -389,7 +389,7 @@ public class hStick {
 	/// </summary>
 	public float angle { 
 		get { 
-			float time = Time.time;
+			float time = Time.unscaledTime;
 			if (time == 0 || _angleDate != time) {
 				_angle = Vector2.SignedAngle(Vector2.right, position);
 				_angleDate = time;

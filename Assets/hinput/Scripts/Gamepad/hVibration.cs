@@ -103,7 +103,7 @@ public class hVibration {
 			this.right += right;
 			this.left += left;
 
-			yield return new WaitForSeconds ((float)duration);
+			yield return new WaitForSecondsRealtime ((float)duration);
 
 			this.right -= right;
 			this.left -= left;
