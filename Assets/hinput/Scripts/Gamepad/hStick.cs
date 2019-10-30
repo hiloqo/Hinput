@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// hinput class representing a gamepad stick, such as the left stick, the right stick, or the D-pad.<br/>
@@ -12,19 +10,19 @@ public class hStick {
 	// NAME
 	// --------------------
 
-	private string _name;
+	private readonly string _name;
 	/// <summary>
 	/// Returns the name of the stick, like “LeftStick” or “DPad”.
 	/// </summary>
 	public string name { get { return _name; } }
 
-	private string _fullName;
+	private readonly string _fullName;
 	/// <summary>
 	/// Returns the full name of the stick, like “Mac_Gamepad2_RightStick”
 	/// </summary>
 	public string fullName { get { return _fullName; } }
 
-	private int _gamepadIndex;
+	private readonly int _gamepadIndex;
 	/// <summary>
 	/// Returns the index of the gamepad this stick is attached to.
 	/// </summary>
@@ -40,7 +38,7 @@ public class hStick {
 		} 
 	}
 
-	private int _index;
+	private readonly int _index;
 	/// <summary>
 	/// Returns the index of the stick on its gamepad (0 for a left stick, 1 for a right stick, 2 for a D-pad).
 	/// </summary>
@@ -96,8 +94,8 @@ public class hStick {
 	// AXES
 	// --------------------
 
-	private hAxis horizontalAxis;
-	private hAxis verticalAxis;
+	private readonly hAxis horizontalAxis;
+	private readonly hAxis verticalAxis;
 
 	private void UpdateAxes () {
 		_horizontalRaw = horizontalAxis.positionRaw;
@@ -269,10 +267,10 @@ public class hStick {
 	public float distanceRaw { 
 		get { 
 			float time = Time.unscaledTime;
-			if (time == 0 || _distanceRawDate != time) {
-				_distanceRaw = positionRaw.magnitude;
-				_distanceRawDate = time;
-			}
+			if (time > 0 && Mathf.Abs(_distanceRawDate - time) < hUtils.floatEpsilon) return _distanceRaw;
+			
+			_distanceRaw = positionRaw.magnitude;
+			_distanceRawDate = time;
 			return _distanceRaw; 
 		} 
 	}
@@ -287,10 +285,10 @@ public class hStick {
 	public float angleRaw { 
 		get { 
 			float time = Time.unscaledTime;
-			if (time == 0 || _angleRawDate != time) {
-				_angleRaw = Vector2.SignedAngle(Vector2.right, positionRaw);
-				_angleRawDate = time;
-			}
+			if (time > 0 && Mathf.Abs(_angleRawDate - time) < hUtils.floatEpsilon) return _angleRaw;
+			
+			_angleRaw = Vector2.SignedAngle(Vector2.right, positionRaw);
+			_angleRawDate = time;
 			return _angleRaw;
 		} 
 	}
@@ -333,18 +331,21 @@ public class hStick {
 	/// <summary>
 	/// Returns the coordinates of the stick.
 	/// </summary>
-	public Vector2 position { 
+	public Vector2 position {
 		get {
 			float time = Time.unscaledTime;
-			if (time == 0 || _positionDate != time) {
-				if (inDeadZone) _position = Vector2.zero;
-				else {
-					Vector2 deadZonedPos = ((1 + hUtils.distanceIncrease)*
-						(positionRaw - positionRaw.normalized*hSettings.stickDeadZone)/(1 - hSettings.stickDeadZone));
-					_position = new Vector2 (Mathf.Clamp(deadZonedPos.x, -1, 1), Mathf.Clamp(deadZonedPos.y, -1, 1));
-				}
-				_positionDate = time;
+			if (time > 0 && Mathf.Abs(_positionDate - time) < hUtils.floatEpsilon) return _position;
+			
+			if (inDeadZone) _position = Vector2.zero;
+			else {
+				Vector2 deadZonedPos = (1 + hUtils.distanceIncrease)/(1 - hSettings.stickDeadZone)*
+					(positionRaw - positionRaw.normalized*hSettings.stickDeadZone);
+				
+				_position = new Vector2 (
+					Mathf.Clamp(deadZonedPos.x, -1, 1), 
+					Mathf.Clamp(deadZonedPos.y, -1, 1));
 			}
+			_positionDate = time;
 			return _position; 
 		} 
 	}
@@ -367,10 +368,10 @@ public class hStick {
 	public float distance { 
 		get { 
 			float time = Time.unscaledTime;
-			if (time == 0 || _distanceDate != time) {
-				_distance = Mathf.Clamp01(position.magnitude);
-				_distanceDate = time;
-			}
+			if (time > 0 && Mathf.Abs(_distanceDate - time) < hUtils.floatEpsilon) return _distance;
+			
+			_distance = Mathf.Clamp01(position.magnitude);
+			_distanceDate = time;
 			return _distance; 
 		} 
 	}
@@ -390,10 +391,10 @@ public class hStick {
 	public float angle { 
 		get { 
 			float time = Time.unscaledTime;
-			if (time == 0 || _angleDate != time) {
-				_angle = Vector2.SignedAngle(Vector2.right, position);
-				_angleDate = time;
-			}
+			if (time > 0 && Mathf.Abs(_angleDate - time) < hUtils.floatEpsilon) return _angle;
+			
+			_angle = Vector2.SignedAngle(Vector2.right, position);
+			_angleDate = time;
 			return _angle;
 		} 
 	}

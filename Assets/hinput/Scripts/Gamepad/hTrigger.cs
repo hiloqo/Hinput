@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// hinput class representing the left or right trigger of a controller.
@@ -23,7 +21,7 @@ public class hTrigger : hPressable {
 	// INITIAL VALUE
 	// --------------------
 	
-	private float initialValue;
+	private readonly float initialValue;
 	private bool hasBeenMoved;
 
 	// The value of the trigger's position, given by the gamepad driver.
@@ -47,7 +45,7 @@ public class hTrigger : hPressable {
 
 		if (hasBeenMoved) {
 			_positionRaw = mesPos;
-		} else if (mesPos != initialValue) {
+		} else if (Mathf.Abs(mesPos - initialValue) > hUtils.floatEpsilon) {
 			hasBeenMoved = true;
 			_positionRaw = mesPos;
 		}

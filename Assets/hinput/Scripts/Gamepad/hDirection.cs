@@ -10,7 +10,7 @@ public class hDirection : hPressable {
 	// NAME
 	// --------------------
 
-	private int _stickIndex;
+	private readonly int _stickIndex;
 	/// <summary>
 	/// Returns the index of the stick this direction is attached to (0 for a left stick, 1 for a right stick, 2 for a D-pad).
 	/// </summary>
@@ -21,7 +21,7 @@ public class hDirection : hPressable {
 	/// </summary>
 	public hStick stick { get { return gamepad.sticks[stickIndex]; } }
 
-	private float _angle;
+	private readonly float _angle;
 	/// <summary>
 	/// Returns the value of the angle that defines this direction (In degrees : left=180, up=90, right=0, down=-90).
 	/// </summary>

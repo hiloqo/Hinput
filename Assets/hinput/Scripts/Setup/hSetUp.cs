@@ -1,16 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using System.IO;
 using UnityEditor;
 using System.Linq;
 
-public class hSetup {
+public static class hSetup {
 	// The location of the project's input manager file.
-	private static string inputManagerDir = "./ProjectSettings/inputManager.asset";
+	private const string inputManagerDir = "./ProjectSettings/inputManager.asset";
 
 	// The name of hinput's input array.
-	private static string fileName = "hinput_8Controllers_inputManager";
+	private const string fileName = "hinput_8Controllers_inputManager";
 
 
 	// Add newInputsDir at the end of inputManagerDir
@@ -23,7 +21,6 @@ public class hSetup {
 		}
 
 		AssetDatabase.Refresh();
-
 		Debug.LogWarning("hinput has been set up properly. You can start coding !");
 	}
 
@@ -37,8 +34,8 @@ public class hSetup {
 	}
 
 	private static string GetInputs () {
-		string filePath;
-		filePath = FindFromDirectory ("./Assets/hinput/Scripts/Setup");
+		string filePath = FindFromDirectory ("./Assets/hinput/Scripts/Setup");
+		
 		if (filePath == null) filePath = FindFromDirectory ("./Assets/hinput/Scripts");
 		if (filePath == null) filePath = FindFromDirectory ("./Assets/hinput");
 		if (filePath == null) filePath = FindFromDirectory ("./Assets");
@@ -47,8 +44,8 @@ public class hSetup {
 		try {
 			return File.ReadAllText(filePath);
 		} catch {
-			Debug.Log("hinput setup error : hinput_8Controllers_inputManager not found. "+
-			"Make sure this file is present in your project, or reinstall the package.");
+			Debug.Log("hinput setup error : /Assets/hinput/Scripts/Setup/hinput_8Controllers_inputManager" +
+				" not found. Make sure this file is present in your project, or reinstall the package.");
 		}
 
 		return null;
@@ -57,9 +54,8 @@ public class hSetup {
 	private static string FindFromDirectory (string directory) {
 		try {
 			return Directory.GetFiles(directory, fileName, SearchOption.AllDirectories).FirstOrDefault();
-		} catch { } // Ignore errors here.
+		} catch { /* Ignore errors here.*/ }
 
 		return null;
 	}
-
 }

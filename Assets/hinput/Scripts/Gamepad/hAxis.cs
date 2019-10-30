@@ -8,9 +8,9 @@ public class hAxis {
 	// NAME
 	// --------------------
 
-	private string fullAxisName;
-	private string fullPositiveButtonName;
-	private string fullNegativeButtonName;
+	private readonly string fullAxisName;
+	private readonly string fullPositiveButtonName;
+	private readonly string fullNegativeButtonName;
 
 
 	// --------------------

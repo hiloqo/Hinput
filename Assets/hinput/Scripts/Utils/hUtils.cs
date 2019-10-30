@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 // This class gathers a couple of useful variable and methods.
@@ -9,22 +8,24 @@ public static class hUtils {
 	// --------------------
 
 	//The maximum amount of gamepads supported by hinput
-	public static float maxGamepads { get { return 8; } }
+	public const float maxGamepads = 8;
 
 	//By how much to increase diagonals (in %), because otherwise the max stick distance is sometimes less than 1.
 	//Does not affect raw inputs.
-	public static float distanceIncrease { get { return 0.01f; } }
+	public const float distanceIncrease = 0.01f;
 
 	//By how much to increase deltaTime (in %) when comparing it, to account for rounding errors.
-	public static float deltaTimeEpsilon { get { return 0.1f; } }
+	public const float deltaTimeEpsilon = 0.1f;
+
+	//Difference past which two float are considered equal
+	public const float floatEpsilon = 0.000001f;
 
 
 	// --------------------
 	// BUTTONS AND AXES
 	// --------------------
 
-	public static bool GetButton (string fullName) { return GetButton (fullName, true); }
-	public static bool GetButton (string fullName, bool logError) {
+	public static bool GetButton (string fullName, bool logError = true) {
 		try {
 			return Input.GetButton (fullName);
 		} catch {
@@ -104,7 +105,7 @@ public static class hUtils {
 	//The previous frame was processed in less than this duration.
 	public static float maxDeltaTime { get { return (deltaTime)*(1 + deltaTimeEpsilon); } }
 
-	public static bool isUpToDate { get { return lastUpdated == Time.unscaledTime; } }
+	public static bool isUpToDate { get { return Mathf.Abs(lastUpdated - Time.unscaledTime) < hUtils.floatEpsilon; } }
 
 
 	// --------------------

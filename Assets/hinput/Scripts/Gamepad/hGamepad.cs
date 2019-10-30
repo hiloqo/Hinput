@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 
 /// <summary>
 /// hinput class representing a gamepad.
@@ -10,14 +8,14 @@ public class hGamepad {
 	// NAME
 	// --------------------
 
-	private int _index;
+	private readonly int _index;
 	/// <summary>
 	/// The index of a gamepad in the gamepad array of hinput, like 3 for hinput.gamepad[3].index. <br/>
 	/// hinput.anyGamepad.index will return -1.
 	/// </summary>
 	public int index { get { return _index; } }
 
-	private string _fullName;
+	private readonly string _fullName;
 	/// <summary>
 	/// The full name of a gamepad, like “Linux_Gamepad4”.
 	/// </summary>
@@ -38,20 +36,20 @@ public class hGamepad {
 
 	private List<hStick> _sticks;
 
-	private hVibration vibration;
+	private readonly hVibration vibration;
 
 
 	// --------------------
 	// CONSTRUCTOR
 	// --------------------
 
-	public hGamepad (string os, int index) {
+	public hGamepad (int index) {
 		this._index = index;
 
-		this.vibration = new hVibration (index, this);
+		this.vibration = new hVibration (index);
 
-		if (_index >= 0) this._fullName = os+"_Gamepad"+index;
-		else this._fullName = os+"_AnyGamepad";
+		if (_index >= 0) this._fullName = hUtils.os+"_Gamepad"+index;
+		else this._fullName = hUtils.os+"_AnyGamepad";
 	}
 
 	

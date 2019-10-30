@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using XInputDotNetPure;
 
@@ -8,10 +7,10 @@ public class hVibration {
 	// PRIVATE VARIABLES
 	// --------------------
 
-	private PlayerIndex index;
-	private bool canVibrate;
-	private double left;
-	private double right;
+	private readonly PlayerIndex index;
+	private readonly bool canVibrate;
+	private double currentLeft;
+	private double currentRight;
 	private double prevLeft;
 	private double prevRight;
 
@@ -20,16 +19,16 @@ public class hVibration {
 	// CONSTRUCTOR
 	// --------------------
 
-    public hVibration (int index, hGamepad gamepad) {
-		if (hUtils.os == "Windows") {
-			if (index == 0) this.index = PlayerIndex.One;
-			else if (index == 1) this.index = PlayerIndex.Two;
-			else if (index == 2) this.index = PlayerIndex.Three;
-			else if (index == 3) this.index = PlayerIndex.Four;
-			else return;
+    public hVibration (int index) {
+	    if (hUtils.os != "Windows") return;
+	    if (index > 3) return;
+	    
+	    if (index == 0) this.index = PlayerIndex.One;
+		else if (index == 1) this.index = PlayerIndex.Two;
+		else if (index == 2) this.index = PlayerIndex.Three;
+		else if (index == 3) this.index = PlayerIndex.Four;
 
-			canVibrate = true;
-		}
+		canVibrate = true;
     }
 
 
@@ -38,11 +37,12 @@ public class hVibration {
 	// --------------------
 
 	public void Update () {
-		if (left != prevLeft || right != prevRight) {
-			prevLeft = left;
-			prevRight = right;
-			GamePad.SetVibration(index, (float)left, (float)right);
-		}
+		if (Mathf.Abs((float)currentLeft - (float)prevLeft) < hUtils.floatEpsilon && 
+			Mathf.Abs((float)currentRight - (float)prevRight) < hUtils.floatEpsilon) return;
+		
+		prevLeft = currentLeft;
+		prevRight = currentRight;
+		GamePad.SetVibration(index, (float)currentLeft, (float)currentRight);
 	}
 
 
@@ -83,13 +83,13 @@ public class hVibration {
 	}
 
 	public void VibrateAdvanced (double left, double right) {
-		this.left += left;
-		this.right += right;
+		this.currentLeft += left;
+		this.currentRight += right;
 	}
 
 	public void StopVibration () {
-		left = 0;
-		right = 0;
+		currentLeft = 0;
+		currentRight = 0;
 		hUtils.StopRoutines();
 	}
 
@@ -100,13 +100,13 @@ public class hVibration {
 
 	private IEnumerator _Vibrate (double left, double right, double duration) {
 		if (canVibrate) {
-			this.right += right;
-			this.left += left;
+			this.currentRight += right;
+			this.currentLeft += left;
 
 			yield return new WaitForSecondsRealtime ((float)duration);
 
-			this.right -= right;
-			this.left -= left;
+			this.currentRight -= right;
+			this.currentLeft -= left;
 		} else {
 			if (hUtils.os != "Windows") {
 				Debug.LogWarning("hinput warning : vibration is only supported on Windows computers.");

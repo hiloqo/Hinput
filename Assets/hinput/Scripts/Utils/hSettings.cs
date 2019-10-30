@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// hinput class responsible for handling settings.<br/>
@@ -17,8 +15,7 @@ public class hSettings : MonoBehaviour {
 	public static hSettings instance { 
 		get {
 			if (_instance == null) {
-				GameObject go = new GameObject();
-				go.name = "hinputSettings";
+				GameObject go = new GameObject {name = "hinputSettings"};
 				_instance = go.AddComponent<hSettings>();
 			}
 			
