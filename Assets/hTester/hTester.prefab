@@ -229,6 +229,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startMessage: 1
+  timeScale: 1
+  playInFixedUpdate: 0
   individualGamepads: 1
   anyGamepad: 0
   stickVerticalsAndHorizontals: 1
