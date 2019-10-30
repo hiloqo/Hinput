@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if UNITY_EDITOR
+using UnityEngine;
 using System.IO;
 using UnityEditor;
 using System.Linq;
@@ -59,3 +60,4 @@ public static class hSetup {
 		return null;
 	}
 }
+#endif
