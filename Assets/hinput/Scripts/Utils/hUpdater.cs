@@ -45,4 +45,17 @@ public class hUpdater : MonoBehaviour {
 		hinput.anyGamepad.Update();
 		for (int i=0; i<hUtils.maxGamepads; i++) hinput.gamepad[i].Update ();
 	}
+
+
+	// --------------------
+	// ON APPLICATION QUIT
+	// --------------------
+
+	public void OnApplicationQuit() {
+		foreach (hGamepad gamepad in hinput.gamepad) {
+			gamepad.StopVibration();
+		}
+		
+		hinput.anyGamepad.StopVibration();
+	}
 }

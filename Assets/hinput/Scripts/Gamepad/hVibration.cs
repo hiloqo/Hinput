@@ -90,6 +90,7 @@ public class hVibration {
 	public void StopVibration () {
 		currentLeft = 0;
 		currentRight = 0;
+		GamePad.SetVibration(index, 0, 0);
 		hUtils.StopRoutines();
 	}
 
