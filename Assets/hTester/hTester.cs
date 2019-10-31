@@ -264,28 +264,30 @@ public class hTester : MonoBehaviour {
 	// --------------------
 
 	private void TestVibration () {
-		for (int i=0; i<4; i++) {
-			hGamepad gamepad = hinput.gamepad[i];
+		if (individualGamepads) TestVibrationOnGamepad(hinput.gamepad[0]);
+		if (anyGamepad) TestVibrationOnGamepad(hinput.anyGamepad);
+	}
 
-			if (vibrateOnVPressed && Input.GetKeyDown(KeyCode.V)) {
-					gamepad.Vibrate(0.5f);
-			}
+	private void TestVibrationOnGamepad(hGamepad gamepad) {
 
-			if (vibrateLeftOnLPressed && Input.GetKeyDown(KeyCode.L)) {
-					gamepad.VibrateLeft(0.5f);
-			}
+		if (vibrateOnVPressed && Input.GetKeyDown(KeyCode.V)) {
+			gamepad.Vibrate(0.5f);
+		}
 
-			if (vibrateRightOnRPressed && Input.GetKeyDown(KeyCode.R)) {
-					gamepad.VibrateRight(0.5f);
-			}
+		if (vibrateLeftOnLPressed && Input.GetKeyDown(KeyCode.L)) {
+			gamepad.VibrateLeft(0.5f);
+		}
 
-			if (vibrateAdvancedOnAPressed && Input.GetKeyDown(KeyCode.A)) {
-					gamepad.VibrateAdvanced(advancedLeftIntensity, advancedRightIntensity, 0.5f);
-			}
+		if (vibrateRightOnRPressed && Input.GetKeyDown(KeyCode.R)) {
+			gamepad.VibrateRight(0.5f);
+		}
 
-			if (stopVibrationOnSPressed && Input.GetKeyDown(KeyCode.S)) {
-					gamepad.StopVibration();
-			}
+		if (vibrateAdvancedOnAPressed && Input.GetKeyDown(KeyCode.A)) {
+			gamepad.VibrateAdvanced(advancedLeftIntensity, advancedRightIntensity, 0.5f);
+		}
+
+		if (stopVibrationOnSPressed && Input.GetKeyDown(KeyCode.S)) {
+			gamepad.StopVibration();
 		}
 	}
 }
