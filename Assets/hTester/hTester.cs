@@ -22,6 +22,7 @@ public class hTester : MonoBehaviour {
 	[Header("STICK DIRECTIONS AS BUTTONS")]
 	public bool stickVerticalsAndHorizontals;
 	public bool stickDiagonals;
+	public bool stickPressedZone;
 
 	[Header("BUTTONS")]
 	public bool buttonPosition;
@@ -43,7 +44,6 @@ public class hTester : MonoBehaviour {
 	public bool angle;
 	public bool distance;
 	public bool stickInDeadZone;
-	public bool stickInPressedZone;
 	public bool worldPositionCamera;
 	public bool worldPositionCameraRaw;
 	public bool worldPositionFlat;
@@ -192,6 +192,10 @@ public class hTester : MonoBehaviour {
 			gamepad.dPad.upLeft, gamepad.dPad.upRight, gamepad.dPad.downLeft, gamepad.dPad.downRight
 		});
 
+		if (stickPressedZone) buttons.AddRange (new List<hPressable>() {
+			gamepad.leftStick.inPressedZone, gamepad.rightStick.inPressedZone, gamepad.dPad.inPressedZone
+		});
+
 		return buttons;
 	}
 
@@ -296,10 +300,6 @@ public class hTester : MonoBehaviour {
 			if (currentStick.inDeadZone) Debug.Log (currentStick.fullName+" is in dead zone");
 			else Debug.Log (currentStick.fullName+" is not in dead zone !!!");
 		} 
-		if (stickInPressedZone) {
-			if (currentStick.inPressedZone) Debug.Log (currentStick.fullName+" is pushed !!!");
-			else Debug.Log (currentStick.fullName+" is not pushed");
-		}
 		if (worldPositionCamera) {
 			Debug.Log (currentStick.fullName+" is controlling the blue sphere");
 			blueSphere.transform.position += moveSpeed * Time.deltaTime * currentStick.worldPositionCamera;

@@ -46,6 +46,19 @@ public class hStick {
 	// --------------------
 
 	public static implicit operator Vector2 (hStick hStick) { return hStick.position; }
+	public static implicit operator hPressable (hStick hStick) { return hStick.inPressedZone; }
+
+
+	// --------------------
+	// PRIVATE VARIABLES
+	// --------------------
+
+
+	/// <summary>
+	/// Returns true if the current position of the stick is beyond a distance of hSettings.stickPressedZone of its origin. 
+	/// Returns false otherwise.
+	/// </summary>
+	public readonly hStickPressedZone inPressedZone;
 
 
 	// --------------------
@@ -58,6 +71,8 @@ public class hStick {
 		gamepadIndex = gamepad.index;
 		fullName = gamepad.fullName+"_"+name;
 		this.index = index;
+		
+		inPressedZone = new hStickPressedZone("PressedZone", this);
 
 		horizontalAxis = new hAxis (fullName+"_Horizontal");
 		verticalAxis = new hAxis (fullName+"_Vertical");
@@ -69,6 +84,8 @@ public class hStick {
 		gamepadIndex = gamepad.index;
 		fullName = gamepad.fullName+"_"+name;
 		index = 2;
+		
+		inPressedZone = new hStickPressedZone("pressedZone", this);
 
 		horizontalAxis = new hAxis (fullName+"_Horizontal", fullName+"_Left", fullName+"_Right");
 		verticalAxis = new hAxis (fullName+"_Vertical", fullName+"_Down", fullName+"_Up");
@@ -81,6 +98,7 @@ public class hStick {
 	// --------------------
 	
 	public void Update () {
+		if (inPressedZone != null) inPressedZone.Update();
 		UpdateAxes ();
 		UpdateDirections ();
 	}
@@ -379,12 +397,6 @@ public class hStick {
 			return _distance; 
 		} 
 	}
-
-	/// <summary>
-	/// Returns true if the current position of the stick is beyond a distance of hSettings.stickPressedZone of its origin. 
-	/// Returns false otherwise.
-	/// </summary>
-	public bool inPressedZone { get { return distance >= hSettings.stickPressedZone; } }
 
 	private float _angle;
 	private float _angleDate;
