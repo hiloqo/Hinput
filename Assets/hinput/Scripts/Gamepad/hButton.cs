@@ -6,11 +6,7 @@ public class hButton : hPressable {
 	// CONSTRUCTOR
 	// --------------------
 	
-	public hButton (string name, hGamepad gamepad) {
-		_name = name;
-		_gamepadIndex = gamepad.index;
-		_fullName = gamepad.fullName+"_"+name;
-	}
+	public hButton (string name, hGamepad gamepad) : base(name, gamepad.fullName+"_"+name, gamepad.index) { }
 
 	
 	// --------------------
@@ -19,10 +15,10 @@ public class hButton : hPressable {
 
 	protected override void UpdatePositionRaw() {
 		try {
-			if (hUtils.GetButton(fullName, (name !="XBoxButton"))) _positionRaw = 1;
-			else _positionRaw = 0;
+			if (hUtils.GetButton(fullName, (name !="XBoxButton"))) positionRaw = 1;
+			else positionRaw = 0;
 		} catch {
-			_positionRaw = 0;
+			positionRaw = 0;
 		}
 	}
 

@@ -6,11 +6,7 @@ public class hTrigger : hPressable {
 	// CONSTRUCTOR
 	// --------------------
 
-	public hTrigger (string name, hGamepad gamepad) {
-		_name = name;
-		_gamepadIndex = gamepad.index;
-		_fullName = gamepad.fullName+"_"+name;
-
+	public hTrigger (string name, hGamepad gamepad) : base(name, gamepad.fullName+"_"+name, gamepad.index) {
 		initialValue = measuredPosition;
 	}
 
@@ -42,12 +38,12 @@ public class hTrigger : hPressable {
 		float measuredPos = measuredPosition;
 
 		if (hasBeenMoved) {
-			_positionRaw = measuredPos;
+			positionRaw = measuredPos;
 		} else if (measuredPos.IsNotEqualTo(initialValue)) {
 			hasBeenMoved = true;
-			_positionRaw = measuredPos;
+			positionRaw = measuredPos;
 		}
-		else _positionRaw = 0f;
+		else positionRaw = 0f;
 	}
 
 

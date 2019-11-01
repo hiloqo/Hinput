@@ -23,11 +23,8 @@ public class hStickPressedZone : hPressable {
     // CONSTRUCTOR
     // --------------------
 
-    public hStickPressedZone (string name, hStick stick) {
-        _name = name;
+    public hStickPressedZone (string name, hStick stick) : base(name, stick.fullName + "_" + name, stick.gamepadIndex) {
         stickIndex = stick.index;
-        _fullName = stick.fullName+"_"+name;
-        _gamepadIndex = stick.gamepadIndex;
     }
 
 	
@@ -36,7 +33,7 @@ public class hStickPressedZone : hPressable {
     // --------------------
 
     protected override void UpdatePositionRaw() {
-        _positionRaw = Mathf.Clamp01(stick.distanceRaw/hSettings.stickPressedZone);
+        positionRaw = Mathf.Clamp01(stick.distanceRaw/hSettings.stickPressedZone);
     }
 
 

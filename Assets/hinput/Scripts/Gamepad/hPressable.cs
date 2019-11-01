@@ -11,23 +11,20 @@ public abstract class hPressable {
 	// NAME
 	// --------------------
 
-	protected string _name;
 	/// <summary>
 	/// Returns the name of the input , like “A”, “LeftTrigger” or “DPad_Up”.
 	/// </summary>
-	public string name { get { return _name; } }
+	public readonly string name;
 
-	protected string _fullName;
 	/// <summary>
 	/// Returns the full name of the input , like “Mac_Gamepad2_RightStickClick”
 	/// </summary>
-	public string fullName { get { return _fullName; } }
+	public readonly string fullName;
 
-	protected int _gamepadIndex;
 	/// <summary>
 	/// Returns the index of the gamepad this input is attached to.
 	/// </summary>
-	public int gamepadIndex { get { return _gamepadIndex; } }
+	public readonly int gamepadIndex;
 
 	/// <summary>
 	/// Returns the gamepad this input is attached to.
@@ -45,6 +42,19 @@ public abstract class hPressable {
 	// --------------------
 
 	public static implicit operator bool (hPressable hPressable) { return hPressable.pressed; }
+
+
+	// --------------------
+	// CONSTRUCTOR
+	// --------------------
+
+	protected hPressable() { }
+
+	protected hPressable(string name, string fullName, int gamepadIndex) {
+		this.name = name;
+		this.fullName = fullName;
+		this.gamepadIndex = gamepadIndex;
+	}
 
 	
 	// --------------------
@@ -100,13 +110,12 @@ public abstract class hPressable {
 	// --------------------
 	// PUBLIC PROPERTIES
 	// --------------------
-
-	protected float _positionRaw;
+	
 	/// <summary>
 	/// Returns the current raw position of the input. Similar to position for buttons. 
 	/// Triggers and stick directions do not take the dead zone into account.
 	/// </summary>
-	public float positionRaw { get { return _positionRaw; } }
+	public float positionRaw { get; protected set; }
 
 	/// <summary>
 	/// Returns true if the input is not pressed. Returns false otherwise.

@@ -26,11 +26,8 @@ public class hDirection : hPressable {
 	// CONSTRUCTOR
 	// --------------------
 
-	public hDirection (string name, float angle, hStick stick) {
-		_name = name;
+	public hDirection (string name, float angle, hStick stick) : base(name, stick.fullName+"_"+name, stick.index) {
 		stickIndex = stick.index;
-		_fullName = stick.fullName+"_"+name;
-		_gamepadIndex = stick.gamepadIndex;
 		this.angle = angle;
 	}
 
@@ -40,7 +37,7 @@ public class hDirection : hPressable {
 	// --------------------
 
 	protected override void UpdatePositionRaw() {
-		_positionRaw = hUtils.DotProduct (stick.positionRaw, stick.angleRaw);
+		positionRaw = hUtils.DotProduct (stick.positionRaw, stick.angleRaw);
 	}
 
 

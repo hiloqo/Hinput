@@ -133,6 +133,14 @@ public class hTester : MonoBehaviour {
 				          "stick full name = "+currentDirection.stick.fullName+", " +
 				          "angle = "+currentDirection.angle+", " +
 				          "gamepad index = "+currentDirection.gamepadIndex+"]");
+			} else if (currentButton is hStickPressedZone currentStickPressedZone) {
+				Debug.Log("current stick's button: " +
+				          "[name = "+currentStickPressedZone.name+", " +
+				          "full name = "+currentStickPressedZone.fullName+", " +
+				          "stick index = "+currentStickPressedZone.stickIndex+", " +
+				          "stick full name = "+currentStickPressedZone.stick.fullName+", " +
+				          "gamepad full name = "+currentStickPressedZone.gamepad.fullName+", " +
+				          "gamepad index = "+currentStickPressedZone.gamepadIndex+"]");
 			} else {
 				Debug.Log("current button: " +
 				          "[name = "+currentButton.name+", " +
