@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
 
 /// <summary>
 /// hinput class responsible for handling settings.<br/>
@@ -67,8 +66,8 @@ public class hSettings : MonoBehaviour {
 		get { 
 			if (instance._worldCamera == null) {
 				if (Camera.main != null) instance._worldCamera = Camera.main.transform;
-				else if (GameObject.FindObjectOfType<Camera>() != null) 
-					instance._worldCamera = GameObject.FindObjectOfType<Camera>().transform;
+				else if (FindObjectOfType<Camera>() != null) 
+					instance._worldCamera = FindObjectOfType<Camera>().transform;
 				else return null;
 			}
 

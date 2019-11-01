@@ -44,8 +44,7 @@ public class hVibration {
 	// --------------------
 
 	public void Update () {
-		if (Mathf.Abs(currentLeft - prevLeft) < hUtils.floatEpsilon && 
-			Mathf.Abs(currentRight - prevRight) < hUtils.floatEpsilon) return;
+		if (currentLeft.IsEqualTo(prevLeft) && currentRight.IsEqualTo(prevRight)) return;
 		
 		prevLeft = currentLeft;
 		prevRight = currentRight;
@@ -66,8 +65,8 @@ public class hVibration {
 	}
 
 	public void VibrateAdvanced (float left, float right) {
-		this.currentLeft += left;
-		this.currentRight += right;
+		currentLeft += left;
+		currentRight += right;
 	}
 
 	public void StopVibration () {
@@ -84,13 +83,13 @@ public class hVibration {
 
 	private IEnumerator _Vibrate (float left, float right, float duration) {
 		if (canVibrate) {
-			this.currentRight += right;
-			this.currentLeft += left;
+			currentRight += right;
+			currentLeft += left;
 
 			yield return new WaitForSecondsRealtime (duration);
 
-			this.currentRight -= right;
-			this.currentLeft -= left;
+			currentRight -= right;
+			currentLeft -= left;
 		} else {
 			if (hUtils.os != "Windows") {
 				Debug.LogWarning("hinput warning : vibration is only supported on Windows computers.");

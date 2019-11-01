@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-/// <summary>
+﻿/// <summary>
 /// hinput class representing the left or right trigger of a controller.
 /// </summary>
 public class hTrigger : hPressable {
@@ -9,9 +7,9 @@ public class hTrigger : hPressable {
 	// --------------------
 
 	public hTrigger (string name, hGamepad gamepad) {
-		this._name = name;
-		this._gamepadIndex = gamepad.index;
-		this._fullName = gamepad.fullName+"_"+name;
+		_name = name;
+		_gamepadIndex = gamepad.index;
+		_fullName = gamepad.fullName+"_"+name;
 
 		initialValue = measuredPosition;
 	}
@@ -41,13 +39,13 @@ public class hTrigger : hPressable {
 	// If no input have been recorded before, make sure the resting position is zero
 	// Else just return the measured position.
 	protected override void UpdatePositionRaw() {
-		float mesPos = measuredPosition;
+		float measuredPos = measuredPosition;
 
 		if (hasBeenMoved) {
-			_positionRaw = mesPos;
-		} else if (Mathf.Abs(mesPos - initialValue) > hUtils.floatEpsilon) {
+			_positionRaw = measuredPos;
+		} else if (measuredPos.IsNotEqualTo(initialValue)) {
 			hasBeenMoved = true;
-			_positionRaw = mesPos;
+			_positionRaw = measuredPos;
 		}
 		else _positionRaw = 0f;
 	}

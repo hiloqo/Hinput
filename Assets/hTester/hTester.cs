@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
-using XInputDotNetPure;
 
 public class hTester : MonoBehaviour {
 	// --------------------
@@ -17,8 +14,10 @@ public class hTester : MonoBehaviour {
 	public bool individualGamepads;
 	public bool anyGamepad;
 
-	[Header("GAMEPADS")] 
-	public bool logTypeOnTPressed;
+	[Header("INFO")] 
+	public bool gamepadInfoOnGPressed;
+	public bool stickInfoOnPPressed;
+	public bool buttonInfoOnBPressed;
 
 	[Header("STICK DIRECTIONS AS BUTTONS")]
 	public bool stickVerticalsAndHorizontals;
@@ -80,7 +79,7 @@ public class hTester : MonoBehaviour {
 	// --------------------
 
 
-	void Start () {
+	private void Start () {
 		if (startMessage) {
 			Debug.Log("OS is : "+hUtils.os);
 			Debug.Log("hinput gameObject name is : "+hSettings.instance.name);
@@ -88,17 +87,17 @@ public class hTester : MonoBehaviour {
 		}
 	}
 
-	void Update () {
+	private void Update () {
 		Time.timeScale = timeScale;
 		if (!playInFixedUpdate) TestEverything();
 	}
 
-	void FixedUpdate () {
+	private void FixedUpdate () {
 		if (playInFixedUpdate) TestEverything();
 	}
 
 	private void TestEverything() {
-		TestGamepads();
+		TestInfo();
 		TestSticks ();
 		TestButtons ();
 		TestVibration ();
@@ -109,9 +108,37 @@ public class hTester : MonoBehaviour {
 	// TEST GAMEPADS
 	// --------------------
 
-	private void TestGamepads() {
-		if (logTypeOnTPressed && Input.GetKeyDown(KeyCode.T)) {
-			Debug.Log(currentButton.gamepad.type);
+	private void TestInfo() {
+		if (gamepadInfoOnGPressed && Input.GetKeyDown(KeyCode.G)) {
+			hGamepad currentGamepad = currentButton.gamepad;
+			Debug.Log("current gamepad: " +
+			          "[type = "+currentGamepad.type+", " +
+			          "index = "+currentGamepad.index+", " +
+			          "full name = "+currentGamepad.fullName+"]");
+		}
+		if (stickInfoOnPPressed && Input.GetKeyDown(KeyCode.P)) {
+			Debug.Log("current stick: " +
+			          "[index = "+currentStick.index+", " +
+			          "name = "+currentStick.name+", " +
+			          "full name = "+currentStick.fullName+", " +
+			          "gamepad full name = "+currentStick.gamepad.fullName+", " +
+			          "gamepad index = "+currentStick.gamepadIndex+"]");
+		}
+		if (buttonInfoOnBPressed && Input.GetKeyDown(KeyCode.B)) {
+			if (currentButton is hDirection currentDirection) {
+				Debug.Log("current button is a stick direction: " +
+				          "[name = "+currentDirection.name+", " +
+				          "full name = "+currentDirection.fullName+", " +
+				          "stick index = "+currentDirection.stickIndex+", " +
+				          "stick full name = "+currentDirection.stick.fullName+", " +
+				          "angle = "+currentDirection.angle+", " +
+				          "gamepad index = "+currentDirection.gamepadIndex+"]");
+			} else {
+				Debug.Log("current button: " +
+				          "[name = "+currentButton.name+", " +
+				          "full name = "+currentButton.fullName+", " +
+				          "gamepad index = "+currentButton.gamepadIndex+"]");
+			}
 		}
 	}
 
@@ -178,38 +205,48 @@ public class hTester : MonoBehaviour {
 			if (currentButton) Debug.Log(currentButton.fullName+" is pressed !!!");
 			else Debug.Log (currentButton.fullName+" is released");
 		}
-		if (buttonPosition) Debug.Log (currentButton.fullName+" position : "+currentButton.position+", position raw : "+currentButton.positionRaw);
+		if (buttonPosition) Debug.Log (currentButton.fullName+" position : "+currentButton.position+
+		                               ", position raw : "+currentButton.positionRaw);
 		if (justPressedAndReleased) {
 			if (currentButton.justPressed) Debug.Log (currentButton.fullName+" was just pressed !!!");
 			else if (currentButton.justReleased) Debug.Log (currentButton.fullName+" was just released");
 		}
-		if (lastPressedAndReleased) Debug.Log (currentButton.fullName+" last pressed : "+currentButton.lastPressed
-			+", last released : "+currentButton.lastReleased+", last press start : "+currentButton.lastPressStart);
+		if (lastPressedAndReleased) 
+			Debug.Log (currentButton.fullName+" last pressed : "+currentButton.lastPressed+
+			           ", last released : "+currentButton.lastReleased+
+			           ", last press start : "+currentButton.lastPressStart);
 		if (buttonInDeadZone) {
 			if (currentButton.inDeadZone) Debug.Log (currentButton.fullName+" is in dead zone");
 			else Debug.Log (currentButton.fullName+" is not in dead zone !!!");
 		}
-		if (doublePress && currentButton.doublePress) Debug.Log (currentButton.fullName+" is being double pressed !");
+		if (doublePress && currentButton.doublePress) 
+			Debug.Log (currentButton.fullName+" is being double pressed !");
 		if (doublePressJustPressedAndReleased) {
-			if (currentButton.doublePressJustPressed) Debug.Log (currentButton.fullName+" was double pressed !");
-			if (currentButton.doublePressJustReleased) Debug.Log (currentButton.fullName+" was released after a double press !");
+			if (currentButton.doublePressJustPressed) 
+				Debug.Log (currentButton.fullName+" was double pressed !");
+			if (currentButton.doublePressJustReleased) 
+				Debug.Log (currentButton.fullName+" was released after a double press !");
 		}
 		if (lastPressWasDouble) {
-			if (currentButton.lastPressWasDouble) Debug.Log (currentButton.fullName+"'s last press was a double press !!!");
+			if (currentButton.lastPressWasDouble) 
+				Debug.Log (currentButton.fullName+"'s last press was a double press !!!");
 			else Debug.Log (currentButton.fullName+"'s last press was a simple press");
 		
 		}
 		if (longPress) {
 			if (currentButton.longPress) Debug.Log (currentButton.fullName+" is being long pressed");
-			if (currentButton.longPressJustReleased) Debug.Log (currentButton.fullName+" has just been released after a long press");
+			if (currentButton.longPressJustReleased) 
+				Debug.Log (currentButton.fullName+" has just been released after a long press");
 		}
 		if (lastPressWasLong) {
-			if (currentButton.lastPressWasLong) Debug.Log (currentButton.fullName+"'s last press was a long press !!!");
+			if (currentButton.lastPressWasLong) 
+				Debug.Log (currentButton.fullName+"'s last press was a long press !!!");
 			else Debug.Log (currentButton.fullName+"'s last press was a short press");
 		
 		}
 		if (pressAndReleaseDuration) {
-			if (currentButton) Debug.Log (currentButton.fullName+" has been pressed for "+currentButton.pressDuration+" !!!");
+			if (currentButton) 
+				Debug.Log (currentButton.fullName+" has been pressed for "+currentButton.pressDuration+" !!!");
 			else Debug.Log (currentButton.fullName+" has been released for "+currentButton.releaseDuration);
 		}
 	}
@@ -244,11 +281,17 @@ public class hTester : MonoBehaviour {
 	// --------------------
 
 	private void TestCurrentStick () {
-		if (stickPosition) Debug.Log (currentStick.fullName+" position : "+currentStick.position+", position raw : "+currentStick.positionRaw);
-		if (horizontal) Debug.Log (currentStick.fullName+" horizontal : "+currentStick.horizontal+", horizontal raw : "+currentStick.horizontalRaw);
-		if (vertical) Debug.Log (currentStick.fullName+" vertical : "+currentStick.vertical+", vertical raw : "+currentStick.verticalRaw);
-		if (angle) Debug.Log (currentStick.fullName+" angle : "+currentStick.angle+", angle raw : "+currentStick.angleRaw);
-		if (distance) Debug.Log (currentStick.fullName+" distance : "+currentStick.distance+", distance raw : "+currentStick.distanceRaw);
+		if (stickPosition) 
+			Debug.Log (currentStick.fullName+" position : "+currentStick.position+
+		                              ", position raw : "+currentStick.positionRaw);
+		if (horizontal) Debug.Log (currentStick.fullName+" horizontal : "+currentStick.horizontal+
+		                           ", horizontal raw : "+currentStick.horizontalRaw);
+		if (vertical) Debug.Log (currentStick.fullName+" vertical : "+currentStick.vertical+
+		                         ", vertical raw : "+currentStick.verticalRaw);
+		if (angle) Debug.Log (currentStick.fullName+" angle : "+currentStick.angle+
+		                      ", angle raw : "+currentStick.angleRaw);
+		if (distance) Debug.Log (currentStick.fullName+" distance : "+currentStick.distance+
+		                         ", distance raw : "+currentStick.distanceRaw);
 		if (stickInDeadZone) {
 			if (currentStick.inDeadZone) Debug.Log (currentStick.fullName+" is in dead zone");
 			else Debug.Log (currentStick.fullName+" is not in dead zone !!!");
@@ -259,19 +302,19 @@ public class hTester : MonoBehaviour {
 		}
 		if (worldPositionCamera) {
 			Debug.Log (currentStick.fullName+" is controlling the blue sphere");
-			blueSphere.transform.position += currentStick.worldPositionCamera * Time.deltaTime * moveSpeed;
+			blueSphere.transform.position += moveSpeed * Time.deltaTime * currentStick.worldPositionCamera;
 		}
 		if (worldPositionCameraRaw) {
 			Debug.Log (currentStick.fullName+" is controlling the blue sphere");
-			blueSphere.transform.position += currentStick.worldPositionCameraRaw * Time.deltaTime * moveSpeed;
+			blueSphere.transform.position += moveSpeed * Time.deltaTime * currentStick.worldPositionCameraRaw;
 		}
 		if (worldPositionFlat) {
 			Debug.Log (currentStick.fullName+" is controlling the red cube");
-			redCube.transform.position += currentStick.worldPositionFlat * Time.deltaTime * moveSpeed;
+			redCube.transform.position += moveSpeed * Time.deltaTime * currentStick.worldPositionFlat;
 		}
 		if (worldPositionFlatRaw) {
 			Debug.Log (currentStick.fullName+" is controlling the red cube");
-			redCube.transform.position += currentStick.worldPositionFlatRaw * Time.deltaTime * moveSpeed;
+			redCube.transform.position += moveSpeed * Time.deltaTime * currentStick.worldPositionFlatRaw;
 		}
 	}
 

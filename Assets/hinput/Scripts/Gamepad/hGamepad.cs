@@ -9,18 +9,16 @@ public class hGamepad {
 	// NAME
 	// --------------------
 
-	private readonly int _index;
 	/// <summary>
 	/// The index of a gamepad in the gamepad array of hinput, like 3 for hinput.gamepad[3].index. <br/>
 	/// hinput.anyGamepad.index will return -1.
 	/// </summary>
-	public int index { get { return _index; } }
+	public int index { get; }
 
-	private readonly string _fullName;
 	/// <summary>
 	/// The full name of a gamepad, like “Linux_Gamepad4”.
 	/// </summary>
-	public string fullName { get { return _fullName; } }
+	public string fullName { get; }
 	
 	/// <summary>
 	/// The type of a gamepad, like "Xbox One For Windows"
@@ -50,12 +48,12 @@ public class hGamepad {
 	// --------------------
 
 	public hGamepad (int index) {
-		this._index = index;
+		this.index = index;
 
-		this.vibration = new hVibration (index);
+		vibration = new hVibration (index);
 
-		if (_index >= 0) this._fullName = hUtils.os+"_Gamepad"+index;
-		else this._fullName = hUtils.os+"_AnyGamepad";
+		if (this.index >= 0) fullName = hUtils.os+"_Gamepad"+index;
+		else fullName = hUtils.os+"_AnyGamepad";
 	}
 
 	
@@ -93,32 +91,32 @@ public class hGamepad {
 	public void Update () {
 		vibration.Update ();
 
-		if ((hButton)_A != null) _A.Update();
-		if ((hButton)_B != null) _B.Update();
-		if ((hButton)_X != null) _X.Update();
-		if ((hButton)_Y != null) _Y.Update();
+		if (_A != null) _A.Update();
+		if (_B != null) _B.Update();
+		if (_X != null) _X.Update();
+		if (_Y != null) _Y.Update();
 
-		if ((hButton)_leftBumper != null) _leftBumper.Update();
-		if ((hButton)_rightBumper != null) _rightBumper.Update();
+		if (_leftBumper != null) _leftBumper.Update();
+		if (_rightBumper != null) _rightBumper.Update();
 
-		if ((hButton)_back != null) _back.Update();
-		if ((hButton)_start != null) _start.Update();
+		if (_back != null) _back.Update();
+		if (_start != null) _start.Update();
 
-		if ((hButton)_leftStickClick != null) _leftStickClick.Update();
-		if ((hButton)_rightStickClick != null) _rightStickClick.Update();
+		if (_leftStickClick != null) _leftStickClick.Update();
+		if (_rightStickClick != null) _rightStickClick.Update();
 
-		if ((hButton)_xBoxButton != null) _xBoxButton.Update();
-
-
-		if ((hTrigger)_leftTrigger != null) _leftTrigger.Update();
-		if ((hTrigger)_rightTrigger != null) _rightTrigger.Update();
+		if (_xBoxButton != null) _xBoxButton.Update();
 
 
-		if ((hStick)_leftStick != null) _leftStick.Update();
-		if ((hStick)_rightStick != null) _rightStick.Update();
+		if (_leftTrigger != null) _leftTrigger.Update();
+		if (_rightTrigger != null) _rightTrigger.Update();
 
 
-		if ((hStick)_dPad != null) _dPad.Update();
+		if (_leftStick != null) _leftStick.Update();
+		if (_rightStick != null) _rightStick.Update();
+
+
+		if (_dPad != null) _dPad.Update();
 	}
 
 	
@@ -131,7 +129,7 @@ public class hGamepad {
 	/// </summary>
 	public hButton A { 
 		get {
-			if ((hButton)_A == null) _A = new hButton ("A", this);
+			if (_A == null) _A = new hButton ("A", this);
 			return _A; 
 		} 
 	}
@@ -141,7 +139,7 @@ public class hGamepad {
 	/// </summary>
 	public hButton B { 
 		get {
-			if ((hButton)_B == null) _B = new hButton ("B", this);
+			if (_B == null) _B = new hButton ("B", this);
 			return _B; 
 		} 
 	}
@@ -151,7 +149,7 @@ public class hGamepad {
 	/// </summary>
 	public hButton X { 
 		get {
-			if ((hButton)_X == null) _X = new hButton ("X", this);
+			if (_X == null) _X = new hButton ("X", this);
 			return _X; 
 		} 
 	}
@@ -161,7 +159,7 @@ public class hGamepad {
 	/// </summary>
 	public hButton Y { 
 		get {
-			if ((hButton)_Y == null) _Y = new hButton ("Y", this);
+			if (_Y == null) _Y = new hButton ("Y", this);
 			return _Y; 
 		} 
 	}
@@ -172,7 +170,7 @@ public class hGamepad {
 	/// </summary>
 	public hButton leftBumper { 
 		get {
-			if ((hButton)_leftBumper == null) _leftBumper = new hButton ("LeftBumper", this);
+			if (_leftBumper == null) _leftBumper = new hButton ("LeftBumper", this);
 			return _leftBumper; 
 		} 
 	}
@@ -182,7 +180,7 @@ public class hGamepad {
 	/// </summary>
 	public hButton rightBumper { 
 		get {
-			if ((hButton)_rightBumper == null) _rightBumper = new hButton ("RightBumper", this);
+			if (_rightBumper == null) _rightBumper = new hButton ("RightBumper", this);
 			return _rightBumper; 
 		} 
 	}
@@ -192,7 +190,7 @@ public class hGamepad {
 	/// </summary>
 	public hButton back { 
 		get {
-			if ((hButton)_back == null) _back = new hButton ("Back", this);
+			if (_back == null) _back = new hButton ("Back", this);
 			return _back; 
 		} 
 	}
@@ -202,7 +200,7 @@ public class hGamepad {
 	/// </summary>
 	public hButton start { 
 		get {
-			if ((hButton)_start == null) _start = new hButton ("Start", this);
+			if (_start == null) _start = new hButton ("Start", this);
 			return _start; 
 		} 
 	}
@@ -212,7 +210,7 @@ public class hGamepad {
 	/// </summary>
 	public hButton leftStickClick { 
 		get {
-			if ((hButton)_leftStickClick == null) _leftStickClick = new hButton ("LeftStickClick", this);
+			if (_leftStickClick == null) _leftStickClick = new hButton ("LeftStickClick", this);
 			return _leftStickClick; 
 		} 
 	}
@@ -222,7 +220,7 @@ public class hGamepad {
 	/// </summary>
 	public hButton rightStickClick { 
 		get {
-			if ((hButton)_rightStickClick == null) _rightStickClick = new hButton ("RightStickClick", this);
+			if (_rightStickClick == null) _rightStickClick = new hButton ("RightStickClick", this);
 			return _rightStickClick; 
 		} 
 	}
@@ -234,7 +232,7 @@ public class hGamepad {
 	/// </summary>
 	public hButton xBoxButton { 
 		get {
-			if ((hButton)_xBoxButton == null) _xBoxButton = new hButton ("XBoxButton", this);
+			if (_xBoxButton == null) _xBoxButton = new hButton ("XBoxButton", this);
 			return _xBoxButton; 
 		} 
 	}
@@ -244,7 +242,7 @@ public class hGamepad {
 	/// </summary>
 	public hTrigger leftTrigger { 
 		get {
-			if ((hTrigger)_leftTrigger == null) _leftTrigger = new hTrigger ("LeftTrigger", this);
+			if (_leftTrigger == null) _leftTrigger = new hTrigger ("LeftTrigger", this);
 			return _leftTrigger; 
 		} 
 	}
@@ -254,7 +252,7 @@ public class hGamepad {
 	/// </summary>
 	public hTrigger rightTrigger { 
 		get {
-			if ((hTrigger)_rightTrigger == null) _rightTrigger = new hTrigger ("RightTrigger", this);
+			if (_rightTrigger == null) _rightTrigger = new hTrigger ("RightTrigger", this);
 			return _rightTrigger; 
 		} 
 	}
@@ -264,7 +262,7 @@ public class hGamepad {
 	/// </summary>
 	public hStick leftStick { 
 		get {
-			if ((hStick)_leftStick == null) _leftStick = new hStick ("LeftStick", this, 0);
+			if (_leftStick == null) _leftStick = new hStick ("LeftStick", this, 0);
 			return _leftStick; 
 		} 
 	}
@@ -274,7 +272,7 @@ public class hGamepad {
 	/// </summary>
 	public hStick rightStick { 
 		get {
-			if ((hStick)_rightStick == null) _rightStick = new hStick ("RightStick", this, 1);
+			if (_rightStick == null) _rightStick = new hStick ("RightStick", this, 1);
 			return _rightStick; 
 		} 
 	}
@@ -284,7 +282,7 @@ public class hGamepad {
 	/// </summary>
 	public hStick dPad { 
 		get {
-			if ((hStick)_dPad == null) _dPad = new hStick ("DPad", this);
+			if (_dPad == null) _dPad = new hStick ("DPad", this);
 			return _dPad; 
 		} 
 	}

@@ -73,9 +73,6 @@ public abstract class hPressable {
 	// PRESS AND RELEASE TIME
 	// --------------------
 
-	private float _lastReleased = 0f;
-	private float _lastPressed = 0f;
-	private float _lastPressStart = 0f;
 	private float penultimatePressStart = 0f;
 
 	
@@ -88,12 +85,12 @@ public abstract class hPressable {
 
 		UpdatePositionRaw ();
 
-		if (pressed) _lastPressed = time;
-		else _lastReleased = time;
+		if (pressed) lastPressed = time;
+		else lastReleased = time;
 
 		if (justPressed) {
-			penultimatePressStart = _lastPressStart;
-			_lastPressStart = time;		
+			penultimatePressStart = lastPressStart;
+			lastPressStart = time;		
 		}
 	}
 
@@ -120,29 +117,29 @@ public abstract class hPressable {
 	/// Returns the date the input was last released (in seconds from the beginning of the game). 
 	/// Returns zero if it hasn't been pressed.
 	/// </summary>
-	public float lastReleased { get { return _lastReleased; } }
+	public float lastReleased { get; private set; } = 0f;
 
 	/// <summary>
 	/// Returns the date the input was last pressed (in seconds from the beginning of the game). 
 	/// Returns 0 if it hasn't been pressed.
 	/// </summary>
-	public float lastPressed { get { return _lastPressed; } }
+	public float lastPressed { get; private set; } = 0f;
 
 	/// <summary>
 	/// Returns the date the input was last justPressed (in seconds from the beginning of the game). 
 	/// Returns 0 if it hasn't been pressed.
 	/// </summary>
-	public float lastPressStart { get { return _lastPressStart; } }
+	public float lastPressStart { get; private set; } = 0f;
 
 	/// <summary>
 	/// Returns true if the input is currently pressed and was released last frame. Returns false otherwise.
 	/// </summary>
-	public bool justPressed { get { return (pressed && (lastPressed - lastReleased) <= hUtils.maxDeltaTime); } }
+	public bool justPressed { get { return (pressed && (lastPressed - lastReleased) <= hUpdater.maxDeltaTime); } }
 
 	/// <summary>
 	/// Returns true if the input is currently released and was pressed last frame. Returns false otherwise.
 	/// </summary>
-	public bool justReleased { get { return (released && (lastReleased - lastPressed) <= hUtils.maxDeltaTime); } }
+	public bool justReleased { get { return (released && (lastReleased - lastPressed) <= hUpdater.maxDeltaTime); } }
 
 	/// <summary>
 	/// Returns true if the last two presses started less than hSettings.doublePressDuration seconds apart 

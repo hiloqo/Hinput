@@ -233,7 +233,9 @@ MonoBehaviour:
   playInFixedUpdate: 0
   individualGamepads: 1
   anyGamepad: 0
-  logTypeOnTPressed: 1
+  gamepadInfoOnGPressed: 1
+  stickInfoOnPPressed: 1
+  buttonInfoOnBPressed: 1
   stickVerticalsAndHorizontals: 1
   stickDiagonals: 0
   buttonPosition: 0

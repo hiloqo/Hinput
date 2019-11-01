@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-/// <summary>
+﻿/// <summary>
 /// hinput class representing a physical button of the controller, such as the A button, the bumpers or the stick clicks.
 /// </summary>
 public class hButton : hPressable {
@@ -11,9 +7,9 @@ public class hButton : hPressable {
 	// --------------------
 	
 	public hButton (string name, hGamepad gamepad) {
-		this._name = name;
-		this._gamepadIndex = gamepad.index;
-		this._fullName = gamepad.fullName+"_"+name;
+		_name = name;
+		_gamepadIndex = gamepad.index;
+		_fullName = gamepad.fullName+"_"+name;
 	}
 
 	
@@ -43,7 +39,7 @@ public class hButton : hPressable {
 	/// <summary>
 	/// Returns true if the button is currently pressed. Returns false otherwise.
 	/// </summary>
-	public override bool pressed { get { return position == 1; } }
+	public override bool pressed { get { return position.IsEqualTo(1); } }
 
 	/// <summary>
 	/// Returns true if the button is released. Returns false otherwise.

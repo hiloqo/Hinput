@@ -14,18 +14,12 @@ public static class hUtils {
 	//Does not affect raw inputs.
 	public const float distanceIncrease = 0.01f;
 
-	//By how much to increase deltaTime (in %) when comparing it, to account for rounding errors.
-	public const float deltaTimeEpsilon = 0.1f;
-
-	//Difference past which two float are considered equal
-	public const float floatEpsilon = 0.000001f;
-
 
 	// --------------------
 	// BUTTONS AND AXES
 	// --------------------
 
-	public static bool GetButton (string fullName, bool logError = true) {
+	public static bool GetButton (string fullName, bool logError) {
 		try {
 			return Input.GetButton (fullName);
 		} catch {
@@ -87,28 +81,6 @@ public static class hUtils {
 
 
 	// --------------------
-	// TIME
-	// --------------------
-
-	//The time it was last time the game was updated
-	public static float lastUpdated;
-
-	//The duration it took to process the previous frame
-	private static float deltaTime;
-
-	public static void UpdateTime () {
-		float currentTime = Time.unscaledTime;
-		deltaTime = currentTime - lastUpdated;
-		lastUpdated = currentTime;
-	}
-
-	//The previous frame was processed in less than this duration.
-	public static float maxDeltaTime { get { return (deltaTime)*(1 + deltaTimeEpsilon); } }
-
-	public static bool isUpToDate { get { return Mathf.Abs(lastUpdated - Time.unscaledTime) < hUtils.floatEpsilon; } }
-
-
-	// --------------------
 	// OPERATING SYSTEM
 	// --------------------
 
@@ -136,5 +108,18 @@ public static class hUtils {
 
 			return _os;
 		} 
+	}
+
+
+	// --------------------
+	// MISCELLANEOUS
+	// --------------------
+
+	public static bool IsEqualTo (this float target, float other) {
+		return Mathf.Abs(target - other) < Mathf.Epsilon;
+	}
+
+	public static bool IsNotEqualTo (this float target, float other) {
+		return Mathf.Abs(target - other) > Mathf.Epsilon;
 	}
 }

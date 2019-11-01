@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-// hinput class measuring a stick axis, and feeding it to a hStick.
+﻿// hinput class measuring a stick axis, and feeding it to a hStick.
 public class hAxis {
 	// --------------------
 	// NAME
@@ -27,8 +23,8 @@ public class hAxis {
 	// left/right stick constructor
 	public hAxis (string fullAxisName) {
 		this.fullAxisName = fullAxisName;
-		this.fullPositiveButtonName = "";
-		this.fullNegativeButtonName = "";
+		fullPositiveButtonName = "";
+		fullNegativeButtonName = "";
 	}
 
 	

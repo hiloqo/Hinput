@@ -10,23 +10,20 @@ public class hStick {
 	// NAME
 	// --------------------
 
-	private readonly string _name;
 	/// <summary>
 	/// Returns the name of the stick, like “LeftStick” or “DPad”.
 	/// </summary>
-	public string name { get { return _name; } }
+	public string name { get; }
 
-	private readonly string _fullName;
 	/// <summary>
 	/// Returns the full name of the stick, like “Mac_Gamepad2_RightStick”
 	/// </summary>
-	public string fullName { get { return _fullName; } }
+	public string fullName { get; }
 
-	private readonly int _gamepadIndex;
 	/// <summary>
 	/// Returns the index of the gamepad this stick is attached to.
 	/// </summary>
-	public int gamepadIndex { get { return _gamepadIndex; } }
+	public int gamepadIndex { get; }
 
 	/// <summary>
 	/// Returns the gamepad this stick is attached to.
@@ -38,11 +35,10 @@ public class hStick {
 		} 
 	}
 
-	private readonly int _index;
 	/// <summary>
 	/// Returns the index of the stick on its gamepad (0 for a left stick, 1 for a right stick, 2 for a D-pad).
 	/// </summary>
-	public int index { get { return _index; } }
+	public int index { get; }
 
 	
 	// --------------------
@@ -58,10 +54,10 @@ public class hStick {
 
 	// For sticks
 	public hStick (string name, hGamepad gamepad, int index) {
-		this._name = name;
-		this._gamepadIndex = gamepad.index;
-		this._fullName = gamepad.fullName+"_"+name;
-		this._index = index;
+		this.name = name;
+		gamepadIndex = gamepad.index;
+		fullName = gamepad.fullName+"_"+name;
+		this.index = index;
 
 		horizontalAxis = new hAxis (fullName+"_Horizontal");
 		verticalAxis = new hAxis (fullName+"_Vertical");
@@ -69,10 +65,10 @@ public class hStick {
 
 	// For the D-pad
 	public hStick (string name, hGamepad gamepad) {
-		this._name = name;
-		this._gamepadIndex = gamepad.index;
-		this._fullName = gamepad.fullName+"_"+name;
-		this._index = 2;
+		this.name = name;
+		gamepadIndex = gamepad.index;
+		fullName = gamepad.fullName+"_"+name;
+		index = 2;
 
 		horizontalAxis = new hAxis (fullName+"_Horizontal", fullName+"_Left", fullName+"_Right");
 		verticalAxis = new hAxis (fullName+"_Vertical", fullName+"_Down", fullName+"_Up");
@@ -154,11 +150,13 @@ public class hStick {
 	
 	private hDirection _upLeft;
 	/// <summary>
-	/// Returns a virtual button defined by the stick’s projected position along a direction that has a 135 degree angle with the horizontal axis.
+	/// Returns a virtual button defined by the stick’s projected position along a direction that has a 135 degree
+	/// angle with the horizontal axis.
 	/// </summary>
 	public hDirection leftUp { get { return upLeft; } }
 	/// <summary>
-	/// Returns a virtual button defined by the stick’s projected position along a direction that has a 135 degree angle with the horizontal axis.
+	/// Returns a virtual button defined by the stick’s projected position along a direction that has a 135 degree
+	/// angle with the horizontal axis.
 	/// </summary>
 	public hDirection upLeft { 
 		get {
@@ -169,11 +167,13 @@ public class hStick {
 
 	private hDirection _downLeft;
 	/// <summary>
-	/// Returns a virtual button defined by the stick’s projected position along a direction that has a -135 degree angle with the horizontal axis.
+	/// Returns a virtual button defined by the stick’s projected position along a direction that has a -135 degree
+	/// angle with the horizontal axis.
 	/// </summary>
 	public hDirection leftDown { get { return downLeft; } }
 	/// <summary>
-	/// Returns a virtual button defined by the stick’s projected position along a direction that has a -135 degree angle with the horizontal axis.
+	/// Returns a virtual button defined by the stick’s projected position along a direction that has a -135 degree
+	/// angle with the horizontal axis.
 	/// </summary>
 	public hDirection downLeft { 
 		get {
@@ -184,11 +184,13 @@ public class hStick {
 
 	private hDirection _upRight;
 	/// <summary>
-	/// Returns a virtual button defined by the stick’s projected position along a direction that has a 45 degree angle with the horizontal axis.
+	/// Returns a virtual button defined by the stick’s projected position along a direction that has a 45 degree
+	/// angle with the horizontal axis.
 	/// </summary>
 	public hDirection rightUp { get { return upRight; } }
 	/// <summary>
-	/// Returns a virtual button defined by the stick’s projected position along a direction that has a 45 degree angle with the horizontal axis.
+	/// Returns a virtual button defined by the stick’s projected position along a direction that has a 45 degree
+	/// angle with the horizontal axis.
 	/// </summary>
 	public hDirection upRight { 
 		get {
@@ -199,11 +201,13 @@ public class hStick {
 
 	private hDirection _downRight;
 	/// <summary>
-	/// Returns a virtual button defined by the stick’s projected position along a direction that has a -45 degree angle with the horizontal axis.
+	/// Returns a virtual button defined by the stick’s projected position along a direction that has a -45 degree
+	/// angle with the horizontal axis.
 	/// </summary>
 	public hDirection rightDown { get { return downRight; } }
 	/// <summary>
-	/// Returns a virtual button defined by the stick’s projected position along a direction that has a -45 degree angle with the horizontal axis.
+	/// Returns a virtual button defined by the stick’s projected position along a direction that has a -45 degree
+	/// angle with the horizontal axis.
 	/// </summary>
 	public hDirection downRight { 
 		get {
@@ -226,15 +230,15 @@ public class hStick {
 	}
 
 	private void UpdateDirections () {
-		if ((hDirection)_up != null) _up.Update();
-		if ((hDirection)_down != null) _down.Update();
-		if ((hDirection)_left != null) _left.Update();
-		if ((hDirection)_right != null) _right.Update();
+		if (_up != null) _up.Update();
+		if (_down != null) _down.Update();
+		if (_left != null) _left.Update();
+		if (_right != null) _right.Update();
 		
-		if ((hDirection)_upLeft != null) _upLeft.Update();
-		if ((hDirection)_downLeft != null) _downLeft.Update();
-		if ((hDirection)_upRight != null) _upRight.Update();
-		if ((hDirection)_downRight != null) _downRight.Update();
+		if (_upLeft != null) _upLeft.Update();
+		if (_downLeft != null) _downLeft.Update();
+		if (_upRight != null) _upRight.Update();
+		if (_downRight != null) _downRight.Update();
 	}
 
 	
@@ -267,7 +271,7 @@ public class hStick {
 	public float distanceRaw { 
 		get { 
 			float time = Time.unscaledTime;
-			if (time > 0 && Mathf.Abs(_distanceRawDate - time) < hUtils.floatEpsilon) return _distanceRaw;
+			if (time > 0 && time.IsEqualTo(_distanceRawDate)) return _distanceRaw;
 			
 			_distanceRaw = positionRaw.magnitude;
 			_distanceRawDate = time;
@@ -285,7 +289,7 @@ public class hStick {
 	public float angleRaw { 
 		get { 
 			float time = Time.unscaledTime;
-			if (time > 0 && Mathf.Abs(_angleRawDate - time) < hUtils.floatEpsilon) return _angleRaw;
+			if (time > 0 && time.IsEqualTo(_angleRawDate)) return _angleRaw;
 			
 			_angleRaw = Vector2.SignedAngle(Vector2.right, positionRaw);
 			_angleRawDate = time;
@@ -334,7 +338,7 @@ public class hStick {
 	public Vector2 position {
 		get {
 			float time = Time.unscaledTime;
-			if (time > 0 && Mathf.Abs(_positionDate - time) < hUtils.floatEpsilon) return _position;
+			if (time > 0 && time.IsEqualTo(_positionDate)) return _position;
 			
 			if (inDeadZone) _position = Vector2.zero;
 			else {
@@ -368,7 +372,7 @@ public class hStick {
 	public float distance { 
 		get { 
 			float time = Time.unscaledTime;
-			if (time > 0 && Mathf.Abs(_distanceDate - time) < hUtils.floatEpsilon) return _distance;
+			if (time > 0 && time.IsEqualTo(_distanceDate)) return _distance;
 			
 			_distance = Mathf.Clamp01(position.magnitude);
 			_distanceDate = time;
@@ -391,7 +395,7 @@ public class hStick {
 	public float angle { 
 		get { 
 			float time = Time.unscaledTime;
-			if (time > 0 && Mathf.Abs(_angleDate - time) < hUtils.floatEpsilon) return _angle;
+			if (time > 0 && time.IsEqualTo(_angleDate)) return _angle;
 			
 			_angle = Vector2.SignedAngle(Vector2.right, position);
 			_angleDate = time;

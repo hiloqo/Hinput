@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-/// <summary>
+﻿/// <summary>
 /// hinput class representing a given direction of a stick or D-pad, such as the up or down-left directions.
 /// </summary>
 public class hDirection : hPressable {
@@ -10,22 +6,20 @@ public class hDirection : hPressable {
 	// NAME
 	// --------------------
 
-	private readonly int _stickIndex;
 	/// <summary>
 	/// Returns the index of the stick this direction is attached to (0 for a left stick, 1 for a right stick, 2 for a D-pad).
 	/// </summary>
-	public int stickIndex { get { return _stickIndex; } }
+	public int stickIndex { get; }
 
 	/// <summary>
 	/// Returns the stick this direction is attached to.
 	/// </summary>
 	public hStick stick { get { return gamepad.sticks[stickIndex]; } }
 
-	private readonly float _angle;
 	/// <summary>
 	/// Returns the value of the angle that defines this direction (In degrees : left=180, up=90, right=0, down=-90).
 	/// </summary>
-	public float angle { get { return _angle; } }
+	public float angle { get; }
 
 
 	// --------------------
@@ -33,11 +27,11 @@ public class hDirection : hPressable {
 	// --------------------
 
 	public hDirection (string name, float angle, hStick stick) {
-		this._name = name;
-		this._stickIndex = stick.index;
-		this._fullName = stick.fullName+"_"+name;
-		this._gamepadIndex = stick.gamepadIndex;
-		this._angle = angle;
+		_name = name;
+		stickIndex = stick.index;
+		_fullName = stick.fullName+"_"+name;
+		_gamepadIndex = stick.gamepadIndex;
+		this.angle = angle;
 	}
 
 	
@@ -60,12 +54,14 @@ public class hDirection : hPressable {
 	public override float position { get { return hUtils.DotProduct (stick.position, stick.angle); } }
 
 	/// <summary>
-	/// Returns true if the stick is inPressedZone, and within hSettings.directionAngle degrees of angle. Returns false otherwise.
+	/// Returns true if the stick is inPressedZone, and within hSettings.directionAngle degrees of angle.
+	/// Returns false otherwise.
 	/// </summary>
 	public override bool pressed { get { return (stick.inPressedZone && hUtils.StickWithinAngle(stick, angle)); } }
 
 	/// <summary>
-	/// Returns true if the stick is inDeadZone, or beyond hSettings.directionAngle degrees of angle. Returns false otherwise.
+	/// Returns true if the stick is inDeadZone, or beyond hSettings.directionAngle degrees of angle.
+	/// Returns false otherwise.
 	/// </summary>
 	public override bool inDeadZone { get { return (stick.inDeadZone || ! hUtils.StickWithinAngle(stick, angle)); } }
 }

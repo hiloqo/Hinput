@@ -5,6 +5,23 @@
 // You don’t need to do anything about it.
 public class hUpdater : MonoBehaviour {
 	// --------------------
+	// INTERNAL SETTINGS
+	// --------------------
+
+	//The time it was last time the game was updated
+	private static float lastUpdated;
+
+	//The duration it took to process the previous frame
+	private static float deltaTime;
+	
+	//The previous frame was processed in less than this duration.
+	public static float maxDeltaTime { get { return (deltaTime)*(1 + deltaTimeEpsilon); } }
+
+	//By how much to increase deltaTime (in %) when comparing it, to account for rounding errors.
+	private const float deltaTimeEpsilon = 0.1f;
+	
+	
+	// --------------------
 	// SINGLETON PATTERN
 	// --------------------
 
@@ -39,9 +56,12 @@ public class hUpdater : MonoBehaviour {
 
 	// If the gamepads have not been updated this frame, update them.
 	public static void UpdateGamepads () {
-		if (hUtils.isUpToDate) return;
+		if (lastUpdated.IsEqualTo(Time.unscaledTime)) return;
 		
-		hUtils.UpdateTime ();
+		float currentTime = Time.unscaledTime;
+		deltaTime = currentTime - lastUpdated;
+		lastUpdated = currentTime;
+		
 		hinput.anyGamepad.Update();
 		for (int i=0; i<hUtils.maxGamepads; i++) hinput.gamepad[i].Update ();
 	}
