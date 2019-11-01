@@ -258,12 +258,13 @@ MonoBehaviour:
   worldPositionFlat: 0
   worldPositionFlatRaw: 0
   vibrateOnVPressed: 1
-  vibrateLeftOnLPressed: 1
-  vibrateRightOnRPressed: 1
+  useDuration: 1
+  useLeftAndRightIntensity: 1
   vibrateAdvancedOnAPressed: 1
-  advancedLeftIntensity: 1
-  advancedRightIntensity: 0.5
   stopVibrationOnSPressed: 1
+  leftIntensity: 0.5
+  rightIntensity: 0.5
+  duration: 1
   redCube: {fileID: 4670289291524058}
   blueSphere: {fileID: 4196960681006616}
   moveSpeed: 3

@@ -10,10 +10,10 @@ public class hVibration {
 
 	private readonly List<PlayerIndex> index;
 	private readonly bool canVibrate;
-	private double currentLeft;
-	private double currentRight;
-	private double prevLeft;
-	private double prevRight;
+	private float currentLeft;
+	private float currentRight;
+	private float prevLeft;
+	private float prevRight;
 
 
 	// --------------------
@@ -44,12 +44,12 @@ public class hVibration {
 	// --------------------
 
 	public void Update () {
-		if (Mathf.Abs((float)currentLeft - (float)prevLeft) < hUtils.floatEpsilon && 
-			Mathf.Abs((float)currentRight - (float)prevRight) < hUtils.floatEpsilon) return;
+		if (Mathf.Abs(currentLeft - prevLeft) < hUtils.floatEpsilon && 
+			Mathf.Abs(currentRight - prevRight) < hUtils.floatEpsilon) return;
 		
 		prevLeft = currentLeft;
 		prevRight = currentRight;
-		DoVibrate(index, (float)currentLeft, (float)currentRight);
+		DoVibrate(index, currentLeft, currentRight);
 	}
 
 
@@ -57,31 +57,7 @@ public class hVibration {
 	// PUBLIC METHODS
 	// --------------------
 
-	public void Vibrate (double duration) {
-		hUtils.Coroutine(_Vibrate(
-			hSettings.leftVibrationIntensity, 
-			hSettings.rightVibrationIntensity, 
-			duration
-		));
-	}
-
-	public void VibrateLeft (double duration) {
-		hUtils.Coroutine(_Vibrate(
-			hSettings.leftVibrationIntensity, 
-			0, 
-			duration
-		));
-	}
-
-	public void VibrateRight (double duration) {
-		hUtils.Coroutine(_Vibrate(
-			0, 
-			hSettings.rightVibrationIntensity, 
-			duration
-		));
-	}
-
-	public void VibrateAdvanced (double left, double right, double duration) {
+	public void Vibrate (float left, float right, float duration) {
 		hUtils.Coroutine(_Vibrate(
 			left, 
 			right, 
@@ -89,7 +65,7 @@ public class hVibration {
 		));
 	}
 
-	public void VibrateAdvanced (double left, double right) {
+	public void VibrateAdvanced (float left, float right) {
 		this.currentLeft += left;
 		this.currentRight += right;
 	}
@@ -106,12 +82,12 @@ public class hVibration {
 	// PRIVATE METHODS
 	// --------------------
 
-	private IEnumerator _Vibrate (double left, double right, double duration) {
+	private IEnumerator _Vibrate (float left, float right, float duration) {
 		if (canVibrate) {
 			this.currentRight += right;
 			this.currentLeft += left;
 
-			yield return new WaitForSecondsRealtime ((float)duration);
+			yield return new WaitForSecondsRealtime (duration);
 
 			this.currentRight -= right;
 			this.currentLeft -= left;

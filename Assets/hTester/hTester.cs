@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using XInputDotNetPure;
 
 public class hTester : MonoBehaviour {
@@ -48,14 +49,16 @@ public class hTester : MonoBehaviour {
 
 	[Header("VIBRATION")]
 	public bool vibrateOnVPressed;
-	public bool vibrateLeftOnLPressed;
-	public bool vibrateRightOnRPressed;
+	public bool useDuration;
+	public bool useLeftAndRightIntensity;
 	public bool vibrateAdvancedOnAPressed;
-	[Range(0,1)]
-	public float advancedLeftIntensity;
-	[Range(0,1)]
-	public float advancedRightIntensity;
 	public bool stopVibrationOnSPressed;
+	[Range(0,1)]
+	public float leftIntensity;
+	[Range(0,1)]
+	public float rightIntensity;
+	[Range(0,2)]
+	public float duration;
 
 	[Header("REFERENCES")]
 	[Space(20)]
@@ -271,19 +274,17 @@ public class hTester : MonoBehaviour {
 	private void TestVibrationOnGamepad(hGamepad gamepad) {
 
 		if (vibrateOnVPressed && Input.GetKeyDown(KeyCode.V)) {
-			gamepad.Vibrate(0.5f);
-		}
-
-		if (vibrateLeftOnLPressed && Input.GetKeyDown(KeyCode.L)) {
-			gamepad.VibrateLeft(0.5f);
-		}
-
-		if (vibrateRightOnRPressed && Input.GetKeyDown(KeyCode.R)) {
-			gamepad.VibrateRight(0.5f);
+			if (useDuration) {
+				if (useLeftAndRightIntensity) gamepad.Vibrate(leftIntensity, rightIntensity, duration);
+				else gamepad.Vibrate(duration);
+			} else {
+				if (useLeftAndRightIntensity) gamepad.Vibrate(leftIntensity, rightIntensity);
+				else gamepad.Vibrate();
+			}
 		}
 
 		if (vibrateAdvancedOnAPressed && Input.GetKeyDown(KeyCode.A)) {
-			gamepad.VibrateAdvanced(advancedLeftIntensity, advancedRightIntensity, 0.5f);
+			gamepad.VibrateAdvanced(leftIntensity, rightIntensity);
 		}
 
 		if (stopVibrationOnSPressed && Input.GetKeyDown(KeyCode.S)) {

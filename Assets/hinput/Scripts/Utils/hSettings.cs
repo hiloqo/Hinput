@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// hinput class responsible for handling settings.<br/>
@@ -171,6 +172,18 @@ public class hSettings : MonoBehaviour {
 	}
 
 	[Header("Vibration")]
+
+	[SerializeField]
+	[Range(0,2)]
+	[Tooltip("The default duration of gamepad vibration.")]
+	private float _vibrationDuration = 0.5f;
+	/// <summary>
+	/// The default duration of gamepad vibration.
+	/// </summary>
+	public static float vibrationDuration { 
+		get { return instance._vibrationDuration; } 
+		set { instance._vibrationDuration = value; }  
+	}
 
 	[SerializeField]
 	[Range(0,1)]
