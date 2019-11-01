@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// hinput class representing a gamepad.
@@ -20,6 +21,11 @@ public class hGamepad {
 	/// The full name of a gamepad, like “Linux_Gamepad4”.
 	/// </summary>
 	public string fullName { get { return _fullName; } }
+	
+	/// <summary>
+	/// The type of a gamepad, like "Xbox One For Windows"
+	/// </summary>
+	public string type { get { return Input.GetJoystickNames()[index]; } }
 
 
 	// --------------------

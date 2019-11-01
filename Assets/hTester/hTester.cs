@@ -17,6 +17,9 @@ public class hTester : MonoBehaviour {
 	public bool individualGamepads;
 	public bool anyGamepad;
 
+	[Header("GAMEPADS")] 
+	public bool logTypeOnTPressed;
+
 	[Header("STICK DIRECTIONS AS BUTTONS")]
 	public bool stickVerticalsAndHorizontals;
 	public bool stickDiagonals;
@@ -87,18 +90,28 @@ public class hTester : MonoBehaviour {
 
 	void Update () {
 		Time.timeScale = timeScale;
-		if (!playInFixedUpdate) {
-			TestSticks ();
-			TestButtons ();
-			TestVibration ();
-		}
+		if (!playInFixedUpdate) TestEverything();
 	}
 
 	void FixedUpdate () {
-		if (playInFixedUpdate) {
-			TestSticks ();
-			TestButtons ();
-			TestVibration ();
+		if (playInFixedUpdate) TestEverything();
+	}
+
+	private void TestEverything() {
+		TestGamepads();
+		TestSticks ();
+		TestButtons ();
+		TestVibration ();
+	}
+
+
+	// --------------------
+	// TEST GAMEPADS
+	// --------------------
+
+	private void TestGamepads() {
+		if (logTypeOnTPressed && Input.GetKeyDown(KeyCode.T)) {
+			Debug.Log(currentButton.gamepad.type);
 		}
 	}
 
