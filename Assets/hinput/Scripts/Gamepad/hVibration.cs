@@ -1,14 +1,20 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using XInputDotNetPure;
+#if UNITY_WEBGL
+#else
+	using System.Collections.Generic;
+	using XInputDotNetPure;
+#endif
 
 public class hVibration {
 	// --------------------
 	// PRIVATE VARIABLES
 	// --------------------
 
-	private readonly List<PlayerIndex> index;
+	#if UNITY_WEBGL
+	#else
+		private readonly List<PlayerIndex> index;
+	#endif
 	private readonly bool canVibrate;
 	private float currentLeft;
 	private float currentRight;
@@ -24,18 +30,22 @@ public class hVibration {
 	    if (hUtils.os != "Windows") return;
 	    if (index > 3) return;
 	    
-	    if (index == 0) this.index = new List<PlayerIndex>() { PlayerIndex.One };
-	    else if (index == 1) this.index = new List<PlayerIndex>() { PlayerIndex.Two };
-		else if (index == 2) this.index = new List<PlayerIndex>() { PlayerIndex.Three };
-	    else if (index == 3) this.index = new List<PlayerIndex>() { PlayerIndex.Four };
-	    else if (index == -1) this.index = new List<PlayerIndex>() {
-		    PlayerIndex.One, 
-		    PlayerIndex.Two, 
-		    PlayerIndex.Three, 
-		    PlayerIndex.Four
-	    };
+		#if UNITY_WEBGL
+		#else
+		    if (index == 0) this.index = new List<PlayerIndex>() { PlayerIndex.One };
+		    else if (index == 1) this.index = new List<PlayerIndex>() { PlayerIndex.Two };
+			else if (index == 2) this.index = new List<PlayerIndex>() { PlayerIndex.Three };
+		    else if (index == 3) this.index = new List<PlayerIndex>() { PlayerIndex.Four };
+		    else if (index == -1) this.index = new List<PlayerIndex>() {
+			    PlayerIndex.One, 
+			    PlayerIndex.Two, 
+			    PlayerIndex.Three, 
+			    PlayerIndex.Four
+		    };
+		    
+		    canVibrate = true;
+		#endif
 	    
-		canVibrate = true;
     }
 
 
@@ -48,7 +58,10 @@ public class hVibration {
 		
 		prevLeft = currentLeft;
 		prevRight = currentRight;
-		DoVibrate(index, currentLeft, currentRight);
+		#if UNITY_WEBGL
+		#else
+			DoVibrate(index, currentLeft, currentRight);
+		#endif
 	}
 
 
@@ -72,7 +85,10 @@ public class hVibration {
 	public void StopVibration () {
 		currentLeft = 0;
 		currentRight = 0;
-		DoVibrate(index, 0, 0);
+		#if UNITY_WEBGL
+		#else
+			DoVibrate(index, 0, 0);
+		#endif
 		hUtils.StopRoutines();
 	}
 
@@ -91,6 +107,9 @@ public class hVibration {
 			currentRight -= right;
 			currentLeft -= left;
 		} else {
+			#if UNITY_WEBGL
+				Debug.LogWarning("hinput warning: vibration is not supported in WebGL");
+			#endif
 			if (hUtils.os != "Windows") {
 				Debug.LogWarning("hinput warning : vibration is only supported on Windows computers.");
 			} else {
@@ -99,11 +118,14 @@ public class hVibration {
 		}
 	}
 
-	private static void DoVibrate(List<PlayerIndex> indices, double left, double right) {
-		try {
-			foreach (PlayerIndex playerIndex in indices) {
-				GamePad.SetVibration(playerIndex, (float)left, (float)right);
-			}
-		} catch { /*Ignore errors here*/ }
-	}
+	#if UNITY_WEBGL
+	#else
+		private static void DoVibrate(List<PlayerIndex> indices, double left, double right) {
+			try {
+				foreach (PlayerIndex playerIndex in indices) {
+					GamePad.SetVibration(playerIndex, (float)left, (float)right);
+				}
+			} catch { /*Ignore errors here*/ }
+		}
+	#endif
 }
