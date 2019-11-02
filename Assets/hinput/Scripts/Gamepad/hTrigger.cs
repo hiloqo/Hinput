@@ -16,7 +16,8 @@ public class hTrigger : hPressable {
 	// CONSTRUCTOR
 	// --------------------
 
-	public hTrigger (string name, hGamepad gamepad, int index) : base(name, gamepad.fullName+"_"+name, gamepad.index) {
+	public hTrigger (string name, hGamepad gamepad, int index) : 
+		base(name, gamepad.fullName+"_"+name, gamepad.index) {
 		this.index = index;
 		initialValue = measuredPosition;
 	}

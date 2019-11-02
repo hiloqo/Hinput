@@ -16,7 +16,8 @@ public class hButton : hPressable {
 	// CONSTRUCTOR
 	// --------------------
 
-	public hButton(string name, hGamepad gamepad, int index) : base(name, gamepad.fullName + "_" + name, gamepad.index) {
+	public hButton(string name, hGamepad gamepad, int index) : 
+		base(name, gamepad.fullName + "_" + name, gamepad.index) {
 		this.index = index;
 	}
 

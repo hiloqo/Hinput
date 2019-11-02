@@ -23,7 +23,8 @@ public class hStickPressedZone : hPressable {
     // CONSTRUCTOR
     // --------------------
 
-    public hStickPressedZone (string name, hStick stick) : base(name, stick.fullName + "_" + name, stick.gamepadIndex) {
+    public hStickPressedZone(string name, hStick stick) : 
+        base(name, stick.fullName + "_" + name, stick.gamepadIndex) {
         stickIndex = stick.index;
     }
 

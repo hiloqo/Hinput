@@ -28,7 +28,8 @@ public class hDirection : hPressable {
 	// CONSTRUCTOR
 	// --------------------
 
-	public hDirection (string name, float angle, hStick stick) : base(name, stick.fullName+"_"+name, stick.gamepadIndex) {
+	public hDirection (string name, float angle, hStick stick) : 
+		base(name, stick.fullName+"_"+name, stick.gamepadIndex) {
 		stickIndex = stick.index;
 		this.angle = angle;
 	}

@@ -116,18 +116,20 @@ public class hTester : MonoBehaviour {
 		if (gamepadInfoOnGPressed && Input.GetKeyDown(KeyCode.G)) {
 			hGamepad currentGamepad = currentButton.gamepad;
 			Debug.Log("current gamepad: " +
-			          "[type = "+currentGamepad.type+", " +
-			          "index = "+currentGamepad.index+", " +
-			          "full name = "+currentGamepad.fullName+"]");
+			          "[type = "+currentGamepad.type+
+			          ", index = "+currentGamepad.index+
+			          ", full name = "+currentGamepad.fullName+"]");
 		}
+		
 		if (stickInfoOnPPressed && Input.GetKeyDown(KeyCode.P)) {
 			Debug.Log("current stick: " +
-			          "[index = "+currentStick.index+", " +
-			          "name = "+currentStick.name+", " +
-			          "full name = "+currentStick.fullName+", " +
-			          "gamepad full name = "+currentStick.gamepad.fullName+", " +
-			          "gamepad index = "+currentStick.gamepadIndex+"]");
+			          "[index = "+currentStick.index+
+			          ", name = "+currentStick.name+
+			          ", full name = "+currentStick.fullName+
+			          ", gamepad full name = "+currentStick.gamepad.fullName+
+			          ", gamepad index = "+currentStick.gamepadIndex+"]");
 		}
+		
 		if (buttonInfoOnBPressed && Input.GetKeyDown(KeyCode.B)) {
 			string log = "name = " + currentButton.name + 
 			             ", full name = " + currentButton.fullName +
