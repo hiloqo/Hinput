@@ -48,8 +48,6 @@ public abstract class hPressable {
 	// CONSTRUCTOR
 	// --------------------
 
-	protected hPressable() { }
-
 	protected hPressable(string name, string fullName, int gamepadIndex) {
 		this.name = name;
 		this.fullName = fullName;
