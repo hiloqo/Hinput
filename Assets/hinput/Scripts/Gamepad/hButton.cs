@@ -3,10 +3,22 @@
 /// </summary>
 public class hButton : hPressable {
 	// --------------------
-	// CONSTRUCTOR
+	// NAME
 	// --------------------
 	
-	public hButton (string name, hGamepad gamepad) : base(name, gamepad.fullName+"_"+name, gamepad.index) { }
+	/// <summary>
+	/// Returns the index of the button on its gamepad.
+	/// </summary>
+	public int index { get; }
+	
+	
+	// --------------------
+	// CONSTRUCTOR
+	// --------------------
+
+	public hButton(string name, hGamepad gamepad, int index) : base(name, gamepad.fullName + "_" + name, gamepad.index) {
+		this.index = index;
+	}
 
 	
 	// --------------------

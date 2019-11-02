@@ -39,6 +39,7 @@ public class hGamepad {
 	private hStick _leftStick, _rightStick, _dPad;
 
 	private List<hStick> _sticks;
+	private List<hPressable> _buttons;
 
 	private hAnyInput _anyInput;
 
@@ -134,7 +135,7 @@ public class hGamepad {
 	/// </summary>
 	public hButton A { 
 		get {
-			if (_A == null) _A = new hButton ("A", this);
+			if (_A == null) _A = new hButton ("A", this, 0);
 			return _A; 
 		} 
 	}
@@ -144,7 +145,7 @@ public class hGamepad {
 	/// </summary>
 	public hButton B { 
 		get {
-			if (_B == null) _B = new hButton ("B", this);
+			if (_B == null) _B = new hButton ("B", this, 1);
 			return _B; 
 		} 
 	}
@@ -154,7 +155,7 @@ public class hGamepad {
 	/// </summary>
 	public hButton X { 
 		get {
-			if (_X == null) _X = new hButton ("X", this);
+			if (_X == null) _X = new hButton ("X", this, 2);
 			return _X; 
 		} 
 	}
@@ -164,7 +165,7 @@ public class hGamepad {
 	/// </summary>
 	public hButton Y { 
 		get {
-			if (_Y == null) _Y = new hButton ("Y", this);
+			if (_Y == null) _Y = new hButton ("Y", this, 3);
 			return _Y; 
 		} 
 	}
@@ -175,7 +176,7 @@ public class hGamepad {
 	/// </summary>
 	public hButton leftBumper { 
 		get {
-			if (_leftBumper == null) _leftBumper = new hButton ("LeftBumper", this);
+			if (_leftBumper == null) _leftBumper = new hButton ("LeftBumper", this, 4);
 			return _leftBumper; 
 		} 
 	}
@@ -185,7 +186,7 @@ public class hGamepad {
 	/// </summary>
 	public hButton rightBumper { 
 		get {
-			if (_rightBumper == null) _rightBumper = new hButton ("RightBumper", this);
+			if (_rightBumper == null) _rightBumper = new hButton ("RightBumper", this, 5);
 			return _rightBumper; 
 		} 
 	}
@@ -195,7 +196,7 @@ public class hGamepad {
 	/// </summary>
 	public hButton back { 
 		get {
-			if (_back == null) _back = new hButton ("Back", this);
+			if (_back == null) _back = new hButton ("Back", this, 8);
 			return _back; 
 		} 
 	}
@@ -205,7 +206,7 @@ public class hGamepad {
 	/// </summary>
 	public hButton start { 
 		get {
-			if (_start == null) _start = new hButton ("Start", this);
+			if (_start == null) _start = new hButton ("Start", this, 9);
 			return _start; 
 		} 
 	}
@@ -215,7 +216,7 @@ public class hGamepad {
 	/// </summary>
 	public hButton leftStickClick { 
 		get {
-			if (_leftStickClick == null) _leftStickClick = new hButton ("LeftStickClick", this);
+			if (_leftStickClick == null) _leftStickClick = new hButton ("LeftStickClick", this, 10);
 			return _leftStickClick; 
 		} 
 	}
@@ -225,7 +226,7 @@ public class hGamepad {
 	/// </summary>
 	public hButton rightStickClick { 
 		get {
-			if (_rightStickClick == null) _rightStickClick = new hButton ("RightStickClick", this);
+			if (_rightStickClick == null) _rightStickClick = new hButton ("RightStickClick", this, 11);
 			return _rightStickClick; 
 		} 
 	}
@@ -237,7 +238,7 @@ public class hGamepad {
 	/// </summary>
 	public hButton xBoxButton { 
 		get {
-			if (_xBoxButton == null) _xBoxButton = new hButton ("XBoxButton", this);
+			if (_xBoxButton == null) _xBoxButton = new hButton ("XBoxButton", this, 12);
 			return _xBoxButton; 
 		} 
 	}
@@ -247,7 +248,7 @@ public class hGamepad {
 	/// </summary>
 	public hTrigger leftTrigger { 
 		get {
-			if (_leftTrigger == null) _leftTrigger = new hTrigger ("LeftTrigger", this);
+			if (_leftTrigger == null) _leftTrigger = new hTrigger ("LeftTrigger", this, 6);
 			return _leftTrigger; 
 		} 
 	}
@@ -257,7 +258,7 @@ public class hGamepad {
 	/// </summary>
 	public hTrigger rightTrigger { 
 		get {
-			if (_rightTrigger == null) _rightTrigger = new hTrigger ("RightTrigger", this);
+			if (_rightTrigger == null) _rightTrigger = new hTrigger ("RightTrigger", this, 7);
 			return _rightTrigger; 
 		} 
 	}
@@ -302,6 +303,24 @@ public class hGamepad {
 		}
 	}
 
+	/// <summary>
+	/// The list containing a gamepad’s buttons, in the following order : { A, B, X, Y, left bumper, right bumper, left
+	/// trigger, right trigger, back, start, left stick click, right stick click, XBox button }
+	/// </summary>
+	public List<hPressable> buttons { 
+		get {
+			if (_buttons == null) _buttons = new List<hPressable>() {
+				A, B, X, Y,
+				leftBumper, rightBumper, leftTrigger, rightTrigger,
+				back, start, leftStickClick, rightStickClick, xBoxButton
+			};
+			return _buttons;
+		}
+	}
+
+	/// <summary>
+	/// A virtual button that returns the inputs of every input of a gamepad at once.
+	/// </summary>
 	public hAnyInput anyInput {
 		get {
 			if (_anyInput == null) _anyInput = new hAnyInput("AnyInput", this);

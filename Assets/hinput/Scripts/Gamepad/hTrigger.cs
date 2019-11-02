@@ -3,10 +3,21 @@
 /// </summary>
 public class hTrigger : hPressable {
 	// --------------------
+	// NAME
+	// --------------------
+	
+	/// <summary>
+	/// Returns the index of the trigger on its gamepad.
+	/// </summary>
+	public int index { get; }
+	
+	
+	// --------------------
 	// CONSTRUCTOR
 	// --------------------
 
-	public hTrigger (string name, hGamepad gamepad) : base(name, gamepad.fullName+"_"+name, gamepad.index) {
+	public hTrigger (string name, hGamepad gamepad, int index) : base(name, gamepad.fullName+"_"+name, gamepad.index) {
+		this.index = index;
 		initialValue = measuredPosition;
 	}
 

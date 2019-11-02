@@ -129,28 +129,30 @@ public class hTester : MonoBehaviour {
 			          "gamepad index = "+currentStick.gamepadIndex+"]");
 		}
 		if (buttonInfoOnBPressed && Input.GetKeyDown(KeyCode.B)) {
+			string log = "name = " + currentButton.name + 
+			             ", full name = " + currentButton.fullName +
+			             ", gamepad index = " + currentButton.gamepadIndex;
+			
 			if (currentButton is hDirection currentDirection) {
-				Debug.Log("current button is a stick direction: " +
-				          "[name = "+currentDirection.name+", " +
-				          "full name = "+currentDirection.fullName+", " +
-				          "stick index = "+currentDirection.stickIndex+", " +
-				          "stick full name = "+currentDirection.stick.fullName+", " +
-				          "angle = "+currentDirection.angle+", " +
-				          "gamepad index = "+currentDirection.gamepadIndex+"]");
+				log = "current direction: [" + log +
+				      ", stick index = " + currentDirection.stickIndex +
+				       ", stick full name = " + currentDirection.stick.fullName +
+				       ", angle = " + currentDirection.angle;
 			} else if (currentButton is hStickPressedZone currentStickPressedZone) {
-				Debug.Log("current stick's button: " +
-				          "[name = "+currentStickPressedZone.name+", " +
-				          "full name = "+currentStickPressedZone.fullName+", " +
-				          "stick index = "+currentStickPressedZone.stickIndex+", " +
-				          "stick full name = "+currentStickPressedZone.stick.fullName+", " +
-				          "gamepad full name = "+currentStickPressedZone.gamepad.fullName+", " +
-				          "gamepad index = "+currentStickPressedZone.gamepadIndex+"]");
-			} else {
-				Debug.Log("current button: " +
-				          "[name = "+currentButton.name+", " +
-				          "full name = "+currentButton.fullName+", " +
-				          "gamepad index = "+currentButton.gamepadIndex+"]");
+				log = "current stick pressed zone: [" + log +
+				      ", stick index = " + currentStickPressedZone.stickIndex;
+			} else if (currentButton is hButton currenthButton) {
+				log = "current button: [" + log +
+				      ", index = " + currenthButton.index;
+			} else if (currentButton is hTrigger currentTrigger) {
+				log = "current trigger: [" + log +
+				      ", index = " + currentTrigger.index;
+			} else if (currentButton is hAnyInput) {
+				log = "current anyInput: [" + log;
 			}
+
+			log += "]";
+			Debug.Log(log);
 		}
 	}
 
