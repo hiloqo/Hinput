@@ -1,4 +1,6 @@
-﻿/// <summary>
+﻿using UnityEngine;
+
+/// <summary>
 /// hinput class representing a given direction of a stick or D-pad, such as the up or down-left directions.
 /// </summary>
 public class hDirection : hPressable {
@@ -26,7 +28,7 @@ public class hDirection : hPressable {
 	// CONSTRUCTOR
 	// --------------------
 
-	public hDirection (string name, float angle, hStick stick) : base(name, stick.fullName+"_"+name, stick.index) {
+	public hDirection (string name, float angle, hStick stick) : base(name, stick.fullName+"_"+name, stick.gamepadIndex) {
 		stickIndex = stick.index;
 		this.angle = angle;
 	}

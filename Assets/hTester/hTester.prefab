@@ -233,11 +233,14 @@ MonoBehaviour:
   playInFixedUpdate: 0
   individualGamepads: 1
   anyGamepad: 0
+  individualInputs: 1
+  anyInput: 0
   gamepadInfoOnGPressed: 1
   stickInfoOnPPressed: 1
   buttonInfoOnBPressed: 1
   stickVerticalsAndHorizontals: 1
   stickDiagonals: 0
+  stickPressedZone: 0
   buttonPosition: 0
   pressedAndReleased: 0
   justPressedAndReleased: 1
@@ -255,7 +258,6 @@ MonoBehaviour:
   angle: 0
   distance: 0
   stickInDeadZone: 0
-  stickInPressedZone: 0
   worldPositionCamera: 0
   worldPositionCameraRaw: 0
   worldPositionFlat: 0

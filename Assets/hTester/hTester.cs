@@ -11,8 +11,12 @@ public class hTester : MonoBehaviour {
 	[Range(0,3)]
 	public float timeScale;
 	public bool playInFixedUpdate;
+
+	[Header("AGGREGATES")] 
 	public bool individualGamepads;
 	public bool anyGamepad;
+	public bool individualInputs;
+	public bool anyInput;
 
 	[Header("INFO")] 
 	public bool gamepadInfoOnGPressed;
@@ -182,27 +186,35 @@ public class hTester : MonoBehaviour {
 	// --------------------
 
 	private List<hPressable> AllGamepadButtons (hGamepad gamepad) {
-		List<hPressable> buttons = new List<hPressable>() {
-			gamepad.A, gamepad.B, gamepad.X, gamepad.Y, gamepad.leftBumper, gamepad.rightBumper, 
-			gamepad.leftTrigger, gamepad.rightTrigger, gamepad.leftStickClick, gamepad.rightStickClick, 
-			gamepad.back, gamepad.start, gamepad.xBoxButton
-		};
+		List<hPressable> buttons = new List<hPressable>();
 
-		if (stickVerticalsAndHorizontals) buttons.AddRange (new List<hPressable>() {
-			gamepad.leftStick.up, gamepad.leftStick.down, gamepad.leftStick.left, gamepad.leftStick.right,
-			gamepad.rightStick.up, gamepad.rightStick.down, gamepad.rightStick.left, gamepad.rightStick.right,
-			gamepad.dPad.up, gamepad.dPad.down, gamepad.dPad.left, gamepad.dPad.right
-		});
+		if (anyInput) {
+			buttons.Add(gamepad.anyInput);
+		}
+		
+		if (individualInputs) {
+			buttons.AddRange (new List<hPressable>() {
+				gamepad.A, gamepad.B, gamepad.X, gamepad.Y, gamepad.leftBumper, gamepad.rightBumper, 
+				gamepad.leftTrigger, gamepad.rightTrigger, gamepad.leftStickClick, gamepad.rightStickClick, 
+				gamepad.back, gamepad.start, gamepad.xBoxButton
+			});
 
-		if (stickDiagonals) buttons.AddRange (new List<hPressable>() {
-			gamepad.leftStick.upLeft, gamepad.leftStick.upRight, gamepad.leftStick.downLeft, gamepad.leftStick.downRight,
-			gamepad.rightStick.upLeft, gamepad.rightStick.upRight, gamepad.rightStick.downLeft, gamepad.rightStick.downRight,
-			gamepad.dPad.upLeft, gamepad.dPad.upRight, gamepad.dPad.downLeft, gamepad.dPad.downRight
-		});
+			if (stickVerticalsAndHorizontals) buttons.AddRange (new List<hPressable>() {
+				gamepad.leftStick.up, gamepad.leftStick.down, gamepad.leftStick.left, gamepad.leftStick.right,
+				gamepad.rightStick.up, gamepad.rightStick.down, gamepad.rightStick.left, gamepad.rightStick.right,
+				gamepad.dPad.up, gamepad.dPad.down, gamepad.dPad.left, gamepad.dPad.right
+			});
 
-		if (stickPressedZone) buttons.AddRange (new List<hPressable>() {
-			gamepad.leftStick.inPressedZone, gamepad.rightStick.inPressedZone, gamepad.dPad.inPressedZone
-		});
+			if (stickDiagonals) buttons.AddRange (new List<hPressable>() {
+				gamepad.leftStick.upLeft, gamepad.leftStick.upRight, gamepad.leftStick.downLeft, gamepad.leftStick.downRight,
+				gamepad.rightStick.upLeft, gamepad.rightStick.upRight, gamepad.rightStick.downLeft, gamepad.rightStick.downRight,
+				gamepad.dPad.upLeft, gamepad.dPad.upRight, gamepad.dPad.downLeft, gamepad.dPad.downRight
+			});
+
+			if (stickPressedZone) buttons.AddRange (new List<hPressable>() {
+				gamepad.leftStick.inPressedZone, gamepad.rightStick.inPressedZone, gamepad.dPad.inPressedZone
+			});
+		}
 
 		return buttons;
 	}

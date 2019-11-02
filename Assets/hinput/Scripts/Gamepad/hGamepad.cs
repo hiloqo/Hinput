@@ -40,6 +40,8 @@ public class hGamepad {
 
 	private List<hStick> _sticks;
 
+	private hAnyInput _anyInput;
+
 	private readonly hVibration vibration;
 
 
@@ -74,7 +76,8 @@ public class hGamepad {
 		|| rightStickClick.gamepadIndex == 0
 		|| xBoxButton.gamepadIndex == 0
 		|| leftTrigger.gamepadIndex == 0
-		|| rightTrigger.gamepadIndex == 0) {
+		|| rightTrigger.gamepadIndex == 0
+		|| anyInput.gamepadIndex == 0) {
 			// Do nothing, I'm just looking them up so that they are assigned.
 		}
 		
@@ -117,6 +120,8 @@ public class hGamepad {
 
 
 		if (_dPad != null) _dPad.Update();
+		
+		anyInput.Update();
 	}
 
 	
@@ -294,6 +299,13 @@ public class hGamepad {
 		get {
 			if (_sticks == null) _sticks = new List<hStick>() { leftStick, rightStick, dPad };
 			return _sticks;
+		}
+	}
+
+	public hAnyInput anyInput {
+		get {
+			if (_anyInput == null) _anyInput = new hAnyInput("AnyInput", this);
+			return _anyInput;
 		}
 	}
 
