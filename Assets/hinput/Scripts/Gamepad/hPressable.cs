@@ -124,19 +124,19 @@ public abstract class hPressable {
 	/// Returns the date the input was last released (in seconds from the beginning of the game). 
 	/// Returns zero if it hasn't been pressed.
 	/// </summary>
-	public float lastReleased { get; private set; } = 0f;
+	public float lastReleased { get; private set; }
 
 	/// <summary>
 	/// Returns the date the input was last pressed (in seconds from the beginning of the game). 
 	/// Returns 0 if it hasn't been pressed.
 	/// </summary>
-	public float lastPressed { get; private set; } = 0f;
+	public float lastPressed { get; private set; }
 
 	/// <summary>
 	/// Returns the date the input was last justPressed (in seconds from the beginning of the game). 
 	/// Returns 0 if it hasn't been pressed.
 	/// </summary>
-	public float lastPressStart { get; private set; } = 0f;
+	public float lastPressStart { get; private set; }
 
 	/// <summary>
 	/// Returns true if the input is currently pressed and was released last frame. Returns false otherwise.

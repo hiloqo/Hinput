@@ -135,20 +135,20 @@ public class hTester : MonoBehaviour {
 			             ", full name = " + currentButton.fullName +
 			             ", gamepad index = " + currentButton.gamepadIndex;
 			
-			if (currentButton is hDirection currentDirection) {
+			if (currentButton is hDirection) {
 				log = "current direction: [" + log +
-				      ", stick index = " + currentDirection.stickIndex +
-				       ", stick full name = " + currentDirection.stick.fullName +
-				       ", angle = " + currentDirection.angle;
-			} else if (currentButton is hStickPressedZone currentStickPressedZone) {
+				      ", stick index = " + ((hDirection)currentButton).stickIndex +
+				       ", stick full name = " + ((hDirection)currentButton).stick.fullName +
+				       ", angle = " + ((hDirection)currentButton).angle;
+			} else if (currentButton is hStickPressedZone) {
 				log = "current stick pressed zone: [" + log +
-				      ", stick index = " + currentStickPressedZone.stickIndex;
-			} else if (currentButton is hButton currenthButton) {
+				      ", stick index = " + ((hStickPressedZone)currentButton).stickIndex;
+			} else if (currentButton is hButton) {
 				log = "current button: [" + log +
-				      ", index = " + currenthButton.index;
-			} else if (currentButton is hTrigger currentTrigger) {
+				      ", index = " + ((hButton)currentButton).index;
+			} else if (currentButton is hTrigger) {
 				log = "current trigger: [" + log +
-				      ", index = " + currentTrigger.index;
+				      ", index = " + ((hTrigger)currentButton).index;
 			} else if (currentButton is hAnyInput) {
 				log = "current anyInput: [" + log;
 			}
