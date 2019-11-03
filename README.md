@@ -3,7 +3,7 @@
 
 hinput is a simple gamepad manager for Unity.
 
-**[install](http://tiny.cc/hinput_install)** | **[learn](http://tiny.cc/hinput_learn)** | **[documentation](http://tiny.cc/hinput_documentation)** 
+**[install](http://tiny.cc/hinput_install_v1-3-0)** | **[learn](http://tiny.cc/hinput_learn_v1-3-0)** | **[documentation](http://tiny.cc/hinput_doc_v1-3-0)** 
 
 hinput manages all gamepad interactions for you. With this simple multi-OS solution, you will never have to worry again about manually filling gamepad inputs, or handling settings for different operating systems. 
 

@@ -47,12 +47,12 @@ public class hAnyInput : hPressable{
     public override float position { get { return inputs.Max(input => input.position); } }
 
     /// <summary>
-    /// Returns true if a gamepad button is currently beyond hSettings.triggerPressedZone. Returns false otherwise.
+    /// Returns true if a gamepad button is currently pressed. Returns false otherwise.
     /// </summary>
     public override bool pressed { get { return inputs.Select(input => input.pressed).Contains(true); } }
 
     /// <summary>
-    /// Returns true if all gamepad buttons are currently within hSettings.triggerDeadZone. Returns false otherwise.
+    /// Returns true if all gamepad buttons are currently in dead zone. Returns false otherwise.
     /// </summary>
     public override bool inDeadZone { get { return !inputs.Select(input => input.inDeadZone).Contains(false); } }
 }

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// hinput class representing a stick as a button. It is considered pressed if the stick is pushed in any direction.
+/// hinput class representing a stick or D-pad as a button. It is considered pressed if the stick is pushed in any direction.
 /// </summary>
 public class hStickPressedZone : hPressable {
     // --------------------
@@ -43,19 +43,18 @@ public class hStickPressedZone : hPressable {
     // --------------------
     
     /// <summary>
-    /// Returns the distance between the current stick's position and the end of its dead zone.
+    /// Returns the relative distance between the current stick's position and the end of its pressed zone (between 0 and 1).
+    /// Returns 1 if it is in its pressed zone.
     /// </summary>
     public override float position { get { return Mathf.Clamp01(stick.distance/hSettings.stickPressedZone); } }
     
     /// <summary>
-    /// Returns true if the current position of the stick is beyond a distance of hSettings.stickPressedZone of its origin. 
-    /// Returns false otherwise.
+    /// Returns true if the stick is inPressedZone. Returns false otherwise.
     /// </summary>
     public override bool pressed { get { return position >= 1f; } }
     
     /// <summary>
-    /// Returns true if the current position of the stick is within a distance of hSettings.stickDeadZone of its origin. 
-    /// Returns false otherwise.
+    /// Returns true if the stick is inDeadZone. Returns false otherwise.
     /// </summary>
     public override bool inDeadZone { get { return stick.inDeadZone; } }
 }

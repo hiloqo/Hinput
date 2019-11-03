@@ -319,7 +319,7 @@ public class hGamepad {
 	}
 
 	/// <summary>
-	/// A virtual button that returns the inputs of every input of a gamepad at once.
+	/// A virtual button that returns every input of a gamepad at once.
 	/// </summary>
 	public hAnyInput anyInput {
 		get {
@@ -333,7 +333,7 @@ public class hGamepad {
 	// --------------------
 	
 	/// <summary>
-	/// Vibrate a gamepad
+	/// Vibrate a gamepad. Default duration and intensity can be tweaked in settings.
 	/// </summary>
 	public void Vibrate() {
 		vibration.Vibrate(
@@ -343,7 +343,7 @@ public class hGamepad {
 	}
 
 	/// <summary>
-	/// Vibrate a gamepad for duration seconds
+	/// Vibrate a gamepad for duration seconds. Default intensity can be tweaked in settings. 
 	/// </summary>
 	public void Vibrate(float duration) {
 		vibration.Vibrate(
@@ -354,7 +354,7 @@ public class hGamepad {
 	
 	/// <summary>
 	/// Vibrate a gamepad with an instensity of leftIntensity on the left motor, and an intensity of rightIntensity on
-	/// the right motor
+	/// the right motor. Default duration can be tweaked in settings.
 	/// </summary>
 	public void Vibrate(float leftIntensity, float rightIntensity) {
 		vibration.Vibrate(
@@ -365,7 +365,7 @@ public class hGamepad {
 	
 	/// <summary>
 	/// Vibrate a gamepad for duration seconds with an instensity of leftIntensity on the left motor, and an intensity
-	/// of rightIntensity on the right motor
+	/// of rightIntensity on the right motor.
 	/// </summary>
 	public void Vibrate(float leftIntensity, float rightIntensity, float duration) {
 		vibration.Vibrate(
