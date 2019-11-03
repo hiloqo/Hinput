@@ -54,10 +54,15 @@ hinput.gamepad[7].Vibrate(0.5);
 
 Feel free to check out the **[learn](http://tiny.cc/hinput_learn)** guide or the **[documentation](http://tiny.cc/hinput_documentation)** for more
 
+#### A few remarks:
+- **If you were using XInput** in your project before you imported hinput, do not import the XInput folder from hinput. Unity does not deal well with duplicate packages.
 
-**Note** : If you are using Unity 2019, you have access to the preview of Input System. It is not enabled by default, however it is not compatible with hinput.
 
-Here is how to check which system you are using : In the **Edit** menu, click **Project Settings**, then navigate to **Player** > **Other settings** > **Configuration**, and make sure that **Active Input Handling** is set to **Input Manager**.
+- **If you are building a project for WebGL**, do not import the XInput project from hinput. Everything will work just fine, except for the fact that you won’t be able to use gamepad vibration. I’m still investigating this issue.
+
+
+- **If you are using Unity 2019**, you have access to the preview of Input System. It should not be enabled by default, however it is not compatible with hinput.
+Here is how to check which system you are using : In the Edit menu, click Project Settings, then navigate to Player > Other settings > Configuration, and make sure that Active Input Handling is set to Input Manager.
 
 # License
 
