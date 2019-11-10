@@ -29,14 +29,15 @@ public class hUpdater : MonoBehaviour {
 	private static hUpdater _instance;
 	public static hUpdater instance { 
 		get {
-			if (_instance == null) {
-				// Add hinputUpdater component to hinputSettings
-				// If it didnt exist, it will be created
-				_instance = hSettings.instance.gameObject.AddComponent<hUpdater>();
-			}
-
+			CheckInstance();
 			return _instance;
 		} 
+	}
+
+	public static void CheckInstance() {
+		if (_instance != null) return;
+		
+		_instance = hSettings.instance.gameObject.AddComponent<hUpdater>();
 	}
 
 	private void Awake () {

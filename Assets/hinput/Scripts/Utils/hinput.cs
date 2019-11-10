@@ -28,6 +28,7 @@ public static class hinput {
 	/// </example>
 	public static hGamepad anyGamepad { 
 		get { 
+			hUpdater.CheckInstance();
 			if (_anyGamepad == null) {
 				_anyGamepad = new hGamepad(-1);
 			} else {
@@ -47,6 +48,7 @@ public static class hinput {
 	/// </remarks>
 	public static List<hGamepad> gamepad { 
 		get {
+			hUpdater.CheckInstance();
 			if (_gamepad == null) {
 				_gamepad = new List<hGamepad>();
 				for (int i=0; i<hUtils.maxGamepads; i++) _gamepad.Add(new hGamepad(i));

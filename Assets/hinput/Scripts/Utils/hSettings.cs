@@ -14,13 +14,16 @@ public class hSettings : MonoBehaviour {
 	private static hSettings _instance;
 	public static hSettings instance { 
 		get {
-			if (_instance == null) {
-				GameObject go = new GameObject {name = "hinputSettings"};
-				_instance = go.AddComponent<hSettings>();
-			}
-			
+			CheckInstance();
 			return _instance;
 		} 
+	}
+
+	private static void CheckInstance() {
+		if (_instance != null) return;
+		
+		GameObject go = new GameObject {name = "hinputSettings"};
+		_instance = go.AddComponent<hSettings>();
 	}
 
 	private void Awake () {
