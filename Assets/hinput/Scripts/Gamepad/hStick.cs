@@ -52,6 +52,7 @@ public class hStick {
 
 	public static implicit operator Vector2 (hStick hStick) { return hStick.position; }
 	public static implicit operator hPressable (hStick hStick) { return hStick.inPressedZone; }
+	public static implicit operator hStick (hStickPressedZone hStickPressedZone) { return hStickPressedZone.stick; }
 
 
 	// --------------------
