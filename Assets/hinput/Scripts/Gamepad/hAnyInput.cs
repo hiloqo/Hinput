@@ -9,13 +9,15 @@ public class hAnyInput : hPressable{
     // CONSTRUCTOR
     // --------------------
 
-    public hAnyInput(string name, hGamepad gamepad) : 
-        base(name, gamepad.fullName+"_"+name, gamepad.index) {
-        inputs = new List<hPressable>() {
-            gamepad.A, gamepad.B, gamepad.X, gamepad.Y,
-            gamepad.leftBumper, gamepad.rightBumper, gamepad.leftTrigger, gamepad.rightTrigger,
-            gamepad.back, gamepad.start, gamepad.leftStickClick, gamepad.rightStickClick, gamepad.xBoxButton,
-            gamepad.leftStick, gamepad.rightStick, gamepad.dPad
+    public hAnyInput(string name, hGamepad internalGamepad) : 
+        base(name, internalGamepad, internalGamepad.internalFullName + "_" + name) {
+        inputs = new List<hPressable> {
+            internalGamepad.A, internalGamepad.B, internalGamepad.X, internalGamepad.Y,
+            internalGamepad.leftBumper, internalGamepad.rightBumper, 
+            internalGamepad.leftTrigger, internalGamepad.rightTrigger,
+            internalGamepad.back, internalGamepad.start, 
+            internalGamepad.leftStickClick, internalGamepad.rightStickClick, internalGamepad.xBoxButton,
+            internalGamepad.leftStick, internalGamepad.rightStick, internalGamepad.dPad
         };
     }
     

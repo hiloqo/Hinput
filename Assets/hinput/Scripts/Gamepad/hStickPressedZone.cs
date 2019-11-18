@@ -12,20 +12,28 @@ public class hStickPressedZone : hPressable {
     /// Returns the index of the stick this button is attached to (0 for a left stick, 1 for a right stick, 2 for a D-pad).
     /// </summary>
     public int stickIndex { get; }
+	
+    public hStick internalStick { get { return internalGamepad.sticks[stickIndex]; } }
 
     /// <summary>
     /// Returns the stick this button is attached to.
     /// </summary>
     public hStick stick { get { return gamepad.sticks[stickIndex]; } }
+	
+    public string stickFullName { get { return stick.fullName; } }
+	
+    public string internalStickFullName { get { return internalStick.internalFullName; } }
+
+    public override string fullName { get { return stick.fullName + "_" + name; } }
 
 
     // --------------------
     // CONSTRUCTOR
     // --------------------
 
-    public hStickPressedZone(string name, hStick stick) : 
-        base(name, stick.fullName + "_" + name, stick.gamepadIndex) {
-        stickIndex = stick.index;
+    public hStickPressedZone(string name, hStick internalStick) : 
+        base(name, internalStick.internalGamepad, internalStick.internalFullName + "_" + name) {
+        stickIndex = internalStick.index;
     }
 
 	

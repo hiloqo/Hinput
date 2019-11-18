@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-/// <summary>
+﻿/// <summary>
 /// hinput class representing a given direction of a stick or D-pad, such as the up or down-left directions.
 /// </summary>
 public class hDirection : hPressable {
@@ -12,11 +10,19 @@ public class hDirection : hPressable {
 	/// Returns the index of the stick this direction is attached to (0 for a left stick, 1 for a right stick, 2 for a D-pad).
 	/// </summary>
 	public int stickIndex { get; }
+	
+	public hStick internalStick { get { return internalGamepad.sticks[stickIndex]; } }
 
 	/// <summary>
 	/// Returns the stick this direction is attached to.
 	/// </summary>
 	public hStick stick { get { return gamepad.sticks[stickIndex]; } }
+	
+	public string stickFullName { get { return stick.fullName; } }
+	
+	public string internalStickFullName { get { return internalStick.internalFullName; } }
+
+	public override string fullName { get { return stick.fullName + "_" + name; } }
 
 	/// <summary>
 	/// Returns the value of the angle that defines this direction (In degrees : left=180, up=90, right=0, down=-90).
@@ -28,9 +34,9 @@ public class hDirection : hPressable {
 	// CONSTRUCTOR
 	// --------------------
 
-	public hDirection (string name, float angle, hStick stick) : 
-		base(name, stick.fullName+"_"+name, stick.gamepadIndex) {
-		stickIndex = stick.index;
+	public hDirection (string name, float angle, hStick internalStick) : 
+		base(name, internalStick.internalGamepad, internalStick.internalFullName + "_" + name) {
+		stickIndex = internalStick.index;
 		this.angle = angle;
 	}
 

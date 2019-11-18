@@ -16,25 +16,35 @@ public abstract class hPressable {
 	/// </summary>
 	public readonly string name;
 
+	public readonly string internalFullName;
+
 	/// <summary>
 	/// Returns the full name of the input , like “Mac_Gamepad2_RightStickClick”
 	/// </summary>
-	public readonly string fullName;
+	public virtual string fullName { get { return gamepad.fullName + "_" + name; } }
 
-	/// <summary>
-	/// Returns the index of the gamepad this input is attached to.
-	/// </summary>
-	public readonly int gamepadIndex;
+	public readonly hGamepad internalGamepad;
 
 	/// <summary>
 	/// Returns the gamepad this input is attached to.
 	/// </summary>
-	public hGamepad gamepad { 
-		get { 
-			if (gamepadIndex >= 0) return hinput.gamepad[gamepadIndex]; 
-			else return hinput.anyGamepad;
-		} 
+	public hGamepad gamepad {
+		get {
+			if (internalGamepad is hAnyGamepad) return ((hAnyGamepad) internalGamepad).gamepad;
+			else return internalGamepad;
+		}
 	}
+	
+	public string gamepadFullName { get { return gamepad.fullName; } }
+	
+	public string internalGamepadFullName { get { return internalGamepad.internalFullName; } }
+	
+	public int internalGamepadIndex { get { return internalGamepad.internalIndex; } }
+
+	/// <summary>
+	/// Returns the index of the gamepad this input is attached to.
+	/// </summary>
+	public int gamepadIndex { get { return gamepad.index; } }
 
 	
 	// --------------------
@@ -48,10 +58,10 @@ public abstract class hPressable {
 	// CONSTRUCTOR
 	// --------------------
 
-	protected hPressable(string name, string fullName, int gamepadIndex) {
+	protected hPressable(string name, hGamepad internalGamepad, string internalFullName) {
 		this.name = name;
-		this.fullName = fullName;
-		this.gamepadIndex = gamepadIndex;
+		this.internalFullName = internalFullName;
+		this.internalGamepad = internalGamepad;
 	}
 
 	

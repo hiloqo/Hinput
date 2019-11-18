@@ -15,25 +15,30 @@ public class hStick {
 	/// </summary>
 	public string name { get; }
 
+	public readonly string internalFullName;
+
 	/// <summary>
 	/// Returns the full name of the stick, like “Mac_Gamepad2_RightStick”
 	/// </summary>
-	public string fullName { get; }
+	public string fullName { get { return gamepad.fullName + "_" + name; } }
 
-	/// <summary>
-	/// Returns the index of the gamepad this stick is attached to.
-	/// </summary>
-	public int gamepadIndex { get; }
+	public readonly hGamepad internalGamepad;
 
 	/// <summary>
 	/// Returns the gamepad this stick is attached to.
 	/// </summary>
-	public hGamepad gamepad { 
-		get { 
-			if (gamepadIndex >= 0) return hinput.gamepad[gamepadIndex]; 
-			else return hinput.anyGamepad;
-		} 
-	}
+	public virtual hGamepad gamepad { get { return internalGamepad; } }
+	
+	public string gamepadFullName { get { return gamepad.fullName; } }
+	
+	public string internalGamepadFullName { get { return internalGamepad.internalFullName; } }
+	
+	public int internalGamepadIndex { get { return internalGamepad.internalIndex; } }
+
+	/// <summary>
+	/// Returns the index of the gamepad this stick is attached to.
+	/// </summary>
+	public int gamepadIndex { get { return gamepad.index; } }
 
 	/// <summary>
 	/// Returns the index of the stick on its gamepad (0 for a left stick, 1 for a right stick, 2 for a D-pad).
@@ -65,30 +70,32 @@ public class hStick {
 	// CONSTRUCTORS
 	// --------------------
 
-	// For sticks
-	public hStick (string name, hGamepad gamepad, int index) {
+	public hStick(string name, hGamepad internalGamepad, int index) 
+		: this(name, internalGamepad, index, false) { }
+
+	protected hStick (string name, hGamepad internalGamepad, int index, bool isAnyGamepad) {
 		this.name = name;
-		gamepadIndex = gamepad.index;
-		fullName = gamepad.fullName+"_"+name;
+		internalFullName = internalGamepad.internalFullName + "_" + name;
+		this.internalGamepad = internalGamepad;
 		this.index = index;
-		
+
 		inPressedZone = new hStickPressedZone("PressedZone", this);
 
-		horizontalAxis = new hAxis (fullName+"_Horizontal");
-		verticalAxis = new hAxis (fullName+"_Vertical");
-	}
-
-	// For the D-pad
-	public hStick (string name, hGamepad gamepad) {
-		this.name = name;
-		gamepadIndex = gamepad.index;
-		fullName = gamepad.fullName+"_"+name;
-		index = 2;
+		if (isAnyGamepad) return; // Axes are unnecessary for anyGamepad
 		
-		inPressedZone = new hStickPressedZone("pressedZone", this);
+		if (index == 0 || index == 1) { // Sticks
+			horizontalAxis = new hAxis (internalFullName+"_Horizontal");
+			verticalAxis = new hAxis (internalFullName+"_Vertical");
+		}
 
-		horizontalAxis = new hAxis (fullName+"_Horizontal", fullName+"_Left", fullName+"_Right");
-		verticalAxis = new hAxis (fullName+"_Vertical", fullName+"_Down", fullName+"_Up");
+		if (index == 2) { // DPad
+			horizontalAxis = new hAxis (internalFullName+"_Horizontal", 
+				internalFullName+"_Left", 
+				internalFullName+"_Right");
+			verticalAxis = new hAxis (internalFullName+"_Vertical", 
+				internalFullName+"_Down", 
+				internalFullName+"_Up");
+		}
 	}
 	
 
@@ -112,8 +119,10 @@ public class hStick {
 	private readonly hAxis verticalAxis;
 
 	private void UpdateAxes () {
-		_horizontalRaw = horizontalAxis.positionRaw;
-		_verticalRaw = verticalAxis.positionRaw;
+		if (horizontalAxis == null || verticalAxis == null) return;
+		
+		horizontalRaw = horizontalAxis.positionRaw;
+		verticalRaw = verticalAxis.positionRaw;
 	}
 
 
@@ -264,17 +273,15 @@ public class hStick {
 	// PUBLIC PROPERTIES - RAW
 	// --------------------
 
-	private float _horizontalRaw;
 	/// <summary>
 	/// Returns the x coordinate of the stick. The dead zone is not taken into account.
 	/// </summary>
-	public float horizontalRaw { get { return _horizontalRaw; } }
+	public virtual float horizontalRaw { get; private set; }
 
-	private float _verticalRaw;
 	/// <summary>
 	/// Returns the y coordinate of the stick. The dead zone is not taken into account.
 	/// </summary>
-	public float verticalRaw { get { return _verticalRaw; } }
+	public virtual float verticalRaw { get; private set; }
 
 	/// <summary>
 	/// Returns the coordinates of the stick. The dead zone is not taken into account.

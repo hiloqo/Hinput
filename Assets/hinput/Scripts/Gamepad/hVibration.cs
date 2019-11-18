@@ -32,11 +32,11 @@ public class hVibration {
 	    
 		#if UNITY_WEBGL
 		#else
-		    if (index == 0) this.index = new List<PlayerIndex>() { PlayerIndex.One };
-		    else if (index == 1) this.index = new List<PlayerIndex>() { PlayerIndex.Two };
-			else if (index == 2) this.index = new List<PlayerIndex>() { PlayerIndex.Three };
-		    else if (index == 3) this.index = new List<PlayerIndex>() { PlayerIndex.Four };
-		    else if (index == -1) this.index = new List<PlayerIndex>() {
+		    if (index == 0) this.index = new List<PlayerIndex> { PlayerIndex.One };
+		    else if (index == 1) this.index = new List<PlayerIndex> { PlayerIndex.Two };
+			else if (index == 2) this.index = new List<PlayerIndex> { PlayerIndex.Three };
+		    else if (index == 3) this.index = new List<PlayerIndex> { PlayerIndex.Four };
+		    else if (index == -1) this.index = new List<PlayerIndex> {
 			    PlayerIndex.One, 
 			    PlayerIndex.Two, 
 			    PlayerIndex.Three, 

@@ -30,7 +30,7 @@ public static class hinput {
 		get { 
 			hUpdater.CheckInstance();
 			if (_anyGamepad == null) {
-				_anyGamepad = new hGamepad(-1);
+				_anyGamepad = new hAnyGamepad();
 			} else {
 				hUpdater.UpdateGamepads ();
 			}

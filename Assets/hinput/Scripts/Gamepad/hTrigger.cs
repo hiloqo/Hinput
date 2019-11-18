@@ -16,8 +16,8 @@ public class hTrigger : hPressable {
 	// CONSTRUCTOR
 	// --------------------
 
-	public hTrigger (string name, hGamepad gamepad, int index) : 
-		base(name, gamepad.fullName+"_"+name, gamepad.index) {
+	public hTrigger (string name, hGamepad internalGamepad, int index) : 
+		base(name, internalGamepad, internalGamepad.internalFullName + "_" + name) {
 		this.index = index;
 		initialValue = measuredPosition;
 	}
@@ -34,8 +34,8 @@ public class hTrigger : hPressable {
 	// In some instances, until an input is recorded triggers will have a non-zero measured resting position.
 	private float measuredPosition { 
 		get {
-			if (hUtils.os == "Windows") return hUtils.GetAxis(fullName);
-			return (hUtils.GetAxis(fullName) + 1)/2;	
+			if (hUtils.os == "Windows") return hUtils.GetAxis(internalFullName);
+			return (hUtils.GetAxis(internalFullName) + 1)/2;	
 		}
 	}
 

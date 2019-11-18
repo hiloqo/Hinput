@@ -236,6 +236,7 @@ MonoBehaviour:
   individualInputs: 1
   anyInput: 0
   gamepadInfoOnGPressed: 1
+  gamepadListsOnLPressed: 1
   stickInfoOnPPressed: 1
   buttonInfoOnBPressed: 1
   stickVerticalsAndHorizontals: 1
