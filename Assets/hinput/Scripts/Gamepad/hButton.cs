@@ -9,16 +9,18 @@ public class hButton : hPressable {
 	/// <summary>
 	/// Returns the index of the button on its gamepad.
 	/// </summary>
-	public int index { get; }
+	public int index { get { return internalIndex; } }
+
+	public readonly int internalIndex;
 	
 	
 	// --------------------
 	// CONSTRUCTOR
 	// --------------------
 
-	public hButton(string name, hGamepad internalGamepad, int index) : 
+	public hButton(string name, hGamepad internalGamepad, int internalIndex) : 
 		base(name, internalGamepad, internalGamepad.internalFullName + "_" + name) {
-		this.index = index;
+		this.internalIndex = internalIndex;
 	}
 
 	
@@ -28,7 +30,7 @@ public class hButton : hPressable {
 
 	protected override void UpdatePositionRaw() {
 		try {
-			if (hUtils.GetButton(internalFullName, (name !="XBoxButton"))) positionRaw = 1;
+			if (hUtils.GetButton(internalFullName, (internalName !="XBoxButton"))) positionRaw = 1;
 			else positionRaw = 0;
 		} catch {
 			positionRaw = 0;

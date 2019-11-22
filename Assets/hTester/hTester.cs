@@ -197,12 +197,16 @@ public class hTester : MonoBehaviour {
 				      ", stick internal full name = " + ((hStickPressedZone)currentButton).internalStickFullName;
 			} else if (currentButton is hButton) {
 				log = "current button: [" + log +
-				      ", index = " + ((hButton)currentButton).index;
+				      ", index = " + ((hButton)currentButton).index +
+				      ", index = " + ((hButton)currentButton).internalIndex;
 			} else if (currentButton is hTrigger) {
 				log = "current trigger: [" + log +
-				      ", index = " + ((hTrigger)currentButton).index;
+				      ", index = " + ((hTrigger)currentButton).index +
+				      ", internal index = " + ((hTrigger)currentButton).internalIndex;
 			} else if (currentButton is hAnyInput) {
-				log = "current anyInput: [" + log;
+				log = "current anyInput: [" + log +
+				      ", index = " + ((hAnyInput)currentButton).index +
+				      ", internal index = " + ((hAnyInput)currentButton).internalIndex;
 			}
 
 			log += "]";

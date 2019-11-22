@@ -11,10 +11,12 @@ public abstract class hPressable {
 	// NAME
 	// --------------------
 
+	public readonly string internalName;
+
 	/// <summary>
 	/// Returns the name of the input , like “A”, “LeftTrigger” or “DPad_Up”.
 	/// </summary>
-	public readonly string name;
+	public virtual string name { get { return internalName; } }
 
 	public readonly string internalFullName;
 
@@ -58,8 +60,8 @@ public abstract class hPressable {
 	// CONSTRUCTOR
 	// --------------------
 
-	protected hPressable(string name, hGamepad internalGamepad, string internalFullName) {
-		this.name = name;
+	protected hPressable(string internalName, hGamepad internalGamepad, string internalFullName) {
+		this.internalName = internalName;
 		this.internalFullName = internalFullName;
 		this.internalGamepad = internalGamepad;
 	}

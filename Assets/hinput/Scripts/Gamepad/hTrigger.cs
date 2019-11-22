@@ -9,7 +9,9 @@ public class hTrigger : hPressable {
 	/// <summary>
 	/// Returns the index of the trigger on its gamepad.
 	/// </summary>
-	public int index { get; }
+	public int index { get { return internalIndex; } }
+
+	public readonly int internalIndex;
 	
 	
 	// --------------------
@@ -18,7 +20,7 @@ public class hTrigger : hPressable {
 
 	public hTrigger (string name, hGamepad internalGamepad, int index) : 
 		base(name, internalGamepad, internalGamepad.internalFullName + "_" + name) {
-		this.index = index;
+		this.internalIndex = index;
 		initialValue = measuredPosition;
 	}
 
