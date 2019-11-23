@@ -59,4 +59,6 @@ public static class hinput {
 			return _gamepad; 
 		} 
 	}
+	
+	public static hPressable anyInput { get { return anyGamepad.anyInput; } }
 }

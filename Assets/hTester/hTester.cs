@@ -18,6 +18,7 @@ public class hTester : MonoBehaviour {
 	public bool anyGamepad;
 	public bool individualInputs;
 	public bool anyInput;
+	public bool globalAnyInput;
 
 	[Header("INFO")] 
 	public bool gamepadInfoOnGPressed;
@@ -225,6 +226,8 @@ public class hTester : MonoBehaviour {
 	}
 
 	private void GetNewCurrentButton () {
+		if (globalAnyInput && !hinput.anyInput.inDeadZone) currentButton = hinput.anyInput;
+		
 		if (individualGamepads)	
 			for (int i=0; i<hUtils.maxGamepads; i++) 
 				UpdateCurrentButtonFromGamepad(hinput.gamepad[i]);
