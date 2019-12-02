@@ -1,7 +1,7 @@
 ﻿// hinput class measuring a stick axis, and feeding it to a hStick.
 public class hAxis {
 	// --------------------
-	// NAME
+	// ID
 	// --------------------
 
 	private readonly string fullAxisName;

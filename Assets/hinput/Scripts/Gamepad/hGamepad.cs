@@ -6,31 +6,59 @@ using UnityEngine;
 /// </summary>
 public class hGamepad {
 	// --------------------
-	// NAME
+	// ID
 	// --------------------
 
+	/// <summary>
+	/// Returns the real index of a gamepad in the gamepad list of hinput.
+	/// </summary>
+	/// <remarks>
+	/// If this is anyGamepad, returns -1.
+	/// </remarks>
 	public readonly int internalIndex;
 
 	/// <summary>
-	/// The index of a gamepad in the gamepad array of hinput, like 3 for hinput.gamepad[3].index. <br/>
-	/// hinput.anyGamepad.index will return -1.
+	/// Returns the index of a gamepad in the gamepad list of hinput.
 	/// </summary>
+	/// <remarks>
+	/// If this is anyGamepad, returns the index of the gamepad that is currently being pressed.
+	/// </remarks>
 	public virtual int index { get { return internalIndex; } }
 
+	/// <summary>
+	/// Returns the real name of a gamepad, like "Gamepad1".
+	/// </summary>
+	/// <remarks>
+	/// If this is anyGamepad, returns "AnyGamepad".
+	/// </remarks>
 	public readonly string internalName;
 	
+	/// <summary>
+	/// Returns the name of a gamepad, like "Gamepad1".
+	/// </summary>
+	/// <remarks>
+	/// If this is anyGamepad, returns the name of the gamepad that is currently being pressed.
+	/// </remarks>
 	public virtual string name { get { return internalName; } }
 
-	// Gamepad's actual full name, used for initializing buttons. Not overloaded in anyGamepad. 
+	/// <summary>
+	/// Returns the real full name of a gamepad, like "Windows_Gamepad4".
+	/// </summary>
+	/// <remarks>
+	/// If this is anyGamepad, returns the full name of anyGamepad, like "Windows_AnyGamepad".
+	/// </remarks>
 	public readonly string internalFullName;
 
 	/// <summary>
-	/// The full name of a gamepad, like “Linux_Gamepad4”.
+	/// Returns the full name of a gamepad, like "Windows_Gamepad4".
 	/// </summary>
+	/// <remarks>
+	/// If this is anyGamepad, returns the full name of the gamepad that is currently being pressed.
+	/// </remarks>
 	public virtual string fullName { get { return internalFullName; } }
 	
 	/// <summary>
-	/// The type of a gamepad, like "Xbox One For Windows"
+	/// Returns the type of a gamepad, like "Xbox One For Windows"
 	/// </summary>
 	public virtual string type { get { return Input.GetJoystickNames()[index]; } }
 
@@ -330,6 +358,8 @@ public class hGamepad {
 
 	/// <summary>
 	/// A virtual button that returns every input of a gamepad at once.
+	/// It shares its name and full name with the input that is currently being pushed (except if you use "internal"
+	/// properties).
 	/// </summary>
 	public hAnyInput anyInput {
 		get {

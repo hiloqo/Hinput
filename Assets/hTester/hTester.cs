@@ -159,16 +159,26 @@ public class hTester : MonoBehaviour {
 				Debug.Log("Current stick has not been set");
 				return;
 			}
-			
-			Debug.Log("current stick: " +
-			          "[index = " + currentStick.index +
-			          ", name = " + currentStick.name +
-			          ", full name = " + currentStick.fullName +
-			          ", internal full name = " + currentStick.internalFullName +
-			          ", gamepad full name = " + currentStick.gamepadFullName +
-			          ", gamepad internal full name = " + currentStick.internalGamepadFullName +
-			          ", gamepad index = " + currentStick.gamepadIndex +
-			          ", gamepad internal index = " + currentStick.internalGamepadIndex + "]");
+
+			string log = "[index = " + currentStick.index +
+			             ", name = " + currentStick.name +
+			             ", full name = " + currentStick.fullName +
+			             ", internal full name = " + currentStick.internalFullName +
+			             ", gamepad full name = " + currentStick.gamepadFullName +
+			             ", gamepad internal full name = " + currentStick.internalGamepadFullName +
+			             ", gamepad index = " + currentStick.gamepadIndex +
+			             ", gamepad internal index = " + currentStick.internalGamepadIndex;
+
+			if (currentStick is hAnyGamepadStick) {
+				log = "current anyGamepad stick: " + log +
+				      ", pressed sticks = " + ToString(((hAnyGamepadStick) currentStick).pressedSticks.Select(s => s.fullName).ToList()) +
+				      ", pressed stick = " + ((hAnyGamepadStick) currentStick).pressedStick?.fullName;
+			} else {
+				log = "current stick: " + log;
+			}
+
+			log += "]";
+			Debug.Log(log);
 		}
 		
 		if (buttonInfoOnBPressed && Input.GetKeyDown(KeyCode.B)) {
@@ -178,6 +188,7 @@ public class hTester : MonoBehaviour {
 			}
 			
 			string log = "name = " + currentButton.name + 
+			             ", internal name = " + currentButton.internalName +
 			             ", full name = " + currentButton.fullName +
 			             ", internal full name = " + currentButton.internalFullName +
 			             ", gamepad index = " + currentButton.gamepadIndex +
@@ -206,6 +217,7 @@ public class hTester : MonoBehaviour {
 				      ", internal index = " + ((hTrigger)currentButton).internalIndex;
 			} else if (currentButton is hAnyInput) {
 				log = "current anyInput: [" + log +
+				      ", pressed inputs = " + ToString(((hAnyInput) currentButton).pressedInputs.Select(i => i.fullName).ToList()) +
 				      ", index = " + ((hAnyInput)currentButton).index +
 				      ", internal index = " + ((hAnyInput)currentButton).internalIndex;
 			}

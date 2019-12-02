@@ -3,15 +3,24 @@
 /// </summary>
 public class hTrigger : hPressable {
 	// --------------------
-	// NAME
+	// ID
 	// --------------------
+
+	/// <summary>
+	/// Returns the real index of a trigger on its gamepad.
+	/// </summary>
+	/// <remarks>
+	/// If this trigger is anyInput, return -1.
+	/// </remarks>
+	public readonly int internalIndex;
 	
 	/// <summary>
-	/// Returns the index of the trigger on its gamepad.
+	/// Returns the index of a trigger on its gamepad.
 	/// </summary>
+	/// <remarks>
+	/// If this trigger is anyInput, return the index of the input that is currently being pressed.
+	/// </remarks>
 	public int index { get { return internalIndex; } }
-
-	public readonly int internalIndex;
 	
 	
 	// --------------------

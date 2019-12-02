@@ -2,6 +2,9 @@
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// hinput class representing every gamepad at once.
+/// </summary>
 public class hAnyGamepad : hGamepad {
     // --------------------
     // PUSHED GAMEPADS
@@ -10,6 +13,9 @@ public class hAnyGamepad : hGamepad {
     private List<hGamepad> _gamepads = new List<hGamepad>();
     private float _gamepadsDate;
 
+    /// <summary>
+    /// Returns a list of every gamepad that is currently being pressed.
+    /// </summary>
     public List<hGamepad> gamepads {
         get {
             if (Time.unscaledTime.IsEqualTo(_gamepadsDate)) return _gamepads;
@@ -20,6 +26,13 @@ public class hAnyGamepad : hGamepad {
         }
     }
 
+    /// <summary>
+    /// Returns the gamepad that is currently being pressed.
+    /// </summary>
+    /// <remarks>
+    /// If several gamepads are pressed, returns the one with the smallest index.
+    /// If no gamepad is pressed, returns null.
+    /// </remarks>
     public hGamepad gamepad {
         get {
             if (gamepads.Count == 0) return this;
@@ -27,11 +40,14 @@ public class hAnyGamepad : hGamepad {
         }
     }
     
+    /// <summary>
+    /// Returns a list of the indices of every gamepad that is currently being pressed.
+    /// </summary>
     public List<int> indices  { get { return gamepads.Select(g => g.index).ToList(); } }
     
     
     // --------------------
-    // NAME
+    // ID
     // --------------------
 
     public override int index {
@@ -75,21 +91,21 @@ public class hAnyGamepad : hGamepad {
     
     public override hStick leftStick { 
         get {
-            if (_leftStick == null) _leftStick = new hAnyStick ("LeftStick", this, 0);
+            if (_leftStick == null) _leftStick = new hAnyGamepadStick ("LeftStick", this, 0);
             return _leftStick; 
         } 
     }
 
     public override hStick rightStick { 
         get {
-            if (_rightStick == null) _rightStick = new hAnyStick ("RightStick", this, 1);
+            if (_rightStick == null) _rightStick = new hAnyGamepadStick ("RightStick", this, 1);
             return _rightStick; 
         }
     }
 	
     public override hStick dPad { 
         get {
-            if (_dPad == null) _dPad = new hAnyStick ("DPad", this, 2);
+            if (_dPad == null) _dPad = new hAnyGamepadStick ("DPad", this, 2);
             return _dPad; 
         } 
     }

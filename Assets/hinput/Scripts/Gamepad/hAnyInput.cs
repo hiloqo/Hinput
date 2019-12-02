@@ -12,6 +12,10 @@ public class hAnyInput : hPressable{
 
     private List<hPressable> _pressedInputs;
     private float pressedInputsDate;
+    
+    /// <summary>
+    /// Returns a list of every input that is currently being pressed.
+    /// </summary>
     public List<hPressable> pressedInputs {
         get {
             if (pressedInputsDate.IsEqualTo(Time.unscaledTime)) return _pressedInputs;
@@ -22,6 +26,15 @@ public class hAnyInput : hPressable{
         }
     }
 
+    /// <summary>
+    /// Returns the input that is currently being pressed.
+    /// </summary>
+    /// <remarks>
+    /// If no input is pressed, returns null.
+    /// If several inputs are pressed, returns the first pressed input in this order : A, B, X, Y, Left Bumper, Right
+    /// Bumper, Left Trigger, Right Trigger, Back, Start, Left Stick Click, Right Stick Click, XBox Button, Left Stick,
+    /// Right Stick, D-Pad.
+    /// </remarks>
     public hPressable pressedInput {
         get {
             if (pressedInputs.Count == 0) return null;
@@ -40,7 +53,7 @@ public class hAnyInput : hPressable{
 
 
     // --------------------
-    // NAME
+    // ID
     // --------------------
 
     public override string name {
@@ -50,8 +63,20 @@ public class hAnyInput : hPressable{
         }
     }
 
+    /// <summary>
+    /// Returns the real index of the input on its gamepad.
+    /// </summary>
+    /// <remarks>
+    /// If this input is anyInput, returns -1.
+    /// </remarks>
     public readonly int internalIndex = -1;
 
+    /// <summary>
+    /// Returns the index of the input on its gamepad.
+    /// </summary>
+    /// <remarks>
+    /// If this input is anyInput, returns the index of the input that is currently being pressed.
+    /// </remarks>
     public int index {
         get {
             if (pressedInput == null) return internalIndex;

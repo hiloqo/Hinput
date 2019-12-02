@@ -3,15 +3,24 @@
 /// </summary>
 public class hButton : hPressable {
 	// --------------------
-	// NAME
+	// ID
 	// --------------------
+	
+	/// <summary>
+	/// Returns the real index of a button on its gamepad.
+	/// </summary>
+	/// <remarks>
+	/// If this button is anyInput, returns -1.
+	/// </remarks>
+	public readonly int internalIndex;
 	
 	/// <summary>
 	/// Returns the index of the button on its gamepad.
 	/// </summary>
+	/// <remarks>
+	/// If this button is anyInput, returns the index of the input that is currently being pressed.
+	/// </remarks>
 	public int index { get { return internalIndex; } }
-
-	public readonly int internalIndex;
 	
 	
 	// --------------------
@@ -43,17 +52,17 @@ public class hButton : hPressable {
 	// --------------------
 	
 	/// <summary>
-	/// Returns 1 if the button is currently pressed. Returns 0 otherwise.
+	/// Returns 1 if a button is currently pressed. Returns 0 otherwise.
 	/// </summary>
 	public override float position { get { return positionRaw; } }
 
 	/// <summary>
-	/// Returns true if the button is currently pressed. Returns false otherwise.
+	/// Returns true if a button is currently pressed. Returns false otherwise.
 	/// </summary>
 	public override bool pressed { get { return position.IsEqualTo(1); } }
 
 	/// <summary>
-	/// Returns true if the button is released. Returns false otherwise.
+	/// Returns true if a button is currently released. Returns false otherwise.
 	/// </summary>
 	public override bool inDeadZone { get { return !pressed; } }
 }

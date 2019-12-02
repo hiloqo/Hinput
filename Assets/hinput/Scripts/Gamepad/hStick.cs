@@ -7,43 +7,82 @@
 /// </summary>
 public class hStick {
 	// --------------------
-	// NAME
+	// ID
 	// --------------------
 
 	/// <summary>
-	/// Returns the name of the stick, like “LeftStick” or “DPad”.
+	/// Returns the index of a stick on its gamepad (0 for a left stick, 1 for a right stick, 2 for a D-pad).
+	/// </summary>
+	public int index { get; }
+
+	/// <summary>
+	/// Returns the name of a stick, like “LeftStick” or “DPad”.
 	/// </summary>
 	public string name { get; }
 
+	/// <summary>
+	/// Returns the real full name of a stick, like "Linux_Gamepad4_DPad".
+	/// </summary>
+	/// <remarks>
+	/// If this stick is attached to anyGamepad, returns something like "Linux_AnyGamepad_DPad".
+	/// </remarks>
 	public readonly string internalFullName;
 
 	/// <summary>
-	/// Returns the full name of the stick, like “Mac_Gamepad2_RightStick”
+	/// Returns the full name of a stick, like "Linux_Gamepad4_DPad".
 	/// </summary>
+	/// <remarks>
+	/// If this stick is attached to anyGamepad, returns its full name on the gamepad that is currently being pressed.
+	/// </remarks>
 	public string fullName { get { return gamepad.fullName + "_" + name; } }
 
+	/// <summary>
+	/// Returns the real gamepad a stick is attached to.
+	/// </summary>
+	/// <remarks>
+	/// If this stick is attached to anyGamepad, returns anyGamepad.
+	/// </remarks>
 	public readonly hGamepad internalGamepad;
 
 	/// <summary>
-	/// Returns the gamepad this stick is attached to.
+	/// Returns the gamepad a stick is attached to.
 	/// </summary>
+	/// <remarks>
+	/// If this stick is attached to anyGamepad, returns the gamepad that is currently being pressed.
+	/// </remarks>
 	public virtual hGamepad gamepad { get { return internalGamepad; } }
 	
-	public string gamepadFullName { get { return gamepad.fullName; } }
-	
+	/// <summary>
+	/// Returns the real full name of the real gamepad a stick is attached to.
+	/// </summary>
+	/// <remarks>
+	/// If this stick is attached to anyGamepad, returns something like "Linux_AnyGamepad"
+	/// </remarks>
 	public string internalGamepadFullName { get { return internalGamepad.internalFullName; } }
 	
+	/// <summary>
+	/// Returns the full name of the gamepad a stick is attached to.
+	/// </summary>
+	/// <remarks>
+	/// If this stick is attached to anyGamepad, returns the full name of the gamepad that is currently being pressed.
+	/// </remarks>
+	public string gamepadFullName { get { return gamepad.fullName; } }
+	
+	/// <summary>
+	/// Returns the real index of the real gamepad a stick is attached to.
+	/// </summary>
+	/// <remarks>
+	/// If this stick is attached to anyGamepad, returns -1.
+	/// </remarks>
 	public int internalGamepadIndex { get { return internalGamepad.internalIndex; } }
 
 	/// <summary>
-	/// Returns the index of the gamepad this stick is attached to.
+	/// Returns the index of the gamepad a stick is attached to.
 	/// </summary>
+	/// <remarks>
+	/// If this stick is attached to anyGamepad, returns the index of the gamepad that is currently being pressed.
+	/// </remarks>
 	public int gamepadIndex { get { return gamepad.index; } }
-
-	/// <summary>
-	/// Returns the index of the stick on its gamepad (0 for a left stick, 1 for a right stick, 2 for a D-pad).
-	/// </summary>
-	public int index { get; }
 
 	
 	// --------------------
