@@ -116,6 +116,8 @@ public abstract class hPressable {
 		this.internalName = internalName;
 		this.internalFullName = internalFullName;
 		this.internalGamepad = internalGamepad;
+		
+		lastPressed = Mathf.NegativeInfinity; // *force wave* this input was never pressed
 	}
 
 	
