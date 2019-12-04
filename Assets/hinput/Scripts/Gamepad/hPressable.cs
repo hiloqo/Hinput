@@ -185,7 +185,7 @@ public abstract class hPressable {
 
 	/// <summary>
 	/// Returns the date an input was last released (in seconds from the beginning of the game). 
-	/// Returns zero if it hasn't been pressed.
+	/// Returns 0 if it hasn't been pressed.
 	/// </summary>
 	public float lastReleased { get; private set; }
 
@@ -212,50 +212,66 @@ public abstract class hPressable {
 	public bool justReleased { get { return (released && (lastReleased - lastPressed) <= hUpdater.maxDeltaTime); } }
 
 	/// <summary>
-	/// Returns true if the last two presses started less than hSettings.doublePressDuration seconds apart 
-	/// (including current press if the input is pressed). Returns false otherwise.
+	/// Returns true if the last two presses started a short time apart (including current press if the input is
+	/// pressed). Returns false otherwise.
 	/// </summary>
+	/// <remarks>
+	/// The maximum duration of a double press can be changed with the doublePressDuration property of hSettings.
+	/// </remarks>
 	public bool lastPressWasDouble { get { return (lastPressStart - penultimatePressStart) <= hSettings.doublePressDuration; } }
 
 	/// <summary>
-	/// Returns true if an input is currently pressed, 
-	/// and the last two presses started less than hSettings.doublePressDuration seconds apart. 
+	/// Returns true if an input is currently pressed and the last two presses started a short time apart. 
 	/// Returns false otherwise.
 	/// </summary>
+	/// <remarks>
+	/// The maximum duration of a double press can be changed with the doublePressDuration property of hSettings.
+	/// </remarks>
 	public bool doublePress { get { return pressed && lastPressWasDouble; } }
 
 	/// <summary>
-	/// Returns true if an input is currently justPressed, 
-	/// and the last two presses started less than hSettings.doublePressDuration seconds apart. 
+	/// Returns true if an input is currently justPressed and the last two presses started a short time apart. 
 	/// Returns false otherwise.
 	/// </summary>
+	/// <remarks>
+	/// The maximum duration of a double press can be changed with the doublePressDuration property of hSettings.
+	/// </remarks>
 	public bool doublePressJustPressed { get { return justPressed && lastPressWasDouble; } }
 
 	/// <summary>
-	/// Returns true if an input is currently justReleased, 
-	/// and the last two presses started less than hSettings.doublePressDuration seconds apart. 
+	/// Returns true if an input is currently justReleased and the last two presses started a short time apart. 
 	/// Returns false otherwise.
 	/// </summary>
+	/// <remarks>
+	/// The maximum duration of a double press can be changed with the doublePressDuration property of hSettings.
+	/// </remarks>
 	public bool doublePressJustReleased { get { return justReleased && lastPressWasDouble; } }
 
 	/// <summary>
-	/// Returns true if the last press has lasted longer than hSettings.longPressDuration seconds 
-	/// (including current press if the input is pressed). Returns false otherwise.
+	/// Returns true if the last press was long (including current press if the input is pressed).
+	/// Returns false otherwise.
 	/// </summary>
+	/// <remarks>
+	/// The minimum duration of a long press can be changed with the longPressDuration property of hSettings.
+	/// </remarks>
 	public bool lastPressWasLong { get { return (lastPressed - lastPressStart) >= hSettings.longPressDuration; }}
 
 	/// <summary>
-	/// Returns true if an input is currently pressed 
-	/// and the press has lasted longer than hSettings.longPressDuration seconds. 
+	/// Returns true if an input is currently pressed and the press was long. 
 	/// Returns false otherwise.
 	/// </summary>
+	/// <remarks>
+	/// The minimum duration of a long press can be changed with the longPressDuration property of hSettings.
+	/// </remarks>
 	public bool longPress { get { return pressed && lastPressWasLong; } }
 
 	/// <summary>
-	/// Returns true if an input is currently justReleased, 
-	/// and the last press has lasted longer than hSettings.longPressDuration seconds. 
+	/// Returns true if an input is currently justReleased, and the last press was long. 
 	/// Returns false otherwise.
 	/// </summary>
+	/// <remarks>
+	/// The minimum duration of a long press can be changed with the longPressDuration property of hSettings.
+	/// </remarks>
 	public bool longPressJustReleased { get { return justReleased && lastPressWasLong; } }
 
 	/// <summary>

@@ -100,9 +100,12 @@ public class hStick {
 
 
 	/// <summary>
-	/// Returns true if the current position of the stick is beyond a distance of hSettings.stickPressedZone of its origin. 
+	/// Returns true if the current position of the stick is beyond the limit of its pressed zone. 
 	/// Returns false otherwise.
 	/// </summary>
+	/// <remarks>
+	/// The size of the pressed zone of the sticks can be changed with the stickPressedZone property of hSettings.
+	/// </remarks>
 	public readonly hStickPressedZone inPressedZone;
 
 
@@ -363,10 +366,13 @@ public class hStick {
 	}
 
 	/// <summary>
-	/// Returns the coordinates of the stick as a Vector3 facing hSettings.worldCamera. 
+	/// Returns the coordinates of the stick as a Vector3 facing the camera. 
 	/// The stick’s horizontal and vertical axes are interpreted as the camera’s right and up directions. 
 	/// The dead zone is not taken into account.
 	/// </summary>
+	/// <remarks>
+	/// The camera that is being used can be changed with the worldCamera property of hSettings.
+	/// </remarks>
 	public Vector3 worldPositionCameraRaw  { 
 		get { 
 			try { return (hSettings.worldCamera.right*horizontalRaw + hSettings.worldCamera.up*verticalRaw); }
@@ -390,9 +396,12 @@ public class hStick {
 	// --------------------
 
 	/// <summary>
-	/// Returns true if the current position of the stick is within a distance of hSettings.stickDeadZone of its origin. 
+	/// Returns true if the current position of the stick is within the limit of its dead zone. 
 	/// Returns false otherwise.
 	/// </summary>
+	/// <remarks>
+	/// The size of the dead zone of the sticks can be changed with the stickDeadZone property of hSettings.
+	/// </remarks>
 	public bool inDeadZone { get { return distanceRaw < hSettings.stickDeadZone; } }
 
 	private Vector2 _position;
@@ -463,9 +472,12 @@ public class hStick {
 	}
 
 	/// <summary>
-	/// Returns the coordinates of the stick as a Vector3 facing hSettings.worldCamera. 
+	/// Returns the coordinates of the stick as a Vector3 facing the camera. 
 	/// The stick’s horizontal and vertical axes are interpreted as the camera’s right and up directions.
 	/// </summary>
+	/// <remarks>
+	/// The camera that is being used can be changed with the worldCamera property of hSettings.
+	/// </remarks>
 	public Vector3 worldPositionCamera { 
 		get { 
 			try { return (hSettings.worldCamera.right*horizontal + hSettings.worldCamera.up*vertical); }

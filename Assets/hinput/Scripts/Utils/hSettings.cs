@@ -107,9 +107,8 @@ public class hSettings : MonoBehaviour {
 
 	[SerializeField]
 	[Range(45,90)]
-	[Tooltip("The size of the angle that defines a stick direction.\n\n"+
-	"Note : if it is higher than 45 degrees, directions like (up) and (leftUp) will overlap. " 
-	+"Likewise, if it is lower than 90 degrees, there will be a gap between directions like (up) and (left).")]
+	[Tooltip("The width of the sticks' virtual buttons.\n\n"+
+	"Set it to 45 degrees for 8-directional sticks, or to 90 degrees for 4-directional sticks")]
 	private float _directionAngle = 90f;
 	/// <summary>
 	/// The size of the angle that defines a stick direction. <br/>

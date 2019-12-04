@@ -87,12 +87,18 @@ public class hTrigger : hPressable {
 	}
 
 	/// <summary>
-	/// Returns true if the position of the trigger is beyond hSettings.triggerPressedZone. Returns false otherwise.
+	/// Returns true if the position of the trigger is beyond the limit of its pressed zone. Returns false otherwise.
 	/// </summary>
+	/// <remarks>
+	/// The size of the pressed zone of the triggers can be changed with the triggerPressedZone property of hSettings.
+	/// </remarks>
 	public override bool pressed { get { return position >= hSettings.triggerPressedZone; } }
 
 	/// <summary>
-	/// Returns true if if the position of the trigger is within hSettings.triggerDeadZone. Returns false otherwise.
+	/// Returns true if if the position of the trigger is within the limits of its dead zone. Returns false otherwise.
 	/// </summary>
+	/// <remarks>
+	/// The size of the dead zone of the triggers can be changed with the triggerDeadZone property of hSettings.
+	/// </remarks>
 	public override bool inDeadZone { get { return position < hSettings.triggerDeadZone; } }
 }

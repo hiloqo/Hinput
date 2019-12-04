@@ -84,14 +84,20 @@ public class hDirection : hPressable {
 	public override float position { get { return hUtils.DotProduct (stick.position, stick.angle); } }
 
 	/// <summary>
-	/// Returns true if the stick is inPressedZone, and within hSettings.directionAngle degrees of angle.
+	/// Returns true if the stick is inPressedZone, and pointing towards angle.
 	/// Returns false otherwise.
 	/// </summary>
+	/// <remarks>
+	/// The width of this virtual button can be changed with the directionAngle property of hSettings.
+	/// </remarks>
 	public override bool pressed { get { return (stick.inPressedZone && hUtils.StickWithinAngle(stick, angle)); } }
 
 	/// <summary>
-	/// Returns true if the stick is inDeadZone, or beyond hSettings.directionAngle degrees of angle.
+	/// Returns true if the stick is inDeadZone, or not pointing towards angle.
 	/// Returns false otherwise.
 	/// </summary>
+	/// <remarks>
+	/// The width of this virtual button can be changed with the directionAngle property of hSettings.
+	/// </remarks>
 	public override bool inDeadZone { get { return (stick.inDeadZone || ! hUtils.StickWithinAngle(stick, angle)); } }
 }
