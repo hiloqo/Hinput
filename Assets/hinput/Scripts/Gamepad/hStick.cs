@@ -133,11 +133,11 @@ public class hStick {
 
 		if (index == 2) { // DPad
 			horizontalAxis = new hAxis (internalFullName+"_Horizontal", 
-				internalFullName+"_Left", 
-				internalFullName+"_Right");
+				internalFullName+"_Right", 
+				internalFullName+"_Left");
 			verticalAxis = new hAxis (internalFullName+"_Vertical", 
-				internalFullName+"_Down", 
-				internalFullName+"_Up");
+				internalFullName+"_Up", 
+				internalFullName+"_Down");
 		}
 	}
 	
