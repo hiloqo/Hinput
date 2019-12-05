@@ -89,18 +89,14 @@ public static class hUtils {
 	public static string os { 
 		get { 
 			if (_os == null) {
-				#if UNITY_EDITOR_WIN
+				#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 					_os = "Windows";
-				#elif UNITY_STANDALONE_WIN
+				#elif UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
+					_os = "Mac";
+				#elif UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
+					_os = "Linux";
+				#elif UNITY_WEBGL
 					_os = "Windows";
-				#elif UNITY_EDITOR_OSX
-					_os = "Mac";
-				#elif UNITY_STANDALONE_OSX
-					_os = "Mac";
-				#elif UNITY_EDITOR_LINUX
-					_os = "Linux";
-				#elif UNITY_STANDALONE_LINUX
-					_os = "Linux";
 				#else
 					Debug.LogError("hinput Error : Unknown OS !");
 				#endif

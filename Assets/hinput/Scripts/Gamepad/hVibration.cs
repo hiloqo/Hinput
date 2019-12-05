@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
-#if UNITY_WEBGL
-#else
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 	using System.Collections.Generic;
 	using XInputDotNetPure;
 #endif
@@ -11,11 +10,10 @@ public class hVibration {
 	// PRIVATE VARIABLES
 	// --------------------
 
-	#if UNITY_WEBGL
-	#else
+	#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 		private readonly List<PlayerIndex> index;
 	#endif
-	private readonly bool canVibrate;
+	private readonly bool canVibrate = false;
 	private float currentLeft;
 	private float currentRight;
 	private float prevLeft;
@@ -30,8 +28,8 @@ public class hVibration {
 	    if (hUtils.os != "Windows") return;
 	    if (index > 3) return;
 	    
-		#if UNITY_WEBGL
-		#else
+		
+		#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 		    if (index == 0) this.index = new List<PlayerIndex> { PlayerIndex.One };
 		    else if (index == 1) this.index = new List<PlayerIndex> { PlayerIndex.Two };
 			else if (index == 2) this.index = new List<PlayerIndex> { PlayerIndex.Three };
@@ -58,8 +56,8 @@ public class hVibration {
 		
 		prevLeft = currentLeft;
 		prevRight = currentRight;
-		#if UNITY_WEBGL
-		#else
+		
+		#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 			DoVibrate(index, currentLeft, currentRight);
 		#endif
 	}
@@ -85,8 +83,8 @@ public class hVibration {
 	public void StopVibration () {
 		currentLeft = 0;
 		currentRight = 0;
-		#if UNITY_WEBGL
-		#else
+		
+		#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 			DoVibrate(index, 0, 0);
 		#endif
 		hUtils.StopRoutines();
@@ -107,9 +105,6 @@ public class hVibration {
 			currentRight -= right;
 			currentLeft -= left;
 		} else {
-			#if UNITY_WEBGL
-				Debug.LogWarning("hinput warning: vibration is not supported in WebGL");
-			#endif
 			if (hUtils.os != "Windows") {
 				Debug.LogWarning("hinput warning : vibration is only supported on Windows computers.");
 			} else {
@@ -118,8 +113,8 @@ public class hVibration {
 		}
 	}
 
-	#if UNITY_WEBGL
-	#else
+	
+	#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 		private static void DoVibrate(List<PlayerIndex> indices, double left, double right) {
 			try {
 				foreach (PlayerIndex playerIndex in indices) {
