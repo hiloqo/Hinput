@@ -1,5 +1,5 @@
 # hinput
-**v1.3.1**
+**v1.4.0**
 
 hinput is a simple gamepad manager for Unity.
 
