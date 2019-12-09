@@ -3,7 +3,7 @@
 
 hinput is a simple gamepad manager for Unity.
 
-**[install](http://tiny.cc/hinput_install_v1-3-0)** | **[learn](http://tiny.cc/hinput_learn_v1-3-0)** | **[documentation](http://tiny.cc/hinput_doc_v1-3-0)** 
+**[install](http://tiny.cc/hinput_install_v1-4-0)** | **[learn](http://tiny.cc/hinput_learn_v1-4-0)** | **[documentation](http://tiny.cc/hinput_doc_v1-4-0)** 
 
 hinput manages all gamepad interactions for you. With this simple multi-OS solution, you will never have to worry again about manually filling gamepad inputs, or handling settings for different operating systems. 
 
@@ -52,7 +52,7 @@ hinput.anyGamepad.rightStick.vertical
 hinput.gamepad[7].Vibrate(0.5);
 ```
 
-Feel free to check out the **[learn](http://tiny.cc/hinput_learn)** guide or the **[documentation](http://tiny.cc/hinput_documentation)** for more
+Feel free to check out the **[learn](http://tiny.cc/hinput_learn_v1-4-0)** guide or the **[documentation](http://tiny.cc/hinput_doc_v1-4-0)** for more
 
 #### A few remarks:
 - **If you were using XInput** in your project before you imported hinput, do not import the XInput folder from hinput. Unity does not deal well with duplicate packages.
@@ -63,6 +63,8 @@ Feel free to check out the **[learn](http://tiny.cc/hinput_learn)** guide or the
 
 - **If you are using Unity 2019**, you have access to the preview of Input System. It should not be enabled by default, however it is not compatible with hinput.
 Here is how to check which system you are using : In the Edit menu, click Project Settings, then navigate to Player > Other settings > Configuration, and make sure that Active Input Handling is set to Input Manager.
+
+- **To uninstall hinput**, simply go to Tools > hinput > Uninstall hinput. This will remove hinput’s controls from your InputManager, however it will not delete hinput’s files. You can undo this action at any time by simply clicking Tools > hinput > Setup hinput again.
 
 # License
 
