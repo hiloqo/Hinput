@@ -6,7 +6,7 @@ using System.Linq;
 
 public static class hSetup {
 	// The location of the project's input manager file.
-	private const string inputManagerPath = "./ProjectSettings/inputManager.asset";
+	private const string inputManagerPath = "./ProjectSettings/InputManager.asset";
 
 	// The name of hinput's input array.
 	private const string hinputInputArrayName = "hinput_8Controllers_inputManager";
