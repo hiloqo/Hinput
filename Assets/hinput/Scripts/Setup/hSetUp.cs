@@ -17,7 +17,7 @@ public static class hSetup {
 	// --------------------
 	
 	// Add hinput's input array at the end of inputManagerDir
-	[MenuItem("Tools/hinput/Setup hinput")]
+	[MenuItem("Tools/hinput/Set up hinput")]
 	public static void hinputSetup () {
 		Debug.Log("Setting up hinput... ");
 
