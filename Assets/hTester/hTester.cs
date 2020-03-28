@@ -172,7 +172,7 @@ public class hTester : MonoBehaviour {
 			if (currentStick is hAnyGamepadStick) {
 				log = "current anyGamepad stick: " + log +
 				      ", pressed sticks = " + ToString(((hAnyGamepadStick) currentStick).pressedSticks.Select(s => s.fullName).ToList()) +
-				      ", pressed stick = " + ((hAnyGamepadStick) currentStick).pressedStick?.fullName;
+				      ", pressed stick = " + ((hAnyGamepadStick) currentStick).pressedStick.fullName;
 			} else {
 				log = "current stick: " + log;
 			}
@@ -447,7 +447,7 @@ public class hTester : MonoBehaviour {
 	// UTILS
 	// --------------------
 
-	private static string ToString<T>(IReadOnlyList<T> list) {
+	private static string ToString<T>(List<T> list) {
 		if (list.Count == 0) return "[]";
 		string result = "[";
 		for (int i = 0; i < list.Count - 1; i++) result += list[i] + ", ";
