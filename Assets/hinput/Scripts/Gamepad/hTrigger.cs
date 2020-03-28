@@ -45,8 +45,8 @@ public class hTrigger : hPressable {
 	// In some instances, until an input is recorded triggers will have a non-zero measured resting position.
 	private float measuredPosition { 
 		get {
-			if (hUtils.os == "Windows") return hUtils.GetAxis(internalFullName);
-			return (hUtils.GetAxis(internalFullName) + 1)/2;	
+			if (hUtils.os == "Mac") return (hUtils.GetAxis(internalFullName) + 1)/2;
+			return hUtils.GetAxis(internalFullName);	
 		}
 	}
 
