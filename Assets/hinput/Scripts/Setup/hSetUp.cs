@@ -25,8 +25,7 @@ public static class hSetup {
 			sw.Write(hinputInputArray());
 		}
 
-		AssetDatabase.Refresh();
-		Debug.Log("hinput has been set up properly. You can start coding !");
+		Confirm("set up", "You can start coding !");
 	}
 
 	// Allows to set up hinput only if it is not installed.
@@ -50,8 +49,7 @@ public static class hSetup {
 		
 		File.WriteAllText(inputManagerPath, currentInputArray.Replace(hinputInputArray, ""));
 
-		AssetDatabase.Refresh();
-		Debug.Log("hinput has been uninstalled properly. Bye bye !");
+		Confirm("uninstalled", "Bye bye !");
 	}
 
 	// Allows to uninstall hinput only if it is installed.
@@ -64,6 +62,17 @@ public static class hSetup {
 	// --------------------
 	// UTILS
 	// --------------------
+
+	private static void Confirm(string action, string catchphrase) {
+		AssetDatabase.Refresh();
+		try {
+			File.Delete("./Library/SourceAssetDB");
+			Debug.Log("hinput has been "+action+" successfully. "+catchphrase);
+		} catch (IOException) {
+			Debug.LogWarning("[ACTION NEEDED] You need to reimport your asset database to confirm the "+action+
+			                 " of hinput. Please click \"Reimport all\" in the Assets menu.");
+		}
+	}
 
 	// Returns true if hinput is currently installed, false otherwise.
 	private static bool hinputIsInstalled() {
@@ -92,7 +101,7 @@ public static class hSetup {
 		return null;
 	}
 
-	// Returns hipnut's input array in argument directory if it present, null otherwise.
+	// Returns hinput's input array in argument directory if it present, null otherwise.
 	private static string PathToInputArray (string directory) {
 		try {
 			return Directory.GetFiles(directory, hinputInputArrayName, SearchOption.AllDirectories).FirstOrDefault();
