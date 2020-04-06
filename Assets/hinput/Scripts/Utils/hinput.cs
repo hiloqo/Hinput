@@ -2,6 +2,7 @@
 // Contact : couvreurhenri@gmail.com, hiloqo.games@gmail.com
 
 using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// The main class of the hinput package, from which you can access gamepads.
@@ -52,8 +53,7 @@ public static class hinput {
 		get {
 			hUpdater.CheckInstance();
 			if (_gamepad == null) {
-				_gamepad = new List<hGamepad>();
-				for (int i=0; i<hUtils.maxGamepads; i++) _gamepad.Add(new hGamepad(i));
+				syncGamePads();
 			} else {
 				hUpdater.UpdateGamepads ();
 			} 
@@ -61,7 +61,20 @@ public static class hinput {
 			return _gamepad; 
 		} 
 	}
-	
+
+	/// <summary>
+    /// Updates the list of gamePads
+    /// </summary>
+	public static void syncGamePads() {
+		_gamepad = new List<hGamepad>();
+		string[] names = Input.GetJoystickNames();
+		for (int i = 0; i < System.Math.Min(names.Length, hUtils.maxGamepads); i++)	{
+			if (names[i] != "")	{
+				_gamepad.Add(new hGamepad(i));
+			}
+		}
+	}
+
 	/// <summary>
 	/// A virtual button that returns every input of every gamepad at once.
 	/// It shares its name, full name and gamepad with the input that is currently being pushed (except if you use
