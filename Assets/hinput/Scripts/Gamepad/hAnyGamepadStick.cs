@@ -77,14 +77,14 @@ public class hAnyGamepadStick : hStick {
 
     public override float horizontalRaw {
         get {
-            if (pressedSticks.Count == 0) return allSticks.Select(stick => stick.horizontalRaw).Average();
+            if (pressedSticks.Count == 0) return allSticks.Select(stick => stick.horizontalRaw).DefaultIfEmpty(0).Average();
             else return pressedSticks.Select(stick => stick.horizontalRaw).Average();
         }
     }
 
     public override float verticalRaw {
         get {
-            if (pressedSticks.Count == 0) return allSticks.Select(stick => stick.verticalRaw).Average();
+            if (pressedSticks.Count == 0) return allSticks.Select(stick => stick.verticalRaw).DefaultIfEmpty(0).Average();
             else return pressedSticks.Select(stick => stick.verticalRaw).Average();
         }
     }
