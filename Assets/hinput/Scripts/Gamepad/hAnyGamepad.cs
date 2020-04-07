@@ -11,16 +11,15 @@ public class hAnyGamepad : hGamepad {
     // --------------------
 
     private List<hGamepad> _gamepads = new List<hGamepad>();
-    private float _gamepadsDate;
-
+    private int _lastGamepadUpdateFrame = -1;
     /// <summary>
     /// Returns a list of every gamepad that is currently being pressed.
     /// </summary>
     public List<hGamepad> gamepads {
         get {
-            if (Time.unscaledTime.IsEqualTo(_gamepadsDate)) return _gamepads;
+            if (_lastGamepadUpdateFrame == Time.frameCount) return _gamepads;
             
-            _gamepadsDate = Time.unscaledTime;
+            _lastGamepadUpdateFrame = Time.frameCount;
             _gamepads = hinput.gamepad.Where(g => g.anyInput).ToList();
             return _gamepads;
         }

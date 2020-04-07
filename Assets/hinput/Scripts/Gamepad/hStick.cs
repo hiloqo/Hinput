@@ -332,23 +332,22 @@ public class hStick {
 	public Vector2 positionRaw { get { return new Vector2 (horizontalRaw, verticalRaw); } }
 
 	private float _distanceRaw;
-	private float _distanceRawDate;
+	private int _lastDistanceRawUpdateFrame = -1;
 	/// <summary>
 	/// Returns the current distance of the stick to its origin. The dead zone is not taken into account.
 	/// </summary>
 	public float distanceRaw { 
 		get { 
-			float time = Time.unscaledTime;
-			if (time > 0 && time.IsEqualTo(_distanceRawDate)) return _distanceRaw;
+			if (_lastDistanceRawUpdateFrame == Time.frameCount) return _distanceRaw;
 			
 			_distanceRaw = positionRaw.magnitude;
-			_distanceRawDate = time;
+			_lastDistanceRawUpdateFrame = Time.frameCount;
 			return _distanceRaw; 
 		} 
 	}
 
 	private float _angleRaw;
-	private float _angleRawDate;
+	private int _lastAngleRawUpdateFrame = -1;
 	/// <summary>
 	/// Returns the value of the angle between the current position of the stick and the horizontal axis 
 	/// (In degrees : left=180, up=90, right=0, down=-90). 
@@ -356,11 +355,10 @@ public class hStick {
 	/// </summary>
 	public float angleRaw { 
 		get { 
-			float time = Time.unscaledTime;
-			if (time > 0 && time.IsEqualTo(_angleRawDate)) return _angleRaw;
+			if (_lastAngleRawUpdateFrame == Time.frameCount) return _angleRaw;
 			
 			_angleRaw = Vector2.SignedAngle(Vector2.right, positionRaw);
-			_angleRawDate = time;
+			_lastAngleRawUpdateFrame = Time.frameCount;
 			return _angleRaw;
 		} 
 	}
@@ -405,14 +403,13 @@ public class hStick {
 	public bool inDeadZone { get { return distanceRaw < hSettings.stickDeadZone; } }
 
 	private Vector2 _position;
-	private float _positionDate;
+	private int _lastPositionUpdateFrame = -1;
 	/// <summary>
 	/// Returns the coordinates of the stick.
 	/// </summary>
 	public Vector2 position {
 		get {
-			float time = Time.unscaledTime;
-			if (time > 0 && time.IsEqualTo(_positionDate)) return _position;
+			if (_lastPositionUpdateFrame == Time.frameCount) return _position;
 			
 			if (inDeadZone) _position = Vector2.zero;
 			else {
@@ -423,7 +420,7 @@ public class hStick {
 					Mathf.Clamp(deadZonedPos.x, -1, 1), 
 					Mathf.Clamp(deadZonedPos.y, -1, 1));
 			}
-			_positionDate = time;
+			_lastPositionUpdateFrame = Time.frameCount;
 			return _position; 
 		} 
 	}
@@ -439,34 +436,32 @@ public class hStick {
 	public float vertical { get { return position.y; } }
 
 	private float _distance;
-	private float _distanceDate;
+	private int _lastDistanceUpdateFrame = -1;
 	/// <summary>
 	/// Returns the current distance of the stick to its origin.
 	/// </summary>
 	public float distance { 
 		get { 
-			float time = Time.unscaledTime;
-			if (time > 0 && time.IsEqualTo(_distanceDate)) return _distance;
+			if (_lastDistanceUpdateFrame == Time.frameCount) return _distance;
 			
 			_distance = Mathf.Clamp01(position.magnitude);
-			_distanceDate = time;
+			_lastDistanceUpdateFrame = Time.frameCount;
 			return _distance; 
 		} 
 	}
 
 	private float _angle;
-	private float _angleDate;
+	private int _lastAngleUpdateFrame = -1;
 	/// <summary>
 	/// Returns the value of the angle between the current position of the stick and the horizontal axis 
 	/// (In degrees : left=180, up=90, right=0, down=-90).
 	/// </summary>
 	public float angle { 
 		get { 
-			float time = Time.unscaledTime;
-			if (time > 0 && time.IsEqualTo(_angleDate)) return _angle;
+			if (_lastAngleUpdateFrame == Time.frameCount) return _angle;
 			
 			_angle = Vector2.SignedAngle(Vector2.right, position);
-			_angleDate = time;
+			_lastAngleUpdateFrame = Time.frameCount;
 			return _angle;
 		} 
 	}

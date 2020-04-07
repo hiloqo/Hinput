@@ -230,11 +230,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startMessage: 1
   timeScale: 1
+  playInUpdate: 1
   playInFixedUpdate: 0
   individualGamepads: 1
   anyGamepad: 0
   individualInputs: 1
   anyInput: 0
+  globalAnyInput: 0
   gamepadInfoOnGPressed: 1
   gamepadListsOnLPressed: 1
   stickInfoOnPPressed: 1

@@ -11,17 +11,16 @@ public class hAnyInput : hPressable{
     // --------------------
 
     private List<hPressable> _pressedInputs;
-    private float pressedInputsDate;
-    
+    private int _lastPressedInputUpdateFrame = -1;
     /// <summary>
     /// Returns a list of every input that is currently being pressed.
     /// </summary>
     public List<hPressable> pressedInputs {
         get {
-            if (pressedInputsDate.IsEqualTo(Time.unscaledTime)) return _pressedInputs;
+            if (_lastPressedInputUpdateFrame == Time.frameCount) return _pressedInputs;
             
             _pressedInputs = inputs.Where(i => i.pressed).ToList();
-            pressedInputsDate = Time.unscaledTime;
+            _lastPressedInputUpdateFrame = Time.frameCount;
             return _pressedInputs;
         }
     }

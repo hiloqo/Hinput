@@ -147,22 +147,29 @@ public abstract class hPressable {
 
 	private float penultimatePressStart = 0f;
 
+	private int lastPressedFrame = 0;
+
+	private int lastReleasedFrame = 0;
+
 	
 	// --------------------
 	// UPDATE
 	// --------------------
 
 	public void Update () {		
-		float time = Time.unscaledTime;
-
 		UpdatePositionRaw ();
 
-		if (pressed) lastPressed = time;
-		else lastReleased = time;
+		if (pressed) {
+			lastPressed = Time.unscaledTime;
+			lastPressedFrame = Time.frameCount;
+		} else {
+			lastReleased = Time.unscaledTime;
+			lastReleasedFrame = Time.frameCount;
+		}
 
 		if (justPressed) {
 			penultimatePressStart = lastPressStart;
-			lastPressStart = time;		
+			lastPressStart = Time.unscaledTime;		
 		}
 	}
 
@@ -204,12 +211,12 @@ public abstract class hPressable {
 	/// <summary>
 	/// Returns true if an input is currently pressed and was released last frame. Returns false otherwise.
 	/// </summary>
-	public bool justPressed { get { return (pressed && (lastPressed - lastReleased) <= hUpdater.maxDeltaTime); } }
+	public bool justPressed { get { return (pressed && (lastPressedFrame - lastReleasedFrame) == 1); } }
 
 	/// <summary>
 	/// Returns true if an input is currently released and was pressed last frame. Returns false otherwise.
 	/// </summary>
-	public bool justReleased { get { return (released && (lastReleased - lastPressed) <= hUpdater.maxDeltaTime); } }
+	public bool justReleased { get { return (released && (lastReleasedFrame - lastPressedFrame) == 1); } }
 
 	/// <summary>
 	/// Returns true if the last two presses started a short time apart (including current press if the input is

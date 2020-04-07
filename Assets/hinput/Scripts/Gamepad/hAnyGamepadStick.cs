@@ -39,7 +39,7 @@ public class hAnyGamepadStick : hStick {
     }
     
     private List<hStick> _pressedSticks;
-    private float pressedSticksDate = -1;
+    private int _lastPressedSticksUpdateFrame = -1;
     /// <summary>
     /// Returns a list of every stick of this type that is currently outside of its dead zone.
     /// </summary>
@@ -48,10 +48,10 @@ public class hAnyGamepadStick : hStick {
     /// </remarks>
     public List<hStick> pressedSticks {
         get {
-            if (pressedSticksDate.IsEqualTo(Time.unscaledTime)) return _pressedSticks;
+            if (_lastPressedSticksUpdateFrame == Time.frameCount) return _pressedSticks;
             
-            _pressedSticks =  allSticks.Where(s => !s.inDeadZone).ToList();
-            pressedSticksDate = Time.unscaledTime;
+            _pressedSticks = allSticks.Where(s => !s.inDeadZone).ToList();
+            _lastPressedSticksUpdateFrame = Time.frameCount;
             return _pressedSticks;
         }
     }

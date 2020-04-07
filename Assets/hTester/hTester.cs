@@ -11,6 +11,7 @@ public class hTester : MonoBehaviour {
 	public bool startMessage;
 	[Range(0,3)]
 	public float timeScale;
+	public bool playInUpdate;
 	public bool playInFixedUpdate;
 
 	[Header("AGGREGATES")] 
@@ -96,7 +97,7 @@ public class hTester : MonoBehaviour {
 
 	private void Update () {
 		Time.timeScale = timeScale;
-		if (!playInFixedUpdate) TestEverything();
+		if (playInUpdate) TestEverything();
 	}
 
 	private void FixedUpdate () {
