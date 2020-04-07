@@ -33,7 +33,7 @@ public class hSettings : MonoBehaviour {
 
 		if (_buildAllOnStartUp) {
 			hinput.anyGamepad.BuildAll();
-			hinput.gamepad.ForEach(item => item.BuildAll());
+			for (int i=0; i<hUtils.maxGamepads; i++) hinput.gamepad[i].BuildAll();
 		}
 	}
 
@@ -214,18 +214,5 @@ public class hSettings : MonoBehaviour {
 	public static float rightVibrationIntensity { 
 		get { return instance._rightVibrationIntensity; } 
 		set { instance._rightVibrationIntensity = value; }  
-	}
-
-	[SerializeField]
-	[Range(1, 60)]
-	[Tooltip("The number of seconds to wait before checking for new controllers.")]
-	private float _secondsToWaitForControllerCheck = 10f;
-
-	/// <summary>
-	/// The default number of seconds to wait for new controller events
-	/// </summary>
-	public static float secondsToWaitForControllerChanges {
-		get { return instance._secondsToWaitForControllerCheck; }
-		set { instance._secondsToWaitForControllerCheck = value; }
 	}
 }

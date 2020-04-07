@@ -19,10 +19,8 @@ public class hUpdater : MonoBehaviour {
 
 	//By how much to increase deltaTime (in %) when comparing it, to account for rounding errors.
 	private const float deltaTimeEpsilon = 0.1f;
-
-	//How many seconds to wait before checking for new controllers
-	private static float deltaControllerCheckTime;
-
+	
+	
 	// --------------------
 	// SINGLETON PATTERN
 	// --------------------
@@ -66,13 +64,7 @@ public class hUpdater : MonoBehaviour {
 		lastUpdated = currentTime;
 		
 		hinput.anyGamepad.Update();
-		hinput.gamepad.ForEach(item => item.Update());
-		
-		//Check for controller changes
-		if (currentTime - deltaControllerCheckTime > hSettings.secondsToWaitForControllerChanges) {
-			hinput.syncGamePads();
-			deltaControllerCheckTime = currentTime;
-		}
+		for (int i=0; i<hUtils.maxGamepads; i++) hinput.gamepad[i].Update ();
 	}
 
 
