@@ -15,6 +15,9 @@ public class hAnyGamepad : hGamepad {
     /// <summary>
     /// Returns a list of every gamepad that is currently being pressed.
     /// </summary>
+    /// <remarks>
+    /// If no gamepad is pressed, returns an empty list.
+    /// </remarks>
     public List<hGamepad> gamepads {
         get {
             if (_lastGamepadUpdateFrame == Time.frameCount) return _gamepads;
@@ -42,6 +45,9 @@ public class hAnyGamepad : hGamepad {
     /// <summary>
     /// Returns a list of the indices of every gamepad that is currently being pressed.
     /// </summary>
+    /// <remarks>
+    /// If no gamepad is pressed, returns an empty list.
+    /// </remarks>
     public List<int> indices  { get { return gamepads.Select(g => g.index).ToList(); } }
     
     
@@ -56,6 +62,13 @@ public class hAnyGamepad : hGamepad {
         }
     }
 
+    public override string name {
+        get {
+            if (gamepads.Count == 0) return internalName;
+            else return gamepad.name;
+        }
+    }
+
     public override string fullName {
         get {
             if (gamepads.Count == 0) return internalFullName;
@@ -67,13 +80,6 @@ public class hAnyGamepad : hGamepad {
         get {
             if (gamepads.Count == 0) return null;
             else return gamepad.type;
-        }
-    }
-
-    public override string name {
-        get {
-            if (gamepads.Count == 0) return internalName;
-            else return gamepad.name;
         }
     }
 

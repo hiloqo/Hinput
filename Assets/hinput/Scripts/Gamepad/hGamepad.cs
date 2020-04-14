@@ -58,7 +58,7 @@ public class hGamepad {
 	public virtual string fullName { get { return internalFullName; } }
 	
 	/// <summary>
-	/// Returns the type of a gamepad, like "Xbox One For Windows"
+	/// Returns the type of a gamepad, like "Xbox One For Windows".
 	/// </summary>
 	/// <remarks>
 	/// If this is anyGamepad, returns the type of the gamepad that is currently being pressed.
