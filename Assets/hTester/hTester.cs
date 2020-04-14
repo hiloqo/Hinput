@@ -125,7 +125,8 @@ public class hTester : MonoBehaviour {
 			
 			hGamepad currentGamepad = currentButton.internalGamepad;
 			string log = "current gamepad: " +
-			          "[type = \"" + currentGamepad.type+ "\"" +
+		             "[isConnected = " + currentGamepad.isConnected +
+		             ", type = " + currentGamepad.type +
 			          ", index = " + currentGamepad.index +
 			          ", internal index = " + currentGamepad.internalIndex +
 			          ", name = " + currentGamepad.name +

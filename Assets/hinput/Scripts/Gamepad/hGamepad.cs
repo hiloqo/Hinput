@@ -61,6 +61,14 @@ public class hGamepad {
 	/// Returns the type of a gamepad, like "Xbox One For Windows"
 	/// </summary>
 	public virtual string type { get { return Input.GetJoystickNames()[index]; } }
+	
+	/// <summary>
+	/// Returns true if a gamepad is currently connected. Returns false otherwise.
+	/// </summary>
+	/// <remarks>
+	/// If this is anyGamepad, returns true if a gamepad is connected. Returns false otherwise.
+	/// </remarks>
+	public virtual bool isConnected { get { return type != ""; } }
 
 
 	// --------------------

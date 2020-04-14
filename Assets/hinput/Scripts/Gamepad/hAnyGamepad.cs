@@ -77,6 +77,12 @@ public class hAnyGamepad : hGamepad {
         }
     }
 
+    public override bool isConnected {
+        get {
+            return hinput.gamepad.Any(g => g.isConnected);
+        }
+    }
+
     // --------------------
     // CONSTRUCTOR
     // --------------------
