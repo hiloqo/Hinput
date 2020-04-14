@@ -108,7 +108,7 @@ public static class hUtils {
 
 
 	// --------------------
-	// MISCELLANEOUS
+	// FLOAT COMPARISON
 	// --------------------
 
 	public static bool IsEqualTo (this float target, float other) {
@@ -117,5 +117,9 @@ public static class hUtils {
 
 	public static bool IsNotEqualTo (this float target, float other) {
 		return Mathf.Abs(target - other) > Mathf.Epsilon;
+	}
+
+	public static bool IsSuperiorOrEqualTo(this float target, float other) {
+		return target - other > -Mathf.Epsilon;
 	}
 }

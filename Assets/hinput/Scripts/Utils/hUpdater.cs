@@ -53,7 +53,7 @@ public class hUpdater : MonoBehaviour {
 		lastUpdatedFrame = Time.frameCount;
 		
 		hinput.anyGamepad.Update();
-		for (int i=0; i<hUtils.maxGamepads; i++) hinput.gamepad[i].Update ();
+		hinput.gamepad.ForEach(gamepad => gamepad.Update());
 	}
 
 
@@ -62,10 +62,7 @@ public class hUpdater : MonoBehaviour {
 	// --------------------
 
 	public void OnApplicationQuit() {
-		foreach (hGamepad gamepad in hinput.gamepad) {
-			gamepad.StopVibration();
-		}
-		
 		hinput.anyGamepad.StopVibration();
+		hinput.gamepad.ForEach(gamepad => gamepad.StopVibration());
 	}
 }

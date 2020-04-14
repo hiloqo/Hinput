@@ -115,11 +115,9 @@ public class hVibration {
 
 	
 	#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-		private static void DoVibrate(List<PlayerIndex> indices, double left, double right) {
+		private static void DoVibrate(List<PlayerIndex> indices, float left, float right) {
 			try {
-				foreach (PlayerIndex playerIndex in indices) {
-					GamePad.SetVibration(playerIndex, (float)left, (float)right);
-				}
+				indices.ForEach(playerIndex => GamePad.SetVibration(playerIndex, left, right));
 			} catch { /*Ignore errors here*/ }
 		}
 	#endif

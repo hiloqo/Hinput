@@ -37,16 +37,10 @@ public class hAnyInput : hPressable{
     public hPressable pressedInput {
         get {
             if (pressedInputs.Count == 0) return null;
-            
-            hPressable mostPushedInput = pressedInputs[0];
-            for (int i = 1; i < pressedInputs.Count; i++) {
-                if (mostPushedInput.positionRaw.IsEqualTo(1)) break;
-                
-                hPressable currentInput = pressedInputs[i];
-                if (currentInput.positionRaw > mostPushedInput.positionRaw) mostPushedInput = currentInput;
-            }
 
-            return mostPushedInput;
+            //Select the input with the highest positionRaw (the highest in the list if several are tied)
+            return pressedInputs.Aggregate((input1, input2) =>
+                input1.positionRaw.IsSuperiorOrEqualTo(input2.positionRaw) ? input1 : input2);
         }
     }
 
