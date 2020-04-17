@@ -1,4 +1,5 @@
 ﻿#if UNITY_EDITOR
+using System;
 using UnityEngine;
 using System.IO;
 using UnityEditor;
@@ -19,13 +20,19 @@ public static class hSetup {
 	// Add hinput's input array at the end of inputManagerDir
 	[MenuItem("Tools/hinput/Set up hinput")]
 	public static void hinputSetup () {
-		Debug.Log("Setting up hinput... ");
+		try {
+			Debug.Log("Setting up hinput... ");
 
-		using (StreamWriter sw = File.AppendText(inputManagerPath)) {
-			sw.Write(hinputInputArray());
+			using (StreamWriter sw = File.AppendText(inputManagerPath)) {
+				sw.Write(hinputInputArray());
+			}
+
+			Confirm("set up", "You can start coding !");
+		} catch (Exception e) {
+			Debug.LogWarning("Error while setting up hinput. Try reinstalling the plugin and rebooting your" +
+			                 " computer. If the problem persists, please contact me at couvreurhenri@gmail.com.");
+			throw e;
 		}
-
-		Confirm("set up", "You can start coding !");
 	}
 
 	// Allows to set up hinput only if it is not installed.
@@ -42,14 +49,20 @@ public static class hSetup {
 	// Remove hinput's input array from the end of inputManagerDir
 	[MenuItem("Tools/hinput/Uninstall hinput")]
 	public static void hinputUninstall () {
-		Debug.Log("Uninstalling hinput... ");
+		try {
+			Debug.Log("Uninstalling hinput... ");
 
-		string hinputInputArray = hSetup.hinputInputArray();
-		string currentInputArray = File.ReadAllText(inputManagerPath);
-		
-		File.WriteAllText(inputManagerPath, currentInputArray.Replace(hinputInputArray, ""));
+			string hinputInputArray = hSetup.hinputInputArray();
+			string currentInputArray = File.ReadAllText(inputManagerPath);
 
-		Confirm("uninstalled", "Bye bye !");
+			File.WriteAllText(inputManagerPath, currentInputArray.Replace(hinputInputArray, ""));
+
+			Confirm("uninstalled", "Bye bye !");
+		} catch (Exception e) {
+			Debug.LogWarning("Error while uninstalling hinput. Try reinstalling the plugin and rebooting your" +
+			                 " computer. If the problem persists, please contact me at couvreurhenri@gmail.com.");
+			throw e;
+		}
 	}
 
 	// Allows to uninstall hinput only if it is installed.
