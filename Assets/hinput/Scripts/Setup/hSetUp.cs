@@ -36,7 +36,7 @@ public static class hSetup {
 	}
 
 	// Allows to set up hinput only if it is not installed.
-	[MenuItem("Tools/hinput/Setup hinput", true)]
+	[MenuItem("Tools/hinput/Set up hinput", true)]
 	public static bool hinputSetupValidation () {
 		return !hinputIsInstalled();
 	}
