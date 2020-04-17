@@ -75,7 +75,7 @@ public static class hSetup {
 	}
 
 	// Returns true if hinput is currently installed, false otherwise.
-	private static bool hinputIsInstalled() {
+	public static bool hinputIsInstalled() {
 		string hinputInputArray = hSetup.hinputInputArray();		
 		string currentInputArray = File.ReadAllText(inputManagerPath);
 

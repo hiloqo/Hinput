@@ -1,25 +1,50 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class hTester : MonoBehaviour {
+public class hDebugger : MonoBehaviour {
 	// --------------------
 	// SETTINGS
 	// --------------------
 
 	[Header("GENERAL")]
 	public bool startMessage;
+
+	public enum SD { none, verticalsAndHorizontals, diagonals, pressedZone }
+	public enum BF {
+		none, position, pressedAndReleased, justPressedAndJustReleased, lastPressedAndLastReleased, inDeadZone,
+		doublePress, doublePressJustPressedAndDoublePressedJustReleased, lastPressWasDouble, longPress,
+		lastPressWasLong, pressDurationAndReleaseDuration
+	}
+	[Header("BUTTONS")]
+	public SD stickDirections;
+	public BF buttonFeature;
+
+	public enum SF { 
+		none, position, horizontal, vertical, angle, distance, inDeadZone, worldPositionCamera, worldPositionFlat 
+	}
+	[Header("STICKS")]
+	public SF stickFeature;
+
+	[Header("VIBRATION")]
+	public bool vibrateOnVPressed;
+
+	[Header("TIME")]
+	[Space(20)]
+	[Header("--------------------")]
+	[Space(20)]
+	
 	[Range(0,3)]
-	public float timeScale;
+	public float timeScale = 1;
 	public bool playInUpdate;
 	public bool playInFixedUpdate;
 
-	[Header("AGGREGATES")] 
-	public bool individualGamepads;
-	public bool anyGamepad;
-	public bool individualInputs;
-	public bool anyInput;
-	public bool globalAnyInput;
+	public enum GM { individualGamepads, anyGamepad }
+	public enum IM { individualInputs, anyInput }
+	[Header("GAMEPAD AND INPUT MODE")] 
+	public GM gamepadMode;
+	public IM inputMode;
 
 	[Header("INFO")] 
 	public bool gamepadInfoOnGPressed;
@@ -27,53 +52,25 @@ public class hTester : MonoBehaviour {
 	public bool stickInfoOnPPressed;
 	public bool buttonInfoOnBPressed;
 
-	[Header("STICK DIRECTIONS AS BUTTONS")]
-	public bool stickVerticalsAndHorizontals;
-	public bool stickDiagonals;
-	public bool stickPressedZone;
-
-	[Header("BUTTONS")]
-	public bool buttonPosition;
-	public bool pressedAndReleased;
-	public bool justPressedAndReleased;
-	public bool lastPressedAndReleased;
-	public bool buttonInDeadZone;
-	public bool doublePress;
-	public bool doublePressJustPressedAndReleased;
-	public bool lastPressWasDouble;
-	public bool longPress;
-	public bool lastPressWasLong;
-	public bool pressAndReleaseDuration;
-
-	[Header("STICKS")]
-	public bool stickPosition;
-	public bool horizontal;
-	public bool vertical;
-	public bool angle;
-	public bool distance;
-	public bool stickInDeadZone;
-	public bool worldPositionCamera;
-	public bool worldPositionCameraRaw;
-	public bool worldPositionFlat;
-	public bool worldPositionFlatRaw;
-
 	[Header("VIBRATION")]
-	public bool vibrateOnVPressed;
 	public bool useDuration;
+	[Range(0,2)]
+	public float duration;
 	public bool useLeftAndRightIntensity;
-	public bool vibrateAdvancedOnAPressed;
-	public bool stopVibrationOnSPressed;
 	[Range(0,1)]
 	public float leftIntensity;
 	[Range(0,1)]
 	public float rightIntensity;
-	[Range(0,2)]
-	public float duration;
+	public bool vibrateAdvancedOnAPressed;
+	public bool stopVibrationOnSPressed;
 
 	[Header("REFERENCES")]
 	[Space(20)]
 	[Header("--------------------")]
 	[Space(20)]
+
+	public GameObject message;
+	public Transform plane;
 	public Transform redCube;
 	public Transform blueSphere;
 	public float moveSpeed;
@@ -240,21 +237,25 @@ public class hTester : MonoBehaviour {
 	}
 
 	private void GetNewCurrentButton () {
-		if (globalAnyInput && !hinput.anyInput.inDeadZone) currentButton = hinput.anyInput;
+		List<hGamepad> gamepadsToTest = new List<hGamepad>();
+		if (gamepadMode == GM.anyGamepad) gamepadsToTest.Add(hinput.anyGamepad);
+		else gamepadsToTest = hinput.gamepad;
 		
-		if (individualGamepads)	
-			for (int i=0; i<hUtils.maxGamepads; i++) 
-				UpdateCurrentButtonFromGamepad(hinput.gamepad[i]);
-
-		if (anyGamepad) UpdateCurrentButtonFromGamepad(hinput.anyGamepad);
-	}
-
-	private void UpdateCurrentButtonFromGamepad (hGamepad gamepad) {
-		foreach (hPressable button in AllGamepadButtons(gamepad)) 
-			if (!button.inDeadZone) {
-				currentButton = button;
-				break;
+		if (inputMode == IM.anyInput) {
+			foreach (hGamepad gamepad in gamepadsToTest) {
+				if (gamepad.anyInput.inDeadZone) continue;
+				currentButton = gamepad.anyInput;
+				return;
 			}
+		} else {
+			foreach (hGamepad gamepad in gamepadsToTest) {
+				foreach (hPressable button in AllGamepadButtons(gamepad)) {
+					if (button.inDeadZone) continue;
+					currentButton = button;
+					return;
+				}
+			}
+		}
 	}
 
 
@@ -264,34 +265,28 @@ public class hTester : MonoBehaviour {
 
 	private List<hPressable> AllGamepadButtons (hGamepad gamepad) {
 		List<hPressable> buttons = new List<hPressable>();
-
-		if (anyInput) {
-			buttons.Add(gamepad.anyInput);
-		}
 		
-		if (individualInputs) {
-			buttons.AddRange (new List<hPressable>() {
-				gamepad.A, gamepad.B, gamepad.X, gamepad.Y, gamepad.leftBumper, gamepad.rightBumper, 
-				gamepad.leftTrigger, gamepad.rightTrigger, gamepad.leftStickClick, gamepad.rightStickClick, 
-				gamepad.back, gamepad.start, gamepad.xBoxButton
-			});
+		buttons.AddRange (new List<hPressable>() {
+			gamepad.A, gamepad.B, gamepad.X, gamepad.Y, gamepad.leftBumper, gamepad.rightBumper, 
+			gamepad.leftTrigger, gamepad.rightTrigger, gamepad.leftStickClick, gamepad.rightStickClick, 
+			gamepad.back, gamepad.start, gamepad.xBoxButton
+		});
 
-			if (stickVerticalsAndHorizontals) buttons.AddRange (new List<hPressable> {
-				gamepad.leftStick.up, gamepad.leftStick.down, gamepad.leftStick.left, gamepad.leftStick.right,
-				gamepad.rightStick.up, gamepad.rightStick.down, gamepad.rightStick.left, gamepad.rightStick.right,
-				gamepad.dPad.up, gamepad.dPad.down, gamepad.dPad.left, gamepad.dPad.right
-			});
+		if (stickDirections == SD.verticalsAndHorizontals) buttons.AddRange (new List<hPressable> {
+			gamepad.leftStick.up, gamepad.leftStick.down, gamepad.leftStick.left, gamepad.leftStick.right,
+			gamepad.rightStick.up, gamepad.rightStick.down, gamepad.rightStick.left, gamepad.rightStick.right,
+			gamepad.dPad.up, gamepad.dPad.down, gamepad.dPad.left, gamepad.dPad.right
+		});
 
-			if (stickDiagonals) buttons.AddRange (new List<hPressable> {
-				gamepad.leftStick.upLeft, gamepad.leftStick.upRight, gamepad.leftStick.downLeft, gamepad.leftStick.downRight,
-				gamepad.rightStick.upLeft, gamepad.rightStick.upRight, gamepad.rightStick.downLeft, gamepad.rightStick.downRight,
-				gamepad.dPad.upLeft, gamepad.dPad.upRight, gamepad.dPad.downLeft, gamepad.dPad.downRight
-			});
+		if (stickDirections == SD.diagonals) buttons.AddRange (new List<hPressable> {
+			gamepad.leftStick.upLeft, gamepad.leftStick.upRight, gamepad.leftStick.downLeft, gamepad.leftStick.downRight,
+			gamepad.rightStick.upLeft, gamepad.rightStick.upRight, gamepad.rightStick.downLeft, gamepad.rightStick.downRight,
+			gamepad.dPad.upLeft, gamepad.dPad.upRight, gamepad.dPad.downLeft, gamepad.dPad.downRight
+		});
 
-			if (stickPressedZone) buttons.AddRange (new List<hPressable> {
-				gamepad.leftStick.inPressedZone, gamepad.rightStick.inPressedZone, gamepad.dPad.inPressedZone
-			});
-		}
+		if (stickDirections == SD.pressedZone) buttons.AddRange (new List<hPressable> {
+			gamepad.leftStick.inPressedZone, gamepad.rightStick.inPressedZone, gamepad.dPad.inPressedZone
+		});
 
 		return buttons;
 	}
@@ -302,50 +297,51 @@ public class hTester : MonoBehaviour {
 	// --------------------
 
 	private void TestCurrentButton () {
-		if (pressedAndReleased) {
+		if (buttonFeature == BF.none) return;
+		if (buttonFeature == BF.pressedAndReleased) {
 			if (currentButton) Debug.Log(currentButton.internalFullName+" is pressed !!!");
 			else Debug.Log (currentButton.internalFullName+" is released");
 		}
-		if (buttonPosition) Debug.Log (currentButton.internalFullName+" position : "+currentButton.position+
-		                               ", position raw : "+currentButton.positionRaw);
-		if (justPressedAndReleased) {
+		if (buttonFeature == BF.position) Debug.Log (currentButton.internalFullName+" position : "+currentButton.position+
+		                                             ", position raw : "+currentButton.positionRaw);
+		if (buttonFeature == BF.justPressedAndJustReleased) {
 			if (currentButton.justPressed) Debug.Log (currentButton.internalFullName+" was just pressed !!!");
 			else if (currentButton.justReleased) Debug.Log (currentButton.internalFullName+" was just released");
 		}
-		if (lastPressedAndReleased) 
+		if (buttonFeature == BF.lastPressedAndLastReleased) 
 			Debug.Log (currentButton.internalFullName+" last pressed : "+currentButton.lastPressed+
 			           ", last released : "+currentButton.lastReleased+
 			           ", last press start : "+currentButton.lastPressStart);
-		if (buttonInDeadZone) {
+		if (buttonFeature == BF.inDeadZone) {
 			if (currentButton.inDeadZone) Debug.Log (currentButton.internalFullName+" is in dead zone");
 			else Debug.Log (currentButton.internalFullName+" is not in dead zone !!!");
 		}
-		if (doublePress && currentButton.doublePress) 
+		if (buttonFeature == BF.doublePress && currentButton.doublePress) 
 			Debug.Log (currentButton.internalFullName+" is being double pressed !");
-		if (doublePressJustPressedAndReleased) {
+		if (buttonFeature == BF.doublePressJustPressedAndDoublePressedJustReleased) {
 			if (currentButton.doublePressJustPressed) 
 				Debug.Log (currentButton.internalFullName+" was double pressed !");
 			if (currentButton.doublePressJustReleased) 
 				Debug.Log (currentButton.internalFullName+" was released after a double press !");
 		}
-		if (lastPressWasDouble) {
+		if (buttonFeature == BF.lastPressWasDouble) {
 			if (currentButton.lastPressWasDouble) 
 				Debug.Log (currentButton.internalFullName+"'s last press was a double press !!!");
 			else Debug.Log (currentButton.internalFullName+"'s last press was a simple press");
 		
 		}
-		if (longPress) {
+		if (buttonFeature == BF.longPress) {
 			if (currentButton.longPress) Debug.Log (currentButton.internalFullName+" is being long pressed");
 			if (currentButton.longPressJustReleased) 
 				Debug.Log (currentButton.internalFullName+" has just been released after a long press");
 		}
-		if (lastPressWasLong) {
+		if (buttonFeature == BF.lastPressWasLong) {
 			if (currentButton.lastPressWasLong) 
 				Debug.Log (currentButton.internalFullName+"'s last press was a long press !!!");
 			else Debug.Log (currentButton.internalFullName+"'s last press was a short press");
 		
 		}
-		if (pressAndReleaseDuration) {
+		if (buttonFeature == BF.pressDurationAndReleaseDuration) {
 			if (currentButton) 
 				Debug.Log (currentButton.internalFullName+" has been pressed for "+currentButton.pressDuration+" !!!");
 			else Debug.Log (currentButton.internalFullName+" has been released for "+currentButton.releaseDuration);
@@ -363,11 +359,8 @@ public class hTester : MonoBehaviour {
 	}
 
 	private void GetNewCurrentStick () {
-		if (individualGamepads)	
-			for (int i=0; i<hUtils.maxGamepads; i++) 
-				UpdateCurrentStickFromGamepad(hinput.gamepad[i]);
-
-		if (anyGamepad) UpdateCurrentStickFromGamepad(hinput.anyGamepad);
+		if (gamepadMode == GM.individualGamepads) hinput.gamepad.ForEach(UpdateCurrentStickFromGamepad);
+		else UpdateCurrentStickFromGamepad(hinput.anyGamepad);
 	}
 
 	private void UpdateCurrentStickFromGamepad (hGamepad gamepad) {
@@ -382,36 +375,41 @@ public class hTester : MonoBehaviour {
 	// --------------------
 
 	private void TestCurrentStick () {
-		if (stickPosition) 
+		if (stickFeature == SF.none) return;
+		if (stickFeature == SF.position) 
 			Debug.Log (currentStick.internalFullName+" position : "+currentStick.position+
 		                              ", position raw : "+currentStick.positionRaw);
-		if (horizontal) Debug.Log (currentStick.internalFullName+" horizontal : "+currentStick.horizontal+
-		                           ", horizontal raw : "+currentStick.horizontalRaw);
-		if (vertical) Debug.Log (currentStick.internalFullName+" vertical : "+currentStick.vertical+
-		                         ", vertical raw : "+currentStick.verticalRaw);
-		if (angle) Debug.Log (currentStick.internalFullName+" angle : "+currentStick.angle+
-		                      ", angle raw : "+currentStick.angleRaw);
-		if (distance) Debug.Log (currentStick.internalFullName+" distance : "+currentStick.distance+
-		                         ", distance raw : "+currentStick.distanceRaw);
-		if (stickInDeadZone) {
+		if (stickFeature == SF.horizontal) Debug.Log (currentStick.internalFullName+" horizontal : "+currentStick.horizontal+
+		                                              ", horizontal raw : "+currentStick.horizontalRaw);
+		if (stickFeature == SF.vertical) Debug.Log (currentStick.internalFullName+" vertical : "+currentStick.vertical+
+		                                            ", vertical raw : "+currentStick.verticalRaw);
+		if (stickFeature == SF.angle) Debug.Log (currentStick.internalFullName+" angle : "+currentStick.angle+
+		                                         ", angle raw : "+currentStick.angleRaw);
+		if (stickFeature == SF.distance) Debug.Log (currentStick.internalFullName+" distance : "+currentStick.distance+
+		                                            ", distance raw : "+currentStick.distanceRaw);
+		if (stickFeature == SF.inDeadZone) {
 			if (currentStick.inDeadZone) Debug.Log (currentStick.internalFullName+" is in dead zone");
 			else Debug.Log (currentStick.internalFullName+" is not in dead zone !!!");
 		} 
-		if (worldPositionCamera) {
+		if (stickFeature == SF.worldPositionCamera) {
+			message.gameObject.SetActive(false);
+			plane.gameObject.SetActive(true);
+			redCube.gameObject.SetActive(false);
+			blueSphere.gameObject.SetActive(true);
 			Debug.Log (currentStick.internalFullName+" is controlling the blue sphere");
 			blueSphere.transform.position += moveSpeed * Time.deltaTime * currentStick.worldPositionCamera;
-		}
-		if (worldPositionCameraRaw) {
-			Debug.Log (currentStick.internalFullName+" is controlling the blue sphere");
-			blueSphere.transform.position += moveSpeed * Time.deltaTime * currentStick.worldPositionCameraRaw;
-		}
-		if (worldPositionFlat) {
+		} else if (stickFeature == SF.worldPositionFlat) {
+			message.gameObject.SetActive(false);
+			plane.gameObject.SetActive(true);
+			redCube.gameObject.SetActive(true);
+			blueSphere.gameObject.SetActive(false);
 			Debug.Log (currentStick.internalFullName+" is controlling the red cube");
 			redCube.transform.position += moveSpeed * Time.deltaTime * currentStick.worldPositionFlat;
-		}
-		if (worldPositionFlatRaw) {
-			Debug.Log (currentStick.internalFullName+" is controlling the red cube");
-			redCube.transform.position += moveSpeed * Time.deltaTime * currentStick.worldPositionFlatRaw;
+		} else {
+			message.gameObject.SetActive(true);
+			plane.gameObject.SetActive(false);
+			redCube.gameObject.SetActive(false);
+			blueSphere.gameObject.SetActive(false);
 		}
 	}
 
@@ -420,8 +418,8 @@ public class hTester : MonoBehaviour {
 	// --------------------
 
 	private void TestVibration () {
-		if (individualGamepads) TestVibrationOnGamepad(hinput.gamepad[0]);
-		if (anyGamepad) TestVibrationOnGamepad(hinput.anyGamepad);
+		if (gamepadMode == GM.individualGamepads) TestVibrationOnGamepad(hinput.gamepad[0]);
+		else TestVibrationOnGamepad(hinput.anyGamepad);
 	}
 
 	private void TestVibrationOnGamepad(hGamepad gamepad) {
