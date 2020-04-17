@@ -40,7 +40,7 @@ public static class hUtils {
 
 	private static void hinputNotSetUpError () {
 		Debug.LogWarning("Warning : hinput has not been set up, so gamepad inputs cannot be recorded. "+
-		"To set it up, go to the Tools menu and click \"hinput > Setup hinput\".");
+		"To set it up, go to the Tools menu and click \"hinput > Set up hinput\".");
 	}
 
 

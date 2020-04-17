@@ -69,8 +69,9 @@ public static class hSetup {
 			File.Delete("./Library/SourceAssetDB");
 			Debug.Log("hinput has been "+action+" successfully. "+catchphrase);
 		} catch (IOException) {
-			Debug.LogWarning("[ACTION NEEDED] You need to reimport your asset database to confirm the "+action+
-			                 " of hinput. Please click \"Reimport all\" in the Assets menu.");
+			Debug.LogWarning("[ACTION NEEDED] You need to reimport your asset database to confirm the " + 
+			                 action.Replace(" ", "") + " of hinput. Please click \"Reimport all\"" +
+			                 " in the Assets menu.");
 		}
 	}
 
