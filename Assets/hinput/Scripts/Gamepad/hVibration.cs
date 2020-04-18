@@ -124,7 +124,7 @@ public class hVibration {
 			if (rightCurveIsOver) rightCurveValue = 0;
 			else rightCurveValue = rightCurve.Evaluate(time);
 
-			time += Time.deltaTime;
+			time += Time.unscaledDeltaTime;
 			leftCurveIsOver = (time > leftCurve.keys.Last().time);
 			rightCurveIsOver = (time > rightCurve.keys.Last().time);
 			
@@ -147,7 +147,7 @@ public class hVibration {
 
 		float timeLeft = duration;
 		while (timeLeft > 0) {
-			timeLeft -= Time.deltaTime;
+			timeLeft -= Time.unscaledDeltaTime;
 
 			currentLeft += timeLeft / duration * originLeft;
 			currentRight += timeLeft / duration * originRight;
