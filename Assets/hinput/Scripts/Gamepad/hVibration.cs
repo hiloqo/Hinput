@@ -59,7 +59,8 @@ public class hVibration {
 		prevRight = currentRight;
 		
 		#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-			DoVibrate(index, currentLeft, currentRight);
+			try { index.ForEach(playerIndex => GamePad.SetVibration(playerIndex, currentLeft, currentRight)); } 
+			catch { /*Ignore errors here*/ }
 		#endif
 	}
 
@@ -81,14 +82,9 @@ public class hVibration {
 		currentRight += right;
 	}
 
-	public void StopVibration () {
-		currentLeft = 0;
-		currentRight = 0;
-		
-		#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-			DoVibrate(index, 0, 0);
-		#endif
+	public void StopVibration(float duration) {
 		hUtils.StopRoutines();
+		hUtils.Coroutine(_StopVibration(duration));
 	}
 
 
@@ -142,12 +138,22 @@ public class hVibration {
 		yield return null;
 	}
 
-	
-	#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-		private static void DoVibrate(List<PlayerIndex> indices, float left, float right) {
-			try {
-				indices.ForEach(playerIndex => GamePad.SetVibration(playerIndex, left, right));
-			} catch { /*Ignore errors here*/ }
+	private IEnumerator _StopVibration(float duration) {
+		float originLeft = currentLeft;
+		float originRight = currentRight;
+		
+		currentLeft = 0;
+		currentRight = 0;
+
+		float timeLeft = duration;
+		while (timeLeft > 0) {
+			timeLeft -= Time.deltaTime;
+
+			currentLeft += timeLeft / duration * originLeft;
+			currentRight += timeLeft / duration * originRight;
+			yield return new WaitForEndOfFrame();
+			currentLeft -= timeLeft / duration * originLeft;
+			currentRight -= timeLeft / duration * originRight;
 		}
-	#endif
+	}
 }

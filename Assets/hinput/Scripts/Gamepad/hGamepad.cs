@@ -454,10 +454,17 @@ public class hGamepad {
 	}
 
 	/// <summary>
-	/// Stop all vibrations on a gamepad.
+	/// Stop all vibrations on a gamepad immediately.
 	/// </summary>
 	public void StopVibration () {
-		vibration.StopVibration();
+		vibration.StopVibration(0);
+	}
+
+	/// <summary>
+	/// Stop all vibrations on a gamepad progressively over duration seconds.
+	/// </summary>
+	public void StopVibration (float duration) {
+		vibration.StopVibration(duration);
 	}
 
 	/// <summary>

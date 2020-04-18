@@ -65,6 +65,8 @@ public class hDebugger : MonoBehaviour {
 	public AnimationCurve leftCurve;
 	public AnimationCurve rightCurve;
 	public bool stopVibrationOnSPressed;
+	[Range(-1, 3)]
+	public float stopVibrationDuration;
 	public bool displayIntensity;
 
 	[Header("REFERENCES")]
@@ -438,7 +440,8 @@ public class hDebugger : MonoBehaviour {
 		}
 
 		if (stopVibrationOnSPressed && Input.GetKeyDown(KeyCode.S)) {
-			gamepad.StopVibration();
+			if (stopVibrationDuration < 0) gamepad.StopVibration();
+			else gamepad.StopVibration(stopVibrationDuration);
 		}
 
 		if (displayIntensity) {
