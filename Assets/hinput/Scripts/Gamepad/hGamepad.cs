@@ -431,6 +431,21 @@ public class hGamepad {
 	}
 	
 	/// <summary>
+	/// Vibrate a gamepad with an intensity over time based on an animation curve.
+	/// </summary>
+	public void Vibrate(AnimationCurve curve) {
+		vibration.Vibrate(curve, curve);
+	}
+	
+	/// <summary>
+	/// Vibrate a gamepad with an intensity over time based on two animation curves, one for the left side and one for
+	/// the right side.
+	/// </summary>
+	public void Vibrate(AnimationCurve leftCurve, AnimationCurve rightCurve) {
+		vibration.Vibrate(leftCurve, rightCurve);
+	}
+	
+	/// <summary>
 	/// Vibrate a gamepad with an instensity of leftIntensity on the left motor, and an intensity of rightIntensity on
 	/// the right motor, FOREVER. Don't forget to call StopVibration !
 	/// </summary>

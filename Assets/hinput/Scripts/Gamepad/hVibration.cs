@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 	using System.Collections.Generic;
@@ -68,11 +69,11 @@ public class hVibration {
 	// --------------------
 
 	public void Vibrate (float left, float right, float duration) {
-		hUtils.Coroutine(_Vibrate(
-			left, 
-			right, 
-			duration
-		));
+		hUtils.Coroutine(_Vibrate(left, right, duration));
+	}
+
+	public void Vibrate(AnimationCurve leftCurve, AnimationCurve rightCurve) {
+		hUtils.Coroutine(_Vibrate(leftCurve, rightCurve));
 	}
 
 	public void VibrateAdvanced (float left, float right) {
@@ -111,6 +112,34 @@ public class hVibration {
 				Debug.LogWarning("hinput warning : vibration is only supported on four controllers.");
 			}
 		}
+	}
+
+	private IEnumerator _Vibrate(AnimationCurve leftCurve, AnimationCurve rightCurve) {
+		float time = 0;
+		bool leftCurveIsOver = (leftCurve.keys.Length == 0);
+		bool rightCurveIsOver = (rightCurve.keys.Length == 0);
+
+		while(!leftCurveIsOver || !rightCurveIsOver) {
+			float leftCurveValue;
+			if (leftCurveIsOver) leftCurveValue = 0;
+			else leftCurveValue = leftCurve.Evaluate(time);
+
+			float rightCurveValue;
+			if (rightCurveIsOver) rightCurveValue = 0;
+			else rightCurveValue = rightCurve.Evaluate(time);
+
+			time += Time.deltaTime;
+			leftCurveIsOver = (time > leftCurve.keys.Last().time);
+			rightCurveIsOver = (time > rightCurve.keys.Last().time);
+			
+			currentLeft += leftCurveValue;
+			currentRight += rightCurveValue;
+			yield return new WaitForEndOfFrame();
+			currentLeft -= leftCurveValue;
+			currentRight -= rightCurveValue;
+		}
+
+		yield return null;
 	}
 
 	
