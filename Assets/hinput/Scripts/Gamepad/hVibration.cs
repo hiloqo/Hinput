@@ -15,8 +15,8 @@ public class hVibration {
 		private readonly List<PlayerIndex> index;
 	#endif
 	private readonly bool canVibrate = false;
-	private float currentLeft;
-	private float currentRight;
+	public float currentLeft;
+	public float currentRight;
 	private float prevLeft;
 	private float prevRight;
 

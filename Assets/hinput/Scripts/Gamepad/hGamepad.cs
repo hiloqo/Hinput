@@ -459,4 +459,14 @@ public class hGamepad {
 	public void StopVibration () {
 		vibration.StopVibration();
 	}
+
+	/// <summary>
+	/// The intensity at which the left motor of a gamepad is currently vibrating.
+	/// </summary>
+	public float leftVibration { get { return vibration.currentLeft; } }
+
+	/// <summary>
+	/// The intensity at which the right motor of a gamepad is currently vibrating.
+	/// </summary>
+	public float rightVibration { get { return vibration.currentRight; } }
 }
