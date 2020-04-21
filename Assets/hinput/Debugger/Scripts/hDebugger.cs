@@ -65,6 +65,7 @@ public class hDebugger : MonoBehaviour {
 	public AnimationCurve leftCurve;
 	public AnimationCurve rightCurve;
 	public hVibrationPreset vibrationPreset;
+	public bool multiplyVibrationPreset;
 	public bool stopVibrationOnSPressed;
 	[Range(-1, 3)]
 	public float stopVibrationDuration;
@@ -437,8 +438,11 @@ public class hDebugger : MonoBehaviour {
 			if (vibrationMode == VM.durationAndIntensity) gamepad.Vibrate(leftIntensity, rightIntensity, duration);
 			if (vibrationMode == VM.oneCurve) gamepad.Vibrate(curve);
 			if (vibrationMode == VM.twoCurves) gamepad.Vibrate(leftCurve, rightCurve);
-			if (vibrationMode == VM.vibrationPreset) gamepad.Vibrate(vibrationPreset);
 			if (vibrationMode == VM.advanced) gamepad.VibrateAdvanced(leftIntensity, rightIntensity);
+			if (vibrationMode == VM.vibrationPreset) {
+				if (multiplyVibrationPreset) gamepad.Vibrate(vibrationPreset, leftIntensity, rightIntensity, duration);
+				else gamepad.Vibrate(vibrationPreset);
+			}
 		}
 
 		if (stopVibrationOnSPressed && Input.GetKeyDown(KeyCode.S)) {

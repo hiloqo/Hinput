@@ -449,7 +449,33 @@ public class hGamepad {
 	/// Vibrate a gamepad with an intensity and a duration based on a vibration preset.
 	/// </summary>
 	public void Vibrate(hVibrationPreset vibrationPreset) {
-		vibration.Vibrate(vibrationPreset);
+		vibration.Vibrate(vibrationPreset, 1, 1, 1);
+	}
+
+	/// <summary>
+	/// Vibrate a gamepad with an intensity and a duration based on a vibration preset.
+	/// The duration of the preset is multiplied by duration.
+	/// </summary>
+	public void Vibrate(hVibrationPreset vibrationPreset, float duration) {
+		vibration.Vibrate(vibrationPreset, 1, 1, duration);
+	}
+
+	/// <summary>
+	/// Vibrate a gamepad with an intensity and a duration based on a vibration preset.
+	/// The left intensity of the preset is multiplied by leftIntensity, and its right intensity is multiplied by
+	/// rightIntensity.
+	/// </summary>
+	public void Vibrate(hVibrationPreset vibrationPreset, float leftIntensity, float rightIntensity) {
+		vibration.Vibrate(vibrationPreset, leftIntensity, rightIntensity, 1);
+	}
+
+	/// <summary>
+	/// Vibrate a gamepad with an intensity and a duration based on a vibration preset.
+	/// The left intensity of the preset is multiplied by leftIntensity, its right intensity is multiplied by
+	/// rightIntensity, and its duration is multiplied by duration.
+	/// </summary>
+	public void Vibrate(hVibrationPreset vibrationPreset, float leftIntensity, float rightIntensity, float duration) {
+		vibration.Vibrate(vibrationPreset, leftIntensity, rightIntensity, duration);
 	}
 	
 	/// <summary>

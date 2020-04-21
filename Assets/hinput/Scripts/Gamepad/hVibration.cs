@@ -77,8 +77,8 @@ public class hVibration {
 		hUtils.Coroutine(_Vibrate(leftCurve, rightCurve));
 	}
 
-	public void Vibrate(hVibrationPreset vibrationPreset) {
-		PresetCurves presetCurves = GetCurves(vibrationPreset);
+	public void Vibrate(hVibrationPreset vibrationPreset, float left, float right, float duration) {
+		PresetCurves presetCurves = GetCurves(vibrationPreset, left, right, duration);
 		hUtils.Coroutine(_Vibrate(presetCurves.leftCurve, presetCurves.rightCurve));
 	}
 
@@ -177,109 +177,101 @@ public class hVibration {
 		}
 	}
 
-	private PresetCurves GetCurves(hVibrationPreset vibrationPreset) {
+	private PresetCurves GetCurves(hVibrationPreset vibrationPreset, float left, float right, float duration) {
+		AnimationCurve leftCurve = new AnimationCurve();
+		AnimationCurve rightCurve = new AnimationCurve();
 		if (vibrationPreset == hVibrationPreset.ButtonPress) {
-			AnimationCurve leftCurve = new AnimationCurve();
 			leftCurve.AddKey(0, 0.5f);
 			leftCurve.AddKey(0.1f, 0.5f);
-			AnimationCurve rightCurve = new AnimationCurve();
+			
 			rightCurve.AddKey(0, 0.5f);
 			rightCurve.AddKey(0.1f, 0.5f);
-			return new PresetCurves(leftCurve, rightCurve);
 		}
 		
 		if (vibrationPreset == hVibrationPreset.ImpactLight) {
-			AnimationCurve leftCurve = new AnimationCurve();
 			leftCurve.AddKey(0, 0f);
 			leftCurve.AddKey(0.2f, 0f);
-			AnimationCurve rightCurve = new AnimationCurve();
+			
 			rightCurve.AddKey(0, 0.5f);
 			rightCurve.AddKey(0.2f, 0.5f);
-			return new PresetCurves(leftCurve, rightCurve);
 		}
 		
 		if (vibrationPreset == hVibrationPreset.Impact) {
-			AnimationCurve leftCurve = new AnimationCurve();
 			leftCurve.AddKey(0, 0.2f);
 			leftCurve.AddKey(0.2f, 0.2f);
-			AnimationCurve rightCurve = new AnimationCurve();
+			
 			rightCurve.AddKey(0, 0.8f);
 			rightCurve.AddKey(0.2f, 0.8f);
-			return new PresetCurves(leftCurve, rightCurve);
 		}
 		
 		if (vibrationPreset == hVibrationPreset.ImpactHeavy) {
-			AnimationCurve leftCurve = new AnimationCurve();
 			leftCurve.AddKey(0, 0.5f);
 			leftCurve.AddKey(0.2f, 0.5f);
-			AnimationCurve rightCurve = new AnimationCurve();
+			
 			rightCurve.AddKey(0, 1);
 			rightCurve.AddKey(0.2f, 1);
-			return new PresetCurves(leftCurve, rightCurve);
 		}
 		
 		if (vibrationPreset == hVibrationPreset.ExplosionShort) {
-			AnimationCurve leftCurve = new AnimationCurve();
 			leftCurve.AddKey(0, 0.5f);
 			leftCurve.AddKey(0.2f, 0.5f);
-			AnimationCurve rightCurve = new AnimationCurve();
+			
 			rightCurve.AddKey(0, 0.25f);
 			rightCurve.AddKey(0.2f, 0.25f);
-			return new PresetCurves(leftCurve, rightCurve);
 		}
 		
 		if (vibrationPreset == hVibrationPreset.Explosion) {
-			AnimationCurve leftCurve = new AnimationCurve();
 			leftCurve.AddKey(0, 0.8f);
 			leftCurve.AddKey(0.5f, 0.8f);
-			AnimationCurve rightCurve = new AnimationCurve();
+			
 			rightCurve.AddKey(0, 0.4f);
 			rightCurve.AddKey(0.5f, 0.4f);
-			return new PresetCurves(leftCurve, rightCurve);
 		}
 		
 		if (vibrationPreset == hVibrationPreset.ExplosionLong) {
-			AnimationCurve leftCurve = new AnimationCurve();
 			leftCurve.AddKey(0, 1f);
 			leftCurve.AddKey(1f, 1f);
 			leftCurve.AddKey(1.1f, 0f);
-			AnimationCurve rightCurve = new AnimationCurve();
+			
 			rightCurve.AddKey(0, 0.5f);
 			rightCurve.AddKey(1f, 0.5f);
 			rightCurve.AddKey(1.1f, 0f);
-			return new PresetCurves(leftCurve, rightCurve);
 		}
 		
 		if (vibrationPreset == hVibrationPreset.AmbientSubtle) {
-			AnimationCurve leftCurve = new AnimationCurve();
 			leftCurve.AddKey(0, 0.1f);
 			leftCurve.AddKey(10f, 0.1f);
-			AnimationCurve rightCurve = new AnimationCurve();
+			
 			rightCurve.AddKey(0, 0);
 			rightCurve.AddKey(10f, 0);
-			return new PresetCurves(leftCurve, rightCurve);
 		}
 		
 		if (vibrationPreset == hVibrationPreset.Ambient) {
-			AnimationCurve leftCurve = new AnimationCurve();
 			leftCurve.AddKey(0, 0.3f);
 			leftCurve.AddKey(10f, 0.3f);
-			AnimationCurve rightCurve = new AnimationCurve();
+			
 			rightCurve.AddKey(0, 0.1f);
 			rightCurve.AddKey(10f, 0.1f);
-			return new PresetCurves(leftCurve, rightCurve);
 		}
 		
 		if (vibrationPreset == hVibrationPreset.AmbientStrong) {
-			AnimationCurve leftCurve = new AnimationCurve();
 			leftCurve.AddKey(0, 0.6f);
 			leftCurve.AddKey(10f, 0.6f);
-			AnimationCurve rightCurve = new AnimationCurve();
+			
 			rightCurve.AddKey(0, 0.3f);
 			rightCurve.AddKey(10f, 0.3f);
-			return new PresetCurves(leftCurve, rightCurve);
 		}
 
-		return new PresetCurves(null, null);
+		leftCurve.keys = leftCurve.keys
+			.ToList()
+			.Select(key => new Keyframe(key.time * duration, key.value * left))
+			.ToArray();
+		
+		rightCurve.keys = rightCurve.keys
+			.ToList()
+			.Select(key => new Keyframe(key.time * duration, key.value * right))
+			.ToArray();
+
+		return new PresetCurves(leftCurve, rightCurve);
 	}
 }
