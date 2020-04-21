@@ -52,18 +52,19 @@ public class hDebugger : MonoBehaviour {
 	public bool stickInfoOnPPressed;
 	public bool buttonInfoOnBPressed;
 
-	public enum VM { noArgs, duration, intensity, durationAndIntensity, oneCurve, twoCurves, advanced }
+	public enum VM { noArgs, duration, intensity, durationAndIntensity, oneCurve, twoCurves, vibrationPreset, advanced }
 	[Header("VIBRATION")]
 	public VM vibrationMode;
-	[Range(0,2)]
+	[Range(0,10)]
 	public float duration;
 	[Range(0,1)]
 	public float leftIntensity;
 	[Range(0,1)]
 	public float rightIntensity;
-	public AnimationCurve generalCurve;
+	public AnimationCurve curve;
 	public AnimationCurve leftCurve;
 	public AnimationCurve rightCurve;
+	public hVibrationPreset vibrationPreset;
 	public bool stopVibrationOnSPressed;
 	[Range(-1, 3)]
 	public float stopVibrationDuration;
@@ -434,8 +435,9 @@ public class hDebugger : MonoBehaviour {
 			if (vibrationMode == VM.duration) gamepad.Vibrate(duration);
 			if (vibrationMode == VM.intensity) gamepad.Vibrate(leftIntensity, rightIntensity);
 			if (vibrationMode == VM.durationAndIntensity) gamepad.Vibrate(leftIntensity, rightIntensity, duration);
-			if (vibrationMode == VM.oneCurve) gamepad.Vibrate(generalCurve);
+			if (vibrationMode == VM.oneCurve) gamepad.Vibrate(curve);
 			if (vibrationMode == VM.twoCurves) gamepad.Vibrate(leftCurve, rightCurve);
+			if (vibrationMode == VM.vibrationPreset) gamepad.Vibrate(vibrationPreset);
 			if (vibrationMode == VM.advanced) gamepad.VibrateAdvanced(leftIntensity, rightIntensity);
 		}
 

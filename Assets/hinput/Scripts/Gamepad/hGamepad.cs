@@ -444,6 +444,13 @@ public class hGamepad {
 	public void Vibrate(AnimationCurve leftCurve, AnimationCurve rightCurve) {
 		vibration.Vibrate(leftCurve, rightCurve);
 	}
+
+	/// <summary>
+	/// Vibrate a gamepad with an intensity and a duration based on a vibration preset.
+	/// </summary>
+	public void Vibrate(hVibrationPreset vibrationPreset) {
+		vibration.Vibrate(vibrationPreset);
+	}
 	
 	/// <summary>
 	/// Vibrate a gamepad with an instensity of leftIntensity on the left motor, and an intensity of rightIntensity on

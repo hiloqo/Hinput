@@ -349,7 +349,7 @@ MonoBehaviour:
   duration: 1
   leftIntensity: 0.5
   rightIntensity: 0.5
-  generalCurve:
+  curve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -421,7 +421,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  vibrationPreset: 0
   stopVibrationOnSPressed: 1
+  stopVibrationDuration: 0
+  displayIntensity: 0
   message: {fileID: 836467558}
   plane: {fileID: 1785587734}
   redCube: {fileID: 1384730651}
