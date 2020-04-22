@@ -5,7 +5,7 @@ hinput is a simple gamepad manager for Unity.
 
 Set it up with a single click, learn how to use it in 5 minutes, and start making games for Windows, Mac and Linux!
 
-**[install](http://tiny.cc/hinput_install_v1-5-0)** | **[learn](http://tiny.cc/hinput_learn_v1-5-0)** | **[documentation](http://tiny.cc/hinput_doc_v1-5-0)** | **[contact](mailto:couvreurhenri@gmail.com)**
+**[install](http://tiny.cc/hinput_install_v1-6-0)** | **[learn](http://tiny.cc/hinput_learn_v1-6-0)** | **[documentation](http://tiny.cc/hinput_doc_v1-6-0)** | **[contact](mailto:couvreurhenri@gmail.com)**
 
 hinput is a wrapper around Unity's base input system, with a command to fill up the input manager in a single click, and an intuitive API to expose gamepad controls. It automatically detects the OS you're using, and ajusts to Windows, Mac and Linux at runtime. It also features vibration on Windows for up to 4 gamepads, thanks to the XInput interface. 
 
@@ -46,7 +46,7 @@ hinput.anyGamepad.rightStick.vertical
 hinput.gamepad[7].Vibrate();
 ```
 
-Feel free to check out the **[learn](http://tiny.cc/hinput_learn_v1-5-0)** guide or the **[documentation](http://tiny.cc/hinput_doc_v1-5-0)** for more
+Feel free to check out the **[learn](http://tiny.cc/hinput_learn_v1-6-0)** guide or the **[documentation](http://tiny.cc/hinput_doc_v1-6-0)** for more
 
 #### A few remarks:
 - **If you were using XInput** in your project before you imported hinput, do not import the XInput folder from hinput. Unity does not deal well with duplicate packages.
