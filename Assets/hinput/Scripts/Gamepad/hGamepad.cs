@@ -374,7 +374,7 @@ public class hGamepad {
 
 	/// <summary>
 	/// A virtual button that returns every input of a gamepad at once.
-	/// It shares its name and full name with the input that is currently being pushed (except if you use "internal"
+	/// It has the name and full name of the input that is currently being pushed (except if you use "internal"
 	/// properties).
 	/// </summary>
 	public hAnyInput anyInput {
