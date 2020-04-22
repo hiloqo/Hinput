@@ -80,26 +80,6 @@ public class hGamepad {
 
 
 	// --------------------
-	// PRIVATE VARIABLES
-	// --------------------
-
-	private hButton _A, _B, _X, _Y;
-	private hButton _leftBumper, _rightBumper, _back, _start;
-	private hButton _leftStickClick, _rightStickClick, _xBoxButton;
-
-	private hTrigger _leftTrigger, _rightTrigger;
-
-	protected hStick _leftStick, _rightStick, _dPad;
-
-	private List<hStick> _sticks;
-	private List<hPressable> _buttons;
-
-	private hAnyInput _anyInput;
-
-	private readonly hVibration vibration;
-
-
-	// --------------------
 	// CONSTRUCTOR
 	// --------------------
 
@@ -184,6 +164,7 @@ public class hGamepad {
 	// PUBLIC PROPERTIES
 	// --------------------
 
+	private hButton _A;
 	/// <summary>
 	/// The A button of a gamepad.
 	/// </summary>
@@ -194,6 +175,7 @@ public class hGamepad {
 		} 
 	}
 
+	private hButton _B;
 	/// <summary>
 	/// The B button of a gamepad.
 	/// </summary>
@@ -204,6 +186,7 @@ public class hGamepad {
 		} 
 	}
 
+	private hButton _X;
 	/// <summary>
 	/// The X button of a gamepad.
 	/// </summary>
@@ -214,6 +197,7 @@ public class hGamepad {
 		} 
 	}
 
+	private hButton _Y;
 	/// <summary>
 	/// The Y button of a gamepad.
 	/// </summary>
@@ -225,6 +209,7 @@ public class hGamepad {
 	}
 
 
+	private hButton _leftBumper;
 	/// <summary>
 	/// The left bumper of a gamepad.
 	/// </summary>
@@ -235,6 +220,7 @@ public class hGamepad {
 		} 
 	}
 
+	private hButton _rightBumper;
 	/// <summary>
 	/// The right bumper of a gamepad.
 	/// </summary>
@@ -245,6 +231,7 @@ public class hGamepad {
 		} 
 	}
 
+	private hButton _back;
 	/// <summary>
 	/// The back button of a gamepad.
 	/// </summary>
@@ -255,6 +242,7 @@ public class hGamepad {
 		} 
 	}
 
+	private hButton _start;
 	/// <summary>
 	/// The start button of a gamepad.
 	/// </summary>
@@ -265,6 +253,7 @@ public class hGamepad {
 		} 
 	}
 
+	private hButton _leftStickClick;
 	/// <summary>
 	/// The left stick click of a gamepad.
 	/// </summary>
@@ -275,6 +264,7 @@ public class hGamepad {
 		} 
 	}
 
+	private hButton _rightStickClick;
 	/// <summary>
 	/// The right stick click of a gamepad.
 	/// </summary>
@@ -285,6 +275,7 @@ public class hGamepad {
 		} 
 	}
 
+	private hButton _xBoxButton;
 	/// <summary>
 	/// The xBox button of a gamepad.<br/>
 	/// Windows and Linux drivers can’t detect the value of this button. 
@@ -297,6 +288,7 @@ public class hGamepad {
 		} 
 	}
 
+	private hTrigger _leftTrigger;
 	/// <summary>
 	/// The left trigger of a gamepad.
 	/// </summary>
@@ -307,6 +299,7 @@ public class hGamepad {
 		} 
 	}
 	
+	private hTrigger _rightTrigger;
 	/// <summary>
 	/// The right trigger of a gamepad.
 	/// </summary>
@@ -317,6 +310,7 @@ public class hGamepad {
 		} 
 	}
 
+	protected hStick _leftStick;
 	/// <summary>
 	/// The left stick of a gamepad.
 	/// </summary>
@@ -327,6 +321,7 @@ public class hGamepad {
 		} 
 	}
 
+	protected hStick _rightStick;
 	/// <summary>
 	/// The right stick click of a gamepad.
 	/// </summary>
@@ -337,6 +332,7 @@ public class hGamepad {
 		} 
 	}
 	
+	protected hStick _dPad;
 	/// <summary>
 	/// The D-pad of a gamepad.
 	/// </summary>
@@ -347,6 +343,7 @@ public class hGamepad {
 		} 
 	}
 
+	private List<hStick> _sticks;
 	/// <summary>
 	/// The list containing a gamepad’s sticks, in the following order : { leftStick, rightStick, dPad }
 	/// </summary>
@@ -357,6 +354,7 @@ public class hGamepad {
 		}
 	}
 
+	private List<hPressable> _buttons;
 	/// <summary>
 	/// The list containing a gamepad’s buttons, in the following order : { A, B, X, Y, left bumper, right bumper, left
 	/// trigger, right trigger, back, start, left stick click, right stick click, XBox button }
@@ -372,6 +370,7 @@ public class hGamepad {
 		}
 	}
 
+	private hAnyInput _anyInput;
 	/// <summary>
 	/// A virtual button that returns every input of a gamepad at once.
 	/// It has the name and full name of the input that is currently being pushed (except if you use "internal"
@@ -387,6 +386,8 @@ public class hGamepad {
 	// --------------------
 	// VIBRATION
 	// --------------------
+	
+	private readonly hVibration vibration;
 	
 	/// <summary>
 	/// Vibrate a gamepad. Default duration and intensity can be tweaked in settings.
