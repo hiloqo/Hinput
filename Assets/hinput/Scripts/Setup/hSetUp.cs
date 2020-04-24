@@ -59,8 +59,8 @@ public static class hSetup {
 
 			Confirm("uninstalled", "Bye bye !");
 		} catch (Exception e) {
-			Debug.LogWarning("Error while uninstalling hinput. Try reinstalling the plugin and rebooting your" +
-			                 " computer. If the problem persists, please contact me at couvreurhenri@gmail.com.");
+			Debug.LogWarning("Error while uninstalling hinput. Try reinstalling the plugin and rebooting " +
+			                 "your computer. If the problem persists, please contact me at couvreurhenri@gmail.com.");
 			throw e;
 		}
 	}
@@ -83,8 +83,8 @@ public static class hSetup {
 			Debug.Log("hinput has been "+action+" successfully. "+catchphrase);
 		} catch (IOException) {
 			Debug.LogWarning("[ACTION NEEDED] You need to reimport your asset database to confirm the " + 
-			                 action.Replace(" ", "") + " of hinput. Please click \"Reimport all\"" +
-			                 " in the Assets menu.");
+			                 action.Replace(" ", "").Replace("ed","") + 
+			                 " of hinput. Please click \"Reimport all\" in the Assets menu.");
 		}
 	}
 
