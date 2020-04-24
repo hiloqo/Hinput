@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -52,8 +53,17 @@ public class hExampleGamepad : MonoBehaviour {
         UpdateXBoxButton();
         UpdateAllButtonHighlights();
         UpdateVibrationButton();
-        if (!hSetup.hinputIsInstalled() && index == 0)
-            text.text = "Don't forget to install hinput in Tools>hinput>Set Up hinput!";
+        CheckSetup();
+    }
+
+    private void CheckSetup() {
+        if (!gamepad.isConnected) {
+            text.text = "Please plug in a gamepad to test hinput";
+        }
+        
+        if (!hSetup.hinputIsInstalled() && index == 0) {
+            text.text = "Don't forget to install hinput in Tools > hinput > Set Up hinput!";
+        }
     }
 
     private void UpdateVibrationButton() {
