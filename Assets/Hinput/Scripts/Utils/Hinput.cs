@@ -2,6 +2,8 @@
 // Contact : couvreurhenri@gmail.com, hiloqo.games@gmail.com
 
 using System.Collections.Generic;
+using HinputClasses;
+using HinputClasses.Internal;
 
 /// <summary>
 /// The main class of the Hinput package, from which you can access gamepads.
@@ -11,7 +13,7 @@ public static class Hinput {
 	// GAMEPADS
 	// --------------------
 
-	private static hGamepad _anyGamepad;
+	private static Gamepad _anyGamepad;
 	/// <summary>
 	/// A virtual gamepad that returns the inputs of every gamepad at once.
 	/// Its name, full name, index and type are those of the gamepad that is currently being pushed (except if you use
@@ -28,34 +30,34 @@ public static class Hinput {
 	/// - If player 1 positioned their right stick at (-0.21, 0.88) and player 2 has theirs at (0.67, 0.26),
 	/// the right stick of anyGamepad will have a position of (0.23, 0.57).
 	/// </example>
-	public static hGamepad anyGamepad { 
+	public static Gamepad anyGamepad { 
 		get { 
-			hUpdater.CheckInstance();
+			Updater.CheckInstance();
 			if (_anyGamepad == null) {
-				_anyGamepad = new hAnyGamepad();
+				_anyGamepad = new AnyGamepad();
 			} else {
-				hUpdater.UpdateGamepads ();
+				Updater.UpdateGamepads ();
 			}
 
 			return _anyGamepad; 
 		}
 	}
 
-	private static List<hGamepad> _gamepad;
+	private static List<Gamepad> _gamepad;
 	/// <summary>
 	/// A list of 8 gamepads, labelled 0 to 7.
 	/// </summary>
 	/// <remarks>
 	/// Gamepad disconnects are handled by the driver, and as such will yield different results depending on your operating system.
 	/// </remarks>
-	public static List<hGamepad> gamepad { 
+	public static List<Gamepad> gamepad { 
 		get {
-			hUpdater.CheckInstance();
+			Updater.CheckInstance();
 			if (_gamepad == null) {
-				_gamepad = new List<hGamepad>();
-				for (int i=0; i<hUtils.maxGamepads; i++) _gamepad.Add(new hGamepad(i));
+				_gamepad = new List<Gamepad>();
+				for (int i=0; i<Utils.maxGamepads; i++) _gamepad.Add(new Gamepad(i));
 			} else {
-				hUpdater.UpdateGamepads ();
+				Updater.UpdateGamepads ();
 			} 
 
 			return _gamepad; 
@@ -67,5 +69,5 @@ public static class Hinput {
 	/// It shares its name, full name and gamepad with the input that is currently being pushed (except if you use
 	/// "internal" properties).
 	/// </summary>
-	public static hPressable anyInput { get { return anyGamepad.anyInput; } }
+	public static Pressable anyInput { get { return anyGamepad.anyInput; } }
 }
