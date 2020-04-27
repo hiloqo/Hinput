@@ -97,34 +97,6 @@ namespace HinputClasses {
 
 		
 		// --------------------
-		// BUILD
-		// --------------------
-
-		public void BuildAll () {
-			if (A.gamepadIndex == 0
-			|| B.gamepadIndex == 0
-			|| X.gamepadIndex == 0
-			|| Y.gamepadIndex == 0
-			|| leftBumper.gamepadIndex == 0
-			|| rightBumper.gamepadIndex == 0
-			|| back.gamepadIndex == 0
-			|| start.gamepadIndex == 0
-			|| leftStickClick.gamepadIndex == 0
-			|| rightStickClick.gamepadIndex == 0
-			|| xBoxButton.gamepadIndex == 0
-			|| leftTrigger.gamepadIndex == 0
-			|| rightTrigger.gamepadIndex == 0
-			|| anyInput.gamepadIndex == 0) {
-				// Do nothing, I'm just looking them up so that they are assigned.
-			}
-			
-			leftStick.BuildDirections ();
-			rightStick.BuildDirections ();
-			dPad.BuildDirections ();
-		}
-
-		
-		// --------------------
 		// UPDATE
 		// --------------------
 
@@ -396,9 +368,9 @@ namespace HinputClasses {
 		/// </summary>
 		public void Vibrate() {
 			vibration.Vibrate(
-				Settings.leftVibrationIntensity, 
-				Settings.rightVibrationIntensity, 
-				Settings.vibrationDuration);
+				Settings.vibrationDefaultLeftIntensity, 
+				Settings.vibrationDefaultRightIntensity, 
+				Settings.vibrationDefaultDuration);
 		}
 
 		/// <summary>
@@ -406,8 +378,8 @@ namespace HinputClasses {
 		/// </summary>
 		public void Vibrate(float duration) {
 			vibration.Vibrate(
-				Settings.leftVibrationIntensity, 
-				Settings.rightVibrationIntensity, 
+				Settings.vibrationDefaultLeftIntensity, 
+				Settings.vibrationDefaultRightIntensity, 
 				duration);
 		}
 		
@@ -419,7 +391,7 @@ namespace HinputClasses {
 			vibration.Vibrate(
 				leftIntensity, 
 				rightIntensity, 
-				Settings.vibrationDuration);
+				Settings.vibrationDefaultDuration);
 		}
 		
 		/// <summary>

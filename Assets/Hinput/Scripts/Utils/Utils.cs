@@ -61,7 +61,7 @@ namespace HinputClasses.Internal {
 		// True if the stick is currently within a (Settings.directionAngle) degree cone from this direction
 		public static bool StickWithinAngle (Stick stick, float angle) { 
 			float distanceToAngle = Mathf.Abs(Mathf.DeltaAngle(angle, stick.angle));
-			float maxDistance = Settings.directionAngle/2;
+			int maxDistance = (int)Settings.stickType;
 			return (distanceToAngle <= maxDistance); 
 		}
 

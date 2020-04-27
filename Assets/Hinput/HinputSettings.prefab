@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 114597552863358616}
   - component: {fileID: 114653318643692006}
   m_Layer: 0
-  m_Name: hinputSettings
+  m_Name: HinputSettings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48,13 +48,14 @@ MonoBehaviour:
   _worldCamera: {fileID: 0}
   _stickDeadZone: 0.2
   _stickPressedZone: 0.5
-  _directionAngle: 90
+  _stickType: 45
   _triggerDeadZone: 0.1
   _triggerPressedZone: 0.5
   _doublePressDuration: 0.3
   _longPressDuration: 0.3
-  _defaultLeftVibrationIntensity: 1
-  _defaultRightVibrationIntensity: 1
+  _vibrationDuration: 0.5
+  _leftVibrationIntensity: 1
+  _rightVibrationIntensity: 1
 --- !u!114 &114653318643692006
 MonoBehaviour:
   m_ObjectHideFlags: 0

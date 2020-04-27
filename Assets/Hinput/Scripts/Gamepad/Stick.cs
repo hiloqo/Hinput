@@ -97,12 +97,6 @@ namespace HinputClasses {
 
 
 		// --------------------
-		// PRIVATE VARIABLES
-		// --------------------
-
-
-
-		// --------------------
 		// CONSTRUCTORS
 		// --------------------
 
@@ -277,19 +271,6 @@ namespace HinputClasses {
 				if (_downRight == null) _downRight = new Direction ("DownRight", -45, this);
 				return _downRight;
 			} 
-		}
-
-		public void BuildDirections () {
-			if (up.gamepadIndex == 0
-			|| down.gamepadIndex == 0
-			|| left.gamepadIndex == 0
-			|| right.gamepadIndex == 0
-			|| upLeft.gamepadIndex == 0
-			|| upRight.gamepadIndex == 0
-			|| downLeft.gamepadIndex == 0
-			|| downRight.gamepadIndex == 0) {
-				// Do nothing, I'm just looking them up so that they are assigned.
-			}
 		}
 
 		private void UpdateDirections () {

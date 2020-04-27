@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using HinputClasses.Internal;
+using UnityEngine.Serialization;
 
 namespace HinputClasses {
     /// <summary>
@@ -32,11 +33,6 @@ namespace HinputClasses {
 			if (_instance == null) _instance = this;
 			if (_instance != this) Destroy(this);
 			DontDestroyOnLoad (this);
-
-			if (_buildAllOnStartUp) {
-				Hinput.anyGamepad.BuildAll();
-				for (int i=0; i<Utils.maxGamepads; i++) Hinput.gamepad[i].BuildAll();
-			}
 		}
 
 
@@ -44,44 +40,27 @@ namespace HinputClasses {
 		// SETTINGS
 		// --------------------
 
-		[Header("General")]
+		public enum StickTypeEnum { FourDirections = 90, EightDirections = 45 }
+		[Header("Sticks")]
 		[Space(10)]
 		[Header("Hinput settings")]
 
 		[SerializeField]
-		[Tooltip ("If enabled, Hinput will start tracking every control of every gamepad from startup. "
-		+"Otherwise, each control will only start being registered the first time you ask for it.")]
-		private bool _buildAllOnStartUp = false;
-
-		[SerializeField]
-		[Tooltip("The Camera on which the worldPositionCamera and worldPositionCameraRaw properties of Stick should be calculated. " 
-		+"If no Camera is set, Hinput will try to find one on your scene.")]
-		private Transform _worldCamera = null;
+		[Tooltip("The type of stick to use.\n\n"+
+		         "Set it to Four Directions for 4-directional sticks, with buttons that are 90 degrees wide (The use of " +
+		         "diagonals is not recommended in this case). Set it to Eight Directions for 8-directional sticks, with " +
+		         "buttons that are 45 degrees wide.")]
+		private StickTypeEnum _stickType = StickTypeEnum.EightDirections;
 		/// <summary>
-		/// The Camera on which the worldPositionCamera and worldPositionCameraRaw properties of Stick should be calculated. 
-		/// If no Camera is set, Hinput will try to find one on your scene.
+		/// The type of stick to use. <br/>
+		/// Set it to Four Directions for 4-directional sticks, with buttons that are 90 degrees wide (The use of
+		/// diagonals is not recommended in this case). Set it to Eight Directions for 8-directional sticks, with
+		/// buttons that are 45 degrees wide.
 		/// </summary>
-		/// <remarks>
-		/// Hinput will first try to get the gameobject tagged “MainCamera”. 
-		/// If there isn’t one, Hinput will get the first gameobject on the game scene that has a Camera component.
-		/// If there is no Camera on the scene, Hinput will return an error whenever you call a worldPositionCamera 
-		/// or worldPositionCameraRaw property.
-		/// </remarks>
-		public static Transform worldCamera { 
-			get { 
-				if (instance._worldCamera == null) {
-					if (Camera.main != null) instance._worldCamera = Camera.main.transform;
-					else if (FindObjectOfType<Camera>() != null) 
-						instance._worldCamera = FindObjectOfType<Camera>().transform;
-					else return null;
-				}
-
-				return instance._worldCamera;
-			} 
-			set { instance._worldCamera = value; } 
+		public static StickTypeEnum stickType { 
+			get { return instance._stickType; } 
+			set { instance._stickType = value; }  
 		}
-		
-		[Header("Sticks")]
 
 		[SerializeField]
 		[Range(0,1)]
@@ -108,18 +87,31 @@ namespace HinputClasses {
 		}
 
 		[SerializeField]
-		[Range(45,90)]
-		[Tooltip("The width of the sticks' virtual buttons.\n\n"+
-		"Set it to 45 degrees for 8-directional sticks, or to 90 degrees for 4-directional sticks")]
-		private float _directionAngle = 90f;
+		[Tooltip("The Camera on which the worldPositionCamera and worldPositionCameraRaw properties of Stick should be calculated. " 
+		         +"If no Camera is set, Hinput will try to find one on your scene.")]
+		private Transform _worldCamera = null;
 		/// <summary>
-		/// The size of the angle that defines a stick direction. <br/>
-		/// Note : if it is higher than 45 degrees, directions like (up) and (leftUp) will overlap.
-		/// Likewise, if it is lower than 90 degrees, there will be a gap between directions like (up) and (left).
+		/// The Camera on which the worldPositionCamera and worldPositionCameraRaw properties of Stick should be calculated. 
+		/// If no Camera is set, Hinput will try to find one on your scene.
 		/// </summary>
-		public static float directionAngle { 
-			get { return instance._directionAngle; } 
-			set { instance._directionAngle = value; }  
+		/// <remarks>
+		/// Hinput will first try to get the gameobject tagged “MainCamera”. 
+		/// If there isn’t one, Hinput will get the first gameobject on the game scene that has a Camera component.
+		/// If there is no Camera on the scene, Hinput will return an error whenever you call a worldPositionCamera 
+		/// or worldPositionCameraRaw property.
+		/// </remarks>
+		public static Transform worldCamera { 
+			get { 
+				if (instance._worldCamera == null) {
+					if (Camera.main != null) instance._worldCamera = Camera.main.transform;
+					else if (FindObjectOfType<Camera>() != null) 
+						instance._worldCamera = FindObjectOfType<Camera>().transform;
+					else return null;
+				}
+
+				return instance._worldCamera;
+			} 
+			set { instance._worldCamera = value; } 
 		}
 
 		[Header("Triggers")]
@@ -174,48 +166,48 @@ namespace HinputClasses {
 			set { instance._longPressDuration = value; }  
 		}
 
-		[Header("Vibration")]
+		[Header("Vibration Defaults")]
 
 		[SerializeField]
 		[Range(0,2)]
 		[Tooltip("The default duration of gamepad vibration.")]
-		private float _vibrationDuration = 0.5f;
+		private float _vibrationDefaultDuration = 0.5f;
 		/// <summary>
 		/// The default duration of gamepad vibration.
 		/// </summary>
-		public static float vibrationDuration { 
-			get { return instance._vibrationDuration; } 
-			set { instance._vibrationDuration = value; }  
+		public static float vibrationDefaultDuration { 
+			get { return instance._vibrationDefaultDuration; } 
+			set { instance._vibrationDefaultDuration = value; }  
 		}
 
 		[SerializeField]
 		[Range(0,1)]
 		[Tooltip("The default intensity of the left motor when controllers vibrate.")]
-		private float _leftVibrationIntensity = 1f;
+		private float _vibrationDefaultLeftIntensity = 1f;
 		/// <summary>
 		/// The default intensity of the left motor when controllers vibrate.
 		/// </summary>
 		/// <remarks>
 		/// The left motor is a low-frequency rumble motor.
 		/// </remarks>
-		public static float leftVibrationIntensity { 
-			get { return instance._leftVibrationIntensity; } 
-			set { instance._leftVibrationIntensity = value; }  
+		public static float vibrationDefaultLeftIntensity { 
+			get { return instance._vibrationDefaultLeftIntensity; } 
+			set { instance._vibrationDefaultLeftIntensity = value; }  
 		}
 
 		[SerializeField]
 		[Range(0,1)]
 		[Tooltip("The default intensity of the right motor when controllers vibrate.")]
-		private float _rightVibrationIntensity = 1f;
+		private float _vibrationDefaultRightIntensity = 1f;
 		/// <summary>
 		/// The default intensity of the right motor when controllers vibrate.
 		/// </summary>
 		/// <remarks>
 		/// The right motor is a high-frequency rumble motor.
 		/// </remarks>
-		public static float rightVibrationIntensity { 
-			get { return instance._rightVibrationIntensity; } 
-			set { instance._rightVibrationIntensity = value; }  
+		public static float vibrationDefaultRightIntensity { 
+			get { return instance._vibrationDefaultRightIntensity; } 
+			set { instance._vibrationDefaultRightIntensity = value; }  
 		}
 	}
 }
