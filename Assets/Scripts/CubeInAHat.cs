@@ -11,27 +11,27 @@ public class MyCharacter : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (hinput.gamepad[0].start) Pause ();
+		if (Hinput.gamepad[0].start) Pause ();
 
-		if (hinput.gamepad[1].B) Dash ();
+		if (Hinput.gamepad[1].B) Dash ();
 
-		transform.position += hinput.gamepad[0].leftStick.worldPositionFlat * speed;
+		transform.position += Hinput.gamepad[0].leftStick.worldPositionFlat * speed;
 
-		if (hinput.anyGamepad.A.justPressed) Jump ();
+		if (Hinput.anyGamepad.A.justPressed) Jump ();
 
-		if (hinput.gamepad[3].X.doublePress) HeavyAttack ();
+		if (Hinput.gamepad[3].X.doublePress) HeavyAttack ();
 
-		if (hinput.gamepad[2].rightTrigger) Shoot ();
+		if (Hinput.gamepad[2].rightTrigger) Shoot ();
 
-		if (hinput.anyGamepad.dPad.up.justPressed) Emote ();
+		if (Hinput.anyGamepad.dPad.up.justPressed) Emote ();
 
-		if (hinput.gamepad[0].rightStick.angle < 0) MoveBack ();
+		if (Hinput.gamepad[0].rightStick.angle < 0) MoveBack ();
 
-		if (hinput.gamepad[0].Y.longPress) Heal ();
+		if (Hinput.gamepad[0].Y.longPress) Heal ();
 
-		if (hinput.anyGamepad.rightStickClick.justReleased) ChangeWeapon (); 
+		if (Hinput.anyGamepad.rightStickClick.justReleased) ChangeWeapon (); 
 
-		if (hinput.gamepad[2].leftStick.distance > 0.8f) Sprint ();
+		if (Hinput.gamepad[2].leftStick.distance > 0.8f) Sprint ();
 
 
 
@@ -39,24 +39,24 @@ public class MyCharacter : MonoBehaviour {
 #region er
 
 
-		if (hinput.gamepad[0].start) Pause (); if (hinput.gamepad[1]. B) Dash 
-		(); transform.position += hinput.gamepad[0].leftStick.worldPositionFlat 
-		* speed; if (hinput.anyGamepad.A.justPressed) Jump (); if (hinput.
-		gamepad [3].X.doublePress) HeavyAttack (); if (hinput.gamepad[2].
-		rightTrigger) Shoot (); if (hinput.anyGamepad. dPad.up) Emote (); if 
-		(hinput.gamepad[0].rightStick.angle < 0) MoveBack (); if (hinput.gamepad
-		[0].Y.longPress) Heal (); if (hinput.anyGamepad.rightStickClick.justReleased) 
-		ChangeWeapon (); if (hinput.gamepad [2].leftStick.distance > 0.5f) Sprint ();		
+		if (Hinput.gamepad[0].start) Pause (); if (Hinput.gamepad[1]. B) Dash 
+		(); transform.position += Hinput.gamepad[0].leftStick.worldPositionFlat 
+		* speed; if (Hinput.anyGamepad.A.justPressed) Jump (); if (Hinput.
+		gamepad [3].X.doublePress) HeavyAttack (); if (Hinput.gamepad[2].
+		rightTrigger) Shoot (); if (Hinput.anyGamepad. dPad.up) Emote (); if 
+		(Hinput.gamepad[0].rightStick.angle < 0) MoveBack (); if (Hinput.gamepad
+		[0].Y.longPress) Heal (); if (Hinput.anyGamepad.rightStickClick.justReleased) 
+		ChangeWeapon (); if (Hinput.gamepad [2].leftStick.distance > 0.5f) Sprint ();		
 		
 		
 		
 		
 		
-		if (hinput.gamepad[0].start) Pause (); if (hinput.gamepad[1]. B) Dash (); transform.position += hinput.gamepad[0].leftStick.
-		worldPositionFlat * speed; if (hinput.anyGamepad.A.justPressed) Jump (); if (hinput.gamepad [3].X.doublePress) HeavyAttack (); 
-		if (hinput.gamepad[2].rightTrigger) Shoot (); if (hinput.anyGamepad. dPad.up) Emote (); if (hinput.gamepad[0].rightStick.angle 
-		< 0) MoveBack (); if (hinput.gamepad[0].Y.longPress) Heal (); if (hinput.anyGamepad.rightStickClick.justReleased) ChangeWeapon 
-		(); if (hinput.gamepad [2].leftStick.distance > 0.5f) Sprint (); if (hinput.gamepad[0].start) Pause (); if (hinput.gamepad[1]. B) Dash ();
+		if (Hinput.gamepad[0].start) Pause (); if (Hinput.gamepad[1]. B) Dash (); transform.position += Hinput.gamepad[0].leftStick.
+		worldPositionFlat * speed; if (Hinput.anyGamepad.A.justPressed) Jump (); if (Hinput.gamepad [3].X.doublePress) HeavyAttack (); 
+		if (Hinput.gamepad[2].rightTrigger) Shoot (); if (Hinput.anyGamepad. dPad.up) Emote (); if (Hinput.gamepad[0].rightStick.angle 
+		< 0) MoveBack (); if (Hinput.gamepad[0].Y.longPress) Heal (); if (Hinput.anyGamepad.rightStickClick.justReleased) ChangeWeapon 
+		(); if (Hinput.gamepad [2].leftStick.distance > 0.5f) Sprint (); if (Hinput.gamepad[0].start) Pause (); if (Hinput.gamepad[1]. B) Dash ();
 
 	}
 

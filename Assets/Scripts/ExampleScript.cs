@@ -58,59 +58,59 @@ public class ExampleScript : MonoBehaviour {
 		// To make a simple character controller, you can do this
 		// (for a 3D game or a top-down 2D game)
 		transform.position += 
-			hinput.gamepad[0].leftStick.worldPositionFlat * speed * Time.deltaTime;
+			Hinput.gamepad[0].leftStick.worldPositionFlat * speed * Time.deltaTime;
 
 		// OR you can do this
 		// (for a side scrolling 2D game, or to move a cursor)
 		transform.position += 
-			hinput.gamepad[0].leftStick.worldPositionCamera * speed * Time.deltaTime;
+			Hinput.gamepad[0].leftStick.worldPositionCamera * speed * Time.deltaTime;
 
 
 
 
 
 
-		if (hinput.gamepad[0].A.justPressed) {
+		if (Hinput.gamepad[0].A.justPressed) {
 			//Jump
 		}
 
-		if (hinput.anyGamepad.dPad.up.justPressed) {
+		if (Hinput.anyGamepad.dPad.up.justPressed) {
 			//Emote
 		}
 
-		if (hinput.anyGamepad.A.released) {
+		if (Hinput.anyGamepad.A.released) {
 			//Fall
 		}
 
-		if (hinput.anyGamepad.rightStickClick.justReleased) {
+		if (Hinput.anyGamepad.rightStickClick.justReleased) {
 			//ChangeWeapon
 		}
 
-		if (hinput.gamepad[3].X.doublePress) {
+		if (Hinput.gamepad[3].X.doublePress) {
 			//HeavyAttack
 		}
 
-		if (hinput.gamepad[2].rightTrigger.longPress) {
+		if (Hinput.gamepad[2].rightTrigger.longPress) {
 			//Shoot
 		}
 
-		if (hinput.gamepad[0].Y.longPress) {
+		if (Hinput.gamepad[0].Y.longPress) {
 			//Heal
 		}
 
-		if (hinput.gamepad[0].rightStick.vertical < 0) {
+		if (Hinput.gamepad[0].rightStick.vertical < 0) {
 			//MoveBack
 		}
 
-		if (hinput.gamepad[2].leftStick.distance > 0.8f) {
+		if (Hinput.gamepad[2].leftStick.distance > 0.8f) {
 			//Sprint
 		}
 
-		if (hinput.gamepad[0].start) {
+		if (Hinput.gamepad[0].start) {
 			//Pause
 		}
 
-		if (hinput.gamepad[1].B) {
+		if (Hinput.gamepad[1].B) {
 			//Dash
 		}
 		
