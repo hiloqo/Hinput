@@ -89,37 +89,24 @@ namespace HinputClasses {
                 return Hinput.gamepad.Any(g => g.isConnected);
             }
         }
+		
+		
+        // --------------------
+        // ENABLED
+        // --------------------
+
+
+        public override bool isEnabled {
+            get {
+                if (gamepads.Count == 0) return internalIsEnabled;
+                return gamepad.isEnabled;
+            }
+        }
 
         // --------------------
         // CONSTRUCTOR
         // --------------------
 
         public AnyGamepad() : base(-1) { }
-        
-
-        // --------------------
-        // PUBLIC VARIABLES
-        // --------------------
-        
-        public override Stick leftStick { 
-            get {
-                if (_leftStick == null) _leftStick = new AnyGamepadStick ("LeftStick", this, 0);
-                return _leftStick; 
-            } 
-        }
-
-        public override Stick rightStick { 
-            get {
-                if (_rightStick == null) _rightStick = new AnyGamepadStick ("RightStick", this, 1);
-                return _rightStick; 
-            }
-        }
-	    
-        public override Stick dPad { 
-            get {
-                if (_dPad == null) _dPad = new AnyGamepadStick ("DPad", this, 2);
-                return _dPad; 
-            } 
-        }
     }
 }

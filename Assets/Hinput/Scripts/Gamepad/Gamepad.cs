@@ -72,6 +72,7 @@ namespace HinputClasses {
 			}
 		}
 		
+		private bool hasBeenConnected = false;
 		/// <summary>
 		/// Returns true if a gamepad is currently connected. Returns false otherwise.
 		/// </summary>
@@ -79,6 +80,54 @@ namespace HinputClasses {
 		/// If this is anyGamepad, returns true if a gamepad is connected. Returns false otherwise.
 		/// </remarks>
 		public virtual bool isConnected { get { return type != ""; } }
+		
+		
+		// --------------------
+		// ENABLED
+		// --------------------
+
+		/// <summary>
+		/// Returns true if a gamepad is being tracked by Hinput. Returns false otherwise.
+		/// </summary>
+		/// <remarks>
+		/// If this is anyGamepad, returns true if anyGamepad is being tracked by Hinput. Returns false otherwise.
+		/// </remarks>
+		public bool internalIsEnabled { get; private set; }
+		
+		/// <summary>
+		/// Returns true if a gamepad is being tracked by Hinput. Returns false otherwise.
+		/// </summary>
+		/// <remarks>
+		/// If this is anyGamepad, returns true if the gamepad that is currently being pressed is being tracked by
+		/// Hinput. Returns false otherwise.
+		/// </remarks>
+		public virtual bool isEnabled { get { return internalIsEnabled; } }
+		
+		/// <summary>
+		/// Enable a gamepad so that Hinput starts tracking it. This method is called automatically on a gamepad the
+		/// first time it is connected.
+		/// </summary>
+		public void Enable() {
+			internalIsEnabled = true;
+		}
+
+		/// <summary>
+		/// Reset and disable a gamepad so that Hinput stops tracking it. This may improve performances.
+		/// </summary>
+		public void Disable() {
+			Reset();
+			internalIsEnabled = false;
+		}
+		
+		/// <summary>
+		/// Reset the position of a gamepad and erase its history.
+		/// </summary>
+		public void Reset() {
+			buttons.ForEach(button => button.Reset());
+			sticks.ForEach(stick => stick.Reset());
+			anyInput.Reset();
+			StopVibration();
+		}
 
 
 		// --------------------
@@ -87,12 +136,49 @@ namespace HinputClasses {
 
 		public Gamepad (int index) {
 			internalIndex = index;
-			vibration = new Vibration (index);
 
 			if (index == -1) internalName = "AnyGamepad";
 			else internalName = "Gamepad" + index;
 			
 			internalFullName = Utils.os + "_" + internalName;
+			internalIsEnabled = false;
+			
+			A = new Button ("A", this, 0); 
+			B = new Button ("B", this, 1);
+			X = new Button ("X", this, 2);
+			Y = new Button ("Y", this, 3);
+			
+			leftBumper = new Button ("LeftBumper", this, 4);
+			rightBumper = new Button ("RightBumper", this, 5);
+			leftTrigger = new Trigger ("LeftTrigger", this, 6);
+			rightTrigger = new Trigger ("RightTrigger", this, 7);
+			
+			back = new Button ("Back", this, 8);
+			start = new Button ("Start", this, 9);
+			leftStickClick = new Button ("LeftStickClick", this, 10);
+			rightStickClick = new Button ("RightStickClick", this, 11);
+			xBoxButton = new Button ("XBoxButton", this, 12);
+
+			if (index == -1) {
+				leftStick = new AnyGamepadStick ("LeftStick", this, 0);
+				rightStick = new AnyGamepadStick ("RightStick", this, 1);
+				dPad = new AnyGamepadStick ("DPad", this, 2);
+			} else {
+				leftStick = new Stick ("LeftStick", this, 0);
+				rightStick = new Stick ("RightStick", this, 1);
+				dPad = new Stick ("DPad", this, 2);
+			}
+			
+			sticks = new List<Stick> { leftStick, rightStick, dPad };
+			buttons = new List<Pressable> {
+				A, B, X, Y,
+				leftBumper, rightBumper, leftTrigger, rightTrigger,
+				back, start, leftStickClick, rightStickClick, xBoxButton
+			};
+			
+			anyInput = new AnyInput("AnyInput", this);
+			
+			vibration = new Vibration (index);
 		}
 
 		
@@ -101,36 +187,39 @@ namespace HinputClasses {
 		// --------------------
 
 		public void Update () {
-			vibration.Update ();
+			if (internalIndex >= Settings.amountOfGamepads) return;
+			if (internalIndex == -1 && Settings.disableAnyGamepad) return;
 
-			if (_A != null) _A.Update();
-			if (_B != null) _B.Update();
-			if (_X != null) _X.Update();
-			if (_Y != null) _Y.Update();
+			//Do not update if this gamepad has never been connected.
+			if (!internalIsEnabled) {
+				if (isConnected && !hasBeenConnected) {
+					hasBeenConnected = true;
+					Enable();
+				}
+				else return;
+			}
 
-			if (_leftBumper != null) _leftBumper.Update();
-			if (_rightBumper != null) _rightBumper.Update();
+			if (!Settings.disableA) A.Update();
+			if (!Settings.disableB) B.Update();
+			if (!Settings.disableX) X.Update();
+			if (!Settings.disableY) Y.Update();
 
-			if (_back != null) _back.Update();
-			if (_start != null) _start.Update();
+			if (!Settings.disableLeftBumper) leftBumper.Update();
+			if (!Settings.disableRightBumper) rightBumper.Update();
+			if (!Settings.disableLeftTrigger) leftTrigger.Update();
+			if (!Settings.disableRightTrigger) rightTrigger.Update();
 
-			if (_leftStickClick != null) _leftStickClick.Update();
-			if (_rightStickClick != null) _rightStickClick.Update();
+			if (!Settings.disableBack) back.Update();
+			if (!Settings.disableStart) start.Update();
+			if (!Settings.disableLeftStickClick) leftStickClick.Update();
+			if (!Settings.disableRightStickClick) rightStickClick.Update();
+			if (!Settings.disableXBoxButton) xBoxButton.Update();
 
-			if (_xBoxButton != null) _xBoxButton.Update();
+			if (!Settings.disableLeftStick) leftStick.Update();
+			if (!Settings.disableRightStick) rightStick.Update();
+			if (!Settings.disableDPad) dPad.Update();
 
-
-			if (_leftTrigger != null) _leftTrigger.Update();
-			if (_rightTrigger != null) _rightTrigger.Update();
-
-
-			if (_leftStick != null) _leftStick.Update();
-			if (_rightStick != null) _rightStick.Update();
-
-
-			if (_dPad != null) _dPad.Update();
-			
-			anyInput.Update();
+			if (!Settings.disableAnyInput) anyInput.Update();
 		}
 
 		
@@ -138,224 +227,105 @@ namespace HinputClasses {
 		// PUBLIC PROPERTIES
 		// --------------------
 
-		private Button _A;
 		/// <summary>
 		/// The A button of a gamepad.
 		/// </summary>
-		public Button A { 
-			get {
-				if (_A == null) _A = new Button ("A", this, 0);
-				return _A; 
-			} 
-		}
+		public readonly Button A;
 
-		private Button _B;
 		/// <summary>
 		/// The B button of a gamepad.
 		/// </summary>
-		public Button B { 
-			get {
-				if (_B == null) _B = new Button ("B", this, 1);
-				return _B; 
-			} 
-		}
+		public readonly Button B;
 
-		private Button _X;
 		/// <summary>
 		/// The X button of a gamepad.
 		/// </summary>
-		public Button X { 
-			get {
-				if (_X == null) _X = new Button ("X", this, 2);
-				return _X; 
-			} 
-		}
+		public readonly Button X;
 
-		private Button _Y;
 		/// <summary>
 		/// The Y button of a gamepad.
 		/// </summary>
-		public Button Y { 
-			get {
-				if (_Y == null) _Y = new Button ("Y", this, 3);
-				return _Y; 
-			} 
-		}
+		public readonly Button Y;
 
-
-		private Button _leftBumper;
 		/// <summary>
 		/// The left bumper of a gamepad.
 		/// </summary>
-		public Button leftBumper { 
-			get {
-				if (_leftBumper == null) _leftBumper = new Button ("LeftBumper", this, 4);
-				return _leftBumper; 
-			} 
-		}
+		public readonly Button leftBumper;
 
-		private Button _rightBumper;
 		/// <summary>
 		/// The right bumper of a gamepad.
 		/// </summary>
-		public Button rightBumper { 
-			get {
-				if (_rightBumper == null) _rightBumper = new Button ("RightBumper", this, 5);
-				return _rightBumper; 
-			} 
-		}
+		public readonly Button rightBumper;
 
-		private Button _back;
 		/// <summary>
 		/// The back button of a gamepad.
 		/// </summary>
-		public Button back { 
-			get {
-				if (_back == null) _back = new Button ("Back", this, 8);
-				return _back; 
-			} 
-		}
+		public readonly Button back;
 
-		private Button _start;
 		/// <summary>
 		/// The start button of a gamepad.
 		/// </summary>
-		public Button start { 
-			get {
-				if (_start == null) _start = new Button ("Start", this, 9);
-				return _start; 
-			} 
-		}
+		public readonly Button start;
 
-		private Button _leftStickClick;
 		/// <summary>
 		/// The left stick click of a gamepad.
 		/// </summary>
-		public Button leftStickClick { 
-			get {
-				if (_leftStickClick == null) _leftStickClick = new Button ("LeftStickClick", this, 10);
-				return _leftStickClick; 
-			} 
-		}
+		public readonly Button leftStickClick;
 
-		private Button _rightStickClick;
 		/// <summary>
 		/// The right stick click of a gamepad.
 		/// </summary>
-		public Button rightStickClick { 
-			get {
-				if (_rightStickClick == null) _rightStickClick = new Button ("RightStickClick", this, 11);
-				return _rightStickClick; 
-			} 
-		}
+		public readonly Button rightStickClick;
 
-		private Button _xBoxButton;
 		/// <summary>
 		/// The xBox button of a gamepad.<br/>
 		/// Windows and Linux drivers can’t detect the value of this button. 
 		/// Therefore it will be considered released at all times on these operating systems.
 		/// </summary>
-		public Button xBoxButton { 
-			get {
-				if (_xBoxButton == null) _xBoxButton = new Button ("XBoxButton", this, 12);
-				return _xBoxButton; 
-			} 
-		}
+		public readonly Button xBoxButton;
 
-		private Trigger _leftTrigger;
 		/// <summary>
 		/// The left trigger of a gamepad.
 		/// </summary>
-		public Trigger leftTrigger { 
-			get {
-				if (_leftTrigger == null) _leftTrigger = new Trigger ("LeftTrigger", this, 6);
-				return _leftTrigger; 
-			} 
-		}
+		public readonly Trigger leftTrigger;
 		
-		private Trigger _rightTrigger;
 		/// <summary>
 		/// The right trigger of a gamepad.
 		/// </summary>
-		public Trigger rightTrigger { 
-			get {
-				if (_rightTrigger == null) _rightTrigger = new Trigger ("RightTrigger", this, 7);
-				return _rightTrigger; 
-			} 
-		}
+		public readonly Trigger rightTrigger;
 
-		protected Stick _leftStick;
 		/// <summary>
 		/// The left stick of a gamepad.
 		/// </summary>
-		public virtual Stick leftStick { 
-			get {
-				if (_leftStick == null) _leftStick = new Stick ("LeftStick", this, 0);
-				return _leftStick; 
-			} 
-		}
+		public readonly Stick leftStick;
 
-		protected Stick _rightStick;
 		/// <summary>
 		/// The right stick click of a gamepad.
 		/// </summary>
-		public virtual Stick rightStick { 
-			get {
-				if (_rightStick == null) _rightStick = new Stick ("RightStick", this, 1);
-				return _rightStick; 
-			} 
-		}
+		public readonly Stick rightStick;
 		
-		protected Stick _dPad;
 		/// <summary>
 		/// The D-pad of a gamepad.
 		/// </summary>
-		public virtual Stick dPad { 
-			get {
-				if (_dPad == null) _dPad = new Stick ("DPad", this, 2);
-				return _dPad; 
-			} 
-		}
+		public readonly Stick dPad;
 
-		private List<Stick> _sticks;
 		/// <summary>
 		/// The list containing a gamepad’s sticks, in the following order : { leftStick, rightStick, dPad }
 		/// </summary>
-		public List<Stick> sticks { 
-			get {
-				if (_sticks == null) _sticks = new List<Stick> { leftStick, rightStick, dPad };
-				return _sticks;
-			}
-		}
+		public readonly List<Stick> sticks;
 
-		private List<Pressable> _buttons;
 		/// <summary>
 		/// The list containing a gamepad’s buttons, in the following order : { A, B, X, Y, left bumper, right bumper, left
 		/// trigger, right trigger, back, start, left stick click, right stick click, XBox button }
 		/// </summary>
-		public List<Pressable> buttons { 
-			get {
-				if (_buttons == null) _buttons = new List<Pressable> {
-					A, B, X, Y,
-					leftBumper, rightBumper, leftTrigger, rightTrigger,
-					back, start, leftStickClick, rightStickClick, xBoxButton
-				};
-				return _buttons;
-			}
-		}
+		public readonly List<Pressable> buttons;
 
-		private AnyInput _anyInput;
 		/// <summary>
 		/// A virtual button that returns every input of a gamepad at once.
 		/// It has the name and full name of the input that is currently being pushed (except if you use "internal"
 		/// properties).
 		/// </summary>
-		public AnyInput anyInput {
-			get {
-				if (_anyInput == null) _anyInput = new AnyInput("AnyInput", this);
-				return _anyInput;
-			}
-		}
+		public readonly AnyInput anyInput;
 
 		// --------------------
 		// VIBRATION

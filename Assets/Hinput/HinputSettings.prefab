@@ -44,18 +44,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29796c120b4276744bef453a918ad280, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _buildAllOnStartUp: 0
-  _worldCamera: {fileID: 0}
+  _stickType: 45
   _stickDeadZone: 0.2
   _stickPressedZone: 0.5
-  _stickType: 45
+  _worldCamera: {fileID: 0}
   _triggerDeadZone: 0.1
   _triggerPressedZone: 0.5
   _doublePressDuration: 0.3
   _longPressDuration: 0.3
-  _vibrationDuration: 0.5
-  _leftVibrationIntensity: 1
-  _rightVibrationIntensity: 1
+  _vibrationDefaultDuration: 0.5
+  _vibrationDefaultLeftIntensity: 1
+  _vibrationDefaultRightIntensity: 1
+  _amountOfGamepads: 8
+  _disableAnyGamepad: 0
+  _disableA: 0
+  _disableB: 0
+  _disableX: 0
+  _disableY: 0
+  _disableLeftBumper: 0
+  _disableRightBumper: 0
+  _disableLeftTrigger: 0
+  _disableRightTrigger: 0
+  _disableBack: 0
+  _disableStart: 0
+  _disableLeftStickClick: 0
+  _disableRightStickClick: 0
+  _disableXBoxButton: 0
+  _disableLeftStick: 0
+  _disableRightStick: 0
+  _disableDPad: 0
+  _disableAnyInput: 0
 --- !u!114 &114653318643692006
 MonoBehaviour:
   m_ObjectHideFlags: 0

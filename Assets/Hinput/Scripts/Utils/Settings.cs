@@ -42,8 +42,6 @@ namespace HinputClasses {
 
 		public enum StickTypeEnum { FourDirections = 90, EightDirections = 45 }
 		[Header("Sticks")]
-		[Space(10)]
-		[Header("Hinput settings")]
 
 		[SerializeField]
 		[Tooltip("The type of stick to use.\n\n"+
@@ -182,10 +180,10 @@ namespace HinputClasses {
 
 		[SerializeField]
 		[Range(0,1)]
-		[Tooltip("The default intensity of the left motor when controllers vibrate.")]
+		[Tooltip("The default intensity of the left (low-frequency) motor when controllers vibrate.")]
 		private float _vibrationDefaultLeftIntensity = 1f;
 		/// <summary>
-		/// The default intensity of the left motor when controllers vibrate.
+		/// The default intensity of the left (low-frequency) motor when controllers vibrate.
 		/// </summary>
 		/// <remarks>
 		/// The left motor is a low-frequency rumble motor.
@@ -197,10 +195,10 @@ namespace HinputClasses {
 
 		[SerializeField]
 		[Range(0,1)]
-		[Tooltip("The default intensity of the right motor when controllers vibrate.")]
+		[Tooltip("The default intensity of the right (high-frequency) motor when controllers vibrate.")]
 		private float _vibrationDefaultRightIntensity = 1f;
 		/// <summary>
-		/// The default intensity of the right motor when controllers vibrate.
+		/// The default intensity of the right (high-frequency) motor when controllers vibrate.
 		/// </summary>
 		/// <remarks>
 		/// The right motor is a high-frequency rumble motor.
@@ -209,5 +207,255 @@ namespace HinputClasses {
 			get { return instance._vibrationDefaultRightIntensity; } 
 			set { instance._vibrationDefaultRightIntensity = value; }  
 		}
-	}
+
+
+		// --------------------
+		// PERFORMANCES
+		// --------------------
+
+		[Header("Performances")]
+		[SerializeField]
+		[Range(0,8)]
+		[Tooltip("The maximum amount of gamepads to be tracked by Hinput. Reducing this may improve performances.")]
+		private int _amountOfGamepads = 8;
+		/// <summary>
+		/// The maximum amount of gamepads to be tracked by Hinput. Reducing this may improve performances.
+		/// </summary>
+		public static int amountOfGamepads { 
+			get { return instance._amountOfGamepads; } 
+			set { instance._amountOfGamepads = value; }  
+		}
+
+		[SerializeField]
+		[Tooltip("Checking this will cause anyGamepad to not be tracked by Hinput. This may improve performance.")]
+		private bool _disableAnyGamepad = false;
+		/// <summary>
+		/// Checking this will cause anyGamepad to not be tracked by Hinput. This may improve performances.
+		/// </summary>
+		public static bool disableAnyGamepad { 
+			get { return instance._disableAnyGamepad; } 
+			set { instance._disableAnyGamepad = value; }  
+		}
+
+		[SerializeField]
+		[Tooltip("Checking this will cause the A button ofgamepads to not be tracked by Hinput. This may improve " +
+		         "performance.")]
+		private bool _disableA = false;
+		/// <summary>
+		/// Checking this will cause the A button of gamepads to not be tracked by Hinput. This may improve
+		/// performances.
+		/// </summary>
+		public static bool disableA { 
+			get { return instance._disableA; } 
+			set { instance._disableA = value; }  
+		}
+
+		[SerializeField]
+		[Tooltip("Checking this will cause the B button of gamepads to not be tracked by Hinput. This may improve " +
+		         "performance.")]
+		private bool _disableB = false;
+		/// <summary>
+		/// Checking this will cause the B button of gamepads to not be tracked by Hinput. This may improve
+		/// performances.
+		/// </summary>
+		public static bool disableB { 
+			get { return instance._disableB; } 
+			set { instance._disableB = value; }  
+		}
+
+		[SerializeField]
+		[Tooltip("Checking this will cause the X button of gamepads to not be tracked by Hinput. This may improve " +
+		         "performance.")]
+		private bool _disableX = false;
+		/// <summary>
+		/// Checking this will cause the X button of gamepads to not be tracked by Hinput. This may improve
+		/// performances.
+		/// </summary>
+		public static bool disableX { 
+			get { return instance._disableX; } 
+			set { instance._disableX = value; }  
+		}
+
+		[SerializeField]
+		[Tooltip("Checking this will cause the Y button of gamepads to not be tracked by Hinput. This may improve " +
+		         "performance.")]
+		private bool _disableY = false;
+		/// <summary>
+		/// Checking this will cause the Y button of gamepads to not be tracked by Hinput. This may improve
+		/// performances.
+		/// </summary>
+		public static bool disableY { 
+			get { return instance._disableY; } 
+			set { instance._disableY = value; }  
+		}
+
+		[SerializeField]
+		[Tooltip("Checking this will cause the left bumper of gamepads to not be tracked by Hinput. This may " +
+		         "improve performance.")]
+		private bool _disableLeftBumper = false;
+		/// <summary>
+		/// Checking this will cause the left bumper of gamepads to not be tracked by Hinput. This may improve
+		/// performances.
+		/// </summary>
+		public static bool disableLeftBumper { 
+			get { return instance._disableLeftBumper; } 
+			set { instance._disableLeftBumper = value; }  
+		}
+
+		[SerializeField]
+		[Tooltip("Checking this will cause the right bumper of gamepads to not be tracked by Hinput. This may " +
+		         "improve performance.")]
+		private bool _disableRightBumper = false;
+		/// <summary>
+		/// Checking this will cause the right bumper of gamepads to not be tracked by Hinput. This may improve
+		/// performances.
+		/// </summary>
+		public static bool disableRightBumper { 
+			get { return instance._disableRightBumper; } 
+			set { instance._disableRightBumper = value; }  
+		}
+
+		[SerializeField]
+		[Tooltip("Checking this will cause the left trigger of gamepads to not be tracked by Hinput. This may " +
+		         "improve performance.")]
+		private bool _disableLeftTrigger = false;
+		/// <summary>
+		/// Checking this will cause the left trigger of gamepads to not be tracked by Hinput. This may improve
+		/// performances.
+		/// </summary>
+		public static bool disableLeftTrigger { 
+			get { return instance._disableLeftTrigger; } 
+			set { instance._disableLeftTrigger = value; }  
+		}
+
+		[SerializeField]
+		[Tooltip("Checking this will cause the right trigger of gamepads to not be tracked by Hinput. This may " +
+		         "improve performance.")]
+		private bool _disableRightTrigger = false;
+		/// <summary>
+		/// Checking this will cause the right trigger of gamepads to not be tracked by Hinput. This may improve
+		/// performances.
+		/// </summary>
+		public static bool disableRightTrigger { 
+			get { return instance._disableRightTrigger; } 
+			set { instance._disableRightTrigger = value; }  
+		}
+
+		[SerializeField]
+		[Tooltip("Checking this will cause the back button of gamepads to not be tracked by Hinput. This may " +
+		         "improve performance.")]
+		private bool _disableBack = false;
+		/// <summary>
+		/// Checking this will cause the back button of gamepads to not be tracked by Hinput. This may improve
+		/// performances.
+		/// </summary>
+		public static bool disableBack { 
+			get { return instance._disableBack; } 
+			set { instance._disableBack = value; }  
+		}
+
+		[SerializeField]
+		[Tooltip("Checking this will cause the start button of gamepads to not be tracked by Hinput. This may " +
+		         "improve performance.")]
+		private bool _disableStart = false;
+		/// <summary>
+		/// Checking this will cause the start button of gamepads to not be tracked by Hinput. This may improve
+		/// performances.
+		/// </summary>
+		public static bool disableStart { 
+			get { return instance._disableStart; } 
+			set { instance._disableStart = value; }  
+		}
+
+		[SerializeField]
+		[Tooltip("Checking this will cause the left stick click of gamepads to not be tracked by Hinput. This may " +
+		         "improve performance.")]
+		private bool _disableLeftStickClick = false;
+		/// <summary>
+		/// Checking this will cause the left stick click of gamepads to not be tracked by Hinput. This may improve
+		/// performances.
+		/// </summary>
+		public static bool disableLeftStickClick { 
+			get { return instance._disableLeftStickClick; } 
+			set { instance._disableLeftStickClick = value; }  
+		}
+
+		[SerializeField]
+		[Tooltip("Checking this will cause the right stick click of gamepads to not be tracked by Hinput. This may " +
+		         "improve performance.")]
+		private bool _disableRightStickClick = false;
+		/// <summary>
+		/// Checking this will cause the right stick click of gamepads to not be tracked by Hinput. This may improve
+		/// performances.
+		/// </summary>
+		public static bool disableRightStickClick { 
+			get { return instance._disableRightStickClick; } 
+			set { instance._disableRightStickClick = value; }  
+		}
+
+		[SerializeField]
+		[Tooltip("Checking this will cause the xBox button of gamepads to not be tracked by Hinput. This may " +
+		         "improve performance.")]
+		private bool _disableXBoxButton = false;
+		/// <summary>
+		/// Checking this will cause the xBox button of gamepads to not be tracked by Hinput. This may improve
+		/// performances.
+		/// </summary>
+		public static bool disableXBoxButton { 
+			get { return instance._disableXBoxButton; } 
+			set { instance._disableXBoxButton = value; }  
+		}
+
+		[SerializeField]
+		[Tooltip("Checking this will cause the left stick of gamepads to not be tracked by Hinput. This may improve " +
+		         "performance.")]
+		private bool _disableLeftStick = false;
+		/// <summary>
+		/// Checking this will cause the left stick of gamepads to not be tracked by Hinput. This may improve
+		/// performances.
+		/// </summary>
+		public static bool disableLeftStick { 
+			get { return instance._disableLeftStick; } 
+			set { instance._disableLeftStick = value; }  
+		}
+
+		[SerializeField]
+		[Tooltip("Checking this will cause the right stick of gamepads to not be tracked by Hinput. This may " +
+		         "improve performance.")]
+		private bool _disableRightStick = false;
+		/// <summary>
+		/// Checking this will cause the right stick of gamepads to not be tracked by Hinput. This may improve
+		/// performances.
+		/// </summary>
+		public static bool disableRightStick { 
+			get { return instance._disableRightStick; } 
+			set { instance._disableRightStick = value; }  
+		}
+
+		[SerializeField]
+		[Tooltip("Checking this will cause the D-pad of gamepads to not be tracked by Hinput. This may improve " +
+		         "performance.")]
+		private bool _disableDPad = false;
+		/// <summary>
+		/// Checking this will cause the D-pad of gamepads to not be tracked by Hinput. This may improve
+		/// performances.
+		/// </summary>
+		public static bool disableDPad { 
+			get { return instance._disableDPad; } 
+			set { instance._disableDPad = value; }  
+		}
+
+		[SerializeField]
+		[Tooltip("Checking this will cause the anyInput feature of gamepads to not be tracked by Hinput. This may " +
+		         "improve performance.")]
+		private bool _disableAnyInput = false;
+		/// <summary>
+		/// Checking this will cause the anyInput feature of gamepads to not be tracked by Hinput. This may improve
+		/// performances.
+		/// </summary>
+		public static bool disableAnyInput { 
+			get { return instance._disableAnyInput; } 
+			set { instance._disableAnyInput = value; }  
+		}
+    }
 }

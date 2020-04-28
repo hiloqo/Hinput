@@ -345,6 +345,9 @@ MonoBehaviour:
   gamepadListsOnLPressed: 1
   stickInfoOnPPressed: 1
   buttonInfoOnBPressed: 1
+  toggleGamepadOnGPressed: 0
+  toggleStickOnPPressed: 0
+  toggleButtonOnBPressed: 0
   vibrationMode: 3
   duration: 1
   leftIntensity: 0.5
@@ -422,6 +425,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   vibrationPreset: 0
+  multiplyVibrationPreset: 0
   stopVibrationOnSPressed: 1
   stopVibrationDuration: 0
   displayIntensity: 0

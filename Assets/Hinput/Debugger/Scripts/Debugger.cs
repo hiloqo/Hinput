@@ -53,6 +53,11 @@ namespace HinputClasses.Internal {
 		public bool stickInfoOnPPressed;
 		public bool buttonInfoOnBPressed;
 
+		[Header("ENABLE/DISABLE")] 
+		public bool toggleGamepadOnGPressed;
+		public bool toggleStickOnPPressed;
+		public bool toggleButtonOnBPressed;
+
 		public enum VM { noArgs, duration, intensity, durationAndIntensity, oneCurve, twoCurves, vibrationPreset, advanced }
 		[Header("VIBRATION")]
 		public VM vibrationMode;
@@ -111,6 +116,7 @@ namespace HinputClasses.Internal {
 
 		private void TestEverything() {
 			TestInfo();
+			TestEnableDisable();
 			TestSticks ();
 			TestButtons ();
 			TestVibration ();
@@ -131,6 +137,7 @@ namespace HinputClasses.Internal {
 				Gamepad currentGamepad = currentButton.internalGamepad;
 				string log = "current gamepad: " +
 			             "[isConnected = " + currentGamepad.isConnected +
+			             ", isEnabled = " + currentGamepad.isEnabled +
 			             ", type = " + currentGamepad.type +
 				          ", index = " + currentGamepad.index +
 				          ", internal index = " + currentGamepad.internalIndex +
@@ -167,7 +174,8 @@ namespace HinputClasses.Internal {
 					return;
 				}
 
-				string log = "[index = " + currentStick.index +
+				string log = "[isEnabled = " + currentStick.isEnabled +
+				             ", index = " + currentStick.index +
 				             ", name = " + currentStick.name +
 				             ", full name = " + currentStick.fullName +
 				             ", internal full name = " + currentStick.internalFullName +
@@ -194,7 +202,8 @@ namespace HinputClasses.Internal {
 					return;
 				}
 				
-				string log = "name = " + currentButton.name + 
+				string log = "isEnabled = " + currentButton.isEnabled + 
+				             ", name = " + currentButton.name +
 				             ", internal name = " + currentButton.internalName +
 				             ", full name = " + currentButton.fullName +
 				             ", internal full name = " + currentButton.internalFullName +
@@ -231,6 +240,55 @@ namespace HinputClasses.Internal {
 
 				log += "]";
 				Debug.Log(log);
+			}
+		}
+
+
+		// --------------------
+		// TEST ENABLE/DISABLE
+		// --------------------
+
+		private void TestEnableDisable() {
+			if (toggleGamepadOnGPressed && Input.GetKeyDown(KeyCode.G)) {
+				if (currentButton == null) {
+					Debug.Log("Current gamepad has not been set");
+					return;
+				}
+				if (currentButton.internalGamepad.isEnabled) {
+					currentButton.internalGamepad.Disable();
+					Debug.Log("Disabling " + currentButton.internalGamepad.internalFullName);
+				} else {
+					currentButton.internalGamepad.Enable();
+					Debug.Log("Enabling "+ currentButton.internalGamepad.internalFullName);
+				}
+			}
+			
+			if (toggleStickOnPPressed && Input.GetKeyDown(KeyCode.P)) {
+				if (currentStick == null) {
+					Debug.Log("Current stick has not been set");
+					return;
+				}
+				if (currentStick.isEnabled) {
+					currentStick.Disable();
+					Debug.Log("Disabling " + currentStick.internalFullName);
+				} else {
+					currentStick.Enable();
+					Debug.Log("Enabling " + currentStick.internalFullName);
+				}
+			}
+			
+			if (toggleButtonOnBPressed && Input.GetKeyDown(KeyCode.B)) {
+				if (currentButton == null) {
+					Debug.Log("Current button has not been set");
+					return;
+				}
+				if (currentButton.isEnabled) {
+					currentButton.Disable();
+					Debug.Log("Disabling " + currentButton.internalFullName);
+				} else {
+					currentButton.Enable();
+					Debug.Log("Enabling " + currentButton.internalFullName);
+				}
 			}
 		}
 

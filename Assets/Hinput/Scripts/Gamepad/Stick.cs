@@ -85,6 +85,49 @@ namespace HinputClasses {
 		/// If this stick is attached to anyGamepad, returns the index of the gamepad that is currently being pressed.
 		/// </remarks>
 		public int gamepadIndex { get { return gamepad.index; } }
+		
+		
+		// --------------------
+		// ENABLED
+		// --------------------
+		
+		/// <summary>
+		/// Returns true if a stick is being tracked by Hinput. Returns false otherwise.
+		/// </summary>
+		public bool isEnabled { get; private set; }
+		
+		/// <summary>
+		/// Enable a stick so that Hinput starts tracking it.
+		/// </summary>
+		public void Enable() {
+			isEnabled = true;
+		}
+
+		/// <summary>
+		/// Reset and disable a stick so that Hinput stops tracking it. This may improve performances.
+		/// </summary>
+		public void Disable() {
+			Reset();
+			isEnabled = false;
+		}
+
+		/// <summary>
+		/// Reset the position of a stick and erase its history.
+		/// </summary>
+		public void Reset() {
+			horizontalRaw = 0;
+			verticalRaw = 0;
+			
+			up.Reset();
+			down.Reset();
+			left.Reset();
+			right.Reset();
+			upLeft.Reset();
+			downLeft.Reset();
+			upRight.Reset();
+			downRight.Reset();
+			inPressedZone.Reset();
+		}
 
 		
 		// --------------------
@@ -109,23 +152,32 @@ namespace HinputClasses {
 			this.internalGamepad = internalGamepad;
 			this.index = index;
 
+			up = new Direction ("Up", 90, this);
+			down = new Direction ("Down", -90, this);
+			left = new Direction ("Left", 180, this);
+			right = new Direction ("Right", 0, this);
+			upLeft = new Direction ("UpLeft", 135, this);
+			downLeft = new Direction ("DownLeft", -135, this);
+			upRight = new Direction ("UpRight", 45, this);
+			downRight = new Direction ("DownRight", -45, this);
 			inPressedZone = new StickPressedZone("PressedZone", this);
 
-			if (isAnyGamepad) return; // Axes are unnecessary for anyGamepad
+			if (!isAnyGamepad) { // Axes are unnecessary for anyGamepad
+				if (index == 0 || index == 1) { // Sticks
+					horizontalAxis = new Axis (internalFullName+"_Horizontal");
+					verticalAxis = new Axis (internalFullName+"_Vertical");
+				}
+				if (index == 2) { // DPad
+					horizontalAxis = new Axis (internalFullName+"_Horizontal", 
+						internalFullName+"_Right", 
+						internalFullName+"_Left");
+					verticalAxis = new Axis (internalFullName+"_Vertical", 
+						internalFullName+"_Up", 
+						internalFullName+"_Down");
+				}
+			}
 			
-			if (index == 0 || index == 1) { // Sticks
-				horizontalAxis = new Axis (internalFullName+"_Horizontal");
-				verticalAxis = new Axis (internalFullName+"_Vertical");
-			}
-
-			if (index == 2) { // DPad
-				horizontalAxis = new Axis (internalFullName+"_Horizontal", 
-					internalFullName+"_Right", 
-					internalFullName+"_Left");
-				verticalAxis = new Axis (internalFullName+"_Vertical", 
-					internalFullName+"_Up", 
-					internalFullName+"_Down");
-			}
+			Enable();
 		}
 		
 
@@ -135,9 +187,11 @@ namespace HinputClasses {
 		// --------------------
 		
 		public void Update () {
-			if (inPressedZone != null) inPressedZone.Update();
+			if (!isEnabled) return;
+			
 			UpdateAxes ();
 			UpdateDirections ();
+			inPressedZone.Update();
 		}
 
 
@@ -160,129 +214,82 @@ namespace HinputClasses {
 		// DIRECTIONS
 		// --------------------
 
-		private Direction _up;
 		/// <summary>
 		/// Returns a virtual button defined by the stick’s projected position along a direction that has a 90 degree angle with the horizontal axis.
 		/// </summary>
-		public Direction up { 
-			get {
-				if (_up == null) _up = new Direction ("Up", 90, this);
-				return _up;
-			} 
-		}
+		public readonly Direction up;
 
-		private Direction _down;
 		/// <summary>
 		/// Returns a virtual button defined by the stick’s projected position along a direction that has a -90 degree angle with the horizontal axis.
 		/// </summary>
-		public Direction down { 
-			get {
-				if (_down == null) _down = new Direction ("Down", -90, this);
-				return _down;
-			} 
-		}
+		public readonly Direction down;
 
-		private Direction _left;
 		/// <summary>
 		/// Returns a virtual button defined by the stick’s projected position along a direction that has a 180 degree angle with the horizontal axis.
 		/// </summary>
-		public Direction left { 
-			get {
-				if (_left == null) _left = new Direction ("Left", 180, this);
-				return _left;
-			} 
-		}
+		public readonly Direction left;
 
-		private Direction _right;
 		/// <summary>
 		/// Returns a virtual button defined by the stick’s projected position along the horizontal axis.
 		/// </summary>
-		public Direction right { 
-			get {
-				if (_right == null) _right = new Direction ("Right", 0, this);
-				return _right;
-			} 
-		}
+		public readonly Direction right;
 
+		/// <summary>
+		/// Returns a virtual button defined by the stick’s projected position along a direction that has a 135 degree
+		/// angle with the horizontal axis.
+		/// </summary>
+		public readonly Direction upLeft;
 		
-		private Direction _upLeft;
 		/// <summary>
 		/// Returns a virtual button defined by the stick’s projected position along a direction that has a 135 degree
 		/// angle with the horizontal axis.
 		/// </summary>
 		public Direction leftUp { get { return upLeft; } }
+
 		/// <summary>
-		/// Returns a virtual button defined by the stick’s projected position along a direction that has a 135 degree
+		/// Returns a virtual button defined by the stick’s projected position along a direction that has a -135 degree
 		/// angle with the horizontal axis.
 		/// </summary>
-		public Direction upLeft { 
-			get {
-				if (_upLeft == null) _upLeft = new Direction ("UpLeft", 135, this);
-				return _upLeft;
-			} 
-		}
-
-		private Direction _downLeft;
+		public readonly Direction downLeft;
 		/// <summary>
 		/// Returns a virtual button defined by the stick’s projected position along a direction that has a -135 degree
 		/// angle with the horizontal axis.
 		/// </summary>
 		public Direction leftDown { get { return downLeft; } }
+
 		/// <summary>
-		/// Returns a virtual button defined by the stick’s projected position along a direction that has a -135 degree
+		/// Returns a virtual button defined by the stick’s projected position along a direction that has a 45 degree
 		/// angle with the horizontal axis.
 		/// </summary>
-		public Direction downLeft { 
-			get {
-				if (_downLeft == null) _downLeft = new Direction ("DownLeft", -135, this);
-				return _downLeft;
-			} 
-		}
-
-		private Direction _upRight;
+		public readonly Direction upRight;
 		/// <summary>
 		/// Returns a virtual button defined by the stick’s projected position along a direction that has a 45 degree
 		/// angle with the horizontal axis.
 		/// </summary>
 		public Direction rightUp { get { return upRight; } }
+
 		/// <summary>
-		/// Returns a virtual button defined by the stick’s projected position along a direction that has a 45 degree
+		/// Returns a virtual button defined by the stick’s projected position along a direction that has a -45 degree
 		/// angle with the horizontal axis.
 		/// </summary>
-		public Direction upRight { 
-			get {
-				if (_upRight == null) _upRight = new Direction ("UpRight", 45, this);
-				return _upRight;
-			} 
-		}
-
-		private Direction _downRight;
+		public readonly Direction downRight;
+		
 		/// <summary>
 		/// Returns a virtual button defined by the stick’s projected position along a direction that has a -45 degree
 		/// angle with the horizontal axis.
 		/// </summary>
 		public Direction rightDown { get { return downRight; } }
-		/// <summary>
-		/// Returns a virtual button defined by the stick’s projected position along a direction that has a -45 degree
-		/// angle with the horizontal axis.
-		/// </summary>
-		public Direction downRight { 
-			get {
-				if (_downRight == null) _downRight = new Direction ("DownRight", -45, this);
-				return _downRight;
-			} 
-		}
 
 		private void UpdateDirections () {
-			if (_up != null) _up.Update();
-			if (_down != null) _down.Update();
-			if (_left != null) _left.Update();
-			if (_right != null) _right.Update();
+			up.Update();
+			down.Update();
+			left.Update();
+			right.Update();
 			
-			if (_upLeft != null) _upLeft.Update();
-			if (_downLeft != null) _downLeft.Update();
-			if (_upRight != null) _upRight.Update();
-			if (_downRight != null) _downRight.Update();
+			upLeft.Update();
+			downLeft.Update();
+			upRight.Update();
+			downRight.Update();
 		}
 
 		

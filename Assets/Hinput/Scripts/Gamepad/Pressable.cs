@@ -100,6 +100,41 @@ namespace HinputClasses {
 		/// If this is attached to anyGamepad, returns the index of the gamepad that is currently being pressed.
 		/// </remarks>
 		public int gamepadIndex { get { return gamepad.index; } }
+		
+		
+		// --------------------
+		// ENABLED
+		// --------------------
+		
+		/// <summary>
+		/// Returns true if a button is being tracked by Hinput. Returns false otherwise.
+		/// </summary>
+		public bool isEnabled { get; private set; }
+		
+		/// <summary>
+		/// Enable a button so that Hinput starts tracking it.
+		/// </summary>
+		public void Enable() {
+			isEnabled = true;
+		}
+
+		/// <summary>
+		/// Reset and disable a button so that Hinput stops tracking it. This may improve performances.
+		/// </summary>
+		public void Disable() {
+			Reset();
+			isEnabled = false;
+		}
+
+		/// <summary>
+		/// Reset the position of a button and erase its history.
+		/// </summary>
+		public void Reset() {
+			positionRaw = 0;
+			penultimatePressStart = 0f;
+			lastPressedFrame = 0;
+			lastReleasedFrame = 0;
+		}
 
 		
 		// --------------------
@@ -119,6 +154,8 @@ namespace HinputClasses {
 			this.internalGamepad = internalGamepad;
 			
 			lastPressed = Mathf.NegativeInfinity; // *force wave* this input was never pressed
+			
+			Enable();
 		}
 
 		
@@ -157,7 +194,9 @@ namespace HinputClasses {
 		// UPDATE
 		// --------------------
 
-		public void Update () {		
+		public void Update () {
+			if (!isEnabled) return;
+			
 			UpdatePositionRaw ();
 
 			if (pressed) {
