@@ -313,7 +313,7 @@ GameObject:
   - component: {fileID: 490135652}
   - component: {fileID: 490135651}
   m_Layer: 0
-  m_Name: hDebugger
+  m_Name: Debugger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
