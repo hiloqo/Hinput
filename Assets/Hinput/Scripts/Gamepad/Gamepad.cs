@@ -143,30 +143,30 @@ namespace HinputClasses {
 			internalFullName = Utils.os + "_" + internalName;
 			internalIsEnabled = false;
 			
-			A = new Button ("A", this, 0); 
-			B = new Button ("B", this, 1);
-			X = new Button ("X", this, 2);
-			Y = new Button ("Y", this, 3);
+			A = new Button ("A", this, 0, !Settings.disableA); 
+			B = new Button ("B", this, 1, !Settings.disableB);
+			X = new Button ("X", this, 2, !Settings.disableX);
+			Y = new Button ("Y", this, 3, !Settings.disableY);
 			
-			leftBumper = new Button ("LeftBumper", this, 4);
-			rightBumper = new Button ("RightBumper", this, 5);
-			leftTrigger = new Trigger ("LeftTrigger", this, 6);
-			rightTrigger = new Trigger ("RightTrigger", this, 7);
+			leftBumper = new Button ("LeftBumper", this, 4, !Settings.disableLeftBumper);
+			rightBumper = new Button ("RightBumper", this, 5, !Settings.disableRightBumper);
+			leftTrigger = new Trigger ("LeftTrigger", this, 6, !Settings.disableLeftTrigger);
+			rightTrigger = new Trigger ("RightTrigger", this, 7, !Settings.disableRightTrigger);
 			
-			back = new Button ("Back", this, 8);
-			start = new Button ("Start", this, 9);
-			leftStickClick = new Button ("LeftStickClick", this, 10);
-			rightStickClick = new Button ("RightStickClick", this, 11);
-			xBoxButton = new Button ("XBoxButton", this, 12);
+			back = new Button ("Back", this, 8, !Settings.disableBack);
+			start = new Button ("Start", this, 9, !Settings.disableStart);
+			leftStickClick = new Button ("LeftStickClick", this, 10, !Settings.disableLeftStickClick);
+			rightStickClick = new Button ("RightStickClick", this, 11, !Settings.disableRightStickClick);
+			xBoxButton = new Button ("XBoxButton", this, 12, !Settings.disableXBoxButton);
 
 			if (index == -1) {
 				leftStick = new AnyGamepadStick ("LeftStick", this, 0);
 				rightStick = new AnyGamepadStick ("RightStick", this, 1);
 				dPad = new AnyGamepadStick ("DPad", this, 2);
 			} else {
-				leftStick = new Stick ("LeftStick", this, 0);
-				rightStick = new Stick ("RightStick", this, 1);
-				dPad = new Stick ("DPad", this, 2);
+				leftStick = new Stick ("LeftStick", this, 0, !Settings.disableLeftStick);
+				rightStick = new Stick ("RightStick", this, 1, !Settings.disableRightStick);
+				dPad = new Stick ("DPad", this, 2, !Settings.disableDPad);
 			}
 			
 			sticks = new List<Stick> { leftStick, rightStick, dPad };
@@ -176,7 +176,7 @@ namespace HinputClasses {
 				back, start, leftStickClick, rightStickClick, xBoxButton
 			};
 			
-			anyInput = new AnyInput("AnyInput", this);
+			anyInput = new AnyInput("AnyInput", this, !Settings.disableAnyInput);
 			
 			vibration = new Vibration (index);
 		}
@@ -199,27 +199,10 @@ namespace HinputClasses {
 				else return;
 			}
 
-			if (!Settings.disableA) A.Update();
-			if (!Settings.disableB) B.Update();
-			if (!Settings.disableX) X.Update();
-			if (!Settings.disableY) Y.Update();
-
-			if (!Settings.disableLeftBumper) leftBumper.Update();
-			if (!Settings.disableRightBumper) rightBumper.Update();
-			if (!Settings.disableLeftTrigger) leftTrigger.Update();
-			if (!Settings.disableRightTrigger) rightTrigger.Update();
-
-			if (!Settings.disableBack) back.Update();
-			if (!Settings.disableStart) start.Update();
-			if (!Settings.disableLeftStickClick) leftStickClick.Update();
-			if (!Settings.disableRightStickClick) rightStickClick.Update();
-			if (!Settings.disableXBoxButton) xBoxButton.Update();
-
-			if (!Settings.disableLeftStick) leftStick.Update();
-			if (!Settings.disableRightStick) rightStick.Update();
-			if (!Settings.disableDPad) dPad.Update();
-
-			if (!Settings.disableAnyInput) anyInput.Update();
+			buttons.ForEach(button => button.Update());
+			sticks.ForEach(stick => stick.Update());
+			anyInput.Update();
+			vibration.Update();
 		}
 
 		

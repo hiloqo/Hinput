@@ -87,8 +87,8 @@ namespace HinputClasses {
         // CONSTRUCTOR
         // --------------------
 
-        public AnyInput(string name, Gamepad internalGamepad) : 
-            base(name, internalGamepad, internalGamepad.internalFullName + "_" + name) {
+        public AnyInput(string name, Gamepad internalGamepad, bool isEnabled) : 
+            base(name, internalGamepad, internalGamepad.internalFullName + "_" + name, isEnabled) {
             inputs = new List<Pressable> {
                 internalGamepad.A, internalGamepad.B, internalGamepad.X, internalGamepad.Y,
                 internalGamepad.leftBumper, internalGamepad.rightBumper, 

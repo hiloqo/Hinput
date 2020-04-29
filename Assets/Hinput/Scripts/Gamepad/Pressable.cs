@@ -148,14 +148,13 @@ namespace HinputClasses {
 		// CONSTRUCTOR
 		// --------------------
 
-		protected Pressable(string internalName, Gamepad internalGamepad, string internalFullName) {
+		protected Pressable(string internalName, Gamepad internalGamepad, string internalFullName, bool isEnabled) {
 			this.internalName = internalName;
 			this.internalFullName = internalFullName;
 			this.internalGamepad = internalGamepad;
+			this.isEnabled = isEnabled;
 			
 			lastPressed = Mathf.NegativeInfinity; // *force wave* this input was never pressed
-			
-			Enable();
 		}
 
 		

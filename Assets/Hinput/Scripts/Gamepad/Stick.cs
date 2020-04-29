@@ -143,45 +143,38 @@ namespace HinputClasses {
 		// CONSTRUCTORS
 		// --------------------
 
-		public Stick(string name, Gamepad internalGamepad, int index) 
-			: this(name, internalGamepad, index, false) { }
-
-		protected Stick (string name, Gamepad internalGamepad, int index, bool isAnyGamepad) {
+		public Stick(string name, Gamepad internalGamepad, int index, bool isEnabled) {
 			this.name = name;
 			internalFullName = internalGamepad.internalFullName + "_" + name;
 			this.internalGamepad = internalGamepad;
 			this.index = index;
+			this.isEnabled = isEnabled;
 
-			up = new Direction ("Up", 90, this);
-			down = new Direction ("Down", -90, this);
-			left = new Direction ("Left", 180, this);
-			right = new Direction ("Right", 0, this);
-			upLeft = new Direction ("UpLeft", 135, this);
-			downLeft = new Direction ("DownLeft", -135, this);
-			upRight = new Direction ("UpRight", 45, this);
-			downRight = new Direction ("DownRight", -45, this);
-			inPressedZone = new StickPressedZone("PressedZone", this);
-
-			if (!isAnyGamepad) { // Axes are unnecessary for anyGamepad
-				if (index == 0 || index == 1) { // Sticks
-					horizontalAxis = new Axis (internalFullName+"_Horizontal");
-					verticalAxis = new Axis (internalFullName+"_Vertical");
-				}
-				if (index == 2) { // DPad
-					horizontalAxis = new Axis (internalFullName+"_Horizontal", 
-						internalFullName+"_Right", 
-						internalFullName+"_Left");
-					verticalAxis = new Axis (internalFullName+"_Vertical", 
-						internalFullName+"_Up", 
-						internalFullName+"_Down");
-				}
-			}
+			up = new Direction ("Up", 90, this, true);
+			down = new Direction ("Down", -90, this, true);
+			left = new Direction ("Left", 180, this, true);
+			right = new Direction ("Right", 0, this, true);
+			upLeft = new Direction ("UpLeft", 135, this, true);
+			downLeft = new Direction ("DownLeft", -135, this, true);
+			upRight = new Direction ("UpRight", 45, this, true);
+			downRight = new Direction ("DownRight", -45, this, true);
+			inPressedZone = new StickPressedZone("PressedZone", this, true);
 			
-			Enable();
+			if (index == 0 || index == 1) { // Sticks
+				horizontalAxis = new Axis (internalFullName+"_Horizontal");
+				verticalAxis = new Axis (internalFullName+"_Vertical");
+			}
+			if (index == 2) { // DPad
+				horizontalAxis = new Axis (internalFullName+"_Horizontal", 
+					internalFullName+"_Right", 
+					internalFullName+"_Left");
+				verticalAxis = new Axis (internalFullName+"_Vertical", 
+					internalFullName+"_Up", 
+					internalFullName+"_Down");
+			}
 		}
-		
 
-		
+
 		// --------------------
 		// UPDATE
 		// --------------------

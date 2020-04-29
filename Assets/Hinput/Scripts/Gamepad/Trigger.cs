@@ -30,8 +30,8 @@ namespace HinputClasses {
     	// CONSTRUCTOR
     	// --------------------
     
-    	public Trigger (string name, Gamepad internalGamepad, int index) : 
-    		base(name, internalGamepad, internalGamepad.internalFullName + "_" + name) {
+    	public Trigger (string name, Gamepad internalGamepad, int index, bool isEnabled) : 
+    		base(name, internalGamepad, internalGamepad.internalFullName + "_" + name, isEnabled) {
     		this.internalIndex = index;
     		initialValue = measuredPosition;
     	}

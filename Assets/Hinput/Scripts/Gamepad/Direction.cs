@@ -61,8 +61,8 @@ namespace HinputClasses {
 		// CONSTRUCTOR
 		// --------------------
 
-		public Direction (string name, float angle, Stick internalStick) : 
-			base(name, internalStick.internalGamepad, internalStick.internalFullName + "_" + name) {
+		public Direction (string name, float angle, Stick internalStick, bool isEnabled) : 
+			base(name, internalStick.internalGamepad, internalStick.internalFullName + "_" + name, isEnabled) {
 			stickIndex = internalStick.index;
 			this.angle = angle;
 		}

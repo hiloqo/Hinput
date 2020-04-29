@@ -30,8 +30,8 @@ namespace HinputClasses {
 		// CONSTRUCTOR
 		// --------------------
 
-		public Button(string name, Gamepad internalGamepad, int internalIndex) : 
-			base(name, internalGamepad, internalGamepad.internalFullName + "_" + name) {
+		public Button(string name, Gamepad internalGamepad, int internalIndex, bool isEnabled) : 
+			base(name, internalGamepad, internalGamepad.internalFullName + "_" + name, isEnabled) {
 			this.internalIndex = internalIndex;
 		}
 

@@ -162,6 +162,8 @@ namespace HinputClasses.Internal {
 				currentLeft -= timeLeft / duration * originLeft;
 				currentRight -= timeLeft / duration * originRight;
 			}
+			
+			Update(); //Stop vibration if gamepad is disabled (no more update)
 		}
 
 
