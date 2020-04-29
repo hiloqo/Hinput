@@ -2,8 +2,8 @@
 
 namespace HinputClasses.Internal {
     // Hinput class responsible for updating gamepads. 
-    // It is automatically instantiated at runtime, or added to the gameobject with the HinputSettings component if you created one.
-    // You don’t need to do anything about it.
+    // It is automatically instantiated at runtime, or added to the gameobject with the HinputSettings component if you
+    // created one.
     public class Updater : MonoBehaviour {
     	// --------------------
     	// INTERNAL SETTINGS
