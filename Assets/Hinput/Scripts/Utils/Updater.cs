@@ -53,8 +53,8 @@ namespace HinputClasses.Internal {
     		
     		lastUpdatedFrame = Time.frameCount;
     		
+            Hinput.gamepad.ForEach(gamepad => gamepad.Update());
     		Hinput.anyGamepad.Update();
-    		Hinput.gamepad.ForEach(gamepad => gamepad.Update());
     	}
     
     
@@ -64,7 +64,6 @@ namespace HinputClasses.Internal {
     
     	public void OnApplicationQuit() {
     		Hinput.anyGamepad.StopVibration();
-    		Hinput.gamepad.ForEach(gamepad => gamepad.StopVibration());
     	}
     }
 }

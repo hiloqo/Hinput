@@ -99,9 +99,9 @@ namespace HinputClasses.Internal {
 			return (currentInputArray.Contains(hinputInputArray));
 		}
 
-		// Returns the path to Hinput's input array. Logs an error if it is not present.
+		// The path to Hinput's input array. Logs an error if it is not present.
 		private static string HinputInputArray () {
-			string filePath = PathToInputArray ("./Assets/Hinput/Scripts/Setup");
+			string filePath = PathToInputArray ("./Assets/Hinput/Scripts/SetUp");
 			
 			if (filePath == null) filePath = PathToInputArray ("./Assets/Hinput/Scripts");
 			if (filePath == null) filePath = PathToInputArray ("./Assets/Hinput");
@@ -111,7 +111,7 @@ namespace HinputClasses.Internal {
 			try {
 				return File.ReadAllText(filePath);
 			} catch {
-				Debug.LogError("Hinput setup error : /Assets/Hinput/Scripts/Setup/Hinput_8Controllers_inputManager" +
+				Debug.LogError("Hinput setup error : /Assets/Hinput/Scripts/SetUp/Hinput_8Controllers_inputManager" +
 					" not found. Make sure this file is present in your project, or reinstall the package.");
 			}
 

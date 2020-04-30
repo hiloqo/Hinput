@@ -14,7 +14,7 @@ namespace HinputClasses.Internal {
 		// --------------------
 
 		#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-			private readonly List<PlayerIndex> index;
+			private readonly PlayerIndex index;
 		#endif
 		private readonly bool canVibrate = false;
 		public float currentLeft;
@@ -33,17 +33,7 @@ namespace HinputClasses.Internal {
 		    
 			
 			#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-			    if (index == 0) this.index = new List<PlayerIndex> { PlayerIndex.One };
-			    else if (index == 1) this.index = new List<PlayerIndex> { PlayerIndex.Two };
-				else if (index == 2) this.index = new List<PlayerIndex> { PlayerIndex.Three };
-			    else if (index == 3) this.index = new List<PlayerIndex> { PlayerIndex.Four };
-			    else if (index == -1) this.index = new List<PlayerIndex> {
-				    PlayerIndex.One, 
-				    PlayerIndex.Two, 
-				    PlayerIndex.Three, 
-				    PlayerIndex.Four
-			    };
-			    
+			    this.index = (PlayerIndex)index;
 			    canVibrate = true;
 			#endif
 		    
@@ -61,7 +51,7 @@ namespace HinputClasses.Internal {
 			prevRight = currentRight;
 			
 			#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-				try { index.ForEach(playerIndex => GamePad.SetVibration(playerIndex, currentLeft, currentRight)); } 
+				try { GamePad.SetVibration(index, currentLeft, currentRight); } 
 				catch { /*Ignore errors here*/ }
 			#endif
 		}

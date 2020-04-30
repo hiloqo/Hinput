@@ -12,59 +12,23 @@ namespace HinputClasses {
 		// --------------------
 
 		/// <summary>
-		/// Returns the real index of a gamepad in the gamepad list of Hinput.
+		/// The index of a gamepad in the gamepad list of Hinput. AnyGamepad returns -1.
 		/// </summary>
-		/// <remarks>
-		/// If this is anyGamepad, returns -1.
-		/// </remarks>
-		public readonly int internalIndex;
-
-		/// <summary>
-		/// Returns the index of a gamepad in the gamepad list of Hinput.
-		/// </summary>
-		/// <remarks>
-		/// If this is anyGamepad, returns the index of the gamepad that is currently being pressed.
-		/// </remarks>
-		public virtual int index { get { return internalIndex; } }
-
-		/// <summary>
-		/// Returns the real name of a gamepad, like "Gamepad1".
-		/// </summary>
-		/// <remarks>
-		/// If this is anyGamepad, returns "AnyGamepad".
-		/// </remarks>
-		public readonly string internalName;
+		public int index { get; protected set; }
 		
 		/// <summary>
-		/// Returns the name of a gamepad, like "Gamepad1".
+		/// The name of a gamepad, like "Gamepad0" or "AnyGamepad".
 		/// </summary>
-		/// <remarks>
-		/// If this is anyGamepad, returns the name of the gamepad that is currently being pressed.
-		/// </remarks>
-		public virtual string name { get { return internalName; } }
+		public string name { get; protected set; }
 
 		/// <summary>
-		/// Returns the real full name of a gamepad, like "Windows_Gamepad4".
+		/// The full name of a gamepad, like "Windows_Gamepad0" or "Mac_AnyGamepad".
 		/// </summary>
-		/// <remarks>
-		/// If this is anyGamepad, returns the full name of anyGamepad, like "Windows_AnyGamepad".
-		/// </remarks>
-		public readonly string internalFullName;
+		public string fullName { get; protected set; }
 
 		/// <summary>
-		/// Returns the full name of a gamepad, like "Windows_Gamepad4".
+		/// The type of a gamepad, like "Controller (Xbox One For Windows)", "Wireless Controller" or "AnyGamepad".
 		/// </summary>
-		/// <remarks>
-		/// If this is anyGamepad, returns the full name of the gamepad that is currently being pressed.
-		/// </remarks>
-		public virtual string fullName { get { return internalFullName; } }
-		
-		/// <summary>
-		/// Returns the type of a gamepad, like "Xbox One For Windows".
-		/// </summary>
-		/// <remarks>
-		/// If this is anyGamepad, returns the type of the gamepad that is currently being pressed.
-		/// </remarks>
 		public virtual string type {
 			get {
 				if (Input.GetJoystickNames().Length <= index) return "";
@@ -74,11 +38,9 @@ namespace HinputClasses {
 		
 		private bool hasBeenConnected = false;
 		/// <summary>
-		/// Returns true if a gamepad is currently connected. Returns false otherwise.
+		/// Returns true if a gamepad is currently connected. Returns false otherwise.<br/><br/>
+		/// On AnyGamepad, returns true if at least one gamepad is currently connected. Returns false otherwise.
 		/// </summary>
-		/// <remarks>
-		/// If this is anyGamepad, returns true if a gamepad is connected. Returns false otherwise.
-		/// </remarks>
 		public virtual bool isConnected { get { return type != ""; } }
 		
 		
@@ -87,40 +49,33 @@ namespace HinputClasses {
 		// --------------------
 
 		/// <summary>
-		/// Returns true if a gamepad is being tracked by Hinput. Returns false otherwise.
+		/// Returns true if a gamepad is being tracked by Hinput. Returns false otherwise.<br/><br/>
+		/// On AnyGamepad, returns true if AnyGamepad is enabled (this does NOT give any information on regular
+		/// gamepads). Returns false otherwise.
 		/// </summary>
-		/// <remarks>
-		/// If this is anyGamepad, returns true if anyGamepad is being tracked by Hinput. Returns false otherwise.
-		/// </remarks>
-		public bool internalIsEnabled { get; private set; }
+		public bool isEnabled { get; private set; }
 		
 		/// <summary>
-		/// Returns true if a gamepad is being tracked by Hinput. Returns false otherwise.
-		/// </summary>
-		/// <remarks>
-		/// If this is anyGamepad, returns true if the gamepad that is currently being pressed is being tracked by
-		/// Hinput. Returns false otherwise.
-		/// </remarks>
-		public virtual bool isEnabled { get { return internalIsEnabled; } }
-		
-		/// <summary>
-		/// Enable a gamepad so that Hinput starts tracking it. This method is called automatically on a gamepad the
-		/// first time it is connected.
+		/// Enable a gamepad so that Hinput starts tracking it. <br/><br/>
+		/// This method is called automatically on a gamepad the first time it is connected. Calling this method on
+		/// AnyGamepad only enables AnyGamepad.
 		/// </summary>
 		public void Enable() {
-			internalIsEnabled = true;
+			isEnabled = true;
 		}
 
 		/// <summary>
-		/// Reset and disable a gamepad so that Hinput stops tracking it. This may improve performances.
+		/// Reset and disable a gamepad so that Hinput stops tracking it. <br/><br/>
+		/// This may improve performance. Calling this method on AnyGamepad only disables AnyGamepad.
 		/// </summary>
 		public void Disable() {
 			Reset();
-			internalIsEnabled = false;
+			isEnabled = false;
 		}
 		
 		/// <summary>
-		/// Reset the position of a gamepad and erase its history.
+		/// Reset the position of a gamepad and erase its history. <br/><br/>
+		/// Calling this method on AnyGamepad only resets AnyGamepad.
 		/// </summary>
 		public void Reset() {
 			buttons.ForEach(button => button.Reset());
@@ -134,14 +89,24 @@ namespace HinputClasses {
 		// CONSTRUCTOR
 		// --------------------
 
-		public Gamepad (int index) {
-			internalIndex = index;
+		protected Gamepad() { }
 
-			if (index == -1) internalName = "AnyGamepad";
-			else internalName = "Gamepad" + index;
+		public Gamepad (int index) {
+			this.index = index;
+			name = "Gamepad" + index;
+			fullName = Utils.os + "_" + name;
 			
-			internalFullName = Utils.os + "_" + internalName;
-			internalIsEnabled = false;
+			leftStick = new Stick ("LeftStick", this, 0, !Settings.disableLeftStick);
+			rightStick = new Stick ("RightStick", this, 1, !Settings.disableRightStick);
+			dPad = new Stick ("DPad", this, 2, !Settings.disableDPad);
+			
+			vibration = new Vibration (index);
+			
+			SetUp();
+		}
+			
+		protected void SetUp() {
+			isEnabled = false;
 			
 			A = new Button ("A", this, 0, !Settings.disableA); 
 			B = new Button ("B", this, 1, !Settings.disableB);
@@ -159,15 +124,7 @@ namespace HinputClasses {
 			rightStickClick = new Button ("RightStickClick", this, 11, !Settings.disableRightStickClick);
 			xBoxButton = new Button ("XBoxButton", this, 12, !Settings.disableXBoxButton);
 
-			if (index == -1) {
-				leftStick = new AnyGamepadStick ("LeftStick", this, 0);
-				rightStick = new AnyGamepadStick ("RightStick", this, 1);
-				dPad = new AnyGamepadStick ("DPad", this, 2);
-			} else {
-				leftStick = new Stick ("LeftStick", this, 0, !Settings.disableLeftStick);
-				rightStick = new Stick ("RightStick", this, 1, !Settings.disableRightStick);
-				dPad = new Stick ("DPad", this, 2, !Settings.disableDPad);
-			}
+			anyInput = new AnyInput("AnyInput", this, !Settings.disableAnyInput);
 			
 			sticks = new List<Stick> { leftStick, rightStick, dPad };
 			buttons = new List<Pressable> {
@@ -175,10 +132,6 @@ namespace HinputClasses {
 				leftBumper, rightBumper, leftTrigger, rightTrigger,
 				back, start, leftStickClick, rightStickClick, xBoxButton
 			};
-			
-			anyInput = new AnyInput("AnyInput", this, !Settings.disableAnyInput);
-			
-			vibration = new Vibration (index);
 		}
 
 		
@@ -187,22 +140,24 @@ namespace HinputClasses {
 		// --------------------
 
 		public void Update () {
-			if (internalIndex >= Settings.amountOfGamepads) return;
-			if (internalIndex == -1 && Settings.disableAnyGamepad) return;
-
-			//Do not update if this gamepad has never been connected.
-			if (!internalIsEnabled) {
-				if (isConnected && !hasBeenConnected) {
-					hasBeenConnected = true;
-					Enable();
-				}
-				else return;
-			}
+			if (DoNotUpdate()) return;
 
 			buttons.ForEach(button => button.Update());
 			sticks.ForEach(stick => stick.Update());
 			anyInput.Update();
 			vibration.Update();
+		}
+
+		protected virtual bool DoNotUpdate() {
+			if (index >= Settings.amountOfGamepads) return true;
+			if (!isEnabled) { // Enable a gamepad the first time it is connected
+				if (!isConnected || hasBeenConnected) return true;
+				
+				hasBeenConnected = true;
+				Enable();
+			}
+
+			return false;
 		}
 
 		
@@ -213,113 +168,113 @@ namespace HinputClasses {
 		/// <summary>
 		/// The A button of a gamepad.
 		/// </summary>
-		public readonly Button A;
+		public Button A { get; private set; }
 
 		/// <summary>
 		/// The B button of a gamepad.
 		/// </summary>
-		public readonly Button B;
+		public Button B { get; private set; }
 
 		/// <summary>
 		/// The X button of a gamepad.
 		/// </summary>
-		public readonly Button X;
+		public Button X { get; private set; }
 
 		/// <summary>
 		/// The Y button of a gamepad.
 		/// </summary>
-		public readonly Button Y;
+		public Button Y { get; private set; }
 
 		/// <summary>
 		/// The left bumper of a gamepad.
 		/// </summary>
-		public readonly Button leftBumper;
+		public Button leftBumper { get; private set; }
 
 		/// <summary>
 		/// The right bumper of a gamepad.
 		/// </summary>
-		public readonly Button rightBumper;
+		public Button rightBumper { get; private set; }
 
 		/// <summary>
 		/// The back button of a gamepad.
 		/// </summary>
-		public readonly Button back;
+		public Button back { get; private set; }
 
 		/// <summary>
 		/// The start button of a gamepad.
 		/// </summary>
-		public readonly Button start;
+		public Button start { get; private set; }
 
 		/// <summary>
 		/// The left stick click of a gamepad.
 		/// </summary>
-		public readonly Button leftStickClick;
+		public Button leftStickClick { get; private set; }
 
 		/// <summary>
 		/// The right stick click of a gamepad.
 		/// </summary>
-		public readonly Button rightStickClick;
+		public Button rightStickClick { get; private set; }
 
 		/// <summary>
-		/// The xBox button of a gamepad.<br/>
-		/// Windows and Linux drivers can’t detect the value of this button. 
-		/// Therefore it will be considered released at all times on these operating systems.
+		/// The XBox button of a gamepad.<br/><br/>
+		/// Windows and Linux drivers can’t detect the value of this button. Therefore it will be considered released
+		/// at all times on these operating systems.
 		/// </summary>
-		public readonly Button xBoxButton;
+		public Button xBoxButton { get; private set; }
 
 		/// <summary>
 		/// The left trigger of a gamepad.
 		/// </summary>
-		public readonly Trigger leftTrigger;
+		public Trigger leftTrigger { get; private set; }
 		
 		/// <summary>
 		/// The right trigger of a gamepad.
 		/// </summary>
-		public readonly Trigger rightTrigger;
+		public Trigger rightTrigger { get; private set; }
 
 		/// <summary>
 		/// The left stick of a gamepad.
 		/// </summary>
-		public readonly Stick leftStick;
+		public Stick leftStick { get; protected set; }
 
 		/// <summary>
 		/// The right stick click of a gamepad.
 		/// </summary>
-		public readonly Stick rightStick;
+		public Stick rightStick { get; protected set; }
 		
 		/// <summary>
 		/// The D-pad of a gamepad.
 		/// </summary>
-		public readonly Stick dPad;
+		public Stick dPad { get; protected set; }
 
 		/// <summary>
-		/// The list containing a gamepad’s sticks, in the following order : { leftStick, rightStick, dPad }
+		/// A virtual button that returns every input of a gamepad at once.<BR/> <BR/>
+		/// The position of AnyInput is the highest position for all buttons on that gamepad.
 		/// </summary>
-		public readonly List<Stick> sticks;
+		public AnyInput anyInput { get; private set; }
 
 		/// <summary>
-		/// The list containing a gamepad’s buttons, in the following order : { A, B, X, Y, left bumper, right bumper, left
-		/// trigger, right trigger, back, start, left stick click, right stick click, XBox button }
+		/// The list containing the sticks of a gamepad, in the following order : { leftStick, rightStick, dPad }
 		/// </summary>
-		public readonly List<Pressable> buttons;
+		public List<Stick> sticks { get; private set; }
 
 		/// <summary>
-		/// A virtual button that returns every input of a gamepad at once.
-		/// It has the name and full name of the input that is currently being pushed (except if you use "internal"
-		/// properties).
+		/// The list containing the buttons of a gamepad, in the following order : { A, B, X, Y, left bumper, right
+		/// bumper, left trigger, right trigger, back, start, left stick click, right stick click, XBox button }
 		/// </summary>
-		public readonly AnyInput anyInput;
+		public List<Pressable> buttons { get; private set; }
 
 		// --------------------
 		// VIBRATION
 		// --------------------
 		
-		private readonly Vibration vibration;
+		protected Vibration vibration;
 		
 		/// <summary>
-		/// Vibrate a gamepad. Default duration and intensity can be tweaked in settings.
+		/// Vibrate a gamepad.<BR/><BR/>
+		/// Calling this on AnyGamepad vibrates all gamepads.
 		/// </summary>
-		public void Vibrate() {
+		public virtual void Vibrate() {
 			vibration.Vibrate(
 				Settings.vibrationDefaultLeftIntensity, 
 				Settings.vibrationDefaultRightIntensity, 
@@ -327,9 +282,10 @@ namespace HinputClasses {
 		}
 
 		/// <summary>
-		/// Vibrate a gamepad for duration seconds. Default intensity can be tweaked in settings. 
+		/// Vibrate a gamepad for duration seconds.<BR/><BR/>
+		/// Calling this on AnyGamepad vibrates all gamepads.
 		/// </summary>
-		public void Vibrate(float duration) {
+		public virtual void Vibrate(float duration) {
 			vibration.Vibrate(
 				Settings.vibrationDefaultLeftIntensity, 
 				Settings.vibrationDefaultRightIntensity, 
@@ -337,10 +293,11 @@ namespace HinputClasses {
 		}
 		
 		/// <summary>
-		/// Vibrate a gamepad with an instensity of leftIntensity on the left motor, and an intensity of rightIntensity on
-		/// the right motor. Default duration can be tweaked in settings.
+		/// Vibrate a gamepad with an instensity of leftIntensity on the left motor, and an intensity of rightIntensity
+		/// on the right motor.<BR/><BR/>
+		/// Calling this on AnyGamepad vibrates all gamepads.
 		/// </summary>
-		public void Vibrate(float leftIntensity, float rightIntensity) {
+		public virtual void Vibrate(float leftIntensity, float rightIntensity) {
 			vibration.Vibrate(
 				leftIntensity, 
 				rightIntensity, 
@@ -348,10 +305,11 @@ namespace HinputClasses {
 		}
 		
 		/// <summary>
-		/// Vibrate a gamepad for duration seconds with an instensity of leftIntensity on the left motor, and an intensity
-		/// of rightIntensity on the right motor.
+		/// Vibrate a gamepad for duration seconds with an instensity of leftIntensity on the left motor, and an
+		/// intensity of rightIntensity on the right motor.<BR/><BR/>
+		/// Calling this on AnyGamepad vibrates all gamepads.
 		/// </summary>
-		public void Vibrate(float leftIntensity, float rightIntensity, float duration) {
+		public virtual void Vibrate(float leftIntensity, float rightIntensity, float duration) {
 			vibration.Vibrate(
 				leftIntensity, 
 				rightIntensity, 
@@ -359,83 +317,94 @@ namespace HinputClasses {
 		}
 		
 		/// <summary>
-		/// Vibrate a gamepad with an intensity over time based on an animation curve.
+		/// Vibrate a gamepad with an intensity over time based on an animation curve.<BR/><BR/>
+		/// Calling this on AnyGamepad vibrates all gamepads.
 		/// </summary>
-		public void Vibrate(AnimationCurve curve) {
+		public virtual void Vibrate(AnimationCurve curve) {
 			vibration.Vibrate(curve, curve);
 		}
 		
 		/// <summary>
-		/// Vibrate a gamepad with an intensity over time based on two animation curves, one for the left side and one for
-		/// the right side.
+		/// Vibrate a gamepad with an intensity over time based on two animation curves, one for the left side and one
+		/// for the right side.<BR/><BR/>
+		/// Calling this on AnyGamepad vibrates all gamepads.
 		/// </summary>
-		public void Vibrate(AnimationCurve leftCurve, AnimationCurve rightCurve) {
+		public virtual void Vibrate(AnimationCurve leftCurve, AnimationCurve rightCurve) {
 			vibration.Vibrate(leftCurve, rightCurve);
 		}
 
 		/// <summary>
-		/// Vibrate a gamepad with an intensity and a duration based on a vibration preset.
+		/// Vibrate a gamepad with an intensity and a duration based on a vibration preset.<BR/><BR/>
+		/// Calling this on AnyGamepad vibrates all gamepads.
 		/// </summary>
-		public void Vibrate(VibrationPreset vibrationPreset) {
+		public virtual void Vibrate(VibrationPreset vibrationPreset) {
 			vibration.Vibrate(vibrationPreset, 1, 1, 1);
 		}
 
 		/// <summary>
 		/// Vibrate a gamepad with an intensity and a duration based on a vibration preset.
-		/// The duration of the preset is multiplied by duration.
+		/// The duration of the preset is multiplied by duration.<BR/><BR/>
+		/// Calling this on AnyGamepad vibrates all gamepads.
 		/// </summary>
-		public void Vibrate(VibrationPreset vibrationPreset, float duration) {
+		public virtual void Vibrate(VibrationPreset vibrationPreset, float duration) {
 			vibration.Vibrate(vibrationPreset, 1, 1, duration);
 		}
 
 		/// <summary>
 		/// Vibrate a gamepad with an intensity and a duration based on a vibration preset.
 		/// The left intensity of the preset is multiplied by leftIntensity, and its right intensity is multiplied by
-		/// rightIntensity.
+		/// rightIntensity.<BR/><BR/>
+		/// Calling this on AnyGamepad vibrates all gamepads.
 		/// </summary>
-		public void Vibrate(VibrationPreset vibrationPreset, float leftIntensity, float rightIntensity) {
+		public virtual void Vibrate(VibrationPreset vibrationPreset, float leftIntensity, float rightIntensity) {
 			vibration.Vibrate(vibrationPreset, leftIntensity, rightIntensity, 1);
 		}
 
 		/// <summary>
 		/// Vibrate a gamepad with an intensity and a duration based on a vibration preset.
 		/// The left intensity of the preset is multiplied by leftIntensity, its right intensity is multiplied by
-		/// rightIntensity, and its duration is multiplied by duration.
+		/// rightIntensity, and its duration is multiplied by duration.<BR/><BR/>
+		/// Calling this on AnyGamepad vibrates all gamepads.
 		/// </summary>
-		public void Vibrate(VibrationPreset vibrationPreset, float leftIntensity, float rightIntensity, float duration) {
+		public virtual void Vibrate(VibrationPreset vibrationPreset, float leftIntensity, float rightIntensity, float duration) {
 			vibration.Vibrate(vibrationPreset, leftIntensity, rightIntensity, duration);
 		}
 		
 		/// <summary>
-		/// Vibrate a gamepad with an instensity of leftIntensity on the left motor, and an intensity of rightIntensity on
-		/// the right motor, FOREVER. Don't forget to call StopVibration !
+		/// Vibrate a gamepad with an instensity of leftIntensity on the left motor, and an intensity of rightIntensity
+		/// on the right motor, FOREVER. Don't forget to call StopVibration !<BR/><BR/>
+		/// Calling this on AnyGamepad vibrates all gamepads.
 		/// </summary>
-		public void VibrateAdvanced(float leftIntensity, float rightIntensity) {
+		public virtual void VibrateAdvanced(float leftIntensity, float rightIntensity) {
 			vibration.VibrateAdvanced(leftIntensity, rightIntensity);
 		}
 
 		/// <summary>
-		/// Stop all vibrations on a gamepad immediately.
+		/// Stop all vibrations on a gamepad immediately.<BR/><BR/>
+		/// Calling this on AnyGamepad stops all gamepads.
 		/// </summary>
-		public void StopVibration () {
+		public virtual void StopVibration () {
 			vibration.StopVibration(0);
 		}
 
 		/// <summary>
-		/// Stop all vibrations on a gamepad progressively over duration seconds.
+		/// Stop all vibrations on a gamepad progressively over duration seconds.<BR/><BR/>
+		/// Calling this on AnyGamepad stops all gamepads.
 		/// </summary>
-		public void StopVibration (float duration) {
+		public virtual void StopVibration (float duration) {
 			vibration.StopVibration(duration);
 		}
 
 		/// <summary>
-		/// The intensity at which the left motor of a gamepad is currently vibrating.
+		/// The intensity at which the left motor of a gamepad is currently vibrating.<BR/><BR/>
+		/// On AnyGamepad, returns -1.
 		/// </summary>
-		public float leftVibration { get { return vibration.currentLeft; } }
+		public virtual float leftVibration { get { return vibration.currentLeft; } }
 
 		/// <summary>
-		/// The intensity at which the right motor of a gamepad is currently vibrating.
+		/// The intensity at which the right motor of a gamepad is currently vibrating.<BR/><BR/>
+		/// On AnyGamepad, returns -1.
 		/// </summary>
-		public float rightVibration { get { return vibration.currentRight; } }
+		public virtual float rightVibration { get { return vibration.currentRight; } }
 	}
 }

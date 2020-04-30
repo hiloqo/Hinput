@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using HinputClasses.Internal;
 
 namespace HinputClasses {
     /// <summary>
@@ -8,105 +9,111 @@ namespace HinputClasses {
     /// </summary>
     public class AnyGamepad : Gamepad {
         // --------------------
-        // PUSHED GAMEPADS
-        // --------------------
-
-        private List<Gamepad> _gamepads = new List<Gamepad>();
-        private int _lastGamepadUpdateFrame = -1;
-        /// <summary>
-        /// Returns a list of every gamepad that is currently being pressed.
-        /// </summary>
-        /// <remarks>
-        /// If no gamepad is pressed, returns an empty list.
-        /// </remarks>
-        public List<Gamepad> gamepads {
-            get {
-                if (_lastGamepadUpdateFrame == Time.frameCount) return _gamepads;
-                
-                _lastGamepadUpdateFrame = Time.frameCount;
-                _gamepads = Hinput.gamepad.Where(g => g.anyInput).ToList();
-                return _gamepads;
-            }
-        }
-
-        /// <summary>
-        /// Returns the gamepad that is currently being pressed.
-        /// </summary>
-        /// <remarks>
-        /// If several gamepads are pressed, returns the one with the smallest index.
-        /// If no gamepad is pressed, returns null.
-        /// </remarks>
-        public Gamepad gamepad {
-            get {
-                if (gamepads.Count == 0) return this;
-                else return gamepads[0];
-            }
-        }
-        
-        /// <summary>
-        /// Returns a list of the indices of every gamepad that is currently being pressed.
-        /// </summary>
-        /// <remarks>
-        /// If no gamepad is pressed, returns an empty list.
-        /// </remarks>
-        public List<int> indices  { get { return gamepads.Select(g => g.index).ToList(); } }
-        
-        
-        // --------------------
         // ID
         // --------------------
 
-        public override int index {
-            get {
-                if (gamepads.Count == 0) return internalIndex;
-                else return gamepad.index;
-            }
-        }
-
-        public override string name {
-            get {
-                if (gamepads.Count == 0) return internalName;
-                else return gamepad.name;
-            }
-        }
-
-        public override string fullName {
-            get {
-                if (gamepads.Count == 0) return internalFullName;
-                else return gamepad.fullName;
-            }
-        }
-	    
-        public override string type {
-            get {
-                if (gamepads.Count == 0) return null;
-                else return gamepad.type;
-            }
-        }
-
-        public override bool isConnected {
-            get {
-                return Hinput.gamepad.Any(g => g.isConnected);
-            }
-        }
-		
-		
-        // --------------------
-        // ENABLED
-        // --------------------
-
-
-        public override bool isEnabled {
-            get {
-                if (gamepads.Count == 0) return internalIsEnabled;
-                return gamepad.isEnabled;
-            }
-        }
-
+        public override string type { get { return "AnyGamepad"; } }
+        public override bool isConnected { get { return Input.GetJoystickNames().Any(name => (name != "")); } }
+        
+        
         // --------------------
         // CONSTRUCTOR
         // --------------------
 
-        public AnyGamepad() : base(-1) { }
+        public AnyGamepad() {
+            index = -1;
+            name = "AnyGamepad";
+            fullName = Utils.os + "_" + name;
+            leftStick = new AnyGamepadStick("LeftStick", this, 0);
+            rightStick = new AnyGamepadStick("RightStick", this, 1);
+            dPad = new AnyGamepadStick("DPad", this, 2);
+
+            vibration = new Vibration (-1);
+
+            SetUp();
+        }
+		
+		
+        // --------------------
+        // UPDATE
+        // --------------------
+
+        protected override bool DoNotUpdate() {
+            return (Settings.disableAnyGamepad || !isEnabled);
+        }
+
+		// --------------------
+		// VIBRATION
+		// --------------------
+
+		public override void Vibrate() {
+			Hinput.gamepad.Take(4).ToList()
+				.ForEach(gamepad => gamepad.Vibrate());
+		}
+
+		public override void Vibrate(float duration) {
+			Hinput.gamepad.Take(4).ToList()
+				.ForEach(gamepad => gamepad.Vibrate(duration));
+		}
+		
+		public override void Vibrate(float leftIntensity, float rightIntensity) {
+			Hinput.gamepad.Take(4).ToList()
+				.ForEach(gamepad => gamepad.Vibrate(leftIntensity, rightIntensity));
+		}
+		
+		public override void Vibrate(float leftIntensity, float rightIntensity, float duration) {
+			Hinput.gamepad.Take(4).ToList()
+				.ForEach(gamepad => gamepad.Vibrate(leftIntensity, rightIntensity, duration));
+		}
+		
+		public override void Vibrate(AnimationCurve curve) {
+			Hinput.gamepad.Take(4).ToList()
+				.ForEach(gamepad => gamepad.Vibrate(curve));
+		}
+		
+		public override void Vibrate(AnimationCurve leftCurve, AnimationCurve rightCurve) {
+			Hinput.gamepad.Take(4).ToList()
+				.ForEach(gamepad => gamepad.Vibrate(leftCurve, rightCurve));
+		}
+
+		public override void Vibrate(VibrationPreset vibrationPreset) {
+			Hinput.gamepad.Take(4).ToList()
+				.ForEach(gamepad => gamepad.Vibrate(vibrationPreset));
+		}
+
+		public override void Vibrate(VibrationPreset vibrationPreset, float duration) {
+			Hinput.gamepad.Take(4).ToList()
+				.ForEach(gamepad => gamepad.Vibrate(vibrationPreset, duration));
+		}
+
+		public override void Vibrate(VibrationPreset vibrationPreset, float leftIntensity, float rightIntensity) {
+			Hinput.gamepad.Take(4).ToList()
+				.ForEach(gamepad => gamepad.Vibrate(vibrationPreset, leftIntensity, rightIntensity));
+		}
+
+		public override void Vibrate(VibrationPreset vibrationPreset, float leftIntensity, float rightIntensity, 
+			float duration) {
+			Hinput.gamepad.Take(4).ToList()
+				.ForEach(gamepad => gamepad.Vibrate(vibrationPreset, leftIntensity, rightIntensity, duration));
+		}
+		
+		public override void VibrateAdvanced(float leftIntensity, float rightIntensity) {
+			Hinput.gamepad.Take(4).ToList()
+				.ForEach(gamepad => gamepad.VibrateAdvanced(leftIntensity, rightIntensity));
+		}
+
+		public override void StopVibration () {
+			Hinput.gamepad.Take(4).ToList()
+				.ForEach(gamepad => gamepad.StopVibration());
+		}
+
+		public override void StopVibration (float duration) {
+			Hinput.gamepad.Take(4).ToList()
+				.ForEach(gamepad => gamepad.StopVibration(duration));
+		}
+
+		public override float leftVibration { get { return -1; } }
+
+		public override float rightVibration { get { return -1; } }
     }
 }

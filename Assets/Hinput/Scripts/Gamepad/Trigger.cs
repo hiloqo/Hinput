@@ -10,29 +10,18 @@ namespace HinputClasses {
     	// --------------------
     
     	/// <summary>
-    	/// Returns the real index of a trigger on its gamepad.
+    	/// The index of a trigger on its gamepad.
     	/// </summary>
-    	/// <remarks>
-    	/// If this trigger is anyInput, return -1.
-    	/// </remarks>
-    	public readonly int internalIndex;
-    	
-    	/// <summary>
-    	/// Returns the index of a trigger on its gamepad.
-    	/// </summary>
-    	/// <remarks>
-    	/// If this trigger is anyInput, return the index of the input that is currently being pressed.
-    	/// </remarks>
-    	public int index { get { return internalIndex; } }
+    	public readonly int index;
     	
     	
     	// --------------------
     	// CONSTRUCTOR
     	// --------------------
     
-    	public Trigger (string name, Gamepad internalGamepad, int index, bool isEnabled) : 
-    		base(name, internalGamepad, internalGamepad.internalFullName + "_" + name, isEnabled) {
-    		this.internalIndex = index;
+    	public Trigger (string name, Gamepad gamepad, int index, bool isEnabled) : 
+    		base(name, gamepad, gamepad.fullName + "_" + name, isEnabled) {
+    		this.index = index;
     		initialValue = measuredPosition;
     	}
     
@@ -42,14 +31,14 @@ namespace HinputClasses {
     	// --------------------
     	
     	private readonly float initialValue;
-    	private bool hasBeenMoved;
+    	private bool hasBeenMoved = false;
     
     	// The value of the trigger's position, given by the gamepad driver.
     	// In some instances, until an input is recorded triggers will have a non-zero measured resting position.
     	private float measuredPosition { 
     		get {
-    			if (Utils.os == "Mac") return (Utils.GetAxis(internalFullName) + 1)/2;
-    			return Utils.GetAxis(internalFullName);	
+    			if (Utils.os == "Mac") return (Utils.GetAxis(fullName) + 1)/2;
+    			else return Utils.GetAxis(fullName);	
     		}
     	}
     
@@ -63,13 +52,12 @@ namespace HinputClasses {
     	protected override void UpdatePositionRaw() {
     		float measuredPos = measuredPosition;
     
-    		if (hasBeenMoved) {
-    			positionRaw = measuredPos;
-    		} else if (measuredPos.IsNotEqualTo(initialValue)) {
-    			hasBeenMoved = true;
-    			positionRaw = measuredPos;
-    		}
-    		else positionRaw = 0f;
+    		if (hasBeenMoved) positionRaw = measuredPos;
+    		else if (measuredPos.IsEqualTo(initialValue)) positionRaw = 0f;
+    		else {
+	            hasBeenMoved = true;
+	            positionRaw = measuredPos;
+            }
     	}
     
     
@@ -77,32 +65,13 @@ namespace HinputClasses {
     	// PROPERTIES
     	// --------------------
     
-    	/// <summary>
-    	/// Returns the position of the trigger, between 0 and 1.
-    	/// </summary>
     	public override float position { 
     		get { 
-    			float posRaw = positionRaw;
-    
-    			if (posRaw < Settings.triggerDeadZone) return 0f;
-    			else return ((posRaw - Settings.triggerDeadZone)/(1 - Settings.triggerDeadZone));
+	            if (positionRaw < Settings.triggerDeadZone) return 0f;
+    			else return ((positionRaw - Settings.triggerDeadZone)/(1 - Settings.triggerDeadZone));
     		} 
     	}
-    
-    	/// <summary>
-    	/// Returns true if the position of the trigger is beyond the limit of its pressed zone. Returns false otherwise.
-    	/// </summary>
-    	/// <remarks>
-    	/// The size of the pressed zone of the triggers can be changed with the triggerPressedZone property of Settings.
-    	/// </remarks>
     	public override bool pressed { get { return position >= Settings.triggerPressedZone; } }
-    
-    	/// <summary>
-    	/// Returns true if if the position of the trigger is within the limits of its dead zone. Returns false otherwise.
-    	/// </summary>
-    	/// <remarks>
-    	/// The size of the dead zone of the triggers can be changed with the triggerDeadZone property of Settings.
-    	/// </remarks>
     	public override bool inDeadZone { get { return position < Settings.triggerDeadZone; } }
     }
 }

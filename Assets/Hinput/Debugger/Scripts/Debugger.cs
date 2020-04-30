@@ -134,25 +134,14 @@ namespace HinputClasses.Internal {
 					return;
 				}
 				
-				Gamepad currentGamepad = currentButton.internalGamepad;
-				string log = "current gamepad: " +
-			             "[isConnected = " + currentGamepad.isConnected +
-			             ", isEnabled = " + currentGamepad.isEnabled +
-			             ", type = " + currentGamepad.type +
-				          ", index = " + currentGamepad.index +
-				          ", internal index = " + currentGamepad.internalIndex +
+				Gamepad currentGamepad = currentButton.gamepad;
+				Debug.Log("current gamepad: " +
+				          "[isConnected = " + currentGamepad.isConnected +
+				          ", isEnabled = " + currentGamepad.isEnabled +
+				          ", type = " + currentGamepad.type + 
+				          ", index = " + currentGamepad.index + 
 				          ", name = " + currentGamepad.name +
-				          ", internal name = " + currentGamepad.internalName +
-				          ", full name = " + currentGamepad.fullName +
-				          ", internal full name = " + currentGamepad.internalFullName;
-
-				if (currentGamepad is AnyGamepad) {
-					log += ", gamepads = " + ToString(((AnyGamepad)currentGamepad).gamepads.Select(g => g.internalName).ToList()) +
-					       ", indices = " + ToString(((AnyGamepad)currentGamepad).indices);
-				}
-
-				log += "]";
-				Debug.Log(log);
+				          ", full name = " + currentGamepad.fullName+ "]");
 			}
 
 			if (gamepadListsOnLPressed && Input.GetKeyDown(KeyCode.L)) {
@@ -161,11 +150,15 @@ namespace HinputClasses.Internal {
 					return;
 				}
 				
-				Gamepad currentGamepad = currentButton.internalGamepad;
-				Debug.Log("current gamepad buttons : " + 
-				          ToString(currentGamepad.buttons.Select(b => b.name).ToList()) + 
-				          ", current gamepad sticks : " + 
-				          ToString(currentGamepad.sticks.Select(s => s.name).ToList()));
+				Gamepad currentGamepad = currentButton.gamepad;
+				Debug.Log("current gamepad buttons : " + ToString(currentGamepad.buttons
+					          .Select(button => button.name)
+					          .ToList()) + 
+				          ", current gamepad sticks : " + ToString(currentGamepad.sticks
+					          .Select(stick => stick.name)
+					          .ToList()) + 
+				          ", active gamepads = " + ToString(
+					          Hinput.activeGamepads.Select(gamepad => gamepad.fullName).ToList()));
 			}
 			
 			if (stickInfoOnPPressed && Input.GetKeyDown(KeyCode.P)) {
@@ -174,26 +167,11 @@ namespace HinputClasses.Internal {
 					return;
 				}
 
-				string log = "[isEnabled = " + currentStick.isEnabled +
-				             ", index = " + currentStick.index +
-				             ", name = " + currentStick.name +
-				             ", full name = " + currentStick.fullName +
-				             ", internal full name = " + currentStick.internalFullName +
-				             ", gamepad full name = " + currentStick.gamepadFullName +
-				             ", gamepad internal full name = " + currentStick.internalGamepadFullName +
-				             ", gamepad index = " + currentStick.gamepadIndex +
-				             ", gamepad internal index = " + currentStick.internalGamepadIndex;
-
-				if (currentStick is AnyGamepadStick) {
-					log = "current anyGamepad stick: " + log +
-					      ", pressed sticks = " + ToString(((AnyGamepadStick) currentStick).pressedSticks.Select(s => s.fullName).ToList()) +
-					      ", pressed stick = " + ((AnyGamepadStick) currentStick).pressedStick.fullName;
-				} else {
-					log = "current stick: " + log;
-				}
-
-				log += "]";
-				Debug.Log(log);
+				Debug.Log("current stick: [isEnabled = " + currentStick.isEnabled +
+				          ", index = " + currentStick.index +
+				          ", name = " + currentStick.name +
+				          ", full name = " + currentStick.fullName +
+				          ", gamepad = " + currentStick.gamepad + "]");
 			}
 			
 			if (buttonInfoOnBPressed && Input.GetKeyDown(KeyCode.B)) {
@@ -204,38 +182,27 @@ namespace HinputClasses.Internal {
 				
 				string log = "isEnabled = " + currentButton.isEnabled + 
 				             ", name = " + currentButton.name +
-				             ", internal name = " + currentButton.internalName +
 				             ", full name = " + currentButton.fullName +
-				             ", internal full name = " + currentButton.internalFullName +
-				             ", gamepad index = " + currentButton.gamepadIndex +
-				             ", gamepad internal index = " + currentButton.internalGamepadIndex +
-				             ", gamepad full name = " + currentButton.gamepadFullName +
-				             ", gamepad internal full name = " + currentButton.internalGamepadFullName;
+				             ", gamepad = " + currentButton.fullName;
 				
 				if (currentButton is Direction) {
 					log = "current direction: [" + log +
-					      ", stick index = " + ((Direction)currentButton).stickIndex +
-					      ", stick full name = " + ((Direction)currentButton).stickFullName +
-					      ", stick internal full name = " + ((Direction)currentButton).internalStickFullName +
+					      ", stick = " + ((Direction)currentButton).stick.fullName +
 					      ", angle = " + ((Direction)currentButton).angle;
 				} else if (currentButton is StickPressedZone) {
 					log = "current stick pressed zone: [" + log +
-					      ", stick index = " + ((StickPressedZone)currentButton).stickIndex +
-					      ", stick full name = " + ((StickPressedZone)currentButton).stickFullName +
-					      ", stick internal full name = " + ((StickPressedZone)currentButton).internalStickFullName;
+					      ", stick = " + ((StickPressedZone)currentButton).stick.fullName;
 				} else if (currentButton is Button) {
 					log = "current button: [" + log +
-					      ", index = " + ((Button)currentButton).index +
-					      ", index = " + ((Button)currentButton).internalIndex;
+					      ", index = " + ((Button)currentButton).index;
 				} else if (currentButton is Trigger) {
 					log = "current trigger: [" + log +
-					      ", index = " + ((Trigger)currentButton).index +
-					      ", internal index = " + ((Trigger)currentButton).internalIndex;
+					      ", index = " + ((Trigger)currentButton).index;
 				} else if (currentButton is AnyInput) {
 					log = "current anyInput: [" + log +
-					      ", pressed inputs = " + ToString(((AnyInput) currentButton).pressedInputs.Select(i => i.fullName).ToList()) +
-					      ", index = " + ((AnyInput)currentButton).index +
-					      ", internal index = " + ((AnyInput)currentButton).internalIndex;
+					      ", active inputs = " + ToString(((AnyInput) currentButton).activeInputs
+						      .Select(input => input.fullName)
+						      .ToList());
 				}
 
 				log += "]";
@@ -254,12 +221,12 @@ namespace HinputClasses.Internal {
 					Debug.Log("Current gamepad has not been set");
 					return;
 				}
-				if (currentButton.internalGamepad.isEnabled) {
-					currentButton.internalGamepad.Disable();
-					Debug.Log("Disabling " + currentButton.internalGamepad.internalFullName);
+				if (currentButton.gamepad.isEnabled) {
+					currentButton.gamepad.Disable();
+					Debug.Log("Disabling " + currentButton.gamepad.fullName);
 				} else {
-					currentButton.internalGamepad.Enable();
-					Debug.Log("Enabling "+ currentButton.internalGamepad.internalFullName);
+					currentButton.gamepad.Enable();
+					Debug.Log("Enabling "+ currentButton.gamepad.fullName);
 				}
 			}
 			
@@ -270,10 +237,10 @@ namespace HinputClasses.Internal {
 				}
 				if (currentStick.isEnabled) {
 					currentStick.Disable();
-					Debug.Log("Disabling " + currentStick.internalFullName);
+					Debug.Log("Disabling " + currentStick.fullName);
 				} else {
 					currentStick.Enable();
-					Debug.Log("Enabling " + currentStick.internalFullName);
+					Debug.Log("Enabling " + currentStick.fullName);
 				}
 			}
 			
@@ -284,10 +251,10 @@ namespace HinputClasses.Internal {
 				}
 				if (currentButton.isEnabled) {
 					currentButton.Disable();
-					Debug.Log("Disabling " + currentButton.internalFullName);
+					Debug.Log("Disabling " + currentButton.fullName);
 				} else {
 					currentButton.Enable();
-					Debug.Log("Enabling " + currentButton.internalFullName);
+					Debug.Log("Enabling " + currentButton.fullName);
 				}
 			}
 		}
@@ -365,52 +332,55 @@ namespace HinputClasses.Internal {
 		private void TestCurrentButton () {
 			if (buttonFeature == BF.none) return;
 			if (buttonFeature == BF.pressedAndReleased) {
-				if (currentButton) Debug.Log(currentButton.internalFullName+" is pressed !!!");
-				else Debug.Log (currentButton.internalFullName+" is released");
+				if (currentButton) Debug.Log(currentButton.fullName+" is pressed !!!");
+				else Debug.Log (currentButton.fullName+" is released");
 			}
-			if (buttonFeature == BF.position) Debug.Log (currentButton.internalFullName+" position : "+currentButton.position+
+			if (buttonFeature == BF.position) Debug.Log (currentButton.fullName+
+			                                             " position : "+currentButton.position+
 			                                             ", position raw : "+currentButton.positionRaw);
 			if (buttonFeature == BF.justPressedAndJustReleased) {
-				if (currentButton.justPressed) Debug.Log (currentButton.internalFullName+" was just pressed !!!");
-				else if (currentButton.justReleased) Debug.Log (currentButton.internalFullName+" was just released");
+				if (currentButton.justPressed) Debug.Log (currentButton.fullName+" was just pressed !!!");
+				else if (currentButton.justReleased) Debug.Log (currentButton.fullName+" was just released");
 			}
 			if (buttonFeature == BF.lastPressedAndLastReleased) 
-				Debug.Log (currentButton.internalFullName+" last pressed : "+currentButton.lastPressed+
+				Debug.Log (currentButton.fullName+" last pressed : "+currentButton.lastPressed+
 				           ", last released : "+currentButton.lastReleased+
 				           ", last press start : "+currentButton.lastPressStart);
 			if (buttonFeature == BF.inDeadZone) {
-				if (currentButton.inDeadZone) Debug.Log (currentButton.internalFullName+" is in dead zone");
-				else Debug.Log (currentButton.internalFullName+" is not in dead zone !!!");
+				if (currentButton.inDeadZone) Debug.Log (currentButton.fullName+" is in dead zone");
+				else Debug.Log (currentButton.fullName+" is not in dead zone !!!");
 			}
 			if (buttonFeature == BF.doublePress && currentButton.doublePress) 
-				Debug.Log (currentButton.internalFullName+" is being double pressed !");
+				Debug.Log (currentButton.fullName+" is being double pressed !");
 			if (buttonFeature == BF.doublePressJustPressedAndDoublePressedJustReleased) {
 				if (currentButton.doublePressJustPressed) 
-					Debug.Log (currentButton.internalFullName+" was double pressed !");
+					Debug.Log (currentButton.fullName+" was double pressed !");
 				if (currentButton.doublePressJustReleased) 
-					Debug.Log (currentButton.internalFullName+" was released after a double press !");
+					Debug.Log (currentButton.fullName+" was released after a double press !");
 			}
 			if (buttonFeature == BF.lastPressWasDouble) {
 				if (currentButton.lastPressWasDouble) 
-					Debug.Log (currentButton.internalFullName+"'s last press was a double press !!!");
-				else Debug.Log (currentButton.internalFullName+"'s last press was a simple press");
+					Debug.Log (currentButton.fullName+"'s last press was a double press !!!");
+				else Debug.Log (currentButton.fullName+"'s last press was a simple press");
 			
 			}
 			if (buttonFeature == BF.longPress) {
-				if (currentButton.longPress) Debug.Log (currentButton.internalFullName+" is being long pressed");
+				if (currentButton.longPress) Debug.Log (currentButton.fullName+" is being long pressed");
 				if (currentButton.longPressJustReleased) 
-					Debug.Log (currentButton.internalFullName+" has just been released after a long press");
+					Debug.Log (currentButton.fullName+" has just been released after a long press");
 			}
 			if (buttonFeature == BF.lastPressWasLong) {
 				if (currentButton.lastPressWasLong) 
-					Debug.Log (currentButton.internalFullName+"'s last press was a long press !!!");
-				else Debug.Log (currentButton.internalFullName+"'s last press was a short press");
+					Debug.Log (currentButton.fullName+"'s last press was a long press !!!");
+				else Debug.Log (currentButton.fullName+"'s last press was a short press");
 			
 			}
 			if (buttonFeature == BF.pressDurationAndReleaseDuration) {
 				if (currentButton) 
-					Debug.Log (currentButton.internalFullName+" has been pressed for "+currentButton.pressDuration+" !!!");
-				else Debug.Log (currentButton.internalFullName+" has been released for "+currentButton.releaseDuration);
+					Debug.Log (currentButton.fullName+" has been pressed for "+
+					           currentButton.pressDuration+" !!!");
+				else Debug.Log (currentButton.fullName+" has been released for "+
+				                currentButton.releaseDuration);
 			}
 		}
 
@@ -443,33 +413,37 @@ namespace HinputClasses.Internal {
 		private void TestCurrentStick () {
 			if (stickFeature == SF.none) return;
 			if (stickFeature == SF.position) 
-				Debug.Log (currentStick.internalFullName+" position : "+currentStick.position+
+				Debug.Log (currentStick.fullName+" position : "+currentStick.position+
 			                              ", position raw : "+currentStick.positionRaw);
-			if (stickFeature == SF.horizontal) Debug.Log (currentStick.internalFullName+" horizontal : "+currentStick.horizontal+
+			if (stickFeature == SF.horizontal) Debug.Log (currentStick.fullName+
+			                                              " horizontal : "+currentStick.horizontal+
 			                                              ", horizontal raw : "+currentStick.horizontalRaw);
-			if (stickFeature == SF.vertical) Debug.Log (currentStick.internalFullName+" vertical : "+currentStick.vertical+
+			if (stickFeature == SF.vertical) Debug.Log (currentStick.fullName+
+			                                            " vertical : "+currentStick.vertical+
 			                                            ", vertical raw : "+currentStick.verticalRaw);
-			if (stickFeature == SF.angle) Debug.Log (currentStick.internalFullName+" angle : "+currentStick.angle+
+			if (stickFeature == SF.angle) Debug.Log (currentStick.fullName+
+			                                         " angle : "+currentStick.angle+
 			                                         ", angle raw : "+currentStick.angleRaw);
-			if (stickFeature == SF.distance) Debug.Log (currentStick.internalFullName+" distance : "+currentStick.distance+
+			if (stickFeature == SF.distance) Debug.Log (currentStick.fullName+
+			                                            " distance : "+currentStick.distance+
 			                                            ", distance raw : "+currentStick.distanceRaw);
 			if (stickFeature == SF.inDeadZone) {
-				if (currentStick.inDeadZone) Debug.Log (currentStick.internalFullName+" is in dead zone");
-				else Debug.Log (currentStick.internalFullName+" is not in dead zone !!!");
+				if (currentStick.inDeadZone) Debug.Log (currentStick.fullName+" is in dead zone");
+				else Debug.Log (currentStick.fullName+" is not in dead zone !!!");
 			} 
 			if (stickFeature == SF.worldPositionCamera) {
 				message.gameObject.SetActive(false);
 				plane.gameObject.SetActive(true);
 				redCube.gameObject.SetActive(false);
 				blueSphere.gameObject.SetActive(true);
-				Debug.Log (currentStick.internalFullName+" is controlling the blue sphere");
+				Debug.Log (currentStick.fullName+" is controlling the blue sphere");
 				blueSphere.transform.position += moveSpeed * Time.deltaTime * currentStick.worldPositionCamera;
 			} else if (stickFeature == SF.worldPositionFlat) {
 				message.gameObject.SetActive(false);
 				plane.gameObject.SetActive(true);
 				redCube.gameObject.SetActive(true);
 				blueSphere.gameObject.SetActive(false);
-				Debug.Log (currentStick.internalFullName+" is controlling the red cube");
+				Debug.Log (currentStick.fullName+" is controlling the red cube");
 				redCube.transform.position += moveSpeed * Time.deltaTime * currentStick.worldPositionFlat;
 			} else {
 				message.gameObject.SetActive(true);

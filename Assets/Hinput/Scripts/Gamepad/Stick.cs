@@ -3,7 +3,7 @@ using HinputClasses.Internal;
 
 namespace HinputClasses {
 	/// <summary>
-	/// Hinput class representing a gamepad stick, such as the left stick, the right stick, or the D-pad.<br/>
+	/// Hinput class representing a gamepad stick, such as the left stick, the right stick, or the D-pad.<br/><br/>
 	/// If no property of the Stick is used, it will automatically be cast to a Vector2 with the value position. 
 	/// For instance, Hinput.gamepad[0].leftStick will return Hinput.gamepad[0].leftStick.position.
 	/// </summary>
@@ -13,78 +13,24 @@ namespace HinputClasses {
 		// --------------------
 
 		/// <summary>
-		/// Returns the index of a stick on its gamepad (0 for a left stick, 1 for a right stick, 2 for a D-pad).
+		/// The index of a stick on its gamepad (0 for a left stick, 1 for a right stick, 2 for a D-pad).
 		/// </summary>
-		public int index { get; }
+		public readonly int index;
 
 		/// <summary>
-		/// Returns the name of a stick, like “LeftStick” or “DPad”.
+		/// The name of a stick, like “LeftStick” or “DPad”.
 		/// </summary>
-		public string name { get; }
+		public readonly string name;
 
 		/// <summary>
-		/// Returns the real full name of a stick, like "Linux_Gamepad4_DPad".
+		/// The full name of a stick, like "Mac_Gamepad0_LeftStick" or "Windows_AnyGamepad_DPad".
 		/// </summary>
-		/// <remarks>
-		/// If this stick is attached to anyGamepad, returns something like "Linux_AnyGamepad_DPad".
-		/// </remarks>
-		public readonly string internalFullName;
-
-		/// <summary>
-		/// Returns the full name of a stick, like "Linux_Gamepad4_DPad".
-		/// </summary>
-		/// <remarks>
-		/// If this stick is attached to anyGamepad, returns its full name on the gamepad that is currently being pressed.
-		/// </remarks>
-		public string fullName { get { return gamepad.fullName + "_" + name; } }
-
-		/// <summary>
-		/// Returns the real gamepad a stick is attached to.
-		/// </summary>
-		/// <remarks>
-		/// If this stick is attached to anyGamepad, returns anyGamepad.
-		/// </remarks>
-		public readonly Gamepad internalGamepad;
-
-		/// <summary>
-		/// Returns the gamepad a stick is attached to.
-		/// </summary>
-		/// <remarks>
-		/// If this stick is attached to anyGamepad, returns the gamepad that is currently being pressed.
-		/// </remarks>
-		public virtual Gamepad gamepad { get { return internalGamepad; } }
+		public readonly string fullName;
 		
 		/// <summary>
-		/// Returns the real full name of the real gamepad a stick is attached to.
+		/// The gamepad a stick is attached to.
 		/// </summary>
-		/// <remarks>
-		/// If this stick is attached to anyGamepad, returns something like "Linux_AnyGamepad"
-		/// </remarks>
-		public string internalGamepadFullName { get { return internalGamepad.internalFullName; } }
-		
-		/// <summary>
-		/// Returns the full name of the gamepad a stick is attached to.
-		/// </summary>
-		/// <remarks>
-		/// If this stick is attached to anyGamepad, returns the full name of the gamepad that is currently being pressed.
-		/// </remarks>
-		public string gamepadFullName { get { return gamepad.fullName; } }
-		
-		/// <summary>
-		/// Returns the real index of the real gamepad a stick is attached to.
-		/// </summary>
-		/// <remarks>
-		/// If this stick is attached to anyGamepad, returns -1.
-		/// </remarks>
-		public int internalGamepadIndex { get { return internalGamepad.internalIndex; } }
-
-		/// <summary>
-		/// Returns the index of the gamepad a stick is attached to.
-		/// </summary>
-		/// <remarks>
-		/// If this stick is attached to anyGamepad, returns the index of the gamepad that is currently being pressed.
-		/// </remarks>
-		public int gamepadIndex { get { return gamepad.index; } }
+		public readonly Gamepad gamepad;
 		
 		
 		// --------------------
@@ -136,41 +82,41 @@ namespace HinputClasses {
 
 		public static implicit operator Vector2 (Stick stick) { return stick.position; }
 		public static implicit operator Pressable (Stick stick) { return stick.inPressedZone; }
-		public static implicit operator Stick (StickPressedZone stickPressedZone) { return stickPressedZone.stick; }
+		public static implicit operator bool (Stick stick) { return stick.inPressedZone.pressed; }
 
 
 		// --------------------
 		// CONSTRUCTORS
 		// --------------------
 
-		public Stick(string name, Gamepad internalGamepad, int index, bool isEnabled) {
+		public Stick(string name, Gamepad gamepad, int index, bool isEnabled) {
 			this.name = name;
-			internalFullName = internalGamepad.internalFullName + "_" + name;
-			this.internalGamepad = internalGamepad;
+			fullName = gamepad.fullName + "_" + name;
+			this.gamepad = gamepad;
 			this.index = index;
 			this.isEnabled = isEnabled;
 
-			up = new Direction ("Up", 90, this, true);
-			down = new Direction ("Down", -90, this, true);
-			left = new Direction ("Left", 180, this, true);
-			right = new Direction ("Right", 0, this, true);
-			upLeft = new Direction ("UpLeft", 135, this, true);
-			downLeft = new Direction ("DownLeft", -135, this, true);
-			upRight = new Direction ("UpRight", 45, this, true);
-			downRight = new Direction ("DownRight", -45, this, true);
-			inPressedZone = new StickPressedZone("PressedZone", this, true);
+			up = new Direction ("Up", 90, this);
+			down = new Direction ("Down", -90, this);
+			left = new Direction ("Left", 180, this);
+			right = new Direction ("Right", 0, this);
+			upLeft = new Direction ("UpLeft", 135, this);
+			downLeft = new Direction ("DownLeft", -135, this);
+			upRight = new Direction ("UpRight", 45, this);
+			downRight = new Direction ("DownRight", -45, this);
+			inPressedZone = new StickPressedZone("PressedZone", this);
 			
 			if (index == 0 || index == 1) { // Sticks
-				horizontalAxis = new Axis (internalFullName+"_Horizontal");
-				verticalAxis = new Axis (internalFullName+"_Vertical");
+				horizontalAxis = new Axis (fullName+"_Horizontal");
+				verticalAxis = new Axis (fullName+"_Vertical");
 			}
 			if (index == 2) { // DPad
-				horizontalAxis = new Axis (internalFullName+"_Horizontal", 
-					internalFullName+"_Right", 
-					internalFullName+"_Left");
-				verticalAxis = new Axis (internalFullName+"_Vertical", 
-					internalFullName+"_Up", 
-					internalFullName+"_Down");
+				horizontalAxis = new Axis (fullName+"_Horizontal", 
+					fullName+"_Right", 
+					fullName+"_Left");
+				verticalAxis = new Axis (fullName+"_Vertical", 
+					fullName+"_Up", 
+					fullName+"_Down");
 			}
 		}
 
@@ -208,67 +154,68 @@ namespace HinputClasses {
 		// --------------------
 
 		/// <summary>
-		/// Returns a virtual button defined by the stick’s projected position along a direction that has a 90 degree angle with the horizontal axis.
+		/// A virtual button defined by the stick’s projected position along a direction that has a 90 degree
+		/// angle with the horizontal axis.
 		/// </summary>
 		public readonly Direction up;
 
 		/// <summary>
-		/// Returns a virtual button defined by the stick’s projected position along a direction that has a -90 degree angle with the horizontal axis.
+		/// A virtual button defined by the stick’s projected position along a direction that has a -90 degree
+		/// angle with the horizontal axis.
 		/// </summary>
 		public readonly Direction down;
 
 		/// <summary>
-		/// Returns a virtual button defined by the stick’s projected position along a direction that has a 180 degree angle with the horizontal axis.
+		/// A virtual button defined by the stick’s projected position along a direction that has a 180 degree
+		/// angle with the horizontal axis.
 		/// </summary>
 		public readonly Direction left;
 
 		/// <summary>
-		/// Returns a virtual button defined by the stick’s projected position along the horizontal axis.
+		/// A virtual button defined by the stick’s projected position along the horizontal axis.
 		/// </summary>
 		public readonly Direction right;
 
 		/// <summary>
-		/// Returns a virtual button defined by the stick’s projected position along a direction that has a 135 degree
+		/// A virtual button defined by the stick’s projected position along a direction that has a 135 degree
 		/// angle with the horizontal axis.
 		/// </summary>
 		public readonly Direction upLeft;
-		
 		/// <summary>
-		/// Returns a virtual button defined by the stick’s projected position along a direction that has a 135 degree
+		/// A virtual button defined by the stick’s projected position along a direction that has a 135 degree
 		/// angle with the horizontal axis.
 		/// </summary>
 		public Direction leftUp { get { return upLeft; } }
 
 		/// <summary>
-		/// Returns a virtual button defined by the stick’s projected position along a direction that has a -135 degree
+		/// A virtual button defined by the stick’s projected position along a direction that has a -135 degree
 		/// angle with the horizontal axis.
 		/// </summary>
 		public readonly Direction downLeft;
 		/// <summary>
-		/// Returns a virtual button defined by the stick’s projected position along a direction that has a -135 degree
+		/// A virtual button defined by the stick’s projected position along a direction that has a -135 degree
 		/// angle with the horizontal axis.
 		/// </summary>
 		public Direction leftDown { get { return downLeft; } }
 
 		/// <summary>
-		/// Returns a virtual button defined by the stick’s projected position along a direction that has a 45 degree
+		/// A virtual button defined by the stick’s projected position along a direction that has a 45 degree
 		/// angle with the horizontal axis.
 		/// </summary>
 		public readonly Direction upRight;
 		/// <summary>
-		/// Returns a virtual button defined by the stick’s projected position along a direction that has a 45 degree
+		/// A virtual button defined by the stick’s projected position along a direction that has a 45 degree
 		/// angle with the horizontal axis.
 		/// </summary>
 		public Direction rightUp { get { return upRight; } }
 
 		/// <summary>
-		/// Returns a virtual button defined by the stick’s projected position along a direction that has a -45 degree
+		/// A virtual button defined by the stick’s projected position along a direction that has a -45 degree
 		/// angle with the horizontal axis.
 		/// </summary>
 		public readonly Direction downRight;
-		
 		/// <summary>
-		/// Returns a virtual button defined by the stick’s projected position along a direction that has a -45 degree
+		/// A virtual button defined by the stick’s projected position along a direction that has a -45 degree
 		/// angle with the horizontal axis.
 		/// </summary>
 		public Direction rightDown { get { return downRight; } }
@@ -291,24 +238,24 @@ namespace HinputClasses {
 		// --------------------
 
 		/// <summary>
-		/// Returns the x coordinate of the stick. The dead zone is not taken into account.
+		/// The x coordinate of the stick. The dead zone is not taken into account.
 		/// </summary>
 		public virtual float horizontalRaw { get; private set; }
 
 		/// <summary>
-		/// Returns the y coordinate of the stick. The dead zone is not taken into account.
+		/// The y coordinate of the stick. The dead zone is not taken into account.
 		/// </summary>
 		public virtual float verticalRaw { get; private set; }
 
 		/// <summary>
-		/// Returns the coordinates of the stick. The dead zone is not taken into account.
+		/// The coordinates of the stick. The dead zone is not taken into account.
 		/// </summary>
 		public Vector2 positionRaw { get { return new Vector2 (horizontalRaw, verticalRaw); } }
 
 		private float _distanceRaw;
 		private int _lastDistanceRawUpdateFrame = -1;
 		/// <summary>
-		/// Returns the current distance of the stick to its origin. The dead zone is not taken into account.
+		/// The current distance of the stick to its origin. The dead zone is not taken into account.
 		/// </summary>
 		public float distanceRaw { 
 			get { 
@@ -323,7 +270,7 @@ namespace HinputClasses {
 		private float _angleRaw;
 		private int _lastAngleRawUpdateFrame = -1;
 		/// <summary>
-		/// Returns the value of the angle between the current position of the stick and the horizontal axis 
+		/// The value of the angle between the current position of the stick and the horizontal axis 
 		/// (In degrees : left=180, up=90, right=0, down=-90). 
 		/// The dead zone is not taken into account.
 		/// </summary>
@@ -338,7 +285,7 @@ namespace HinputClasses {
 		}
 
 		/// <summary>
-		/// Returns the coordinates of the stick as a Vector3 facing the camera. 
+		/// The coordinates of the stick as a Vector3 facing the camera. 
 		/// The stick’s horizontal and vertical axes are interpreted as the camera’s right and up directions. 
 		/// The dead zone is not taken into account.
 		/// </summary>
@@ -356,7 +303,7 @@ namespace HinputClasses {
 		}
 
 		/// <summary>
-		/// Returns the coordinates of the stick as a Vector3 with a y value of 0. 
+		/// The coordinates of the stick as a Vector3 with a y value of 0. 
 		/// The stick’s horizontal and vertical axes are interpreted as the absolute right and forward directions. 
 		/// The dead zone is not taken into account.
 		/// </summary>
@@ -388,7 +335,7 @@ namespace HinputClasses {
 		private Vector2 _position;
 		private int _lastPositionUpdateFrame = -1;
 		/// <summary>
-		/// Returns the coordinates of the stick.
+		/// The coordinates of the stick.
 		/// </summary>
 		public Vector2 position {
 			get {
@@ -409,19 +356,19 @@ namespace HinputClasses {
 		}
 
 		/// <summary>
-		/// Returns the x coordinate of the stick.
+		/// The x coordinate of the stick.
 		/// </summary>
 		public float horizontal { get { return position.x; } }
 
 		/// <summary>
-		/// Returns the y coordinate of the stick.
+		/// The y coordinate of the stick.
 		/// </summary>
 		public float vertical { get { return position.y; } }
 
 		private float _distance;
 		private int _lastDistanceUpdateFrame = -1;
 		/// <summary>
-		/// Returns the current distance of the stick to its origin.
+		/// The current distance of the stick to its origin.
 		/// </summary>
 		public float distance { 
 			get { 
@@ -436,7 +383,7 @@ namespace HinputClasses {
 		private float _angle;
 		private int _lastAngleUpdateFrame = -1;
 		/// <summary>
-		/// Returns the value of the angle between the current position of the stick and the horizontal axis 
+		/// The value of the angle between the current position of the stick and the horizontal axis 
 		/// (In degrees : left=180, up=90, right=0, down=-90).
 		/// </summary>
 		public float angle { 
@@ -450,7 +397,7 @@ namespace HinputClasses {
 		}
 
 		/// <summary>
-		/// Returns the coordinates of the stick as a Vector3 facing the camera. 
+		/// The coordinates of the stick as a Vector3 facing the camera. 
 		/// The stick’s horizontal and vertical axes are interpreted as the camera’s right and up directions.
 		/// </summary>
 		/// <remarks>
@@ -467,7 +414,7 @@ namespace HinputClasses {
 		}
 
 		/// <summary>
-		/// Returns the coordinates of the stick as a Vector3 with a y value of 0. 
+		/// The coordinates of the stick as a Vector3 with a y value of 0. 
 		/// The stick’s horizontal and vertical axes are interpreted as the absolute right and forward directions.
 		/// </summary>
 		public Vector3 worldPositionFlat { get { return new Vector3 (horizontal, 0, vertical); } }

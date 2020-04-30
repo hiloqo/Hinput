@@ -49,7 +49,7 @@ namespace HinputClasses.Internal {
 		// STICKS
 		// --------------------
 
-		// Returns the dot product of a stick position by a unit vector defined by an angle.
+		// The dot product of a stick position by a unit vector defined by an angle.
 		// (i.e. the projected distance to the origin of a stick position on the line defined by the point (0,0) and an angle.)
 		public static float DotProduct (Vector2 position, float angle) {
 			float radStickAngle = angle * Mathf.Deg2Rad;
@@ -58,7 +58,7 @@ namespace HinputClasses.Internal {
 			return Mathf.Clamp01(cos*position.x + sin*position.y);
 		}
 
-		// True if the stick is currently within a (Settings.directionAngle) degree cone from this direction
+		// Returns true if the stick is currently within a (Settings.directionAngle) degree cone from this direction
 		public static bool StickWithinAngle (Stick stick, float angle) { 
 			float distanceToAngle = Mathf.Abs(Mathf.DeltaAngle(angle, stick.angle));
 			int maxDistance = (int)Settings.stickType;

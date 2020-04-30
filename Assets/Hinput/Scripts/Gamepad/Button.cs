@@ -2,7 +2,8 @@
 
 namespace HinputClasses {
 	/// <summary>
-	/// Hinput class representing a physical button of the controller, such as the A button, the bumpers or the stick clicks.
+	/// Hinput class representing a physical button of the controller, such as the A button, the bumpers or the stick
+	/// clicks.
 	/// </summary>
 	public class Button : Pressable {
 		// --------------------
@@ -10,29 +11,18 @@ namespace HinputClasses {
 		// --------------------
 	
 		/// <summary>
-		/// Returns the real index of a button on its gamepad.
+		/// The index of a button on its gamepad.
 		/// </summary>
-		/// <remarks>
-		/// If this button is anyInput, returns -1.
-		/// </remarks>
-		public readonly int internalIndex;
-	
-		/// <summary>
-		/// Returns the index of the button on its gamepad.
-		/// </summary>
-		/// <remarks>
-		/// If this button is anyInput, returns the index of the input that is currently being pressed.
-		/// </remarks>
-		public int index { get { return internalIndex; } }
+		public readonly int index;
 	
 	
 		// --------------------
 		// CONSTRUCTOR
 		// --------------------
 
-		public Button(string name, Gamepad internalGamepad, int internalIndex, bool isEnabled) : 
-			base(name, internalGamepad, internalGamepad.internalFullName + "_" + name, isEnabled) {
-			this.internalIndex = internalIndex;
+		public Button(string name, Gamepad gamepad, int index, bool isEnabled) : 
+			base(name, gamepad, gamepad.fullName + "_" + name, isEnabled) {
+			this.index = index;
 		}
 
 	
@@ -42,7 +32,7 @@ namespace HinputClasses {
 
 		protected override void UpdatePositionRaw() {
 			try {
-				if (Utils.GetButton(internalFullName, (internalName !="XBoxButton"))) positionRaw = 1;
+				if (Utils.GetButton(fullName, (name !="XBoxButton"))) positionRaw = 1;
 				else positionRaw = 0;
 			} catch {
 				positionRaw = 0;
@@ -54,19 +44,8 @@ namespace HinputClasses {
 		// PROPERTIES
 		// --------------------
 	
-		/// <summary>
-		/// Returns 1 if a button is currently pressed. Returns 0 otherwise.
-		/// </summary>
 		public override float position { get { return positionRaw; } }
-
-		/// <summary>
-		/// Returns true if a button is currently pressed. Returns false otherwise.
-		/// </summary>
 		public override bool pressed { get { return position.IsEqualTo(1); } }
-
-		/// <summary>
-		/// Returns true if a button is currently released. Returns false otherwise.
-		/// </summary>
 		public override bool inDeadZone { get { return !pressed; } }
 	}
 }

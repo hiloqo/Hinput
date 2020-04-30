@@ -3,7 +3,7 @@
 namespace HinputClasses {
     /// <summary>
 	/// Hinput abstract class representing anything that can be considered pressed and released. 
-	/// It can be an actual button, a stick click, a trigger, a stick direction...<br/>
+	/// It can be an actual button, a stick click, a trigger, a stick direction...<br/><br/>
 	/// If no property of the Pressable is used, it will automatically be cast to a boolean with the value pressed. 
 	/// For instance, Hinput.gamepad[0].A will return Hinput.gamepad[0].A.pressed.
 	/// </summary>
@@ -13,93 +13,20 @@ namespace HinputClasses {
 		// --------------------
 
 		/// <summary>
-		/// Returns the real name of an input, like “A”, “LeftTrigger” or “AnyInput”.
+		/// The name of an input, like “A”, “LeftTrigger” or “AnyInput”.
 		/// </summary>
-		/// <remarks>
-		/// If this is anyInput, returns "AnyInput".
-		/// </remarks>
-		public readonly string internalName;
-
-		/// <summary>
-		/// Returns the name of the an input, like “A”, “LeftTrigger” or “DPad_Up”.
-		/// </summary>
-		/// <remarks>
-		/// If this is anyInput, returns the name of the input that is currently being pressed.
-		/// </remarks>
-		public virtual string name { get { return internalName; } }
-
-		/// <summary>
-		/// Returns the real full name of an input, like “Mac_Gamepad2_A”
-		/// </summary>
-		/// <remarks>
-		/// If this is anyInput, returns something like "Mac_Gamepad2_AnyInput".
-		/// If this is attached to anyGamepad, returns something like "Mac_AnyGamepad_A".
-		/// </remarks>
-		public readonly string internalFullName;
-
-		/// <summary>
-		/// Returns the full name of an input, like “Mac_Gamepad2_A”
-		/// </summary>
-		/// <remarks>
-		/// If this is anyInput, returns the full name of the input that is currently being pressed on the
-		/// gamepad this input is attached to.
-		/// If this is attached to anyGamepad, returns the full name of the corresponding button on the gamepad that is
-		/// currently being pressed.
-		/// </remarks>
-		public virtual string fullName { get { return gamepad.fullName + "_" + name; } }
-
-		/// <summary>
-		/// Returns the real gamepad an input is attached to.
-		/// </summary>
-		/// <remarks>
-		/// If this is attached to anyGamepad, returns anyGamepad.
-		/// </remarks>
-		public readonly Gamepad internalGamepad;
-
-		/// <summary>
-		/// Returns the gamepad an input is attached to.
-		/// </summary>
-		/// <remarks>
-		/// If this is attached to anyGamepad, returns the gamepad that is currently being pressed.
-		/// </remarks>
-		public Gamepad gamepad {
-			get {
-				if (internalGamepad is AnyGamepad) return ((AnyGamepad) internalGamepad).gamepad;
-				else return internalGamepad;
-			}
-		}
+		public readonly string name;
 		
 		/// <summary>
-		/// Returns the real full name of the real gamepad an input is attached to.
+		/// The full name of an input, like “Mac_Gamepad0_A”, "Windows_AnyGamepad_LeftTrigger", or
+		/// "Linux_Gamepad2_AnyInput".
 		/// </summary>
-		/// <remarks>
-		/// If this is attached to anyGamepad, returns something like "Mac_AnyGamepad".
-		/// </remarks>
-		public string internalGamepadFullName { get { return internalGamepad.internalFullName; } }
+		public readonly string fullName;
 		
 		/// <summary>
-		/// Returns the full name of the gamepad an input is attached to.
+		/// The gamepad an input is attached to.
 		/// </summary>
-		/// <remarks>
-		/// If this is attached to anyGamepad, returns the full name of the gamepad that is currently being pressed.
-		/// </remarks>
-		public string gamepadFullName { get { return gamepad.fullName; } }
-		
-		/// <summary>
-		/// Returns the real index of the real gamepad an input is attached to.
-		/// </summary>
-		/// <remarks>
-		/// If this is attached to anyGamepad, returns -1.
-		/// </remarks>
-		public int internalGamepadIndex { get { return internalGamepad.internalIndex; } }
-
-		/// <summary>
-		/// Returns the index of the gamepad an input is attached to.
-		/// </summary>
-		/// <remarks>
-		/// If this is attached to anyGamepad, returns the index of the gamepad that is currently being pressed.
-		/// </remarks>
-		public int gamepadIndex { get { return gamepad.index; } }
+		public readonly Gamepad gamepad;
 		
 		
 		// --------------------
@@ -107,19 +34,23 @@ namespace HinputClasses {
 		// --------------------
 		
 		/// <summary>
-		/// Returns true if a button is being tracked by Hinput. Returns false otherwise.
+		/// Returns true if an input is being tracked by Hinput. Returns false otherwise.<br/><br/>
+		/// On AnyInput, returns true if AnyInput is enabled (this does NOT give any information on regular inputs).
+		/// Returns false otherwise.
 		/// </summary>
 		public bool isEnabled { get; private set; }
 		
 		/// <summary>
-		/// Enable a button so that Hinput starts tracking it.
+		/// Enable an input so that Hinput starts tracking it.<br/><br/>
+		/// Calling this method on AnyInput only enables AnyInput.
 		/// </summary>
 		public void Enable() {
 			isEnabled = true;
 		}
 
 		/// <summary>
-		/// Reset and disable a button so that Hinput stops tracking it. This may improve performances.
+		/// Reset and disable an input so that Hinput stops tracking it. <br/><br/>
+		/// This may improve performance. Calling this method on AnyInput only disables AnyInput.
 		/// </summary>
 		public void Disable() {
 			Reset();
@@ -127,7 +58,8 @@ namespace HinputClasses {
 		}
 
 		/// <summary>
-		/// Reset the position of a button and erase its history.
+		/// Reset the position of an input and erase its history.<br/><br/>
+		/// Calling this method on AnyInput only resets AnyInput.
 		/// </summary>
 		public void Reset() {
 			positionRaw = 0;
@@ -148,10 +80,10 @@ namespace HinputClasses {
 		// CONSTRUCTOR
 		// --------------------
 
-		protected Pressable(string internalName, Gamepad internalGamepad, string internalFullName, bool isEnabled) {
-			this.internalName = internalName;
-			this.internalFullName = internalFullName;
-			this.internalGamepad = internalGamepad;
+		protected Pressable(string name, Gamepad gamepad, string fullName, bool isEnabled) {
+			this.name = name;
+			this.fullName = fullName;
+			this.gamepad = gamepad;
 			this.isEnabled = isEnabled;
 			
 			lastPressed = Mathf.NegativeInfinity; // *force wave* this input was never pressed
@@ -163,7 +95,7 @@ namespace HinputClasses {
 		// --------------------
 
 		/// <summary>
-		/// Returns the current position of an input.
+		/// The current position of an input.
 		/// </summary>
 		public abstract float position { get; }
 
@@ -183,9 +115,7 @@ namespace HinputClasses {
 		// --------------------
 
 		private float penultimatePressStart = 0f;
-
 		private int lastPressedFrame = 0;
-
 		private int lastReleasedFrame = 0;
 
 		
@@ -220,7 +150,7 @@ namespace HinputClasses {
 		// --------------------
 		
 		/// <summary>
-		/// Returns the current raw position of an input, i.e. not taking the dead zone into account.
+		/// The current raw position of an input, i.e. not taking the dead zone into account.
 		/// </summary>
 		public float positionRaw { get; protected set; }
 
@@ -230,19 +160,19 @@ namespace HinputClasses {
 		public bool released { get { return !pressed; } }
 
 		/// <summary>
-		/// Returns the date an input was last released (in seconds from the beginning of the game). 
+		/// The date an input was last released (in seconds from the beginning of the game). 
 		/// Returns 0 if it hasn't been pressed.
 		/// </summary>
 		public float lastReleased { get; private set; }
 
 		/// <summary>
-		/// Returns the date an input was last pressed (in seconds from the beginning of the game). 
+		/// The date an input was last pressed (in seconds from the beginning of the game). 
 		/// Returns 0 if it hasn't been pressed.
 		/// </summary>
 		public float lastPressed { get; private set; }
 
 		/// <summary>
-		/// Returns the date an input was last justPressed (in seconds from the beginning of the game). 
+		/// The date an input was last justPressed (in seconds from the beginning of the game). 
 		/// Returns 0 if it hasn't been pressed.
 		/// </summary>
 		public float lastPressStart { get; private set; }
@@ -261,63 +191,42 @@ namespace HinputClasses {
 		/// Returns true if the last two presses started a short time apart (including current press if the input is
 		/// pressed). Returns false otherwise.
 		/// </summary>
-		/// <remarks>
-		/// The maximum duration of a double press can be changed with the doublePressDuration property of Settings.
-		/// </remarks>
 		public bool lastPressWasDouble { get { return (lastPressStart - penultimatePressStart) <= Settings.doublePressDuration; } }
 
 		/// <summary>
 		/// Returns true if an input is currently pressed and the last two presses started a short time apart. 
 		/// Returns false otherwise.
 		/// </summary>
-		/// <remarks>
-		/// The maximum duration of a double press can be changed with the doublePressDuration property of Settings.
-		/// </remarks>
 		public bool doublePress { get { return pressed && lastPressWasDouble; } }
 
 		/// <summary>
 		/// Returns true if an input is currently justPressed and the last two presses started a short time apart. 
 		/// Returns false otherwise.
 		/// </summary>
-		/// <remarks>
-		/// The maximum duration of a double press can be changed with the doublePressDuration property of Settings.
-		/// </remarks>
 		public bool doublePressJustPressed { get { return justPressed && lastPressWasDouble; } }
 
 		/// <summary>
 		/// Returns true if an input is currently justReleased and the last two presses started a short time apart. 
 		/// Returns false otherwise.
 		/// </summary>
-		/// <remarks>
-		/// The maximum duration of a double press can be changed with the doublePressDuration property of Settings.
-		/// </remarks>
 		public bool doublePressJustReleased { get { return justReleased && lastPressWasDouble; } }
 
 		/// <summary>
 		/// Returns true if the last press was long (including current press if the input is pressed).
 		/// Returns false otherwise.
 		/// </summary>
-		/// <remarks>
-		/// The minimum duration of a long press can be changed with the longPressDuration property of Settings.
-		/// </remarks>
 		public bool lastPressWasLong { get { return (lastPressed - lastPressStart) >= Settings.longPressDuration; }}
 
 		/// <summary>
 		/// Returns true if an input is currently pressed and the press was long. 
 		/// Returns false otherwise.
 		/// </summary>
-		/// <remarks>
-		/// The minimum duration of a long press can be changed with the longPressDuration property of Settings.
-		/// </remarks>
 		public bool longPress { get { return pressed && lastPressWasLong; } }
 
 		/// <summary>
 		/// Returns true if an input is currently justReleased, and the last press was long. 
 		/// Returns false otherwise.
 		/// </summary>
-		/// <remarks>
-		/// The minimum duration of a long press can be changed with the longPressDuration property of Settings.
-		/// </remarks>
 		public bool longPressJustReleased { get { return justReleased && lastPressWasLong; } }
 
 		/// <summary>
