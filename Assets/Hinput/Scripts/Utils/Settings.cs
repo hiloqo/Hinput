@@ -37,25 +37,64 @@ namespace HinputClasses {
 
 
 		// --------------------
-		// SETTINGS
+		// IMPLICIT CONVERSION
 		// --------------------
 
-		public enum StickTypeEnum { FourDirections = 90, EightDirections = 45 }
+		public enum DefaultPressTypes { SimplePress, DoublePress, LongPress }
+		[Header("Implicit Conversion")]
+
+		[SerializeField]
+		[Tooltip("The default conversion of Pressable to Press values\n\n"+
+		         "Determines how Hinput interprets buttons, triggers and stick directions when you don't specify " +
+		         "what kind of Press you want to use.")]
+		private DefaultPressTypes _defaultPressType = DefaultPressTypes.SimplePress;
+		/// <summary>
+		/// The default conversion of Pressable to boolean values<br/><br/>
+		/// Determines how Hinput interprets buttons, triggers and stick directions when you don't specify what kind of
+		/// Press you want to use.
+		/// </summary>
+		public static DefaultPressTypes defaultPressType { 
+			get { return instance._defaultPressType; } 
+			set { instance._defaultPressType = value; }  
+		}
+		
+		public enum DefaultPressFeatures { Pressed, JustPressed, Released, JustReleased }
+		[SerializeField]
+		[Tooltip("The default conversion of Press and Pressable to boolean values\n\n"+
+		         "Determines how Hinput interprets buttons, triggers and stick directions when you don't specify " +
+		         "what feature you want to use.")]
+		private DefaultPressFeatures _defaultPressFeature = DefaultPressFeatures.Pressed;
+		/// <summary>
+		/// The default conversion of Press and Pressable to boolean values<br/><br/>
+		/// Determines how Hinput interprets buttons, triggers and stick directions when you don't specify what feature
+		/// you want to use.
+		/// </summary>
+		public static DefaultPressFeatures defaultPressFeature { 
+			get { return instance._defaultPressFeature; } 
+			set { instance._defaultPressFeature = value; }  
+		}
+
+
+		// --------------------
+		// STICKS
+		// --------------------
+
+		public enum StickTypes { FourDirections = 90, EightDirections = 45 }
 		[Header("Sticks")]
 
 		[SerializeField]
 		[Tooltip("The type of stick to use.\n\n"+
-		         "Set it to Four Directions for 4-directional sticks, with buttons that are 90 degrees wide (The use of " +
-		         "diagonals is not recommended in this case). Set it to Eight Directions for 8-directional sticks, with " +
+		         "Set it to Four Directions for 4-directional sticks, with buttons that are 90 degrees wide (Use " +
+		         "diagonals with caution in this case). Set it to Eight Directions for 8-directional sticks, with " +
 		         "buttons that are 45 degrees wide.")]
-		private StickTypeEnum _stickType = StickTypeEnum.EightDirections;
+		private StickTypes _stickType = StickTypes.EightDirections;
 		/// <summary>
 		/// The type of stick to use. <br/>
-		/// Set it to Four Directions for 4-directional sticks, with buttons that are 90 degrees wide (The use of
-		/// diagonals is not recommended in this case). Set it to Eight Directions for 8-directional sticks, with
+		/// Set it to Four Directions for 4-directional sticks, with buttons that are 90 degrees wide (use diagonals
+		/// with caution in this case). Set it to Eight Directions for 8-directional sticks, with
 		/// buttons that are 45 degrees wide.
 		/// </summary>
-		public static StickTypeEnum stickType { 
+		public static StickTypes stickType { 
 			get { return instance._stickType; } 
 			set { instance._stickType = value; }  
 		}
@@ -85,19 +124,13 @@ namespace HinputClasses {
 		}
 
 		[SerializeField]
-		[Tooltip("The Camera on which the worldPositionCamera and worldPositionCameraRaw properties of Stick should be calculated. " 
-		         +"If no Camera is set, Hinput will try to find one on your scene.")]
+		[Tooltip("The Camera on which the worldPositionCamera and worldPositionCameraRaw properties of Stick should be " +
+		         "calculated. If no Camera is set, Hinput will try to find one on your scene.")]
 		private Transform _worldCamera = null;
 		/// <summary>
 		/// The Camera on which the worldPositionCamera and worldPositionCameraRaw properties of Stick should be calculated. 
 		/// If no Camera is set, Hinput will try to find one on your scene.
 		/// </summary>
-		/// <remarks>
-		/// Hinput will first try to get the gameobject tagged “MainCamera”. 
-		/// If there isn’t one, Hinput will get the first gameobject on the game scene that has a Camera component.
-		/// If there is no Camera on the scene, Hinput will return an error whenever you call a worldPositionCamera 
-		/// or worldPositionCameraRaw property.
-		/// </remarks>
 		public static Transform worldCamera { 
 			get { 
 				if (instance._worldCamera == null) {
@@ -111,6 +144,11 @@ namespace HinputClasses {
 			} 
 			set { instance._worldCamera = value; } 
 		}
+
+
+		// --------------------
+		// TRIGGERS
+		// --------------------
 
 		[Header("Triggers")]
 
@@ -137,6 +175,11 @@ namespace HinputClasses {
 			get { return instance._triggerPressedZone; } 
 			set { instance._triggerPressedZone = value; }  
 		}
+
+
+		// --------------------
+		// BUTTONS
+		// --------------------
 		
 		[Header("Buttons")]
 
@@ -164,6 +207,11 @@ namespace HinputClasses {
 			set { instance._longPressDuration = value; }  
 		}
 
+
+		// --------------------
+		// VIBRATION
+		// --------------------
+
 		[Header("Vibration Defaults")]
 
 		[SerializeField]
@@ -180,14 +228,13 @@ namespace HinputClasses {
 
 		[SerializeField]
 		[Range(0,1)]
-		[Tooltip("The default intensity of the left (low-frequency) motor when controllers vibrate.")]
+		[Tooltip("The default intensity of the left (low-frequency) motor when controllers vibrate.\n\n"+
+		         "The left motor is a low-frequency rumble motor.")]
 		private float _vibrationDefaultLeftIntensity = 1f;
 		/// <summary>
-		/// The default intensity of the left (low-frequency) motor when controllers vibrate.
-		/// </summary>
-		/// <remarks>
+		/// The default intensity of the left (low-frequency) motor when controllers vibrate.<br/><br/>
 		/// The left motor is a low-frequency rumble motor.
-		/// </remarks>
+		/// </summary>
 		public static float vibrationDefaultLeftIntensity { 
 			get { return instance._vibrationDefaultLeftIntensity; } 
 			set { instance._vibrationDefaultLeftIntensity = value; }  
@@ -195,14 +242,12 @@ namespace HinputClasses {
 
 		[SerializeField]
 		[Range(0,1)]
-		[Tooltip("The default intensity of the right (high-frequency) motor when controllers vibrate.")]
+		[Tooltip("The default intensity of the right (high-frequency) motor when controllers vibrate.\n\n"+
+		         "The right motor is a high-frequency rumble motor.")]
 		private float _vibrationDefaultRightIntensity = 1f;
 		/// <summary>
 		/// The default intensity of the right (high-frequency) motor when controllers vibrate.
 		/// </summary>
-		/// <remarks>
-		/// The right motor is a high-frequency rumble motor.
-		/// </remarks>
 		public static float vibrationDefaultRightIntensity { 
 			get { return instance._vibrationDefaultRightIntensity; } 
 			set { instance._vibrationDefaultRightIntensity = value; }  

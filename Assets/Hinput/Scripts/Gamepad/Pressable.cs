@@ -71,8 +71,13 @@ namespace HinputClasses {
 		// IMPLICIT CONVERSIONS
 		// --------------------
 
-		public static implicit operator bool (Pressable pressable) { return pressable.simplePress.pressed; }
-		public static implicit operator Press (Pressable pressable) { return pressable.simplePress; }
+		public static implicit operator bool(Pressable pressable) { return (bool)(Press) pressable; }
+
+		public static implicit operator Press(Pressable pressable) {
+			if (Settings.defaultPressType == Settings.DefaultPressTypes.LongPress) return pressable.longPress;
+			if (Settings.defaultPressType == Settings.DefaultPressTypes.DoublePress) return pressable.doublePress;
+			return pressable.simplePress;
+		}
 		
 		/// <summary>
 		/// Returns true if an input is pressed. Returns false otherwise.

@@ -33,7 +33,12 @@ namespace HinputClasses {
         // IMPLICIT CONVERSIONS
         // --------------------
         
-        public static implicit operator bool (Press press) { return press.justPressed; }
+        public static implicit operator bool (Press press) {
+            if (Settings.defaultPressFeature == Settings.DefaultPressFeatures.JustReleased) return press.justReleased;
+            if (Settings.defaultPressFeature == Settings.DefaultPressFeatures.Released) return press.released;
+            if (Settings.defaultPressFeature == Settings.DefaultPressFeatures.JustPressed) return press.justPressed;
+            return press.pressed;
+        }
         
         
         // --------------------

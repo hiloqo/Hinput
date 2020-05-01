@@ -82,7 +82,7 @@ namespace HinputClasses {
 
 		public static implicit operator Vector2 (Stick stick) { return stick.position; }
 		public static implicit operator Pressable (Stick stick) { return stick.inPressedZone; }
-		public static implicit operator bool (Stick stick) { return stick.inPressedZone.simplePress.justPressed; }
+		public static implicit operator bool (Stick stick) { return stick.inPressedZone; }
 
 
 		// --------------------
