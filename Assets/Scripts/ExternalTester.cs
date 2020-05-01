@@ -9,5 +9,8 @@ public class ExternalTester : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.S)) {
             Hinput.gamepad[0].StopVibration();
         }
+        
+        if (Hinput.gamepad[0].A.simplePress) return;
+
     }
 }

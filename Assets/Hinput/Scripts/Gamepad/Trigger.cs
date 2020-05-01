@@ -47,31 +47,22 @@ namespace HinputClasses {
     	// UPDATE
     	// --------------------
     
-    	// If no input have been recorded before, make sure the resting position is zero
+    	// If no input has been recorded before, make sure the resting position is zero
     	// Else just return the measured position.
-    	protected override void UpdatePositionRaw() {
-    		float measuredPos = measuredPosition;
+    	protected override float GetPositionRaw() {
+	        if (hasBeenMoved) return measuredPosition;
+    		if (measuredPosition.IsEqualTo(initialValue)) return 0f;
     
-    		if (hasBeenMoved) positionRaw = measuredPos;
-    		else if (measuredPos.IsEqualTo(initialValue)) positionRaw = 0f;
-    		else {
-	            hasBeenMoved = true;
-	            positionRaw = measuredPos;
-            }
+    		hasBeenMoved = true;
+	        return measuredPosition;
     	}
     
-    
-    	// --------------------
-    	// PROPERTIES
-    	// --------------------
-    
-    	public override float position { 
-    		get { 
-	            if (positionRaw < Settings.triggerDeadZone) return 0f;
-    			else return ((positionRaw - Settings.triggerDeadZone)/(1 - Settings.triggerDeadZone));
-    		} 
-    	}
-    	public override bool pressed { get { return position >= Settings.triggerPressedZone; } }
-    	public override bool inDeadZone { get { return position < Settings.triggerDeadZone; } }
+        protected override float GetPosition() {
+	        if (positionRaw < Settings.triggerDeadZone) return 0f;
+	        else return ((positionRaw - Settings.triggerDeadZone)/(1 - Settings.triggerDeadZone));
+        }
+
+        protected override bool GetPressed() { return position >= Settings.triggerPressedZone; }
+        protected override bool GetInDeadZone() { return position < Settings.triggerDeadZone; }
     }
 }

@@ -30,22 +30,14 @@ namespace HinputClasses {
 		// UPDATE
 		// --------------------
 
-		protected override void UpdatePositionRaw() {
-			try {
-				if (Utils.GetButton(fullName, (name !="XBoxButton"))) positionRaw = 1;
-				else positionRaw = 0;
-			} catch {
-				positionRaw = 0;
-			}
+		protected override float GetPositionRaw() {
+			try { if (Utils.GetButton(fullName, (name !="XBoxButton"))) return 1; } 
+			catch { /* Ignore exceptions here */ }
+			return 0;
 		}
 
-
-		// --------------------
-		// PROPERTIES
-		// --------------------
-	
-		public override float position { get { return positionRaw; } }
-		public override bool pressed { get { return position.IsEqualTo(1); } }
-		public override bool inDeadZone { get { return !pressed; } }
+		protected override float GetPosition() { return positionRaw; }
+		protected override bool GetPressed() { return position.IsEqualTo(1); }
+		protected override bool GetInDeadZone() { return position.IsEqualTo(0); }
 	}
 }

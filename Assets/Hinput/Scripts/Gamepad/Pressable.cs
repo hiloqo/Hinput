@@ -64,16 +64,55 @@ namespace HinputClasses {
 		public void Reset() {
 			positionRaw = 0;
 			penultimatePressStart = 0f;
-			lastPressedFrame = 0;
-			lastReleasedFrame = 0;
 		}
 
 		
 		// --------------------
-		// IMPLICIT CONVERSION
+		// IMPLICIT CONVERSIONS
 		// --------------------
 
-		public static implicit operator bool (Pressable pressable) { return pressable.pressed; }
+		public static implicit operator bool (Pressable pressable) { return pressable.simplePress.pressed; }
+		public static implicit operator Press (Pressable pressable) { return pressable.simplePress; }
+		
+		/// <summary>
+		/// Returns true if an input is pressed. Returns false otherwise.
+		/// </summary>
+		public bool pressed { get { return simplePress.pressed; } }
+		
+		/// <summary>
+		/// Returns true if an input is released. Returns false otherwise.
+		/// </summary>
+		public bool released { get { return simplePress.released; } }
+		
+		/// <summary>
+		/// Returns true if an input has been pressed this frame. Returns false otherwise.
+		/// </summary>
+		public bool justPressed { get { return simplePress.justPressed; } }
+		
+		/// <summary>
+		/// Returns true if an input has been released this frame. Returns false otherwise.
+		/// </summary>
+		public bool justReleased { get { return simplePress.justReleased; } }
+		
+		/// <summary>
+		/// The time it was the last time an input was pressed.
+		/// </summary>
+		public float lastPressed { get { return simplePress.lastPressed; } }
+		
+		/// <summary>
+		/// The time it was the last time an input was released.
+		/// </summary>
+		public float lastReleased { get { return simplePress.lastReleased; } }
+		
+		/// <summary>
+		/// How long an input has been pressed (0 if it is released).
+		/// </summary>
+		public float pressDuration { get { return simplePress.pressDuration; } }
+
+		/// <summary>
+		/// How long an input has been released (0 if it is pushed down).
+		/// </summary>
+		public float releaseDuration { get { return simplePress.releaseDuration; } }
 
 
 		// --------------------
@@ -86,63 +125,50 @@ namespace HinputClasses {
 			this.gamepad = gamepad;
 			this.isEnabled = isEnabled;
 			
-			lastPressed = Mathf.NegativeInfinity; // *force wave* this input was never pressed
+			inDeadZone = true;
+			
+			simplePress = new Press(this);
+			longPress = new Press(this);
+			doublePress = new Press(this);
 		}
 
 		
 		// --------------------
-		// ABSTRACT PROPERTIES
+		// PRIVATE PROPERTIES
 		// --------------------
 
-		/// <summary>
-		/// The current position of an input.
-		/// </summary>
-		public abstract float position { get; }
-
-		/// <summary>
-		/// Returns true if an input is pressed. Returns false otherwise.
-		/// </summary>
-		public abstract bool pressed { get; }
-
-		/// <summary>
-		/// Returns true if an input is in its dead zone. Returns false otherwise.
-		/// </summary>
-		public abstract bool inDeadZone { get; }
-
-		
-		// --------------------
-		// PRESS AND RELEASE TIME
-		// --------------------
-
+		private bool isPressed = false;
+		private float lastPressStart = 0f;
 		private float penultimatePressStart = 0f;
-		private int lastPressedFrame = 0;
-		private int lastReleasedFrame = 0;
 
 		
 		// --------------------
 		// UPDATE
 		// --------------------
 
+		protected abstract float GetPositionRaw();
+		protected abstract float GetPosition();
+		protected abstract bool GetPressed();
+		protected abstract bool GetInDeadZone();
+
 		public void Update () {
 			if (!isEnabled) return;
 			
-			UpdatePositionRaw ();
+			bool prevPressed = isPressed;
+			positionRaw = GetPositionRaw();
+			position = GetPosition();
+			isPressed = GetPressed();
+			inDeadZone = GetInDeadZone();
 
-			if (pressed) {
-				lastPressed = Time.unscaledTime;
-				lastPressedFrame = Time.frameCount;
-			} else {
-				lastReleased = Time.unscaledTime;
-				lastReleasedFrame = Time.frameCount;
-			}
-
-			if (justPressed) {
+			if (isPressed && !prevPressed) {
 				penultimatePressStart = lastPressStart;
 				lastPressStart = Time.unscaledTime;		
 			}
+			
+			simplePress.Update(isPressed);
+			longPress.Update(isPressed && Time.unscaledTime - lastPressStart > Settings.longPressDuration);
+			doublePress.Update(isPressed && lastPressStart - penultimatePressStart < Settings.doublePressDuration);
 		}
-
-		protected abstract void UpdatePositionRaw ();
 
 		
 		// --------------------
@@ -152,93 +178,31 @@ namespace HinputClasses {
 		/// <summary>
 		/// The current raw position of an input, i.e. not taking the dead zone into account.
 		/// </summary>
-		public float positionRaw { get; protected set; }
+		public float positionRaw { get; private set; }
 
 		/// <summary>
-		/// Returns true if an input is not pressed. Returns false otherwise.
+		/// The current position of an input.
 		/// </summary>
-		public bool released { get { return !pressed; } }
+		public float position { get; private set; }
 
 		/// <summary>
-		/// The date an input was last released (in seconds from the beginning of the game). 
-		/// Returns 0 if it hasn't been pressed.
+		/// Returns true if an input is in its dead zone. Returns false otherwise.
 		/// </summary>
-		public float lastReleased { get; private set; }
+		public bool inDeadZone { get; private set; }
 
 		/// <summary>
-		/// The date an input was last pressed (in seconds from the beginning of the game). 
-		/// Returns 0 if it hasn't been pressed.
+		/// Considered pressed whenever an input is pressed.
 		/// </summary>
-		public float lastPressed { get; private set; }
+		public readonly Press simplePress;
 
 		/// <summary>
-		/// The date an input was last justPressed (in seconds from the beginning of the game). 
-		/// Returns 0 if it hasn't been pressed.
+		/// Considered pressed when an input has been pressed twice in a row.
 		/// </summary>
-		public float lastPressStart { get; private set; }
-
+		public readonly Press doublePress;
+		
 		/// <summary>
-		/// Returns true if an input is currently pressed and was released last frame. Returns false otherwise.
+		/// Considered pressed when an input has been pressed for a long time.
 		/// </summary>
-		public bool justPressed { get { return (pressed && (lastPressedFrame - lastReleasedFrame) == 1); } }
-
-		/// <summary>
-		/// Returns true if an input is currently released and was pressed last frame. Returns false otherwise.
-		/// </summary>
-		public bool justReleased { get { return (released && (lastReleasedFrame - lastPressedFrame) == 1); } }
-
-		/// <summary>
-		/// Returns true if the last two presses started a short time apart (including current press if the input is
-		/// pressed). Returns false otherwise.
-		/// </summary>
-		public bool lastPressWasDouble { get { return (lastPressStart - penultimatePressStart) <= Settings.doublePressDuration; } }
-
-		/// <summary>
-		/// Returns true if an input is currently pressed and the last two presses started a short time apart. 
-		/// Returns false otherwise.
-		/// </summary>
-		public bool doublePress { get { return pressed && lastPressWasDouble; } }
-
-		/// <summary>
-		/// Returns true if an input is currently justPressed and the last two presses started a short time apart. 
-		/// Returns false otherwise.
-		/// </summary>
-		public bool doublePressJustPressed { get { return justPressed && lastPressWasDouble; } }
-
-		/// <summary>
-		/// Returns true if an input is currently justReleased and the last two presses started a short time apart. 
-		/// Returns false otherwise.
-		/// </summary>
-		public bool doublePressJustReleased { get { return justReleased && lastPressWasDouble; } }
-
-		/// <summary>
-		/// Returns true if the last press was long (including current press if the input is pressed).
-		/// Returns false otherwise.
-		/// </summary>
-		public bool lastPressWasLong { get { return (lastPressed - lastPressStart) >= Settings.longPressDuration; }}
-
-		/// <summary>
-		/// Returns true if an input is currently pressed and the press was long. 
-		/// Returns false otherwise.
-		/// </summary>
-		public bool longPress { get { return pressed && lastPressWasLong; } }
-
-		/// <summary>
-		/// Returns true if an input is currently justReleased, and the last press was long. 
-		/// Returns false otherwise.
-		/// </summary>
-		public bool longPressJustReleased { get { return justReleased && lastPressWasLong; } }
-
-		/// <summary>
-		/// If an input is pressed, returns the amount of time that has passed since it is pressed. 
-		/// Returns 0 otherwise.
-		/// </summary>
-		public float pressDuration { get { if (pressed) return (Time.unscaledTime - lastPressStart); return 0f; } }
-
-		/// <summary>
-		/// If an input is released, returns the amount of time that has passed since it is released. 
-		/// Returns 0 otherwise.
-		/// </summary>
-		public float releaseDuration { get { if (released) return (Time.unscaledTime - lastPressed); return 0f; } }
+		public readonly Press longPress;
 	}
 }

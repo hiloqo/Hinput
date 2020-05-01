@@ -40,7 +40,7 @@ namespace HinputClasses {
             get {
                 if (_lastActiveInputsUpdateFrame == Time.frameCount) return _activeInputs;
                 
-                _activeInputs = inputs.Where(input => input.pressed).ToList();
+                _activeInputs = inputs.Where(input => input.simplePress.justPressed).ToList();
                 _lastActiveInputsUpdateFrame = Time.frameCount;
                 return _activeInputs;
             }
@@ -51,17 +51,9 @@ namespace HinputClasses {
         // UPDATE
         // --------------------
 
-        protected override void UpdatePositionRaw() {
-            positionRaw = inputs.Select(input => input.positionRaw).Max();
-        }
-
-
-        // --------------------
-        // PROPERTIES
-        // --------------------
-        
-        public override float position { get { return inputs.Select(input => input.position).Max(); } }
-        public override bool pressed { get { return inputs.Any(input => input.pressed); } }
-        public override bool inDeadZone { get { return inputs.All(input => input.inDeadZone); } }
+        protected override float GetPositionRaw() {return inputs.Select(input => input.positionRaw).Max(); }
+        protected override float GetPosition() { return inputs.Select(input => input.position).Max(); }
+        protected override bool GetPressed() { return inputs.Any(input => input.simplePress.justPressed); }
+        protected override bool GetInDeadZone() { return inputs.All(input => input.inDeadZone); }
     }
 }

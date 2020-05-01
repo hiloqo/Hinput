@@ -52,7 +52,7 @@ namespace HinputClasses.Internal {
 			
 			#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 				try { GamePad.SetVibration(index, currentLeft, currentRight); } 
-				catch { /*Ignore errors here*/ }
+				catch { /*Ignore exceptions here*/ }
 			#endif
 		}
 

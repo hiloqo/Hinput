@@ -77,8 +77,8 @@ namespace HinputClasses.Internal {
             leftStick.transform.localPosition = leftStickStartPosition + gamepad.leftStick.worldPositionCamera * stickDistance;
             rightStick.transform.localPosition = rightStickStartPosition + gamepad.rightStick.worldPositionCamera * stickDistance;
             
-            if (gamepad.leftStick.inPressedZone) text.text = "Hinput.gamepad[" + index + "].leftStick.position";
-            if (gamepad.rightStick.inPressedZone) text.text = "Hinput.gamepad[" + index + "].rightStick.position";
+            if (gamepad.leftStick.inPressedZone.pressed) text.text = "Hinput.gamepad[" + index + "].leftStick.position";
+            if (gamepad.rightStick.inPressedZone.pressed) text.text = "Hinput.gamepad[" + index + "].rightStick.position";
         }
 
         private void UpdateXBoxButton() {
@@ -106,7 +106,7 @@ namespace HinputClasses.Internal {
         }
 
         private void UpdateButtonHighLight(Pressable button, GameObject go, string input) {
-            if (button.pressed) {
+            if (button.simplePress.pressed) {
                 go.SetActive(true);
                 text.text = "Hinput.gamepad[" + index + "]."+input;
             } else {

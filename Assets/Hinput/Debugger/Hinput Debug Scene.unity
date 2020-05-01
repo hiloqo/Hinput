@@ -333,7 +333,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startMessage: 1
   stickDirections: 1
-  buttonFeature: 3
+  buttonFeature: 1
+  pressFeature: 0
   stickFeature: 0
   vibrateOnVPressed: 1
   timeScale: 1

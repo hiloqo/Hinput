@@ -13,14 +13,14 @@ namespace HinputClasses.Internal {
 		public bool startMessage;
 
 		public enum SD { none, verticalsAndHorizontals, diagonals, pressedZone }
-		public enum BF {
-			none, position, pressedAndReleased, justPressedAndJustReleased, lastPressedAndLastReleased, inDeadZone,
-			doublePress, doublePressJustPressedAndDoublePressedJustReleased, lastPressWasDouble, longPress,
-			lastPressWasLong, pressDurationAndReleaseDuration
+		public enum BF { none, simplePress, doublePress, longPress, positionAndPositionRaw, inDeadZone }
+		public enum PF {
+			justPressedAndJustReleased, pressedAndReleased, lastPressedAndLastReleased, pressDurationAndReleaseDuration
 		}
 		[Header("BUTTONS")]
 		public SD stickDirections;
 		public BF buttonFeature;
+		public PF pressFeature;
 
 		public enum SF { 
 			none, position, horizontal, vertical, angle, distance, inDeadZone, worldPositionCamera, worldPositionFlat 
@@ -331,56 +331,48 @@ namespace HinputClasses.Internal {
 
 		private void TestCurrentButton () {
 			if (buttonFeature == BF.none) return;
-			if (buttonFeature == BF.pressedAndReleased) {
-				if (currentButton) Debug.Log(currentButton.fullName+" is pressed !!!");
-				else Debug.Log (currentButton.fullName+" is released");
-			}
-			if (buttonFeature == BF.position) Debug.Log (currentButton.fullName+
-			                                             " position : "+currentButton.position+
-			                                             ", position raw : "+currentButton.positionRaw);
-			if (buttonFeature == BF.justPressedAndJustReleased) {
-				if (currentButton.justPressed) Debug.Log (currentButton.fullName+" was just pressed !!!");
-				else if (currentButton.justReleased) Debug.Log (currentButton.fullName+" was just released");
-			}
-			if (buttonFeature == BF.lastPressedAndLastReleased) 
-				Debug.Log (currentButton.fullName+" last pressed : "+currentButton.lastPressed+
-				           ", last released : "+currentButton.lastReleased+
-				           ", last press start : "+currentButton.lastPressStart);
+			if (buttonFeature == BF.positionAndPositionRaw) Debug.Log (currentButton.fullName+
+			                                                           " position : "+currentButton.position+
+			                                                           ", position raw : "+currentButton.positionRaw);
 			if (buttonFeature == BF.inDeadZone) {
 				if (currentButton.inDeadZone) Debug.Log (currentButton.fullName+" is in dead zone");
 				else Debug.Log (currentButton.fullName+" is not in dead zone !!!");
 			}
-			if (buttonFeature == BF.doublePress && currentButton.doublePress) 
-				Debug.Log (currentButton.fullName+" is being double pressed !");
-			if (buttonFeature == BF.doublePressJustPressedAndDoublePressedJustReleased) {
-				if (currentButton.doublePressJustPressed) 
-					Debug.Log (currentButton.fullName+" was double pressed !");
-				if (currentButton.doublePressJustReleased) 
-					Debug.Log (currentButton.fullName+" was released after a double press !");
-			}
-			if (buttonFeature == BF.lastPressWasDouble) {
-				if (currentButton.lastPressWasDouble) 
-					Debug.Log (currentButton.fullName+"'s last press was a double press !!!");
-				else Debug.Log (currentButton.fullName+"'s last press was a simple press");
 			
+			Press currentPress;
+			string adjective;
+			if (buttonFeature == BF.simplePress) {
+				currentPress = currentButton.simplePress;
+				adjective = "";
+			} else if (buttonFeature == BF.doublePress) {
+				currentPress = currentButton.doublePress;
+				adjective = "double ";
+			} else if (buttonFeature == BF.longPress) {
+				currentPress = currentButton.longPress;
+				adjective = "long ";
+			} else return;
+
+			if (pressFeature == PF.pressedAndReleased) {
+				if (currentPress.pressed) Debug.Log(currentButton.fullName + " is being " + adjective + "pressed!!");
+				else Debug.Log(currentButton.fullName + " is not being " + adjective + "pressed");
 			}
-			if (buttonFeature == BF.longPress) {
-				if (currentButton.longPress) Debug.Log (currentButton.fullName+" is being long pressed");
-				if (currentButton.longPressJustReleased) 
-					Debug.Log (currentButton.fullName+" has just been released after a long press");
+
+			if (pressFeature == PF.justPressedAndJustReleased) {
+				if (currentPress.justPressed) Debug.Log(currentButton.fullName + " was just " + adjective + "pressed!!");
+				if (currentPress.justReleased) Debug.Log(currentButton.fullName + " was just released after a " + 
+				                                     adjective + "press");
 			}
-			if (buttonFeature == BF.lastPressWasLong) {
-				if (currentButton.lastPressWasLong) 
-					Debug.Log (currentButton.fullName+"'s last press was a long press !!!");
-				else Debug.Log (currentButton.fullName+"'s last press was a short press");
-			
+
+			if (pressFeature == PF.lastPressedAndLastReleased) {
+				Debug.Log (currentButton.fullName+" last " + adjective + "pressed : " + 
+				           currentButton.lastPressed + ", last released : " + currentButton.lastReleased);
 			}
-			if (buttonFeature == BF.pressDurationAndReleaseDuration) {
-				if (currentButton) 
-					Debug.Log (currentButton.fullName+" has been pressed for "+
-					           currentButton.pressDuration+" !!!");
-				else Debug.Log (currentButton.fullName+" has been released for "+
-				                currentButton.releaseDuration);
+
+			if (pressFeature == PF.pressDurationAndReleaseDuration) {
+				if (currentPress.pressed) Debug.Log (currentButton.fullName + " has been held (" + adjective + 
+				                                     "press) for " + currentPress.pressDuration+" seconds!!!");
+				else Debug.Log (currentButton.fullName + " has been released (" + adjective + "press) for " + 
+				                currentPress.releaseDuration + " seconds");
 			}
 		}
 
