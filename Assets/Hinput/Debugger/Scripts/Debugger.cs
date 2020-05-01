@@ -158,7 +158,9 @@ namespace HinputClasses.Internal {
 					          .Select(stick => stick.name)
 					          .ToList()) + 
 				          ", active gamepads = " + ToString(
-					          Hinput.activeGamepads.Select(gamepad => gamepad.fullName).ToList()));
+					          Hinput.activeGamepads.Select(gamepad => gamepad.fullName).ToList()) + 
+				          ", active gamepads = " + ToString(
+					          currentGamepad.activeInputs.Select(input => input.fullName).ToList()));
 			}
 			
 			if (stickInfoOnPPressed && Input.GetKeyDown(KeyCode.P)) {
@@ -199,10 +201,7 @@ namespace HinputClasses.Internal {
 					log = "current trigger: [" + log +
 					      ", index = " + ((Trigger)currentButton).index;
 				} else if (currentButton is AnyInput) {
-					log = "current anyInput: [" + log +
-					      ", active inputs = " + ToString(((AnyInput) currentButton).activeInputs
-						      .Select(input => input.fullName)
-						      .ToList());
+					log = "current anyInput: [" + log;
 				}
 
 				log += "]";

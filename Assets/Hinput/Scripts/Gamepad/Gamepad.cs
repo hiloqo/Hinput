@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using HinputClasses.Internal;
 
@@ -263,6 +264,18 @@ namespace HinputClasses {
 		/// bumper, left trigger, right trigger, back, start, left stick click, right stick click, XBox button }
 		/// </summary>
 		public List<Pressable> buttons { get; private set; }
+
+		/// <summary>
+		/// The list of all inputs that are currently being pressed on a gamepad.
+		/// </summary>
+		public List<Pressable> activeInputs {
+			get {
+				return buttons
+					.Union(sticks.Select(stick => stick.inPressedZone))
+					.Where(input => input.simplePress.justPressed)
+					.ToList();
+			}
+		}
 
 		// --------------------
 		// VIBRATION

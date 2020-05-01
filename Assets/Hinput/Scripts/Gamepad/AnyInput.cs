@@ -30,21 +30,6 @@ namespace HinputClasses {
         
         // Every input on this gamepad
         private readonly List<Pressable> inputs;
-
-        private List<Pressable> _activeInputs;
-        private int _lastActiveInputsUpdateFrame = -1;
-        /// <summary>
-        /// The list of all inputs that are currently being pressed on a gamepad.
-        /// </summary>
-        public List<Pressable> activeInputs {
-            get {
-                if (_lastActiveInputsUpdateFrame == Time.frameCount) return _activeInputs;
-                
-                _activeInputs = inputs.Where(input => input.simplePress.justPressed).ToList();
-                _lastActiveInputsUpdateFrame = Time.frameCount;
-                return _activeInputs;
-            }
-        }
         
 
         // --------------------
