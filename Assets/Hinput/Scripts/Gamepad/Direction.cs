@@ -37,7 +37,11 @@ namespace HinputClasses {
 
 		protected override float GetPositionRaw() { return Utils.DotProduct (stick.positionRaw, stick.angleRaw); }
 		protected override float GetPosition() { return Utils.DotProduct (stick.position, stick.angle); }
-		protected override bool GetPressed() { return (stick.inPressedZone.pressed && Utils.StickWithinAngle(stick, angle)); }
+
+		protected override bool GetPressed() {
+			return (stick.inPressedZone.simplePress.pressed && Utils.StickWithinAngle(stick, angle));
+		}
+		
 		protected override bool GetInDeadZone() { return (stick.inDeadZone || !Utils.StickWithinAngle(stick, angle)); }
 	}
 }

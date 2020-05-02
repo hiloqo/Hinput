@@ -82,42 +82,42 @@ namespace HinputClasses {
 		/// <summary>
 		/// Returns true if an input is pressed. Returns false otherwise.
 		/// </summary>
-		public bool pressed { get { return simplePress.pressed; } }
+		public bool pressed { get { return ((Press)this).pressed; } }
 		
 		/// <summary>
 		/// Returns true if an input is released. Returns false otherwise.
 		/// </summary>
-		public bool released { get { return simplePress.released; } }
+		public bool released { get { return ((Press)this).released; } }
 		
 		/// <summary>
 		/// Returns true if an input has been pressed this frame. Returns false otherwise.
 		/// </summary>
-		public bool justPressed { get { return simplePress.justPressed; } }
+		public bool justPressed { get { return ((Press)this).justPressed; } }
 		
 		/// <summary>
 		/// Returns true if an input has been released this frame. Returns false otherwise.
 		/// </summary>
-		public bool justReleased { get { return simplePress.justReleased; } }
+		public bool justReleased { get { return ((Press)this).justReleased; } }
 		
 		/// <summary>
 		/// The time it was the last time an input was pressed.
 		/// </summary>
-		public float lastPressed { get { return simplePress.lastPressed; } }
+		public float lastPressed { get { return ((Press)this).lastPressed; } }
 		
 		/// <summary>
 		/// The time it was the last time an input was released.
 		/// </summary>
-		public float lastReleased { get { return simplePress.lastReleased; } }
+		public float lastReleased { get { return ((Press)this).lastReleased; } }
 		
 		/// <summary>
 		/// How long an input has been pressed (0 if it is released).
 		/// </summary>
-		public float pressDuration { get { return simplePress.pressDuration; } }
+		public float pressDuration { get { return ((Press)this).pressDuration; } }
 
 		/// <summary>
 		/// How long an input has been released (0 if it is pushed down).
 		/// </summary>
-		public float releaseDuration { get { return simplePress.releaseDuration; } }
+		public float releaseDuration { get { return ((Press)this).releaseDuration; } }
 
 
 		// --------------------
