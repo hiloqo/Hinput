@@ -105,6 +105,10 @@ namespace HinputClasses {
 			upRight = new Direction ("UpRight", 45, this);
 			downRight = new Direction ("DownRight", -45, this);
 			inPressedZone = new StickPressedZone("PressedZone", this);
+			leftUp = upLeft;
+			leftDown = downLeft;
+			rightUp = upRight;
+			rightDown = downRight;
 			
 			if (index == 0 || index == 1) { // Sticks
 				horizontalAxis = new Axis (fullName+"_Horizontal");
@@ -181,44 +185,48 @@ namespace HinputClasses {
 		/// angle with the horizontal axis.
 		/// </summary>
 		public readonly Direction upLeft;
+		
 		/// <summary>
 		/// A virtual button defined by the stick’s projected position along a direction that has a 135 degree
 		/// angle with the horizontal axis.
 		/// </summary>
-		public Direction leftUp { get { return upLeft; } }
+		public readonly Direction leftUp;
 
 		/// <summary>
 		/// A virtual button defined by the stick’s projected position along a direction that has a -135 degree
 		/// angle with the horizontal axis.
 		/// </summary>
 		public readonly Direction downLeft;
+
 		/// <summary>
 		/// A virtual button defined by the stick’s projected position along a direction that has a -135 degree
 		/// angle with the horizontal axis.
 		/// </summary>
-		public Direction leftDown { get { return downLeft; } }
+		public readonly Direction leftDown;
 
 		/// <summary>
 		/// A virtual button defined by the stick’s projected position along a direction that has a 45 degree
 		/// angle with the horizontal axis.
 		/// </summary>
 		public readonly Direction upRight;
+
 		/// <summary>
 		/// A virtual button defined by the stick’s projected position along a direction that has a 45 degree
 		/// angle with the horizontal axis.
 		/// </summary>
-		public Direction rightUp { get { return upRight; } }
+		public readonly Direction rightUp;
 
 		/// <summary>
 		/// A virtual button defined by the stick’s projected position along a direction that has a -45 degree
 		/// angle with the horizontal axis.
 		/// </summary>
 		public readonly Direction downRight;
+
 		/// <summary>
 		/// A virtual button defined by the stick’s projected position along a direction that has a -45 degree
 		/// angle with the horizontal axis.
 		/// </summary>
-		public Direction rightDown { get { return downRight; } }
+		public readonly Direction rightDown;
 
 		private void UpdateDirections () {
 			up.Update();

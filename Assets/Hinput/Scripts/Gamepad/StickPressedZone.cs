@@ -13,7 +13,7 @@ namespace HinputClasses {
         /// <summary>
         /// The stick a pressed zone is attached to.
         /// </summary>
-        public Stick stick { get; }
+        public readonly Stick stick;
 
 
         // --------------------
