@@ -74,11 +74,7 @@ namespace HinputClasses {
 			isEnabled = false;
 		}
 		
-		/// <summary>
-		/// Reset the position of a gamepad and erase its history. <br/><br/>
-		/// Calling this method on AnyGamepad only resets AnyGamepad.
-		/// </summary>
-		public void Reset() {
+		private void Reset() {
 			buttons.ForEach(button => button.Reset());
 			sticks.ForEach(stick => stick.Reset());
 			anyInput.Reset();
