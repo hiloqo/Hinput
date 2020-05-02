@@ -261,8 +261,7 @@ namespace HinputClasses {
 		[Header("Performance")]
 		[SerializeField]
 		[Range(0,8)]
-		[Tooltip("The maximum amount of gamepads to be tracked by Hinput. Any gamepad disabled by this control can " +
-		         "only be reactivated by it. Reducing this may improve performance.")]
+		[Tooltip("The maximum amount of gamepads to be tracked by Hinput. Reducing this may improve performance.")]
 		private int _amountOfGamepads = 8;
 		/// <summary>
 		/// The maximum amount of gamepads to be tracked by Hinput. Any gamepad disabled by this control can only be
@@ -274,8 +273,8 @@ namespace HinputClasses {
 		}
 
 		[SerializeField]
-		[Tooltip("Checking this before starting the game will cause anyGamepad to not be tracked by Hinput. Any " +
-		         "gamepad disabled by this control can only be reactivated by it. This may improve performance.")]
+		[Tooltip("Checking this before starting the game will cause the AnyGamepad feature to not be tracked by " +
+		         "Hinput. This may improve performance.")]
 		private bool _disableAnyGamepad = false;
 		/// <summary>
 		/// Checking this before starting the game will cause anyGamepad to not be tracked by Hinput. Any gamepad
@@ -287,7 +286,7 @@ namespace HinputClasses {
 		}
 
 		[SerializeField]
-		[Tooltip("Checking this before starting the game will cause the A button ofgamepads to not be tracked by " +
+		[Tooltip("Checking this before starting the game will cause the A button of gamepads to not be tracked by " +
 		         "Hinput. This may improve performance.")]
 		private bool _disableA = false;
 		/// <summary>
@@ -495,7 +494,7 @@ namespace HinputClasses {
 		}
 
 		[SerializeField]
-		[Tooltip("Checking this before starting the game will cause the anyInput feature of gamepads to not be " +
+		[Tooltip("Checking this before starting the game will cause the AnyInput feature of gamepads to not be " +
 		         "tracked by Hinput. This may improve performance.")]
 		private bool _disableAnyInput = false;
 		/// <summary>

@@ -37,7 +37,7 @@ namespace HinputClasses {
 			}
 		}
 		
-		private bool hasBeenConnected = false;
+		private bool enableWhenConnected = true;
 		/// <summary>
 		/// Returns true if a gamepad is currently connected. Returns false otherwise.<br/><br/>
 		/// On AnyGamepad, returns true if at least one gamepad is currently connected. Returns false otherwise.
@@ -96,6 +96,7 @@ namespace HinputClasses {
 			this.index = index;
 			name = "Gamepad" + index;
 			fullName = Utils.os + "_" + name;
+			enableWhenConnected = (index < Settings.amountOfGamepads);
 			
 			leftStick = new Stick ("LeftStick", this, 0, !Settings.disableLeftStick);
 			rightStick = new Stick ("RightStick", this, 1, !Settings.disableRightStick);
@@ -150,15 +151,13 @@ namespace HinputClasses {
 		}
 
 		protected virtual bool DoNotUpdate() {
-			if (index >= Settings.amountOfGamepads) return true;
-			if (!isEnabled) { // Enable a gamepad the first time it is connected
-				if (!isConnected || hasBeenConnected) return true;
-				
-				hasBeenConnected = true;
+			if (isEnabled) return false;
+			if (enableWhenConnected && isConnected) { // Enable a gamepad the first time it is connected
 				Enable();
-			}
-
-			return false;
+				enableWhenConnected = false;
+				return false;
+			} 
+			return true;
 		}
 
 		
