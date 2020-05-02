@@ -90,7 +90,7 @@ public static class Hinput {
 		get {
 			if (_lastActiveGamepadsUpdateFrame == Time.frameCount) return _activeGamepads;
                 
-			_activeGamepads = gamepad.Where(g => g.anyInput.simplePress.justPressed).ToList();
+			_activeGamepads = gamepad.Where(g => g.anyInput).ToList();
 			_lastActiveGamepadsUpdateFrame = Time.frameCount;
 			return _activeGamepads;
 		}

@@ -271,7 +271,7 @@ namespace HinputClasses {
 			get {
 				return buttons
 					.Union(sticks.Select(stick => stick.inPressedZone))
-					.Where(input => input.simplePress.justPressed)
+					.Where(input => input)
 					.ToList();
 			}
 		}
