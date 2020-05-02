@@ -215,22 +215,10 @@ namespace HinputClasses {
 		[Header("Vibration Defaults")]
 
 		[SerializeField]
-		[Range(0,2)]
-		[Tooltip("The default duration of gamepad vibration.")]
-		private float _vibrationDefaultDuration = 0.5f;
-		/// <summary>
-		/// The default duration of gamepad vibration.
-		/// </summary>
-		public static float vibrationDefaultDuration { 
-			get { return instance._vibrationDefaultDuration; } 
-			set { instance._vibrationDefaultDuration = value; }  
-		}
-
-		[SerializeField]
 		[Range(0,1)]
 		[Tooltip("The default intensity of the left (low-frequency) motor when controllers vibrate.\n\n"+
 		         "The left motor is a low-frequency rumble motor.")]
-		private float _vibrationDefaultLeftIntensity = 1f;
+		private float _vibrationDefaultLeftIntensity = 0.2f;
 		/// <summary>
 		/// The default intensity of the left (low-frequency) motor when controllers vibrate.<br/><br/>
 		/// The left motor is a low-frequency rumble motor.
@@ -244,13 +232,25 @@ namespace HinputClasses {
 		[Range(0,1)]
 		[Tooltip("The default intensity of the right (high-frequency) motor when controllers vibrate.\n\n"+
 		         "The right motor is a high-frequency rumble motor.")]
-		private float _vibrationDefaultRightIntensity = 1f;
+		private float _vibrationDefaultRightIntensity = 0.8f;
 		/// <summary>
 		/// The default intensity of the right (high-frequency) motor when controllers vibrate.
 		/// </summary>
 		public static float vibrationDefaultRightIntensity { 
 			get { return instance._vibrationDefaultRightIntensity; } 
 			set { instance._vibrationDefaultRightIntensity = value; }  
+		}
+
+		[SerializeField]
+		[Range(0,2)]
+		[Tooltip("The default duration of gamepad vibration.")]
+		private float _vibrationDefaultDuration = 0.2f;
+		/// <summary>
+		/// The default duration of gamepad vibration.
+		/// </summary>
+		public static float vibrationDefaultDuration { 
+			get { return instance._vibrationDefaultDuration; } 
+			set { instance._vibrationDefaultDuration = value; }  
 		}
 
 
