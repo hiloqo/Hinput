@@ -54,7 +54,7 @@ namespace HinputClasses {
 		/// On AnyGamepad, returns true if AnyGamepad is enabled (this does NOT give any information on regular
 		/// gamepads). Returns false otherwise.
 		/// </summary>
-		public bool isEnabled { get; private set; }
+		public bool isEnabled { get; protected set; }
 		
 		/// <summary>
 		/// Enable a gamepad so that Hinput starts tracking it. <br/><br/>
@@ -92,6 +92,7 @@ namespace HinputClasses {
 			this.index = index;
 			name = "Gamepad" + index;
 			fullName = Utils.os + "_" + name;
+			isEnabled = false;
 			enableWhenConnected = (index < Settings.amountOfGamepads);
 			
 			leftStick = new Stick ("LeftStick", this, 0, !Settings.disableLeftStick);
@@ -104,7 +105,6 @@ namespace HinputClasses {
 		}
 			
 		protected void SetUp() {
-			isEnabled = false;
 			
 			A = new Button ("A", this, 0, !Settings.disableA); 
 			B = new Button ("B", this, 1, !Settings.disableB);
@@ -138,7 +138,7 @@ namespace HinputClasses {
 		// --------------------
 
 		public void Update () {
-			if (DoNotUpdate()) return;
+			if (UpdateIsRequired() == false) return;
 
 			buttons.ForEach(button => button.Update());
 			sticks.ForEach(stick => stick.Update());
@@ -146,14 +146,14 @@ namespace HinputClasses {
 			vibration.Update();
 		}
 
-		protected virtual bool DoNotUpdate() {
-			if (isEnabled) return false;
-			if (enableWhenConnected && isConnected) { // Enable a gamepad the first time it is connected
+		protected virtual bool UpdateIsRequired() {
+			if (!isEnabled && enableWhenConnected && isConnected) {
 				Enable();
 				enableWhenConnected = false;
-				return false;
-			} 
-			return true;
+				return true;
+			}
+
+			return isEnabled;
 		}
 
 		

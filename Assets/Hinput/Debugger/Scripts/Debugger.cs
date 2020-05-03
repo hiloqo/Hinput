@@ -171,7 +171,7 @@ namespace HinputClasses.Internal {
 				          ", index = " + currentStick.index +
 				          ", name = " + currentStick.name +
 				          ", full name = " + currentStick.fullName +
-				          ", gamepad = " + currentStick.gamepad + "]");
+				          ", gamepad = " + currentStick.gamepad.fullName + "]");
 			}
 			
 			if (buttonInfoOnBPressed && Input.GetKeyDown(KeyCode.B)) {
@@ -183,7 +183,7 @@ namespace HinputClasses.Internal {
 				string log = "isEnabled = " + currentButton.isEnabled + 
 				             ", name = " + currentButton.name +
 				             ", full name = " + currentButton.fullName +
-				             ", gamepad = " + currentButton.fullName;
+				             ", gamepad = " + currentButton.gamepad.fullName;
 				
 				if (currentButton is Direction) {
 					log = "current direction: [" + log +
@@ -362,7 +362,7 @@ namespace HinputClasses.Internal {
 
 			if (pressFeature == PF.lastPressedAndLastReleased) {
 				Debug.Log (currentButton.fullName+" last " + adjective + "pressed : " + 
-				           currentButton.lastPressed + ", last released : " + currentButton.lastReleased);
+				           currentPress.lastPressed + ", last released : " + currentPress.lastReleased);
 			}
 
 			if (pressFeature == PF.pressDurationAndReleaseDuration) {

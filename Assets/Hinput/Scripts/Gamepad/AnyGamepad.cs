@@ -24,6 +24,8 @@ namespace HinputClasses {
             index = -1;
             name = "AnyGamepad";
             fullName = Utils.os + "_" + name;
+            isEnabled = !Settings.disableAnyGamepad;
+            
             leftStick = new AnyGamepadStick("LeftStick", this, 0);
             rightStick = new AnyGamepadStick("RightStick", this, 1);
             dPad = new AnyGamepadStick("DPad", this, 2);
@@ -38,9 +40,7 @@ namespace HinputClasses {
         // UPDATE
         // --------------------
 
-        protected override bool DoNotUpdate() {
-            return (Settings.disableAnyGamepad || !isEnabled);
-        }
+        protected override bool UpdateIsRequired() { return isEnabled; }
 
 		// --------------------
 		// VIBRATION

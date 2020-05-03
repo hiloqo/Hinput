@@ -198,16 +198,16 @@ namespace HinputClasses {
 		/// <summary>
 		/// Considered pressed whenever an input is pressed.
 		/// </summary>
-		public Press simplePress { get; private set; }
+		public Press simplePress { get; }
 
 		/// <summary>
 		/// Considered pressed when an input has been pressed twice in a row.
 		/// </summary>
-		public Press doublePress { get; private set; }
+		public Press doublePress { get; }
 		
 		/// <summary>
 		/// Considered pressed when an input has been pressed for a long time.
 		/// </summary>
-		public Press longPress { get; private set; }
+		public Press longPress { get; }
 	}
 }

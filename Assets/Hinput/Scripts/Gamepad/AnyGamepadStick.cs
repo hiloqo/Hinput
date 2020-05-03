@@ -29,7 +29,7 @@ namespace HinputClasses.Internal {
         private int _lastActiveSticksUpdateFrame = -1;
         private List<Stick> activeSticks {
             get {
-                if (_lastActiveSticksUpdateFrame != Time.frameCount) return _activeSticks;
+                if (_lastActiveSticksUpdateFrame == Time.frameCount) return _activeSticks;
 
                 _activeSticks = sticks.Where(s => !s.inDeadZone).ToList();
                 _lastActiveSticksUpdateFrame = Time.frameCount;
