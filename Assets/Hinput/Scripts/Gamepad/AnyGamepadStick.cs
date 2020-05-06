@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace HinputClasses.Internal {
     /// <summary>
-    /// Hinput class representing a given stick, such as the left stick, the right stick or the D-Pad, on every gamepad
-    /// at once.
+    /// Hinput class representing a given type of stick, such as a left stick, a right stick, or a D-Pad, on every
+    /// gamepad at once.
     /// </summary>
     public class AnyGamepadStick : Stick {
         // --------------------
@@ -31,7 +31,7 @@ namespace HinputClasses.Internal {
             get {
                 if (_lastActiveSticksUpdateFrame == Time.frameCount) return _activeSticks;
 
-                _activeSticks = sticks.Where(s => !s.inDeadZone).ToList();
+                _activeSticks = sticks.Where(s => s.distance.IsNotEqualTo(0)).ToList();
                 _lastActiveSticksUpdateFrame = Time.frameCount;
                 return _activeSticks;
             }
@@ -39,21 +39,24 @@ namespace HinputClasses.Internal {
 
 
         // --------------------
-        // PUBLIC PROPERTIES - RAW
+        // PUBLIC PROPERTIES
         // --------------------
 
-        public override float horizontalRaw {
+        private Vector2 _position;
+        private int _lastPositionUpdateFrame = -1;
+        public override Vector2 position {
             get {
-                if (activeSticks.Count == 0) return sticks.Select(stick => stick.horizontalRaw).Average();
-                else return activeSticks.Select(stick => stick.horizontalRaw).Average();
-            }
-        }
+                if (_lastPositionUpdateFrame == Time.frameCount) return _position;
 
-        public override float verticalRaw {
-            get {
-                if (activeSticks.Count == 0) return sticks.Select(stick => stick.verticalRaw).Average();
-                else return activeSticks.Select(stick => stick.verticalRaw).Average();
-            }
+                if (activeSticks.Count == 0) _position = Vector2.zero;
+                else _position = new Vector2(
+                    activeSticks.Average(stick => stick.horizontal),
+                    activeSticks.Average(stick => stick.vertical)
+                );
+                
+                _lastPositionUpdateFrame = Time.frameCount;
+                return _position; 
+            } 
         }
     }
 }

@@ -25,9 +25,7 @@ public static class Hinput {
 			if (_gamepad == null) {
 				_gamepad = new List<Gamepad>();
 				for (int i=0; i<Utils.maxGamepads; i++) _gamepad.Add(new Gamepad(i));
-			} else {
-				Updater.UpdateGamepads ();
-			} 
+			}
 
 			return _gamepad; 
 		} 
@@ -40,28 +38,27 @@ public static class Hinput {
 
 	private static AnyGamepad _anyGamepad;
 	/// <summary>
-	/// A virtual gamepad that returns the inputs of every gamepad at once.<BR/> <BR/>
+	/// A virtual gamepad that returns the inputs of every gamepad at once.<br/> <br/>
 	///
-	/// The position of a button on AnyGamepad is the highest position for that button on all gamepads.<BR/>
-	/// The position of a stick on AnyGamepad is the average position for that stick on all gamepads.<BR/>
-	/// Vibrating AnyGamepad vibrates all gamepads.<BR/> <BR/>
+	/// The position of a button on AnyGamepad is the highest position for that button on all gamepads.<br/> 
+	/// The position of a stick on AnyGamepad is the average position of pushed sticks of that type on all
+	/// gamepads.<br/> 
+	/// Vibrating AnyGamepad vibrates all gamepads.<br/> <br/>
 	/// 
+	/// Examples: <br/>
 	/// - If player 1 pushed their A button and player 2 pushed their B button, both the A and the B button of
-	/// anyGamepad will be pressed.<BR/>
-	/// - If player 1 pushed their left trigger by 0.24 and player 2 pushed theirs by 0.46, the left trigger of
-	/// anyGamepad will have a position of 0.46.<BR/>
-	/// - If player 1 positioned their right stick at (-0.21, 0.88) and player 2 has theirs at (0.67, 0.26), the
-	/// position of the right stick of anyGamepad will be the average of both positions, (0.23, 0.57).
+	/// AnyGamepad will be pressed.<br/>
+	/// - If player 1 pushed their left trigger by 0.2 and player 2 pushed theirs by 0.6, the left trigger of
+	/// AnyGamepad will have a position of 0.6.<br/>
+	/// - If player 1 positioned their right stick at (-0.2, 0.9) and player 2 has theirs at (0, 0), the
+	/// position of the right stick of AnyGamepad will be (-0.2, 0.9).<br/>
+	/// - If player 1 positioned their right stick at (-0.2, 0.9) and player 2 has theirs at (0.6, 0.3), the
+	/// position of the right stick of AnyGamepad will be the average of both positions, (0.2, 0.6).
 	/// </summary>
 	public static AnyGamepad anyGamepad { 
 		get { 
 			Updater.CheckInstance();
-			if (_anyGamepad == null) {
-				_anyGamepad = new AnyGamepad();
-			} else {
-				Updater.UpdateGamepads ();
-			}
-
+			if (_anyGamepad == null) _anyGamepad = new AnyGamepad();
 			return _anyGamepad; 
 		}
 	}
@@ -84,7 +81,7 @@ public static class Hinput {
 	private static List<Gamepad> _activeGamepads;
 	private static int _lastActiveGamepadsUpdateFrame = -1;
 	/// <summary>
-	/// The list of all gamepads on which at least one button is currently being pressed.
+	/// A list of all gamepads on which at least one button is currently being pressed.
 	/// </summary>
 	public static List<Gamepad> activeGamepads {
 		get {

@@ -35,9 +35,7 @@ namespace HinputClasses {
         // UPDATE
         // --------------------
 
-        protected override float GetPositionRaw() {return inputs.Select(input => input.positionRaw).Max(); }
         protected override float GetPosition() { return inputs.Select(input => input.position).Max(); }
         protected override bool GetPressed() { return inputs.Any(input => input.simplePress.pressed); }
-        protected override bool GetInDeadZone() { return inputs.All(input => input.inDeadZone); }
     }
 }

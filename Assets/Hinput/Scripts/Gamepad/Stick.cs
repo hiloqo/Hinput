@@ -3,9 +3,7 @@ using HinputClasses.Internal;
 
 namespace HinputClasses {
 	/// <summary>
-	/// Hinput class representing a gamepad stick, such as the left stick, the right stick, or the D-pad.<br/><br/>
-	/// If no property of the Stick is used, it will automatically be cast to a Vector2 with the value position. 
-	/// For instance, Hinput.gamepad[0].leftStick will return Hinput.gamepad[0].leftStick.position.
+	/// Hinput class representing a gamepad stick, such as a left stick, a right stick, or a D-pad.
 	/// </summary>
 	public class Stick {
 		// --------------------
@@ -50,7 +48,8 @@ namespace HinputClasses {
 		}
 
 		/// <summary>
-		/// Reset and disable a stick so that Hinput stops tracking it. This may improve performances.
+		/// Reset and disable a stick so that Hinput stops tracking it. <br/> <br/>
+		/// This may improve performances.
 		/// </summary>
 		public void Disable() {
 			Reset();
@@ -58,11 +57,10 @@ namespace HinputClasses {
 		}
 
 		/// <summary>
-		/// Reset the position of a stick and erase its history.
+		/// Hinput internal method. You don't need to use it.
 		/// </summary>
 		public void Reset() {
-			horizontalRaw = 0;
-			verticalRaw = 0;
+			positionRaw = Vector2.zero;
 			
 			up.Reset();
 			down.Reset();
@@ -96,15 +94,16 @@ namespace HinputClasses {
 			this.index = index;
 			this.isEnabled = isEnabled;
 
-			up = new Direction ("Up", 90, this);
-			down = new Direction ("Down", -90, this);
-			left = new Direction ("Left", 180, this);
-			right = new Direction ("Right", 0, this);
-			upLeft = new Direction ("UpLeft", 135, this);
-			downLeft = new Direction ("DownLeft", -135, this);
-			upRight = new Direction ("UpRight", 45, this);
-			downRight = new Direction ("DownRight", -45, this);
+			up = new StickDirection ("Up", 90, this);
+			down = new StickDirection ("Down", -90, this);
+			left = new StickDirection ("Left", 180, this);
+			right = new StickDirection ("Right", 0, this);
+			upLeft = new StickDirection ("UpLeft", 135, this);
+			downLeft = new StickDirection ("DownLeft", -135, this);
+			upRight = new StickDirection ("UpRight", 45, this);
+			downRight = new StickDirection ("DownRight", -45, this);
 			inPressedZone = new StickPressedZone("PressedZone", this);
+			
 			leftUp = upLeft;
 			leftDown = downLeft;
 			rightUp = upRight;
@@ -114,121 +113,42 @@ namespace HinputClasses {
 				horizontalAxis = new Axis (fullName+"_Horizontal");
 				verticalAxis = new Axis (fullName+"_Vertical");
 			}
+			
 			if (index == 2) { // DPad
-				horizontalAxis = new Axis (fullName+"_Horizontal", 
-					fullName+"_Right", 
-					fullName+"_Left");
-				verticalAxis = new Axis (fullName+"_Vertical", 
-					fullName+"_Up", 
-					fullName+"_Down");
+				horizontalAxis = new Axis (fullName+"_Horizontal", fullName+"_Right", fullName+"_Left");
+				verticalAxis = new Axis (fullName+"_Vertical", fullName+"_Up", fullName+"_Down");
 			}
 		}
 
 
 		// --------------------
-		// UPDATE
-		// --------------------
-		
-		public void Update () {
-			if (!isEnabled) return;
-			
-			UpdateAxes ();
-			UpdateDirections ();
-			inPressedZone.Update();
-		}
-
-
-		// --------------------
-		// AXES
+		// PRIVATE PROPERTIES
 		// --------------------
 
 		private readonly Axis horizontalAxis;
 		private readonly Axis verticalAxis;
-
-		private void UpdateAxes () {
-			if (horizontalAxis == null || verticalAxis == null) return;
-			
-			horizontalRaw = horizontalAxis.positionRaw;
-			verticalRaw = verticalAxis.positionRaw;
-		}
+		private Vector2 positionRaw;
 
 
 		// --------------------
-		// DIRECTIONS
+		// UPDATE
 		// --------------------
 
 		/// <summary>
-		/// A virtual button defined by the stick’s projected position along a direction that has a 90 degree
-		/// angle with the horizontal axis.
+		/// Hinput internal method. You don't need to use it.
 		/// </summary>
-		public readonly Direction up;
+		public void Update () {
+			if (!isEnabled) return;
 
-		/// <summary>
-		/// A virtual button defined by the stick’s projected position along a direction that has a -90 degree
-		/// angle with the horizontal axis.
-		/// </summary>
-		public readonly Direction down;
+			//Update axes first, then inPressedZone, then directions.
+			if (horizontalAxis != null && verticalAxis != null) {
+				horizontalAxis.Update();
+				verticalAxis.Update();
+				positionRaw = new Vector2(horizontalAxis.position, verticalAxis.position);
+			}
 
-		/// <summary>
-		/// A virtual button defined by the stick’s projected position along a direction that has a 180 degree
-		/// angle with the horizontal axis.
-		/// </summary>
-		public readonly Direction left;
+			inPressedZone.Update();
 
-		/// <summary>
-		/// A virtual button defined by the stick’s projected position along the horizontal axis.
-		/// </summary>
-		public readonly Direction right;
-
-		/// <summary>
-		/// A virtual button defined by the stick’s projected position along a direction that has a 135 degree
-		/// angle with the horizontal axis.
-		/// </summary>
-		public readonly Direction upLeft;
-		
-		/// <summary>
-		/// A virtual button defined by the stick’s projected position along a direction that has a 135 degree
-		/// angle with the horizontal axis.
-		/// </summary>
-		public readonly Direction leftUp;
-
-		/// <summary>
-		/// A virtual button defined by the stick’s projected position along a direction that has a -135 degree
-		/// angle with the horizontal axis.
-		/// </summary>
-		public readonly Direction downLeft;
-
-		/// <summary>
-		/// A virtual button defined by the stick’s projected position along a direction that has a -135 degree
-		/// angle with the horizontal axis.
-		/// </summary>
-		public readonly Direction leftDown;
-
-		/// <summary>
-		/// A virtual button defined by the stick’s projected position along a direction that has a 45 degree
-		/// angle with the horizontal axis.
-		/// </summary>
-		public readonly Direction upRight;
-
-		/// <summary>
-		/// A virtual button defined by the stick’s projected position along a direction that has a 45 degree
-		/// angle with the horizontal axis.
-		/// </summary>
-		public readonly Direction rightUp;
-
-		/// <summary>
-		/// A virtual button defined by the stick’s projected position along a direction that has a -45 degree
-		/// angle with the horizontal axis.
-		/// </summary>
-		public readonly Direction downRight;
-
-		/// <summary>
-		/// A virtual button defined by the stick’s projected position along a direction that has a -45 degree
-		/// angle with the horizontal axis.
-		/// </summary>
-		public readonly Direction rightDown;
-
-		private void UpdateDirections () {
 			up.Update();
 			down.Update();
 			left.Update();
@@ -242,188 +162,117 @@ namespace HinputClasses {
 
 		
 		// --------------------
-		// PUBLIC PROPERTIES - RAW
+		// DIRECTIONS
 		// --------------------
 
 		/// <summary>
-		/// The x coordinate of the stick. The dead zone is not taken into account.
+		/// The virtual button that is considered pressed if a stick is pushed up.
 		/// </summary>
-		public virtual float horizontalRaw { get; private set; }
+		public readonly StickDirection up;
 
 		/// <summary>
-		/// The y coordinate of the stick. The dead zone is not taken into account.
+		/// The virtual button that is considered pressed if a stick is pushed down.
 		/// </summary>
-		public virtual float verticalRaw { get; private set; }
+		public readonly StickDirection down;
 
 		/// <summary>
-		/// The coordinates of the stick. The dead zone is not taken into account.
+		/// The virtual button that is considered pressed if a stick is pushed left.
 		/// </summary>
-		public Vector2 positionRaw { get { return new Vector2 (horizontalRaw, verticalRaw); } }
-
-		private float _distanceRaw;
-		private int _lastDistanceRawUpdateFrame = -1;
-		/// <summary>
-		/// The current distance of the stick to its origin. The dead zone is not taken into account.
-		/// </summary>
-		public float distanceRaw { 
-			get { 
-				if (_lastDistanceRawUpdateFrame == Time.frameCount) return _distanceRaw;
-				
-				_distanceRaw = positionRaw.magnitude;
-				_lastDistanceRawUpdateFrame = Time.frameCount;
-				return _distanceRaw; 
-			} 
-		}
-
-		private float _angleRaw;
-		private int _lastAngleRawUpdateFrame = -1;
-		/// <summary>
-		/// The value of the angle between the current position of the stick and the horizontal axis 
-		/// (In degrees : left=180, up=90, right=0, down=-90). 
-		/// The dead zone is not taken into account.
-		/// </summary>
-		public float angleRaw { 
-			get { 
-				if (_lastAngleRawUpdateFrame == Time.frameCount) return _angleRaw;
-				
-				_angleRaw = Vector2.SignedAngle(Vector2.right, positionRaw);
-				_lastAngleRawUpdateFrame = Time.frameCount;
-				return _angleRaw;
-			} 
-		}
+		public readonly StickDirection left;
 
 		/// <summary>
-		/// The coordinates of the stick as a Vector3 facing the camera. 
-		/// The stick’s horizontal and vertical axes are interpreted as the camera’s right and up directions. 
-		/// The dead zone is not taken into account.
+		/// The virtual button that is considered pressed if a stick is pushed right.
 		/// </summary>
-		/// <remarks>
-		/// The camera that is being used can be changed with the worldCamera property of Settings.
-		/// </remarks>
-		public Vector3 worldPositionCameraRaw  { 
-			get { 
-				try { return (Settings.worldCamera.right*horizontalRaw + Settings.worldCamera.up*verticalRaw); }
-				catch { 
-					Debug.LogError ("Hinput error : No camera found !");
-					return Vector2.zero;
-				}
-			} 
-		}
+		public readonly StickDirection right;
 
 		/// <summary>
-		/// The coordinates of the stick as a Vector3 with a y value of 0. 
-		/// The stick’s horizontal and vertical axes are interpreted as the absolute right and forward directions. 
-		/// The dead zone is not taken into account.
+		/// The virtual button that is considered pressed if a stick is pushed up-left.
 		/// </summary>
-		public Vector3 worldPositionFlatRaw { get { return new Vector3 (horizontalRaw, 0, verticalRaw); } }
+		public readonly StickDirection upLeft, leftUp;
+
+		/// <summary>
+		/// The virtual button that is considered pressed if a stick is pushed down-left.
+		/// </summary>
+		public readonly StickDirection downLeft, leftDown;
+
+		/// <summary>
+		/// The virtual button that is considered pressed if a stick is pushed up-right.
+		/// </summary>
+		public readonly StickDirection upRight, rightUp;
+
+		/// <summary>
+		/// The virtual button that is considered pressed if a stick is pushed down-right.
+		/// </summary>
+		public readonly StickDirection downRight, rightDown;
 
 		
 		// --------------------
-		// PUBLIC PROPERTIES - DEADZONED
+		// PUBLIC PROPERTIES
 		// --------------------
 
 		/// <summary>
-		/// Returns true if the current position of the stick is beyond the limit of its pressed zone. 
-		/// Returns false otherwise.
+		/// The virtual button representing a stick as a button. It is considered pressed if the stick is pushed in any
+		/// direction.
 		/// </summary>
-		/// <remarks>
-		/// The size of the pressed zone of the sticks can be changed with the stickPressedZone property of Settings.
-		/// </remarks>
 		public readonly StickPressedZone inPressedZone;
-
-		/// <summary>
-		/// Returns true if the current position of the stick is within the limit of its dead zone. 
-		/// Returns false otherwise.
-		/// </summary>
-		/// <remarks>
-		/// The size of the dead zone of the sticks can be changed with the stickDeadZone property of Settings.
-		/// </remarks>
-		public bool inDeadZone { get { return distanceRaw < Settings.stickDeadZone; } }
 
 		private Vector2 _position;
 		private int _lastPositionUpdateFrame = -1;
 		/// <summary>
-		/// The coordinates of the stick.
+		/// The coordinates of a stick.
 		/// </summary>
-		public Vector2 position {
+		public virtual Vector2 position {
 			get {
 				if (_lastPositionUpdateFrame == Time.frameCount) return _position;
 				
-				if (inDeadZone) _position = Vector2.zero;
+				if (positionRaw.magnitude < Settings.stickDeadZone) _position = Vector2.zero;
 				else {
-					Vector2 deadZonedPos = (1 + Utils.distanceIncrease)/(1 - Settings.stickDeadZone)*
-						(positionRaw - positionRaw.normalized*Settings.stickDeadZone);
-					
-					_position = new Vector2 (
-						Mathf.Clamp(deadZonedPos.x, -1, 1), 
-						Mathf.Clamp(deadZonedPos.y, -1, 1));
+					_position = (Utils.stickPositionMultiplier/(1 - Settings.stickDeadZone)
+					            *(positionRaw - positionRaw.normalized*Settings.stickDeadZone))
+					            .Clamp(-1, 1);
 				}
+				
 				_lastPositionUpdateFrame = Time.frameCount;
 				return _position; 
 			} 
 		}
 
 		/// <summary>
-		/// The x coordinate of the stick.
+		/// The position of a stick along the horizontal axis (between -1 and 1).
 		/// </summary>
 		public float horizontal { get { return position.x; } }
 
 		/// <summary>
-		/// The y coordinate of the stick.
+		/// The position of a stick along the vertical axis (between -1 and 1).
 		/// </summary>
 		public float vertical { get { return position.y; } }
 
-		private float _distance;
-		private int _lastDistanceUpdateFrame = -1;
 		/// <summary>
-		/// The current distance of the stick to its origin.
+		/// The distance from the current position of a stick to its origin (between 0 and 1).
 		/// </summary>
-		public float distance { 
-			get { 
-				if (_lastDistanceUpdateFrame == Time.frameCount) return _distance;
+		public float distance { get { return Mathf.Clamp01(position.magnitude); } }
 				
-				_distance = Mathf.Clamp01(position.magnitude);
-				_lastDistanceUpdateFrame = Time.frameCount;
-				return _distance; 
-			} 
-		}
-
-		private float _angle;
-		private int _lastAngleUpdateFrame = -1;
 		/// <summary>
-		/// The value of the angle between the current position of the stick and the horizontal axis 
+		/// The angle between the current position of a stick and the horizontal axis 
 		/// (In degrees : left=180, up=90, right=0, down=-90).
 		/// </summary>
-		public float angle { 
-			get { 
-				if (_lastAngleUpdateFrame == Time.frameCount) return _angle;
-				
-				_angle = Vector2.SignedAngle(Vector2.right, position);
-				_lastAngleUpdateFrame = Time.frameCount;
-				return _angle;
-			} 
-		}
+		public float angle { get {return Vector2.SignedAngle(Vector2.right, position); } }
 
 		/// <summary>
-		/// The coordinates of the stick as a Vector3 facing the camera. 
-		/// The stick’s horizontal and vertical axes are interpreted as the camera’s right and up directions.
+		/// The coordinates of a stick as a Vector3 facing the camera (The horizontal and vertical coordinates of the
+		/// stick are interpreted as the right and up directions of the camera).
 		/// </summary>
-		/// <remarks>
-		/// The camera that is being used can be changed with the worldCamera property of Settings.
-		/// </remarks>
 		public Vector3 worldPositionCamera { 
 			get { 
 				try { return (Settings.worldCamera.right*horizontal + Settings.worldCamera.up*vertical); }
-				catch { 
-					Debug.LogError ("Hinput error : No camera found !");
-					return Vector2.zero;
-				}
+				catch { Debug.LogError ("Hinput error : No camera found !"); }
+				return Vector2.zero;
 			} 
 		}
 
 		/// <summary>
-		/// The coordinates of the stick as a Vector3 with a y value of 0. 
-		/// The stick’s horizontal and vertical axes are interpreted as the absolute right and forward directions.
+		/// The coordinates of a stick as a horizontal Vector3, with a y value of 0 (The stick’s horizontal and
+		/// vertical coordinates are interpreted as the absolute right and forward directions).
 		/// </summary>
 		public Vector3 worldPositionFlat { get { return new Vector3 (horizontal, 0, vertical); } }
 	}

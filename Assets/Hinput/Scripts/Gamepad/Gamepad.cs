@@ -37,9 +37,8 @@ namespace HinputClasses {
 			}
 		}
 		
-		private bool enableWhenConnected = true;
 		/// <summary>
-		/// Returns true if a gamepad is currently connected. Returns false otherwise.<br/><br/>
+		/// Returns true if a gamepad is currently connected. Returns false otherwise.<br/> <br/>
 		/// On AnyGamepad, returns true if at least one gamepad is currently connected. Returns false otherwise.
 		/// </summary>
 		public virtual bool isConnected { get { return type != ""; } }
@@ -49,36 +48,34 @@ namespace HinputClasses {
 		// ENABLED
 		// --------------------
 
+		private bool enableWhenConnected = true;
 		/// <summary>
-		/// Returns true if a gamepad is being tracked by Hinput. Returns false otherwise.<br/><br/>
+		/// Returns true if a gamepad is being tracked by Hinput. Returns false otherwise.<br/> <br/>
 		/// On AnyGamepad, returns true if AnyGamepad is enabled (this does NOT give any information on regular
 		/// gamepads). Returns false otherwise.
 		/// </summary>
 		public bool isEnabled { get; protected set; }
 		
 		/// <summary>
-		/// Enable a gamepad so that Hinput starts tracking it. <br/><br/>
-		/// This method is called automatically on a gamepad the first time it is connected. Calling this method on
-		/// AnyGamepad only enables AnyGamepad.
+		/// Enable a gamepad so that Hinput starts tracking it. <br/> <br/>
+		/// This method is called automatically on a gamepad the first time it is connected, except if it was disabled
+		/// in Settings. Calling this method on AnyGamepad only enables AnyGamepad.
 		/// </summary>
 		public void Enable() {
 			isEnabled = true;
 		}
 
 		/// <summary>
-		/// Reset and disable a gamepad so that Hinput stops tracking it. <br/><br/>
+		/// Reset and disable a gamepad so that Hinput stops tracking it. <br/> <br/>
 		/// This may improve performance. Calling this method on AnyGamepad only disables AnyGamepad.
 		/// </summary>
 		public void Disable() {
-			Reset();
-			isEnabled = false;
-		}
-		
-		private void Reset() {
 			buttons.ForEach(button => button.Reset());
 			sticks.ForEach(stick => stick.Reset());
 			anyInput.Reset();
 			StopVibration();
+			
+			isEnabled = false;
 		}
 
 
@@ -98,14 +95,12 @@ namespace HinputClasses {
 			leftStick = new Stick ("LeftStick", this, 0, !Settings.disableLeftStick);
 			rightStick = new Stick ("RightStick", this, 1, !Settings.disableRightStick);
 			dPad = new Stick ("DPad", this, 2, !Settings.disableDPad);
-			
 			vibration = new Vibration (index);
 			
 			SetUp();
 		}
 			
 		protected void SetUp() {
-			
 			A = new Button ("A", this, 0, !Settings.disableA); 
 			B = new Button ("B", this, 1, !Settings.disableB);
 			X = new Button ("X", this, 2, !Settings.disableX);
@@ -137,6 +132,9 @@ namespace HinputClasses {
 		// UPDATE
 		// --------------------
 
+		/// <summary>
+		/// Hinput internal method. You don't need to use it.
+		/// </summary>
 		public void Update () {
 			if (UpdateIsRequired() == false) return;
 
@@ -150,7 +148,6 @@ namespace HinputClasses {
 			if (!isEnabled && enableWhenConnected && isConnected) {
 				Enable();
 				enableWhenConnected = false;
-				return true;
 			}
 
 			return isEnabled;
@@ -212,7 +209,7 @@ namespace HinputClasses {
 		public Button rightStickClick { get; private set; }
 
 		/// <summary>
-		/// The XBox button of a gamepad.<br/><br/>
+		/// The XBox button of a gamepad.<br/> <br/>
 		/// Windows and Linux drivers can’t detect the value of this button. Therefore it will be considered released
 		/// at all times on these operating systems.
 		/// </summary>
@@ -234,7 +231,7 @@ namespace HinputClasses {
 		public Stick leftStick { get; protected set; }
 
 		/// <summary>
-		/// The right stick click of a gamepad.
+		/// The right stick of a gamepad.
 		/// </summary>
 		public Stick rightStick { get; protected set; }
 		
@@ -244,8 +241,9 @@ namespace HinputClasses {
 		public Stick dPad { get; protected set; }
 
 		/// <summary>
-		/// A virtual button that returns every input of a gamepad at once.<BR/> <BR/>
-		/// The position of AnyInput is the highest position for all buttons on that gamepad.
+		/// The virtual button that returns every input of a gamepad at once.<br/> <br/>
+		/// The position of AnyInput is the highest position for all inputs on that gamepad. AnyInput is considered
+		/// pressed if any input on that gamepad is pressed.
 		/// </summary>
 		public AnyInput anyInput { get; private set; }
 
@@ -277,9 +275,21 @@ namespace HinputClasses {
 		// --------------------
 		
 		protected Vibration vibration;
+
+		/// <summary>
+		/// The intensity at which the left motor of a gamepad is currently vibrating.<br/> <br/>
+		/// On AnyGamepad, returns -1.
+		/// </summary>
+		public virtual float leftVibration { get { return vibration.currentLeft; } }
+
+		/// <summary>
+		/// The intensity at which the right motor of a gamepad is currently vibrating.<br/> <br/>
+		/// On AnyGamepad, returns -1.
+		/// </summary>
+		public virtual float rightVibration { get { return vibration.currentRight; } }
 		
 		/// <summary>
-		/// Vibrate a gamepad.<BR/><BR/>
+		/// Vibrate a gamepad.<br/> <br/>
 		/// Calling this on AnyGamepad vibrates all gamepads.
 		/// </summary>
 		public virtual void Vibrate() {
@@ -290,7 +300,7 @@ namespace HinputClasses {
 		}
 
 		/// <summary>
-		/// Vibrate a gamepad for duration seconds.<BR/><BR/>
+		/// Vibrate a gamepad for duration seconds.<br/> <br/>
 		/// Calling this on AnyGamepad vibrates all gamepads.
 		/// </summary>
 		public virtual void Vibrate(float duration) {
@@ -302,7 +312,7 @@ namespace HinputClasses {
 		
 		/// <summary>
 		/// Vibrate a gamepad with an instensity of leftIntensity on the left motor, and an intensity of rightIntensity
-		/// on the right motor.<BR/><BR/>
+		/// on the right motor.<br/> <br/>
 		/// Calling this on AnyGamepad vibrates all gamepads.
 		/// </summary>
 		public virtual void Vibrate(float leftIntensity, float rightIntensity) {
@@ -313,8 +323,8 @@ namespace HinputClasses {
 		}
 		
 		/// <summary>
-		/// Vibrate a gamepad for duration seconds with an instensity of leftIntensity on the left motor, and an
-		/// intensity of rightIntensity on the right motor.<BR/><BR/>
+		/// Vibrate a gamepad with an instensity of leftIntensity on the left motor and an intensity of rightIntensity
+		/// on the right motor, for duration seconds.<br/> <br/>
 		/// Calling this on AnyGamepad vibrates all gamepads.
 		/// </summary>
 		public virtual void Vibrate(float leftIntensity, float rightIntensity, float duration) {
@@ -325,7 +335,7 @@ namespace HinputClasses {
 		}
 		
 		/// <summary>
-		/// Vibrate a gamepad with an intensity over time based on an animation curve.<BR/><BR/>
+		/// Vibrate a gamepad with an intensity over time based on an animation curve.<br/> <br/>
 		/// Calling this on AnyGamepad vibrates all gamepads.
 		/// </summary>
 		public virtual void Vibrate(AnimationCurve curve) {
@@ -334,7 +344,7 @@ namespace HinputClasses {
 		
 		/// <summary>
 		/// Vibrate a gamepad with an intensity over time based on two animation curves, one for the left side and one
-		/// for the right side.<BR/><BR/>
+		/// for the right side.<br/> <br/>
 		/// Calling this on AnyGamepad vibrates all gamepads.
 		/// </summary>
 		public virtual void Vibrate(AnimationCurve leftCurve, AnimationCurve rightCurve) {
@@ -342,7 +352,7 @@ namespace HinputClasses {
 		}
 
 		/// <summary>
-		/// Vibrate a gamepad with an intensity and a duration based on a vibration preset.<BR/><BR/>
+		/// Vibrate a gamepad with an intensity and a duration based on a vibration preset.<br/> <br/>
 		/// Calling this on AnyGamepad vibrates all gamepads.
 		/// </summary>
 		public virtual void Vibrate(VibrationPreset vibrationPreset) {
@@ -351,7 +361,7 @@ namespace HinputClasses {
 
 		/// <summary>
 		/// Vibrate a gamepad with an intensity and a duration based on a vibration preset.
-		/// The duration of the preset is multiplied by duration.<BR/><BR/>
+		/// The duration of the preset is multiplied by duration.<br/> <br/>
 		/// Calling this on AnyGamepad vibrates all gamepads.
 		/// </summary>
 		public virtual void Vibrate(VibrationPreset vibrationPreset, float duration) {
@@ -361,7 +371,7 @@ namespace HinputClasses {
 		/// <summary>
 		/// Vibrate a gamepad with an intensity and a duration based on a vibration preset.
 		/// The left intensity of the preset is multiplied by leftIntensity, and its right intensity is multiplied by
-		/// rightIntensity.<BR/><BR/>
+		/// rightIntensity.<br/> <br/>
 		/// Calling this on AnyGamepad vibrates all gamepads.
 		/// </summary>
 		public virtual void Vibrate(VibrationPreset vibrationPreset, float leftIntensity, float rightIntensity) {
@@ -371,16 +381,17 @@ namespace HinputClasses {
 		/// <summary>
 		/// Vibrate a gamepad with an intensity and a duration based on a vibration preset.
 		/// The left intensity of the preset is multiplied by leftIntensity, its right intensity is multiplied by
-		/// rightIntensity, and its duration is multiplied by duration.<BR/><BR/>
+		/// rightIntensity, and its duration is multiplied by duration.<br/> <br/>
 		/// Calling this on AnyGamepad vibrates all gamepads.
 		/// </summary>
-		public virtual void Vibrate(VibrationPreset vibrationPreset, float leftIntensity, float rightIntensity, float duration) {
+		public virtual void Vibrate(VibrationPreset vibrationPreset, float leftIntensity, float rightIntensity, 
+			float duration) {
 			vibration.Vibrate(vibrationPreset, leftIntensity, rightIntensity, duration);
 		}
 		
 		/// <summary>
 		/// Vibrate a gamepad with an instensity of leftIntensity on the left motor, and an intensity of rightIntensity
-		/// on the right motor, FOREVER. Don't forget to call StopVibration !<BR/><BR/>
+		/// on the right motor, FOREVER. Don't forget to call StopVibration!<br/> <br/>
 		/// Calling this on AnyGamepad vibrates all gamepads.
 		/// </summary>
 		public virtual void VibrateAdvanced(float leftIntensity, float rightIntensity) {
@@ -388,7 +399,7 @@ namespace HinputClasses {
 		}
 
 		/// <summary>
-		/// Stop all vibrations on a gamepad immediately.<BR/><BR/>
+		/// Stop all vibrations on a gamepad immediately.<br/> <br/>
 		/// Calling this on AnyGamepad stops all gamepads.
 		/// </summary>
 		public virtual void StopVibration () {
@@ -396,23 +407,11 @@ namespace HinputClasses {
 		}
 
 		/// <summary>
-		/// Stop all vibrations on a gamepad progressively over duration seconds.<BR/><BR/>
+		/// Stop all vibrations on a gamepad progressively over duration seconds.<br/> <br/>
 		/// Calling this on AnyGamepad stops all gamepads.
 		/// </summary>
 		public virtual void StopVibration (float duration) {
 			vibration.StopVibration(duration);
 		}
-
-		/// <summary>
-		/// The intensity at which the left motor of a gamepad is currently vibrating.<BR/><BR/>
-		/// On AnyGamepad, returns -1.
-		/// </summary>
-		public virtual float leftVibration { get { return vibration.currentLeft; } }
-
-		/// <summary>
-		/// The intensity at which the right motor of a gamepad is currently vibrating.<BR/><BR/>
-		/// On AnyGamepad, returns -1.
-		/// </summary>
-		public virtual float rightVibration { get { return vibration.currentRight; } }
 	}
 }

@@ -30,9 +30,7 @@ namespace HinputClasses {
         // UPDATE
         // --------------------
 
-        protected override float GetPositionRaw() { return Mathf.Clamp01(stick.distanceRaw/Settings.stickPressedZone); }
         protected override float GetPosition() { return Mathf.Clamp01(stick.distance/Settings.stickPressedZone); }
         protected override bool GetPressed() { return position >= 1f; }
-        protected override bool GetInDeadZone() { return stick.inDeadZone; }
     }
 }

@@ -21,15 +21,10 @@ namespace HinputClasses.Internal {
 		// --------------------
 		
 		// Add Hinput's input array at the end of inputManagerDir
-		[MenuItem("Tools/Hinput/Set up Hinput")]
+		[MenuItem("Tools/Hinput/Set Up Hinput")]
 		public static void HinputSetup () {
 			try {
-				Debug.Log("Setting up Hinput... ");
-
-				using (StreamWriter sw = File.AppendText(inputManagerPath)) {
-					sw.Write(HinputInputArray());
-				}
-
+				using (StreamWriter sw = File.AppendText(inputManagerPath)) sw.Write(HinputInputArray());
 				Confirm("set up", "You can start coding !");
 			} catch (Exception e) {
 				Debug.LogWarning("Error while setting up Hinput. Try reinstalling the plugin and rebooting your" +
@@ -39,7 +34,7 @@ namespace HinputClasses.Internal {
 		}
 
 		// Allows to set up Hinput only if it is not installed.
-		[MenuItem("Tools/Hinput/Set up Hinput", true)]
+		[MenuItem("Tools/Hinput/Set Up Hinput", true)]
 		public static bool HinputSetupValidation () {
 			return !HinputIsInstalled();
 		}
@@ -53,17 +48,13 @@ namespace HinputClasses.Internal {
 		[MenuItem("Tools/Hinput/Uninstall Hinput")]
 		public static void HinputUninstall () {
 			try {
-				Debug.Log("Uninstalling Hinput... ");
-
-				string hinputInputArray = Setup.HinputInputArray();
-				string currentInputArray = File.ReadAllText(inputManagerPath);
-
-				File.WriteAllText(inputManagerPath, currentInputArray.Replace(hinputInputArray, ""));
-
+				File.WriteAllText(inputManagerPath, 
+					File.ReadAllText(inputManagerPath).Replace(HinputInputArray(), ""));
 				Confirm("uninstalled", "Bye bye !");
 			} catch (Exception e) {
 				Debug.LogWarning("Error while uninstalling Hinput. Try reinstalling the plugin and rebooting " +
-				                 "your computer. If the problem persists, please contact me at couvreurhenri@gmail.com.");
+				                 "your computer. If the problem persists, please contact me at " +
+				                 "couvreurhenri@gmail.com.");
 				throw e;
 			}
 		}
@@ -93,38 +84,25 @@ namespace HinputClasses.Internal {
 
 		// Returns true if Hinput is currently installed, false otherwise.
 		public static bool HinputIsInstalled() {
-			string hinputInputArray = Setup.HinputInputArray();		
-			string currentInputArray = File.ReadAllText(inputManagerPath);
-
-			return (currentInputArray.Contains(hinputInputArray));
+			return (File.ReadAllText(inputManagerPath).Contains(HinputInputArray()));
 		}
 
-		// The path to Hinput's input array. Logs an error if it is not present.
+		// Locates the input array of Hinput, and returns its contents as a string. Logs an error if it is not present.
 		private static string HinputInputArray () {
-			string filePath = PathToInputArray ("./Assets/Hinput/Scripts/SetUp");
-			
-			if (filePath == null) filePath = PathToInputArray ("./Assets/Hinput/Scripts");
-			if (filePath == null) filePath = PathToInputArray ("./Assets/Hinput");
-			if (filePath == null) filePath = PathToInputArray ("./Assets");
-			if (filePath == null) filePath = PathToInputArray (".");
-
+			string filePath;
 			try {
-				return File.ReadAllText(filePath);
-			} catch {
+				filePath = Directory.GetFiles("./Assets/Hinput/Scripts/SetUp", hinputInputArrayName)
+					.FirstOrDefault();
+			} 
+			catch { filePath = null; }
+
+			try { return File.ReadAllText(filePath); } 
+			catch {
 				Debug.LogError("Hinput setup error : /Assets/Hinput/Scripts/SetUp/Hinput_8Controllers_inputManager" +
 					" not found. Make sure this file is present in your project, or reinstall the package.");
 			}
 
 			return null;
-		}
-
-		// Returns Hinput's input array in argument directory if it present, null otherwise.
-		private static string PathToInputArray (string directory) {
-			try {
-				return Directory.GetFiles(directory, hinputInputArrayName, SearchOption.AllDirectories).FirstOrDefault();
-			} catch { 
-				return null;
-			}
 		}
 	}
 }

@@ -12,8 +12,8 @@ namespace HinputClasses.Internal {
 		[Header("GENERAL")]
 		public bool startMessage;
 
-		public enum SD { none, verticalsAndHorizontals, diagonals, pressedZone }
-		public enum BF { none, simplePress, doublePress, longPress, positionAndPositionRaw, inDeadZone }
+		public enum SD { none, verticalsAndHorizontals, diagonals, diagonalsInverted, pressedZone }
+		public enum BF { none, simplePress, doublePress, longPress, position }
 		public enum PF {
 			justPressedAndJustReleased, pressedAndReleased, lastPressedAndLastReleased, pressDurationAndReleaseDuration
 		}
@@ -23,7 +23,7 @@ namespace HinputClasses.Internal {
 		public PF pressFeature;
 
 		public enum SF { 
-			none, position, horizontal, vertical, angle, distance, inDeadZone, worldPositionCamera, worldPositionFlat 
+			none, position, horizontal, vertical, angle, distance, worldPositionCamera, worldPositionFlat 
 		}
 		[Header("STICKS")]
 		public SF stickFeature;
@@ -58,7 +58,9 @@ namespace HinputClasses.Internal {
 		public bool toggleStickOnPPressed;
 		public bool toggleButtonOnBPressed;
 
-		public enum VM { noArgs, duration, intensity, durationAndIntensity, oneCurve, twoCurves, vibrationPreset, advanced }
+		public enum VM {
+			noArgs, duration, intensity, durationAndIntensity, oneCurve, twoCurves, vibrationPreset, advanced
+		}
 		[Header("VIBRATION")]
 		public VM vibrationMode;
 		[Range(0,10)]
@@ -101,7 +103,7 @@ namespace HinputClasses.Internal {
 			if (startMessage) {
 				Debug.Log("OS is : "+Utils.os);
 				Debug.Log("Hinput gameObject name is : "+Settings.instance.name);
-				Debug.Log("camera gameObject name is : "+Settings.worldCamera.name);
+				Debug.Log("Camera gameObject name is : "+Settings.worldCamera.name);
 			}
 		}
 
@@ -185,10 +187,10 @@ namespace HinputClasses.Internal {
 				             ", full name = " + currentButton.fullName +
 				             ", gamepad = " + currentButton.gamepad.fullName;
 				
-				if (currentButton is Direction) {
+				if (currentButton is StickDirection) {
 					log = "current direction: [" + log +
-					      ", stick = " + ((Direction)currentButton).stick.fullName +
-					      ", angle = " + ((Direction)currentButton).angle;
+					      ", stick = " + ((StickDirection)currentButton).stick.fullName +
+					      ", angle = " + ((StickDirection)currentButton).angle;
 				} else if (currentButton is StickPressedZone) {
 					log = "current stick pressed zone: [" + log +
 					      ", stick = " + ((StickPressedZone)currentButton).stick.fullName;
@@ -262,29 +264,27 @@ namespace HinputClasses.Internal {
 		// --------------------
 
 		private void TestButtons () {
-			if (currentButton == null || currentButton.inDeadZone) GetNewCurrentButton ();
+			if (currentButton == null || currentButton.released) GetNewCurrentButton ();
 			if (currentButton != null) TestCurrentButton ();
 		}
 
 		private void GetNewCurrentButton () {
 			List<Gamepad> gamepadsToTest = new List<Gamepad>();
 			if (gamepadMode == GM.anyGamepad) gamepadsToTest.Add(Hinput.anyGamepad);
-			else gamepadsToTest = Hinput.gamepad;
+			if (gamepadMode == GM.individualGamepads) gamepadsToTest = Hinput.gamepad;
 			
 			if (inputMode == IM.anyInput) {
-				foreach (Gamepad gamepad in gamepadsToTest) {
-					if (gamepad.anyInput.inDeadZone) continue;
-					currentButton = gamepad.anyInput;
-					return;
-				}
-			} else {
-				foreach (Gamepad gamepad in gamepadsToTest) {
-					foreach (Pressable button in AllGamepadButtons(gamepad)) {
-						if (button.inDeadZone) continue;
-						currentButton = button;
-						return;
-					}
-				}
+				gamepadsToTest.ForEach(gamepad => {
+					if (gamepad.anyInput.pressed) currentButton = gamepad.anyInput;
+				});
+			} 
+			
+			if (inputMode == IM.individualInputs) {
+				gamepadsToTest.ForEach(gamepad => {
+					AllGamepadButtons(gamepad).ForEach(button => {
+						if (button.pressed) currentButton = button;
+					});
+				});
 			}
 		}
 
@@ -314,6 +314,12 @@ namespace HinputClasses.Internal {
 				gamepad.dPad.upLeft, gamepad.dPad.upRight, gamepad.dPad.downLeft, gamepad.dPad.downRight
 			});
 
+			if (stickDirections == SD.diagonalsInverted) buttons.AddRange (new List<Pressable> {
+				gamepad.leftStick.leftUp, gamepad.leftStick.rightUp, gamepad.leftStick.leftDown, gamepad.leftStick.rightDown,
+				gamepad.rightStick.leftUp, gamepad.rightStick.rightUp, gamepad.rightStick.leftDown, gamepad.rightStick.rightDown,
+				gamepad.dPad.leftUp, gamepad.dPad.rightUp, gamepad.dPad.leftDown, gamepad.dPad.rightDown
+			});
+
 			if (stickDirections == SD.pressedZone) buttons.AddRange (new List<Pressable> {
 				gamepad.leftStick.inPressedZone, gamepad.rightStick.inPressedZone, gamepad.dPad.inPressedZone
 			});
@@ -328,13 +334,8 @@ namespace HinputClasses.Internal {
 
 		private void TestCurrentButton () {
 			if (buttonFeature == BF.none) return;
-			if (buttonFeature == BF.positionAndPositionRaw) Debug.Log (currentButton.fullName+
-			                                                           " position : "+currentButton.position+
-			                                                           ", position raw : "+currentButton.positionRaw);
-			if (buttonFeature == BF.inDeadZone) {
-				if (currentButton.inDeadZone) Debug.Log (currentButton.fullName+" is in dead zone");
-				else Debug.Log (currentButton.fullName+" is not in dead zone !!!");
-			}
+			if (buttonFeature == BF.position) Debug.Log (currentButton.fullName + 
+			                                                           " position : " + currentButton.position);
 			
 			Press currentPress;
 			string adjective;
@@ -379,7 +380,7 @@ namespace HinputClasses.Internal {
 		// --------------------
 
 		private void TestSticks () {
-			if (currentStick == null || currentStick.inDeadZone) GetNewCurrentStick ();
+			if (currentStick == null || !currentStick.inPressedZone) GetNewCurrentStick ();
 			if (currentStick != null) TestCurrentStick ();
 		}
 
@@ -389,9 +390,9 @@ namespace HinputClasses.Internal {
 		}
 
 		private void UpdateCurrentStickFromGamepad (Gamepad gamepad) {
-			if (!gamepad.leftStick.inDeadZone) currentStick = gamepad.leftStick;
-			else if (!gamepad.rightStick.inDeadZone) currentStick = gamepad.rightStick;
-			else if (!gamepad.dPad.inDeadZone) currentStick = gamepad.dPad;
+			if (gamepad.leftStick.inPressedZone) currentStick = gamepad.leftStick;
+			else if (gamepad.rightStick.inPressedZone) currentStick = gamepad.rightStick;
+			else if (gamepad.dPad.inPressedZone) currentStick = gamepad.dPad;
 		}
 
 
@@ -402,24 +403,15 @@ namespace HinputClasses.Internal {
 		private void TestCurrentStick () {
 			if (stickFeature == SF.none) return;
 			if (stickFeature == SF.position) 
-				Debug.Log (currentStick.fullName+" position : "+currentStick.position+
-			                              ", position raw : "+currentStick.positionRaw);
+				Debug.Log (currentStick.fullName+" position : "+currentStick.position);
 			if (stickFeature == SF.horizontal) Debug.Log (currentStick.fullName+
-			                                              " horizontal : "+currentStick.horizontal+
-			                                              ", horizontal raw : "+currentStick.horizontalRaw);
+			                                              " horizontal : "+currentStick.horizontal);
 			if (stickFeature == SF.vertical) Debug.Log (currentStick.fullName+
-			                                            " vertical : "+currentStick.vertical+
-			                                            ", vertical raw : "+currentStick.verticalRaw);
+			                                            " vertical : "+currentStick.vertical);
 			if (stickFeature == SF.angle) Debug.Log (currentStick.fullName+
-			                                         " angle : "+currentStick.angle+
-			                                         ", angle raw : "+currentStick.angleRaw);
+			                                         " angle : "+currentStick.angle);
 			if (stickFeature == SF.distance) Debug.Log (currentStick.fullName+
-			                                            " distance : "+currentStick.distance+
-			                                            ", distance raw : "+currentStick.distanceRaw);
-			if (stickFeature == SF.inDeadZone) {
-				if (currentStick.inDeadZone) Debug.Log (currentStick.fullName+" is in dead zone");
-				else Debug.Log (currentStick.fullName+" is not in dead zone !!!");
-			} 
+			                                            " distance : "+currentStick.distance);
 			if (stickFeature == SF.worldPositionCamera) {
 				message.gameObject.SetActive(false);
 				plane.gameObject.SetActive(true);
@@ -447,12 +439,12 @@ namespace HinputClasses.Internal {
 		// --------------------
 
 		private void TestVibration () {
-			if (gamepadMode == GM.individualGamepads) TestVibrationOnGamepad(Hinput.gamepad[0]);
-			else TestVibrationOnGamepad(Hinput.anyGamepad);
+			if (gamepadMode == GM.anyGamepad) TestVibrationOnGamepad(Hinput.anyGamepad);
+			if (gamepadMode == GM.individualGamepads && currentButton != null) 
+				TestVibrationOnGamepad(currentButton.gamepad);
 		}
 
 		private void TestVibrationOnGamepad(Gamepad gamepad) {
-
 			if (vibrateOnVPressed && Input.GetKeyDown(KeyCode.V)) {
 				if (vibrationMode == VM.noArgs) gamepad.Vibrate();
 				if (vibrationMode == VM.duration) gamepad.Vibrate(duration);
@@ -468,7 +460,7 @@ namespace HinputClasses.Internal {
 			}
 
 			if (stopVibrationOnSPressed && Input.GetKeyDown(KeyCode.S)) {
-				if (stopVibrationDuration < 0) gamepad.StopVibration();
+				if (stopVibrationDuration.IsEqualTo(0)) gamepad.StopVibration();
 				else gamepad.StopVibration(stopVibrationDuration);
 			}
 

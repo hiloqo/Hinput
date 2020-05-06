@@ -2,10 +2,8 @@
 
 namespace HinputClasses {
     /// <summary>
-	/// Hinput abstract class representing anything that can be considered pressed and released. 
-	/// It can be an actual button, a stick click, a trigger, a stick direction...<br/><br/>
-	/// If no property of the Pressable is used, it will automatically be cast to a boolean with the value pressed. 
-	/// For instance, Hinput.gamepad[0].A will return Hinput.gamepad[0].A.pressed.
+	/// Hinput abstract class representing anything that can be considered pressed and released. It can be an actual
+	/// button, a stick click, a trigger, a stick direction...
 	/// </summary>
 	public abstract class Pressable {
 		// --------------------
@@ -34,14 +32,14 @@ namespace HinputClasses {
 		// --------------------
 		
 		/// <summary>
-		/// Returns true if an input is being tracked by Hinput. Returns false otherwise.<br/><br/>
+		/// Returns true if an input is being tracked by Hinput. Returns false otherwise.<br/> <br/>
 		/// On AnyInput, returns true if AnyInput is enabled (this does NOT give any information on regular inputs).
 		/// Returns false otherwise.
 		/// </summary>
 		public bool isEnabled { get; private set; }
 		
 		/// <summary>
-		/// Enable an input so that Hinput starts tracking it.<br/><br/>
+		/// Enable an input so that Hinput starts tracking it.<br/> <br/>
 		/// Calling this method on AnyInput only enables AnyInput.
 		/// </summary>
 		public void Enable() {
@@ -49,7 +47,7 @@ namespace HinputClasses {
 		}
 
 		/// <summary>
-		/// Reset and disable an input so that Hinput stops tracking it. <br/><br/>
+		/// Reset and disable an input so that Hinput stops tracking it. <br/> <br/>
 		/// This may improve performance. Calling this method on AnyInput only disables AnyInput.
 		/// </summary>
 		public void Disable() {
@@ -58,11 +56,10 @@ namespace HinputClasses {
 		}
 
 		/// <summary>
-		/// Reset the position of an input and erase its history.<br/><br/>
-		/// Calling this method on AnyInput only resets AnyInput.
+		/// Hinput internal method. You don't need to use it.
 		/// </summary>
 		public void Reset() {
-			positionRaw = 0;
+			// positionRaw = 0;
 			penultimatePressStart = 0f;
 		}
 
@@ -115,7 +112,7 @@ namespace HinputClasses {
 		public float pressDuration { get { return ((Press)this).pressDuration; } }
 
 		/// <summary>
-		/// How long an input has been released (0 if it is pushed down).
+		/// How long an input has been released (0 if it is pressed).
 		/// </summary>
 		public float releaseDuration { get { return ((Press)this).releaseDuration; } }
 
@@ -129,8 +126,6 @@ namespace HinputClasses {
 			this.fullName = fullName;
 			this.gamepad = gamepad;
 			this.isEnabled = isEnabled;
-			
-			inDeadZone = true;
 			
 			simplePress = new Press(this);
 			longPress = new Press(this);
@@ -151,19 +146,18 @@ namespace HinputClasses {
 		// UPDATE
 		// --------------------
 
-		protected abstract float GetPositionRaw();
 		protected abstract float GetPosition();
 		protected abstract bool GetPressed();
-		protected abstract bool GetInDeadZone();
 
+		/// <summary>
+		/// Hinput internal method. You don't need to use it.
+		/// </summary>
 		public void Update () {
 			if (!isEnabled) return;
 			
 			bool prevPressed = isPressed;
-			positionRaw = GetPositionRaw();
 			position = GetPosition();
 			isPressed = GetPressed();
-			inDeadZone = GetInDeadZone();
 
 			if (isPressed && !prevPressed) {
 				penultimatePressStart = lastPressStart;
@@ -171,29 +165,19 @@ namespace HinputClasses {
 			}
 			
 			simplePress.Update(isPressed);
-			longPress.Update(isPressed && Time.unscaledTime - lastPressStart > Settings.longPressDuration);
-			doublePress.Update(isPressed && lastPressStart - penultimatePressStart < Settings.doublePressDuration);
+			longPress.Update(isPressed && (Time.unscaledTime - lastPressStart > Settings.longPressDuration));
+			doublePress.Update(isPressed && (lastPressStart - penultimatePressStart < Settings.doublePressDuration));
 		}
 
 		
 		// --------------------
 		// PUBLIC PROPERTIES
 		// --------------------
-		
-		/// <summary>
-		/// The current raw position of an input, i.e. not taking the dead zone into account.
-		/// </summary>
-		public float positionRaw { get; private set; }
 
 		/// <summary>
 		/// The current position of an input.
 		/// </summary>
 		public float position { get; private set; }
-
-		/// <summary>
-		/// Returns true if an input is in its dead zone. Returns false otherwise.
-		/// </summary>
-		public bool inDeadZone { get; private set; }
 
 		/// <summary>
 		/// Considered pressed whenever an input is pressed.

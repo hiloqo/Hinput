@@ -13,7 +13,7 @@ namespace HinputClasses {
         /// <summary>
         /// The button a press refers to.
         /// </summary>
-        public Pressable pressable;
+        public Pressable button;
         
         /// <summary>
         /// The gamepad of the button a press refers to.
@@ -45,10 +45,10 @@ namespace HinputClasses {
         // CONSTRUCTOR
         // --------------------
 
-        public Press(Pressable pressable) {
-            this.pressable = pressable;
+        public Press(Pressable button) {
+            this.button = button;
             
-            gamepad = pressable.gamepad;
+            gamepad = button.gamepad;
             lastPressed = Mathf.NegativeInfinity; // *force wave* this input was never pressed
             lastReleased = Mathf.NegativeInfinity;
         }

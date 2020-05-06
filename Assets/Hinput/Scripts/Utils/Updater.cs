@@ -6,18 +6,10 @@ namespace HinputClasses.Internal {
     // created one.
     public class Updater : MonoBehaviour {
     	// --------------------
-    	// INTERNAL SETTINGS
-    	// --------------------
-    
-    	// The last frame Hinput was updated
-    	private static int lastUpdatedFrame = -1;
-    	
-    	
-    	// --------------------
     	// SINGLETON PATTERN
     	// --------------------
     
-    	//The instance of HinputSettings. Assigned when first called.
+    	//The instance of Updater. Assigned when first called.
     	private static Updater _instance;
     	public static Updater instance { 
     		get {
@@ -30,6 +22,7 @@ namespace HinputClasses.Internal {
     		if (_instance != null) return;
     		
     		_instance = Settings.instance.gameObject.AddComponent<Updater>();
+            UpdateGamepads();
     	}
     
     	private void Awake () {
@@ -47,12 +40,7 @@ namespace HinputClasses.Internal {
     		UpdateGamepads();
     	}
     
-    	// If the gamepads have not been updated this frame, update them.
-    	public static void UpdateGamepads () {
-    		if (lastUpdatedFrame == Time.frameCount) return;
-    		
-    		lastUpdatedFrame = Time.frameCount;
-    		
+        private static void UpdateGamepads () {
             Hinput.gamepad.ForEach(gamepad => gamepad.Update());
     		Hinput.anyGamepad.Update();
     	}

@@ -11,9 +11,8 @@ namespace HinputClasses.Internal {
 		//The maximum amount of gamepads supported by Hinput
 		public const float maxGamepads = 8;
 
-		//By how much to increase diagonals (in %), because otherwise the max stick distance is sometimes less than 1.
-		//Does not affect raw inputs.
-		public const float distanceIncrease = 0.01f;
+		//By how much to increase stick position, because otherwise max stick distance is sometimes less than 1.
+		public const float stickPositionMultiplier = 1.01f;
 
 
 		// --------------------
@@ -37,11 +36,6 @@ namespace HinputClasses.Internal {
 				if (logError) HinputNotSetUpError ();
 				return 0;
 			}
-		}
-
-		private static void HinputNotSetUpError () {
-			Debug.LogWarning("Warning : Hinput has not been set up, so gamepad inputs cannot be recorded. "+
-			"To set it up, go to the Tools menu and click \"Hinput > Set up Hinput\".");
 		}
 
 
@@ -120,8 +114,25 @@ namespace HinputClasses.Internal {
 			return Mathf.Abs(target - other) > Mathf.Epsilon;
 		}
 
-		public static bool IsSuperiorOrEqualTo(this float target, float other) {
-			return target - other > -Mathf.Epsilon;
+		public static Vector2 Clamp(this Vector2 target, float min, float max) {
+			return new Vector2(
+				Mathf.Clamp(target.x, min, max),
+				Mathf.Clamp(target.y, min, max));
+		}
+
+
+		// --------------------
+		// ERROR MESSAGES
+		// --------------------
+
+		private static void HinputNotSetUpError () {
+			Debug.LogWarning("Warning : Hinput has not been set up, so gamepad inputs cannot be recorded. "+
+			                 "To set it up, go to the Tools menu and click \"Hinput > Set up Hinput\".");
+		}
+
+		public static void VibrationNotAvailableError() {
+			if (os != "Windows") Debug.LogWarning("Hinput warning : vibration is only supported on Windows computers.");
+			else Debug.LogWarning("Hinput warning : vibration is only supported on four controllers.");
 		}
 	}
 }

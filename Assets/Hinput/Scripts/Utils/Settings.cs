@@ -1,19 +1,17 @@
 ﻿using UnityEngine;
-using HinputClasses.Internal;
-using UnityEngine.Serialization;
 
 namespace HinputClasses {
     /// <summary>
-	/// Hinput class responsible for handling settings.<br/>
-	/// You can attach it to a GameObject to expose settings. 
-	/// If you don’t, it will automatically be instantiated at runtime the first time you call Hinput, with default settings.
+	/// Hinput class responsible for handling settings.<br/> <br/>
+	/// You can attach it to a gameobject to expose settings. If you don’t, it will automatically be instantiated at
+	/// runtime the first time you call Hinput, with default settings.
 	/// </summary>
 	public class Settings : MonoBehaviour {
 		// --------------------
 		// SINGLETON PATTERN
 		// --------------------
 
-		//The instance of HinputSettings. Assigned when first called.
+		//The instance of Settings. Assigned when first called.
 		private static Settings _instance;
 		public static Settings instance { 
 			get {
@@ -49,7 +47,7 @@ namespace HinputClasses {
 		         "what kind of Press you want to use.")]
 		private DefaultPressTypes _defaultPressType = DefaultPressTypes.SimplePress;
 		/// <summary>
-		/// The default conversion of Pressable to boolean values<br/><br/>
+		/// The default conversion of Pressable to boolean values<br/> <br/>
 		/// Determines how Hinput interprets buttons, triggers and stick directions when you don't specify what kind of
 		/// Press you want to use.
 		/// </summary>
@@ -65,7 +63,7 @@ namespace HinputClasses {
 		         "what feature you want to use.")]
 		private DefaultPressFeatures _defaultPressFeature = DefaultPressFeatures.Pressed;
 		/// <summary>
-		/// The default conversion of Press and Pressable to boolean values<br/><br/>
+		/// The default conversion of Press and Pressable to boolean values<br/> <br/>
 		/// Determines how Hinput interprets buttons, triggers and stick directions when you don't specify what feature
 		/// you want to use.
 		/// </summary>
@@ -76,112 +74,10 @@ namespace HinputClasses {
 
 
 		// --------------------
-		// STICKS
-		// --------------------
-
-		public enum StickTypes { FourDirections = 90, EightDirections = 45 }
-		[Header("Sticks")]
-
-		[SerializeField]
-		[Tooltip("The type of stick to use.\n\n"+
-		         "Set it to Four Directions for 4-directional sticks, with buttons that are 90 degrees wide (Use " +
-		         "diagonals with caution in this case). Set it to Eight Directions for 8-directional sticks, with " +
-		         "buttons that are 45 degrees wide.")]
-		private StickTypes _stickType = StickTypes.EightDirections;
-		/// <summary>
-		/// The type of stick to use. <br/>
-		/// Set it to Four Directions for 4-directional sticks, with buttons that are 90 degrees wide (use diagonals
-		/// with caution in this case). Set it to Eight Directions for 8-directional sticks, with
-		/// buttons that are 45 degrees wide.
-		/// </summary>
-		public static StickTypes stickType { 
-			get { return instance._stickType; } 
-			set { instance._stickType = value; }  
-		}
-
-		[SerializeField]
-		[Range(0,1)]
-		[Tooltip("The distance from the origin beyond which stick inputs start being registered (except for raw inputs).")]
-		private float _stickDeadZone = 0.2f;
-		/// <summary>
-		/// The distance from the origin beyond which stick inputs start being registered (except for raw inputs).
-		/// </summary>
-		public static float stickDeadZone { 
-			get { return instance._stickDeadZone; } 
-			set { instance._stickDeadZone = value; } 
-		}
-
-		[SerializeField]
-		[Range(0,1)]
-		[Tooltip("The distance from the end of the dead zone beyond which stick inputs are considered pushed.")]
-		private float _stickPressedZone = 0.5f;
-		/// <summary>
-		/// The distance from the end of the dead zone beyond which stick inputs are considered pushed.
-		/// </summary>
-		public static float stickPressedZone { 
-			get { return instance._stickPressedZone; } 
-			set { instance._stickPressedZone = value; }  
-		}
-
-		[SerializeField]
-		[Tooltip("The Camera on which the worldPositionCamera and worldPositionCameraRaw properties of Stick should be " +
-		         "calculated. If no Camera is set, Hinput will try to find one on your scene.")]
-		private Transform _worldCamera = null;
-		/// <summary>
-		/// The Camera on which the worldPositionCamera and worldPositionCameraRaw properties of Stick should be calculated. 
-		/// If no Camera is set, Hinput will try to find one on your scene.
-		/// </summary>
-		public static Transform worldCamera { 
-			get { 
-				if (instance._worldCamera == null) {
-					if (Camera.main != null) instance._worldCamera = Camera.main.transform;
-					else if (FindObjectOfType<Camera>() != null) 
-						instance._worldCamera = FindObjectOfType<Camera>().transform;
-					else return null;
-				}
-
-				return instance._worldCamera;
-			} 
-			set { instance._worldCamera = value; } 
-		}
-
-
-		// --------------------
-		// TRIGGERS
-		// --------------------
-
-		[Header("Triggers")]
-
-		[SerializeField]
-		[Range(0,1)]
-		[Tooltip("The distance from the origin beyond which trigger inputs start being registered (except for raw inputs).")]
-		private float _triggerDeadZone = 0.1f;
-		/// <summary>
-		/// The distance from the origin beyond which trigger inputs start being registered (except for raw inputs).
-		/// </summary>
-		public static float triggerDeadZone { 
-			get { return instance._triggerDeadZone; } 
-			set { instance._triggerDeadZone = value; } 
-		}
-
-		[SerializeField]
-		[Range(0,1)]
-		[Tooltip("The distance from the end of the dead zone beyond which trigger inputs are considered pushed.")]
-		private float _triggerPressedZone = 0.5f;
-		/// <summary>
-		/// The distance from the end of the dead zone beyond which trigger inputs are considered pushed.
-		/// </summary>
-		public static float triggerPressedZone { 
-			get { return instance._triggerPressedZone; } 
-			set { instance._triggerPressedZone = value; }  
-		}
-
-
-		// --------------------
-		// BUTTONS
+		// PRESSES
 		// --------------------
 		
-		[Header("Buttons")]
+		[Header("Presses")]
 
 		[SerializeField]
 		[Range(0,2)]
@@ -209,6 +105,110 @@ namespace HinputClasses {
 
 
 		// --------------------
+		// STICKS
+		// --------------------
+
+		public enum StickTypes { FourDirections = 90, EightDirections = 45 }
+		[Header("Sticks")]
+
+		[SerializeField]
+		[Tooltip("The type of stick to use.\n\n"+
+		         "- Set it to Four Directions for 4-directional sticks, with virtual buttons that span 1/4 of a " +
+		         "circle (90 degrees). Use diagonals with caution in this case.\n\n" +
+		         "- Set it to Eight Directions for 8-directional sticks, with virtual buttons that span 1/8 of a " +
+		         "circle (45 degrees).")]
+		private StickTypes _stickType = StickTypes.EightDirections;
+		/// <summary>
+		/// The type of stick to use. <br/> <br/>
+		/// - Set it to Four Directions for 4-directional sticks, with virtual buttons that span 1/4 of a circle
+		/// (90 degrees). Use diagonals with caution in this case.<br/>
+		/// - Set it to Eight Directions for 8-directional sticks, with virtual buttons that span 1/8 of a circle
+		/// (45 degrees).
+		/// </summary>
+		public static StickTypes stickType { 
+			get { return instance._stickType; } 
+			set { instance._stickType = value; }  
+		}
+
+		[SerializeField]
+		[Range(0,1)]
+		[Tooltip("The distance from the origin beyond which stick inputs start being registered.")]
+		private float _stickDeadZone = 0.2f;
+		/// <summary>
+		/// The distance from the origin beyond which stick inputs start being registered.
+		/// </summary>
+		public static float stickDeadZone { 
+			get { return instance._stickDeadZone; } 
+			set { instance._stickDeadZone = value; } 
+		}
+
+		[SerializeField]
+		[Range(0,1)]
+		[Tooltip("The distance from the end of the dead zone beyond which stick inputs are considered pushed.")]
+		private float _stickPressedZone = 0.5f;
+		/// <summary>
+		/// The distance from the end of the dead zone beyond which stick inputs are considered pushed.
+		/// </summary>
+		public static float stickPressedZone { 
+			get { return instance._stickPressedZone; } 
+			set { instance._stickPressedZone = value; }  
+		}
+
+		[SerializeField]
+		[Tooltip("The Camera on which the worldPositionCamera feature of Stick should be based. If no Camera is set, " +
+		         "Hinput will try to find one on your scene.")]
+		private Transform _worldCamera = null;
+		/// <summary>
+		/// The Camera on which the worldPositionCamera feature of Stick should be based. If no Camera is set,  
+		/// Hinput will try to find one on your scene.
+		/// </summary>
+		public static Transform worldCamera { 
+			get { 
+				if (instance._worldCamera == null) {
+					if (Camera.main != null) instance._worldCamera = Camera.main.transform;
+					else if (FindObjectOfType<Camera>() != null) 
+						instance._worldCamera = FindObjectOfType<Camera>().transform;
+					else return null;
+				}
+
+				return instance._worldCamera;
+			} 
+			set { instance._worldCamera = value; } 
+		}
+
+
+		// --------------------
+		// TRIGGERS
+		// --------------------
+
+		[Header("Triggers")]
+
+		[SerializeField]
+		[Range(0,1)]
+		[Tooltip("The distance from the origin beyond which trigger inputs start being registered.")]
+		private float _triggerDeadZone = 0.1f;
+		/// <summary>
+		/// The distance from the origin beyond which trigger inputs start being registered.
+		/// </summary>
+		public static float triggerDeadZone { 
+			get { return instance._triggerDeadZone; } 
+			set { instance._triggerDeadZone = value; } 
+		}
+
+		[SerializeField]
+		[Range(0,1)]
+		[Tooltip("The distance from the end of the dead zone beyond which trigger inputs are considered pushed.")]
+		private float _triggerPressedZone = 0.5f;
+		/// <summary>
+		/// The distance from the end of the dead zone beyond which trigger inputs are considered pushed.
+		/// </summary>
+		public static float triggerPressedZone { 
+			get { return instance._triggerPressedZone; } 
+			set { instance._triggerPressedZone = value; }  
+		}
+
+
+		// --------------------
 		// VIBRATION
 		// --------------------
 
@@ -217,11 +217,11 @@ namespace HinputClasses {
 		[SerializeField]
 		[Range(0,1)]
 		[Tooltip("The default intensity of the left (low-frequency) motor when controllers vibrate.\n\n"+
-		         "The left motor is a low-frequency rumble motor.")]
+		         "The left motor's vibration feels like a low rumble.")]
 		private float _vibrationDefaultLeftIntensity = 0.2f;
 		/// <summary>
-		/// The default intensity of the left (low-frequency) motor when controllers vibrate.<br/><br/>
-		/// The left motor is a low-frequency rumble motor.
+		/// The default intensity of the left (low-frequency) motor when controllers vibrate.<br/> <br/>
+		/// The left motor's vibration feels like a low rumble.
 		/// </summary>
 		public static float vibrationDefaultLeftIntensity { 
 			get { return instance._vibrationDefaultLeftIntensity; } 
@@ -230,11 +230,12 @@ namespace HinputClasses {
 
 		[SerializeField]
 		[Range(0,1)]
-		[Tooltip("The default intensity of the right (high-frequency) motor when controllers vibrate.\n\n"+
-		         "The right motor is a high-frequency rumble motor.")]
+		[Tooltip("The default intensity of the right (high-frequency) motor when controllers vibrate.\n\n" +
+		         "The right motor's vibration feels like a sharp buzz.")]
 		private float _vibrationDefaultRightIntensity = 0.8f;
 		/// <summary>
-		/// The default intensity of the right (high-frequency) motor when controllers vibrate.
+		/// The default intensity of the right (high-frequency) motor when controllers vibrate.<br/> <br/>
+		/// The right motor's vibration feels like a sharp buzz.
 		/// </summary>
 		public static float vibrationDefaultRightIntensity { 
 			get { return instance._vibrationDefaultRightIntensity; } 
@@ -243,10 +244,10 @@ namespace HinputClasses {
 
 		[SerializeField]
 		[Range(0,2)]
-		[Tooltip("The default duration of gamepad vibration.")]
+		[Tooltip("The default duration of gamepad vibrations.")]
 		private float _vibrationDefaultDuration = 0.2f;
 		/// <summary>
-		/// The default duration of gamepad vibration.
+		/// The default duration of gamepad vibrations.
 		/// </summary>
 		public static float vibrationDefaultDuration { 
 			get { return instance._vibrationDefaultDuration; } 
@@ -261,11 +262,12 @@ namespace HinputClasses {
 		[Header("Performance")]
 		[SerializeField]
 		[Range(0,8)]
-		[Tooltip("The maximum amount of gamepads to be tracked by Hinput. Reducing this may improve performance.")]
+		[Tooltip("The maximum amount of gamepads to be tracked by Hinput.\n\n" +
+		         "Reducing this may improve performance.")]
 		private int _amountOfGamepads = 8;
 		/// <summary>
-		/// The maximum amount of gamepads to be tracked by Hinput. Any gamepad disabled by this control can only be
-		/// reactivated by it. Reducing this may improve performance.
+		/// The maximum amount of gamepads to be tracked by Hinput.<br/> <br/>
+		/// Reducing this may improve performance.
 		/// </summary>
 		public static int amountOfGamepads { 
 			get { return instance._amountOfGamepads; } 
@@ -274,11 +276,13 @@ namespace HinputClasses {
 
 		[SerializeField]
 		[Tooltip("Checking this before starting the game will cause the AnyGamepad feature to not be tracked by " +
-		         "Hinput. This may improve performance.")]
+		         "Hinput. \n\n" +
+		         "This may improve performance.")]
 		private bool _disableAnyGamepad = false;
 		/// <summary>
-		/// Checking this before starting the game will cause anyGamepad to not be tracked by Hinput. Any gamepad
-		/// disabled by this control can only be reactivated by it. This may improve performance.
+		/// Checking this before starting the game will cause the AnyGamepad feature to not be tracked by Hinput.
+		/// <br/> <br/>
+		/// This may improve performance.
 		/// </summary>
 		public static bool disableAnyGamepad { 
 			get { return instance._disableAnyGamepad; } 
@@ -287,10 +291,12 @@ namespace HinputClasses {
 
 		[SerializeField]
 		[Tooltip("Checking this before starting the game will cause the A button of gamepads to not be tracked by " +
-		         "Hinput. This may improve performance.")]
+		         "Hinput. \n\n" +
+		         "This may improve performance.")]
 		private bool _disableA = false;
 		/// <summary>
 		/// Checking this before starting the game will cause the A button of gamepads to not be tracked by Hinput.
+		/// <br/> <br/>
 		/// This may improve performance.
 		/// </summary>
 		public static bool disableA { 
@@ -300,10 +306,12 @@ namespace HinputClasses {
 
 		[SerializeField]
 		[Tooltip("Checking this before starting the game will cause the B button of gamepads to not be tracked by " +
-		         "Hinput. This may improve performance.")]
+		         "Hinput. \n\n" +
+		         "This may improve performance.")]
 		private bool _disableB = false;
 		/// <summary>
 		/// Checking this before starting the game will cause the B button of gamepads to not be tracked by Hinput.
+		/// <br/> <br/>
 		/// This may improve performance.
 		/// </summary>
 		public static bool disableB { 
@@ -313,10 +321,12 @@ namespace HinputClasses {
 
 		[SerializeField]
 		[Tooltip("Checking this before starting the game will cause the X button of gamepads to not be tracked by " +
-		         "Hinput. This may improve performance.")]
+		         "Hinput. \n\n" +
+		         "This may improve performance.")]
 		private bool _disableX = false;
 		/// <summary>
 		/// Checking this before starting the game will cause the X button of gamepads to not be tracked by Hinput.
+		/// <br/> <br/>
 		/// This may improve performance.
 		/// </summary>
 		public static bool disableX { 
@@ -326,10 +336,12 @@ namespace HinputClasses {
 
 		[SerializeField]
 		[Tooltip("Checking this before starting the game will cause the Y button of gamepads to not be tracked by " +
-		         "Hinput. This may improve performance.")]
+		         "Hinput. \n\n" +
+		         "This may improve performance.")]
 		private bool _disableY = false;
 		/// <summary>
 		/// Checking this before starting the game will cause the Y button of gamepads to not be tracked by Hinput.
+		/// <br/> <br/>
 		/// This may improve performance.
 		/// </summary>
 		public static bool disableY { 
@@ -339,10 +351,12 @@ namespace HinputClasses {
 
 		[SerializeField]
 		[Tooltip("Checking this before starting the game will cause the left bumper of gamepads to not be tracked by " +
-		         "Hinput. This may improve performance.")]
+		         "Hinput. \n\n" +
+		         "This may improve performance.")]
 		private bool _disableLeftBumper = false;
 		/// <summary>
 		/// Checking this before starting the game will cause the left bumper of gamepads to not be tracked by Hinput.
+		/// <br/> <br/>
 		/// This may improve performance.
 		/// </summary>
 		public static bool disableLeftBumper { 
@@ -352,10 +366,12 @@ namespace HinputClasses {
 
 		[SerializeField]
 		[Tooltip("Checking this before starting the game will cause the right bumper of gamepads to not be tracked " +
-		         "by Hinput. This may improve performance.")]
+		         "by Hinput. \n\n" +
+		         "This may improve performance.")]
 		private bool _disableRightBumper = false;
 		/// <summary>
 		/// Checking this before starting the game will cause the right bumper of gamepads to not be tracked by Hinput.
+		/// <br/> <br/>
 		/// This may improve performance.
 		/// </summary>
 		public static bool disableRightBumper { 
@@ -365,10 +381,12 @@ namespace HinputClasses {
 
 		[SerializeField]
 		[Tooltip("Checking this before starting the game will cause the left trigger of gamepads to not be tracked " +
-		         "by Hinput. This may improve performance.")]
+		         "by Hinput. \n\n" +
+		         "This may improve performance.")]
 		private bool _disableLeftTrigger = false;
 		/// <summary>
 		/// Checking this before starting the game will cause the left trigger of gamepads to not be tracked by Hinput.
+		/// <br/> <br/>
 		/// This may improve performance.
 		/// </summary>
 		public static bool disableLeftTrigger { 
@@ -378,11 +396,13 @@ namespace HinputClasses {
 
 		[SerializeField]
 		[Tooltip("Checking this before starting the game will cause the right trigger of gamepads to not be tracked " +
-		         "by Hinput. This may improve performance.")]
+		         "by Hinput. \n\n" +
+		         "This may improve performance.")]
 		private bool _disableRightTrigger = false;
 		/// <summary>
 		/// Checking this before starting the game will cause the right trigger of gamepads to not be tracked by
-		/// Hinput. This may improve performance.
+		/// Hinput. <br/> <br/>
+		/// This may improve performance.
 		/// </summary>
 		public static bool disableRightTrigger { 
 			get { return instance._disableRightTrigger; } 
@@ -391,10 +411,12 @@ namespace HinputClasses {
 
 		[SerializeField]
 		[Tooltip("Checking this before starting the game will cause the back button of gamepads to not be tracked " +
-		         "by Hinput. This may improve performance.")]
+		         "by Hinput. \n\n" +
+		         "This may improve performance.")]
 		private bool _disableBack = false;
 		/// <summary>
 		/// Checking this before starting the game will cause the back button of gamepads to not be tracked by Hinput.
+		/// <br/> <br/>
 		/// This may improve performance.
 		/// </summary>
 		public static bool disableBack { 
@@ -404,10 +426,12 @@ namespace HinputClasses {
 
 		[SerializeField]
 		[Tooltip("Checking this before starting the game will cause the start button of gamepads to not be tracked " +
-		         "by Hinput. This may improve performance.")]
+		         "by Hinput. \n\n" +
+		         "This may improve performance.")]
 		private bool _disableStart = false;
 		/// <summary>
 		/// Checking this before starting the game will cause the start button of gamepads to not be tracked by Hinput.
+		/// <br/> <br/>
 		/// This may improve performance.
 		/// </summary>
 		public static bool disableStart { 
@@ -417,11 +441,13 @@ namespace HinputClasses {
 
 		[SerializeField]
 		[Tooltip("Checking this before starting the game will cause the left stick click of gamepads to not be " +
-		         "tracked by Hinput. This may improve performance.")]
+		         "tracked by Hinput. \n\n" +
+		         "This may improve performance.")]
 		private bool _disableLeftStickClick = false;
 		/// <summary>
 		/// Checking this before starting the game will cause the left stick click of gamepads to not be tracked by
-		/// Hinput. This may improve performance.
+		/// Hinput. <br/> <br/>
+		/// This may improve performance.
 		/// </summary>
 		public static bool disableLeftStickClick { 
 			get { return instance._disableLeftStickClick; } 
@@ -430,11 +456,13 @@ namespace HinputClasses {
 
 		[SerializeField]
 		[Tooltip("Checking this before starting the game will cause the right stick click of gamepads to not be " +
-		         "tracked by Hinput. This may improve performance.")]
+		         "tracked by Hinput. \n\n" +
+		         "This may improve performance.")]
 		private bool _disableRightStickClick = false;
 		/// <summary>
 		/// Checking this before starting the game will cause the right stick click of gamepads to not be tracked by
-		/// Hinput. This may improve performance.
+		/// Hinput. <br/> <br/>
+		/// This may improve performance.
 		/// </summary>
 		public static bool disableRightStickClick { 
 			get { return instance._disableRightStickClick; } 
@@ -443,10 +471,12 @@ namespace HinputClasses {
 
 		[SerializeField]
 		[Tooltip("Checking this before starting the game will cause the xBox button of gamepads to not be tracked " +
-		         "by Hinput. This may improve performance.")]
+		         "by Hinput. \n\n" +
+		         "This may improve performance.")]
 		private bool _disableXBoxButton = false;
 		/// <summary>
 		/// Checking this before starting the game will cause the xBox button of gamepads to not be tracked by Hinput.
+		/// <br/> <br/>
 		/// This may improve performance.
 		/// </summary>
 		public static bool disableXBoxButton { 
@@ -456,10 +486,12 @@ namespace HinputClasses {
 
 		[SerializeField]
 		[Tooltip("Checking this before starting the game will cause the left stick of gamepads to not be tracked " +
-		         "by Hinput. This may improve performance.")]
+		         "by Hinput. \n\n" +
+		         "This may improve performance.")]
 		private bool _disableLeftStick = false;
 		/// <summary>
 		/// Checking this before starting the game will cause the left stick of gamepads to not be tracked by Hinput.
+		/// <br/> <br/>
 		/// This may improve performance.
 		/// </summary>
 		public static bool disableLeftStick { 
@@ -469,10 +501,12 @@ namespace HinputClasses {
 
 		[SerializeField]
 		[Tooltip("Checking this before starting the game will cause the right stick of gamepads to not be tracked " +
-		         "by Hinput. This may improve performance.")]
+		         "by Hinput. \n\n" +
+		         "This may improve performance.")]
 		private bool _disableRightStick = false;
 		/// <summary>
 		/// Checking this before starting the game will cause the right stick of gamepads to not be tracked by Hinput.
+		/// <br/> <br/>
 		/// This may improve performance.
 		/// </summary>
 		public static bool disableRightStick { 
@@ -482,11 +516,13 @@ namespace HinputClasses {
 
 		[SerializeField]
 		[Tooltip("Checking this before starting the game will cause the D-pad of gamepads to not be tracked by " +
-		         "Hinput. This may improve performance.")]
+		         "Hinput. \n\n" +
+		         "This may improve performance.")]
 		private bool _disableDPad = false;
 		/// <summary>
-		/// Checking this before starting the game will cause the D-pad of gamepads to not be tracked by Hinput. This
-		/// may improve performance.
+		/// Checking this before starting the game will cause the D-pad of gamepads to not be tracked by Hinput.
+		/// <br/> <br/>
+		/// Thisnmay improve performance.
 		/// </summary>
 		public static bool disableDPad { 
 			get { return instance._disableDPad; } 
@@ -495,11 +531,13 @@ namespace HinputClasses {
 
 		[SerializeField]
 		[Tooltip("Checking this before starting the game will cause the AnyInput feature of gamepads to not be " +
-		         "tracked by Hinput. This may improve performance.")]
+		         "tracked by Hinput. \n\n" +
+		         "This may improve performance.")]
 		private bool _disableAnyInput = false;
 		/// <summary>
 		/// Checking this before starting the game will cause the anyInput feature of gamepads to not be tracked by
-		/// Hinput. This may improve performance.
+		/// Hinput. <br/> <br/>
+		/// This may improve performance.
 		/// </summary>
 		public static bool disableAnyInput { 
 			get { return instance._disableAnyInput; } 

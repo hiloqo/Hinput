@@ -1,4 +1,5 @@
 ﻿using HinputClasses.Internal;
+using UnityEngine;
 
 namespace HinputClasses {
     /// <summary>
@@ -29,14 +30,10 @@ namespace HinputClasses {
     	// --------------------
     	// INITIAL VALUE
     	// --------------------
-    	
-    	private readonly float initialValue;
-    	private bool hasBeenMoved = false;
-    
-    	// The value of the trigger's position, given by the gamepad driver.
-    	// In some instances, until an input is recorded triggers will have a non-zero measured resting position.
+        
+    	// The value of the trigger's position, measured by the gamepad driver.
     	private float measuredPosition { 
-    		get {
+    		get { // Triggers range from -1 to 1 on Mac, and from 0 to 1 on Windows and Linux.
     			if (Utils.os == "Mac") return (Utils.GetAxis(fullName) + 1)/2;
     			else return Utils.GetAxis(fullName);	
     		}
@@ -47,22 +44,19 @@ namespace HinputClasses {
     	// UPDATE
     	// --------------------
     
-    	// If no input has been recorded before, make sure the resting position is zero
-    	// Else just return the measured position.
-    	protected override float GetPositionRaw() {
-	        if (hasBeenMoved) return measuredPosition;
-    		if (measuredPosition.IsEqualTo(initialValue)) return 0f;
+        private readonly float initialValue;
+        private bool hasBeenMoved = false;
     
-    		hasBeenMoved = true;
-	        return measuredPosition;
-    	}
-    
+        // In some instances, triggers have a non-zero resting position until an input is recorded.
         protected override float GetPosition() {
-	        if (positionRaw < Settings.triggerDeadZone) return 0f;
-	        else return ((positionRaw - Settings.triggerDeadZone)/(1 - Settings.triggerDeadZone));
+	        if (!hasBeenMoved) {
+		        if (measuredPosition.IsEqualTo(initialValue)) return 0;
+		        else hasBeenMoved = true;
+	        }
+	        
+	        return Mathf.Clamp01((measuredPosition - Settings.triggerDeadZone)/(1 - Settings.triggerDeadZone));
         }
 
         protected override bool GetPressed() { return position >= Settings.triggerPressedZone; }
-        protected override bool GetInDeadZone() { return position < Settings.triggerDeadZone; }
     }
 }

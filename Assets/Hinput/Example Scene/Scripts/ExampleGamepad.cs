@@ -65,20 +65,24 @@ namespace HinputClasses.Internal {
         }
 
         private void UpdateVibrationButton() {
-            if (Utils.os != "Windows") return;
+            if (Utils.os != "Windows" || index > 3) return;
             if (Time.time < 5) return;
             if (!Setup.HinputIsInstalled()) return;
             
-            if (gamepad.isConnected || index > 3) vibrate.SetActive(true);
+            if (gamepad.isConnected) vibrate.SetActive(true);
             else vibrate.SetActive(false);
         }
 
         private void UpdateAllStickPositions() {
-            leftStick.transform.localPosition = leftStickStartPosition + gamepad.leftStick.worldPositionCamera * stickDistance;
-            rightStick.transform.localPosition = rightStickStartPosition + gamepad.rightStick.worldPositionCamera * stickDistance;
+            leftStick.transform.localPosition = leftStickStartPosition + 
+                                                gamepad.leftStick.worldPositionCamera*stickDistance;
+            rightStick.transform.localPosition = rightStickStartPosition + 
+                                                 gamepad.rightStick.worldPositionCamera*stickDistance;
             
-            if (gamepad.leftStick.inPressedZone.pressed) text.text = "Hinput.gamepad[" + index + "].leftStick.position";
-            if (gamepad.rightStick.inPressedZone.pressed) text.text = "Hinput.gamepad[" + index + "].rightStick.position";
+            if (gamepad.leftStick.inPressedZone.pressed) 
+                text.text = "Hinput.gamepad[" + index + "].leftStick.position";
+            if (gamepad.rightStick.inPressedZone.pressed) 
+                text.text = "Hinput.gamepad[" + index + "].rightStick.position";
         }
 
         private void UpdateXBoxButton() {

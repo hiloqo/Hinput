@@ -2,7 +2,6 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-	using System.Collections.Generic;
 	using XInputDotNetPure;
 #endif
 
@@ -10,15 +9,13 @@ namespace HinputClasses.Internal {
 	// Hinput class handling the vibration of a gamepad.
 	public class Vibration {
 		// --------------------
-		// PRIVATE VARIABLES
+		// PRIVATE PROPERTIES
 		// --------------------
 
 		#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 			private readonly PlayerIndex index;
 		#endif
 		private readonly bool canVibrate = false;
-		public float currentLeft;
-		public float currentRight;
 		private float prevLeft;
 		private float prevRight;
 
@@ -58,30 +55,49 @@ namespace HinputClasses.Internal {
 
 
 		// --------------------
+		// PUBLIC PROPERTIES
+		// --------------------
+		
+		public float currentLeft;
+		public float currentRight;
+
+
+		// --------------------
 		// PUBLIC METHODS
 		// --------------------
 
 		public void Vibrate (float left, float right, float duration) {
-			Utils.Coroutine(_Vibrate(left, right, duration));
+			if (canVibrate) Utils.Coroutine(_Vibrate(left, right, duration));
+			else Utils.VibrationNotAvailableError();
 		}
 
 		public void Vibrate(AnimationCurve leftCurve, AnimationCurve rightCurve) {
-			Utils.Coroutine(_Vibrate(leftCurve, rightCurve));
+			if (canVibrate) Utils.Coroutine(_Vibrate(leftCurve, rightCurve));
+			else Utils.VibrationNotAvailableError();
 		}
 
 		public void Vibrate(VibrationPreset vibrationPreset, float left, float right, float duration) {
-			PresetCurves presetCurves = GetCurves(vibrationPreset, left, right, duration);
-			Utils.Coroutine(_Vibrate(presetCurves.leftCurve, presetCurves.rightCurve));
+			if (canVibrate) {
+				PresetCurves presetCurves = GetCurves(vibrationPreset, left, right, duration);
+				Utils.Coroutine(_Vibrate(presetCurves.leftCurve, presetCurves.rightCurve));
+			}
+			else Utils.VibrationNotAvailableError();
 		}
 
 		public void VibrateAdvanced (float left, float right) {
-			currentLeft += left;
-			currentRight += right;
+			if (canVibrate) {
+				currentLeft += left;
+				currentRight += right;
+			}
+			else Utils.VibrationNotAvailableError();
 		}
 
 		public void StopVibration(float duration) {
-			Utils.StopRoutines();
-			Utils.Coroutine(_StopVibration(duration));
+			if (canVibrate) {
+				Utils.StopRoutines();
+				Utils.Coroutine(_StopVibration(duration));
+			}
+			else Utils.VibrationNotAvailableError();
 		}
 
 
@@ -90,27 +106,20 @@ namespace HinputClasses.Internal {
 		// --------------------
 
 		private IEnumerator _Vibrate (float left, float right, float duration) {
-			if (canVibrate) {
-				currentRight += right;
-				currentLeft += left;
-
-				yield return new WaitForSecondsRealtime (duration);
-
-				currentRight -= right;
-				currentLeft -= left;
-			} else {
-				if (Utils.os != "Windows") {
-					Debug.LogWarning("Hinput warning : vibration is only supported on Windows computers.");
-				} else {
-					Debug.LogWarning("Hinput warning : vibration is only supported on four controllers.");
-				}
-			}
+			currentRight += right;
+			currentLeft += left;
+			yield return new WaitForSecondsRealtime (duration);
+			currentRight -= right;
+			currentLeft -= left;
 		}
 
 		private IEnumerator _Vibrate(AnimationCurve leftCurve, AnimationCurve rightCurve) {
 			float time = 0;
 			bool leftCurveIsOver = (leftCurve.keys.Length == 0);
 			bool rightCurveIsOver = (rightCurve.keys.Length == 0);
+			
+			float leftCurveDuration = leftCurve.keys.Last().time;
+			float rightCurveDuration = rightCurve.keys.Last().time;
 
 			while(!leftCurveIsOver || !rightCurveIsOver) {
 				float leftCurveValue;
@@ -122,8 +131,8 @@ namespace HinputClasses.Internal {
 				else rightCurveValue = rightCurve.Evaluate(time);
 
 				time += Time.unscaledDeltaTime;
-				leftCurveIsOver = (time > leftCurve.keys.Last().time);
-				rightCurveIsOver = (time > rightCurve.keys.Last().time);
+				leftCurveIsOver = (time > leftCurveDuration);
+				rightCurveIsOver = (time > rightCurveDuration);
 				
 				currentLeft += leftCurveValue;
 				currentRight += rightCurveValue;
@@ -131,8 +140,6 @@ namespace HinputClasses.Internal {
 				currentLeft -= leftCurveValue;
 				currentRight -= rightCurveValue;
 			}
-
-			yield return null;
 		}
 
 		private IEnumerator _StopVibration(float duration) {
@@ -146,14 +153,14 @@ namespace HinputClasses.Internal {
 			while (timeLeft > 0) {
 				timeLeft -= Time.unscaledDeltaTime;
 
-				currentLeft += timeLeft / duration * originLeft;
-				currentRight += timeLeft / duration * originRight;
+				currentLeft += originLeft * timeLeft / duration;
+				currentRight += originRight * timeLeft / duration;
 				yield return new WaitForEndOfFrame();
-				currentLeft -= timeLeft / duration * originLeft;
-				currentRight -= timeLeft / duration * originRight;
+				currentLeft -= originLeft * timeLeft / duration;
+				currentRight -= originRight * timeLeft / duration;
 			}
 			
-			Update(); //Stop vibration if gamepad is disabled (no more update)
+			Update(); // Stop vibration if gamepad is disabled (no more update)
 		}
 
 
@@ -207,11 +214,11 @@ namespace HinputClasses.Internal {
 			}
 			
 			if (vibrationPreset == VibrationPreset.ExplosionShort) {
-				leftCurve.AddKey(0, 0.5f);
-				leftCurve.AddKey(0.2f, 0.5f);
+				leftCurve.AddKey(0, 0.6f);
+				leftCurve.AddKey(0.2f, 0.6f);
 				
-				rightCurve.AddKey(0, 0.25f);
-				rightCurve.AddKey(0.2f, 0.25f);
+				rightCurve.AddKey(0, 0.3f);
+				rightCurve.AddKey(0.2f, 0.3f);
 			}
 			
 			if (vibrationPreset == VibrationPreset.Explosion) {
@@ -256,6 +263,7 @@ namespace HinputClasses.Internal {
 				rightCurve.AddKey(10f, 0.3f);
 			}
 
+			// Multiply the duration and intensity of the curves
 			leftCurve.keys = leftCurve.keys
 				.ToList()
 				.Select(key => new Keyframe(key.time * duration, key.value * left))

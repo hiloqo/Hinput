@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 using HinputClasses.Internal;
 
@@ -29,7 +28,6 @@ namespace HinputClasses {
             leftStick = new AnyGamepadStick("LeftStick", this, 0);
             rightStick = new AnyGamepadStick("RightStick", this, 1);
             dPad = new AnyGamepadStick("DPad", this, 2);
-
             vibration = new Vibration (-1);
 
             SetUp();
@@ -41,10 +39,15 @@ namespace HinputClasses {
         // --------------------
 
         protected override bool UpdateIsRequired() { return isEnabled; }
+        
 
 		// --------------------
 		// VIBRATION
 		// --------------------
+
+		public override float leftVibration { get { return -1; } }
+
+		public override float rightVibration { get { return -1; } }
 
 		public override void Vibrate() {
 			Hinput.gamepad.Take(4).ToList()
@@ -111,9 +114,5 @@ namespace HinputClasses {
 			Hinput.gamepad.Take(4).ToList()
 				.ForEach(gamepad => gamepad.StopVibration(duration));
 		}
-
-		public override float leftVibration { get { return -1; } }
-
-		public override float rightVibration { get { return -1; } }
     }
 }
