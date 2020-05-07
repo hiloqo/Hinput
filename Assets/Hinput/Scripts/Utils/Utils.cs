@@ -67,7 +67,7 @@ namespace HinputClasses.Internal {
 
 		// Returns true if stick is currently within a (Settings.stickType) degree arc oriented at angle.
 		public static bool PushedTowards (this Stick stick, float angle) { 
-			return (Mathf.Abs(Mathf.DeltaAngle(angle, stick.angle)) < (int)Settings.stickType); 
+			return (Mathf.Abs(Mathf.DeltaAngle(angle, stick.angle)) < ((int)Settings.stickType) / 2); 
 		}
 
 
