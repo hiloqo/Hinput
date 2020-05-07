@@ -263,10 +263,10 @@ namespace HinputClasses {
 		/// </summary>
 		public List<Pressable> activeInputs {
 			get {
-				return buttons
-					.Union(sticks.Select(stick => stick.inPressedZone))
-					.Where(input => input)
-					.ToList();
+				List<Pressable> allButtons = new List<Pressable>();
+				allButtons.AddRange(buttons);
+				allButtons.AddRange(sticks.Select(stick => (Pressable)stick.inPressedZone));
+				return allButtons.Where(input => input).ToList();
 			}
 		}
 

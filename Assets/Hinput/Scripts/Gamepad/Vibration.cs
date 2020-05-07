@@ -97,7 +97,6 @@ namespace HinputClasses.Internal {
 				Utils.StopRoutines();
 				Utils.Coroutine(_StopVibration(duration));
 			}
-			else Utils.VibrationNotAvailableError();
 		}
 
 

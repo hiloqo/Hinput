@@ -59,7 +59,7 @@ namespace HinputClasses.Internal {
                 text.text = "Please plug in a gamepad to test Hinput";
             }
             
-            if (!Setup.HinputIsInstalled() && index == 0) {
+            if (!Utils.HinputIsInstalled() && index == 0) {
                 text.text = "Don't forget to install Hinput in Tools > Hinput > Set Up Hinput!";
             }
         }
@@ -67,7 +67,7 @@ namespace HinputClasses.Internal {
         private void UpdateVibrationButton() {
             if (Utils.os != "Windows" || index > 3) return;
             if (Time.time < 5) return;
-            if (!Setup.HinputIsInstalled()) return;
+            if (!Utils.HinputIsInstalled()) return;
             
             if (gamepad.isConnected) vibrate.SetActive(true);
             else vibrate.SetActive(false);

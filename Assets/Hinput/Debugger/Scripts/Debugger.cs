@@ -401,17 +401,6 @@ namespace HinputClasses.Internal {
 		// --------------------
 
 		private void TestCurrentStick () {
-			if (stickFeature == SF.none) return;
-			if (stickFeature == SF.position) 
-				Debug.Log (currentStick.fullName+" position : "+currentStick.position);
-			if (stickFeature == SF.horizontal) Debug.Log (currentStick.fullName+
-			                                              " horizontal : "+currentStick.horizontal);
-			if (stickFeature == SF.vertical) Debug.Log (currentStick.fullName+
-			                                            " vertical : "+currentStick.vertical);
-			if (stickFeature == SF.angle) Debug.Log (currentStick.fullName+
-			                                         " angle : "+currentStick.angle);
-			if (stickFeature == SF.distance) Debug.Log (currentStick.fullName+
-			                                            " distance : "+currentStick.distance);
 			if (stickFeature == SF.worldPositionCamera) {
 				message.gameObject.SetActive(false);
 				plane.gameObject.SetActive(true);
@@ -432,6 +421,17 @@ namespace HinputClasses.Internal {
 				redCube.gameObject.SetActive(false);
 				blueSphere.gameObject.SetActive(false);
 			}
+			if (stickFeature == SF.none) return;
+			if (stickFeature == SF.position) 
+				Debug.Log (currentStick.fullName+" position : "+currentStick.position);
+			if (stickFeature == SF.horizontal) Debug.Log (currentStick.fullName+
+			                                              " horizontal : "+currentStick.horizontal);
+			if (stickFeature == SF.vertical) Debug.Log (currentStick.fullName+
+			                                            " vertical : "+currentStick.vertical);
+			if (stickFeature == SF.angle) Debug.Log (currentStick.fullName+
+			                                         " angle : "+currentStick.angle);
+			if (stickFeature == SF.distance) Debug.Log (currentStick.fullName+
+			                                            " distance : "+currentStick.distance);
 		}
 
 		// --------------------
