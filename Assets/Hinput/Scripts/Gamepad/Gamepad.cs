@@ -268,7 +268,7 @@ namespace HinputClasses {
 				List<Pressable> allButtons = new List<Pressable>();
 				allButtons.AddRange(buttons);
 				allButtons.AddRange(sticks.Select(stick => (Pressable)stick.inPressedZone));
-				return allButtons.Where(input => input).ToList();
+				return allButtons.Where(input => input.simplePress.pressed).ToList();
 			}
 		}
 

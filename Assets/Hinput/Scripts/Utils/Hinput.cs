@@ -82,5 +82,9 @@ public static class Hinput {
 	/// <summary>
 	/// A list of all gamepads on which at least one button is currently being pressed.
 	/// </summary>
-	public static List<Gamepad> activeGamepads { get { return gamepad.Where(g => g.anyInput).ToList(); } }
+	public static List<Gamepad> activeGamepads {
+		get {
+			return gamepad.Where(g => g.anyInput.simplePress.pressed).ToList();
+		} 
+	}
 }
