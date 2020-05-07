@@ -17,12 +17,9 @@ namespace HinputClasses {
 		// UPDATE
 		// --------------------
 
-		protected override float GetPosition() {
-			try { if (Utils.GetButton(fullName, (name !="XBoxButton"))) return 1; } 
+		protected override bool GetPressed() {
+			try { return Utils.GetButton(fullName, (name != "XBoxButton")); } 
 			catch { /* Ignore exceptions here */ }
-			return 0;
-		}
-
-		protected override bool GetPressed() { return position.IsEqualTo(1); }
+			return false; }
 	}
 }

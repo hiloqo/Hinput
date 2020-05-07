@@ -146,18 +146,15 @@ namespace HinputClasses {
 		// --------------------
 		// UPDATE
 		// --------------------
-
-		protected abstract float GetPosition();
 		protected abstract bool GetPressed();
 
 		/// <summary>
 		/// Hinput internal method. You don't need to use it.
 		/// </summary>
-		public void Update () {
+		public virtual void Update () {
 			if (!isEnabled) return;
 			
 			bool prevPressed = isPressed;
-			position = GetPosition();
 			isPressed = GetPressed();
 
 			if (isPressed && !prevPressed) {
@@ -174,11 +171,6 @@ namespace HinputClasses {
 		// --------------------
 		// PUBLIC PROPERTIES
 		// --------------------
-
-		/// <summary>
-		/// The current position of an input.
-		/// </summary>
-		public float position { get; private set; }
 
 		/// <summary>
 		/// Considered pressed whenever an input is pressed.

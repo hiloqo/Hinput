@@ -19,6 +19,6 @@ namespace HinputClasses {
         // UPDATE
         // --------------------
 
-        protected override float GetPosition() { return stick.distance; }
+        protected override bool GetPressed() { return stick.distance > Settings.stickPressedZone; }
     }
 }

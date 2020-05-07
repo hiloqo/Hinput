@@ -18,12 +18,5 @@
             base(name, stick.gamepad, stick.fullName + "_" + name, true) {
             this.stick = stick;
         }
-
-		
-        // --------------------
-        // UPDATE
-        // --------------------
-        
-        protected override bool GetPressed() { return position >= Settings.stickPressedZone; }
     }
 }

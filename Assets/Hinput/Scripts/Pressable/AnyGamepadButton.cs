@@ -2,10 +2,11 @@
 using System.Linq;
 
 namespace HinputClasses.Internal {
-    // --------------------
-    // CONSTRUCTOR
-    // --------------------
     public class AnyGamepadButton : Button {
+        // --------------------
+        // CONSTRUCTOR
+        // --------------------
+        
         public AnyGamepadButton(string name, Gamepad gamepad, int index, bool isEnabled) :
             base(name, gamepad, index, isEnabled) {
             buttons = Hinput.gamepad.Select(g => g.buttons[index]).ToList();
@@ -13,7 +14,7 @@ namespace HinputClasses.Internal {
 
 
         // --------------------
-        // STICKS
+        // BUTTONS
         // --------------------
 
         // Every stick of this type
@@ -24,6 +25,6 @@ namespace HinputClasses.Internal {
         // UPDATE
         // --------------------
 
-        protected override float GetPosition() { return buttons.Select(button => button.position).Max(); }
+        protected override bool GetPressed() { return buttons.Any(button => button.simplePress.pressed); }
     }
 }

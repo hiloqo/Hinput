@@ -29,9 +29,8 @@ namespace HinputClasses {
 		// UPDATE
 		// --------------------
 
-		protected override float GetPosition() {
-			if (!stick.PushedTowards(angle)) return 0;
-			return stick.distance;
+		protected override bool GetPressed() {
+			return (stick.PushedTowards(angle) && stick.distance > Settings.stickPressedZone);
 		}
 
 	}

@@ -36,7 +36,6 @@ namespace HinputClasses {
         // UPDATE
         // --------------------
 
-        protected override float GetPosition() { return inputs.Select(input => input.position).Max(); }
         protected override bool GetPressed() { return inputs.Any(input => input.simplePress.pressed); }
     }
 }

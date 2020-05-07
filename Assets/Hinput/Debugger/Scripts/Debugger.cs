@@ -14,7 +14,7 @@ namespace HinputClasses.Internal {
 		public bool lockCurrentInputs;
 
 		public enum SD { none, verticalsAndHorizontals, diagonals, diagonalsInverted, pressedZone }
-		public enum BF { none, simplePress, doublePress, longPress, position }
+		public enum BF { none, simplePress, doublePress, longPress, triggerPosition }
 		public enum PF {
 			justPressedAndJustReleased, pressedAndReleased, lastPressedAndLastReleased, pressDurationAndReleaseDuration
 		}
@@ -335,8 +335,11 @@ namespace HinputClasses.Internal {
 
 		private void TestCurrentButton () {
 			if (buttonFeature == BF.none) return;
-			if (buttonFeature == BF.position) Debug.Log (currentButton.fullName + 
-			                                                           " position : " + currentButton.position);
+			if (buttonFeature == BF.triggerPosition) {
+				if (currentButton is Trigger) {
+					Debug.Log (currentButton.fullName +  " position : " + ((Trigger)currentButton).position);
+				} else Debug.Log("Pressable position is only available on triggers!");
+			}
 			
 			Press currentPress;
 			string adjective;
