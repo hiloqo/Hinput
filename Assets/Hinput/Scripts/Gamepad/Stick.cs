@@ -256,7 +256,12 @@ namespace HinputClasses {
 		/// The angle between the current position of a stick and the horizontal axis 
 		/// (In degrees : left=180, up=90, right=0, down=-90).
 		/// </summary>
-		public float angle { get {return Vector2.SignedAngle(Vector2.right, position); } }
+		public float angle {
+			get {
+				if (position.sqrMagnitude.IsEqualTo(0)) return 0;
+				return Vector2.SignedAngle(Vector2.right, position);
+			} 
+		}
 
 		/// <summary>
 		/// The coordinates of a stick as a Vector3 facing the camera (The horizontal and vertical coordinates of the
