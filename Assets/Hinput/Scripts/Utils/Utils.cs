@@ -58,13 +58,6 @@ namespace HinputClasses.Internal {
 		// STICKS
 		// --------------------
 
-		// The dot product of a stick position by a unit vector defined by an angle.
-		// (i.e. the projected distance to the origin of a stick position on the line defined by the point (0,0) and an angle.)
-		public static float DotProduct (Vector2 position, float angle) {
-			float radAngle = angle * Mathf.Deg2Rad;
-			return Mathf.Clamp01(Mathf.Cos(radAngle)*position.x + Mathf.Sin(radAngle)*position.y);
-		}
-
 		// Returns true if stick is currently within a (Settings.stickType) degree arc oriented at angle.
 		public static bool PushedTowards (this Stick stick, float angle) { 
 			return (Mathf.Abs(Mathf.DeltaAngle(angle, stick.angle)) < ((int)Settings.stickType) / 2); 
