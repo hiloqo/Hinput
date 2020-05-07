@@ -92,15 +92,6 @@ namespace HinputClasses {
 			isEnabled = false;
 			enableWhenConnected = (index < Settings.amountOfGamepads);
 			
-			leftStick = new Stick ("LeftStick", this, 0, !Settings.disableLeftStick);
-			rightStick = new Stick ("RightStick", this, 1, !Settings.disableRightStick);
-			dPad = new Stick ("DPad", this, 2, !Settings.disableDPad);
-			vibration = new Vibration (index);
-			
-			SetUp();
-		}
-			
-		protected void SetUp() {
 			A = new Button ("A", this, 0, !Settings.disableA); 
 			B = new Button ("B", this, 1, !Settings.disableB);
 			X = new Button ("X", this, 2, !Settings.disableX);
@@ -108,14 +99,25 @@ namespace HinputClasses {
 			
 			leftBumper = new Button ("LeftBumper", this, 4, !Settings.disableLeftBumper);
 			rightBumper = new Button ("RightBumper", this, 5, !Settings.disableRightBumper);
-			leftTrigger = new Trigger ("LeftTrigger", this, 6, !Settings.disableLeftTrigger);
-			rightTrigger = new Trigger ("RightTrigger", this, 7, !Settings.disableRightTrigger);
-			
 			back = new Button ("Back", this, 8, !Settings.disableBack);
 			start = new Button ("Start", this, 9, !Settings.disableStart);
+			
 			leftStickClick = new Button ("LeftStickClick", this, 10, !Settings.disableLeftStickClick);
 			rightStickClick = new Button ("RightStickClick", this, 11, !Settings.disableRightStickClick);
 			xBoxButton = new Button ("XBoxButton", this, 12, !Settings.disableXBoxButton);
+			
+			leftStick = new Stick ("LeftStick", this, 0, !Settings.disableLeftStick);
+			rightStick = new Stick ("RightStick", this, 1, !Settings.disableRightStick);
+			dPad = new Stick ("DPad", this, 2, !Settings.disableDPad);
+			
+			vibration = new Vibration (index);
+			
+			SetUp();
+		}
+			
+		protected void SetUp() {
+			leftTrigger = new Trigger ("LeftTrigger", this, 6, !Settings.disableLeftTrigger);
+			rightTrigger = new Trigger ("RightTrigger", this, 7, !Settings.disableRightTrigger);
 
 			anyInput = new AnyInput("AnyInput", this, !Settings.disableAnyInput);
 			
@@ -161,59 +163,59 @@ namespace HinputClasses {
 		/// <summary>
 		/// The A button of a gamepad.
 		/// </summary>
-		public Button A { get; private set; }
+		public Button A { get; protected set; }
 
 		/// <summary>
 		/// The B button of a gamepad.
 		/// </summary>
-		public Button B { get; private set; }
+		public Button B { get; protected set; }
 
 		/// <summary>
 		/// The X button of a gamepad.
 		/// </summary>
-		public Button X { get; private set; }
+		public Button X { get; protected set; }
 
 		/// <summary>
 		/// The Y button of a gamepad.
 		/// </summary>
-		public Button Y { get; private set; }
+		public Button Y { get; protected set; }
 
 		/// <summary>
 		/// The left bumper of a gamepad.
 		/// </summary>
-		public Button leftBumper { get; private set; }
+		public Button leftBumper { get; protected set; }
 
 		/// <summary>
 		/// The right bumper of a gamepad.
 		/// </summary>
-		public Button rightBumper { get; private set; }
+		public Button rightBumper { get; protected set; }
 
 		/// <summary>
 		/// The back button of a gamepad.
 		/// </summary>
-		public Button back { get; private set; }
+		public Button back { get; protected set; }
 
 		/// <summary>
 		/// The start button of a gamepad.
 		/// </summary>
-		public Button start { get; private set; }
+		public Button start { get; protected set; }
 
 		/// <summary>
 		/// The left stick click of a gamepad.
 		/// </summary>
-		public Button leftStickClick { get; private set; }
+		public Button leftStickClick { get; protected set; }
 
 		/// <summary>
 		/// The right stick click of a gamepad.
 		/// </summary>
-		public Button rightStickClick { get; private set; }
+		public Button rightStickClick { get; protected set; }
 
 		/// <summary>
 		/// The XBox button of a gamepad.<br/> <br/>
 		/// Windows and Linux drivers can’t detect the value of this button. Therefore it will be considered released
 		/// at all times on these operating systems.
 		/// </summary>
-		public Button xBoxButton { get; private set; }
+		public Button xBoxButton { get; protected set; }
 
 		/// <summary>
 		/// The left trigger of a gamepad.

@@ -4,25 +4,13 @@ namespace HinputClasses {
 	/// <summary>
 	/// Hinput class representing a physical button of a controller, such as the A button, a bumper or a stick click.
 	/// </summary>
-	public class Button : Pressable {
-		// --------------------
-		// ID
-		// --------------------
-	
-		/// <summary>
-		/// The index of a button on its gamepad.
-		/// </summary>
-		public readonly int index;
-	
-	
+	public class Button : GamepadPressable {
 		// --------------------
 		// CONSTRUCTOR
 		// --------------------
 
 		public Button(string name, Gamepad gamepad, int index, bool isEnabled) : 
-			base(name, gamepad, gamepad.fullName + "_" + name, isEnabled) {
-			this.index = index;
-		}
+			base(name, gamepad, index, isEnabled) { }
 
 	
 		// --------------------

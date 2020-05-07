@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using HinputClasses.Internal;
+using UnityEngine;
 
 namespace HinputClasses {
     /// <summary>

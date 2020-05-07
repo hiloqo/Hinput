@@ -134,18 +134,28 @@ namespace HinputClasses {
 		// UPDATE
 		// --------------------
 
+		protected virtual Vector2 GetPosition() {
+			if (positionRaw.magnitude < Settings.stickDeadZone) return Vector2.zero;
+			else {
+				return (Utils.stickPositionMultiplier/(1 - Settings.stickDeadZone) 
+				        *(positionRaw - positionRaw.normalized*Settings.stickDeadZone)).Clamp(-1, 1);
+			}
+		}
+
 		/// <summary>
 		/// Hinput internal method. You don't need to use it.
 		/// </summary>
 		public void Update () {
 			if (!isEnabled) return;
 
-			//Update axes first, then inPressedZone, then directions.
+			//Update axes first, then position, then inPressedZone, then directions.
 			if (horizontalAxis != null && verticalAxis != null) {
 				horizontalAxis.Update();
 				verticalAxis.Update();
 				positionRaw = new Vector2(horizontalAxis.position, verticalAxis.position);
 			}
+
+			position = GetPosition();
 
 			inPressedZone.Update();
 
@@ -216,26 +226,10 @@ namespace HinputClasses {
 		/// </summary>
 		public readonly StickPressedZone inPressedZone;
 
-		private Vector2 _position;
-		private int _lastPositionUpdateFrame = -1;
 		/// <summary>
 		/// The coordinates of a stick.
 		/// </summary>
-		public virtual Vector2 position {
-			get {
-				if (_lastPositionUpdateFrame == Time.frameCount) return _position;
-				
-				if (positionRaw.magnitude < Settings.stickDeadZone) _position = Vector2.zero;
-				else {
-					_position = (Utils.stickPositionMultiplier/(1 - Settings.stickDeadZone)
-					            *(positionRaw - positionRaw.normalized*Settings.stickDeadZone))
-					            .Clamp(-1, 1);
-				}
-				
-				_lastPositionUpdateFrame = Time.frameCount;
-				return _position; 
-			} 
-		}
+		public Vector2 position { get; private set; }
 
 		/// <summary>
 		/// The position of a stick along the horizontal axis (between -1 and 1).

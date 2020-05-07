@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace HinputClasses {
+namespace HinputClasses.Internal {
     /// <summary>
 	/// Hinput class responsible for handling settings.<br/> <br/>
 	/// You can attach it to a gameobject to expose settings. If you don’t, it will automatically be instantiated at

@@ -1,8 +1,7 @@
 ﻿using System.Linq;
 using UnityEngine;
-using HinputClasses.Internal;
 
-namespace HinputClasses {
+namespace HinputClasses.Internal {
     /// <summary>
     /// Hinput class representing every gamepad at once.
     /// </summary>
@@ -24,10 +23,25 @@ namespace HinputClasses {
             name = "AnyGamepad";
             fullName = Utils.os + "_" + name;
             isEnabled = !Settings.disableAnyGamepad;
+			
+            A = new AnyGamepadButton ("A", this, 0, !Settings.disableA); 
+            B = new AnyGamepadButton ("B", this, 1, !Settings.disableB);
+            X = new AnyGamepadButton ("X", this, 2, !Settings.disableX);
+            Y = new AnyGamepadButton ("Y", this, 3, !Settings.disableY);
+			
+            leftBumper = new AnyGamepadButton ("LeftBumper", this, 4, !Settings.disableLeftBumper);
+            rightBumper = new AnyGamepadButton ("RightBumper", this, 5, !Settings.disableRightBumper);
+            back = new AnyGamepadButton ("Back", this, 8, !Settings.disableBack);
+            start = new AnyGamepadButton ("Start", this, 9, !Settings.disableStart);
+			
+            leftStickClick = new AnyGamepadButton ("LeftStickClick", this, 10, !Settings.disableLeftStickClick);
+            rightStickClick = new AnyGamepadButton ("RightStickClick", this, 11, !Settings.disableRightStickClick);
+            xBoxButton = new AnyGamepadButton ("XBoxButton", this, 12, !Settings.disableXBoxButton);
             
             leftStick = new AnyGamepadStick("LeftStick", this, 0);
             rightStick = new AnyGamepadStick("RightStick", this, 1);
             dPad = new AnyGamepadStick("DPad", this, 2);
+            
             vibration = new Vibration (-1);
 
             SetUp();

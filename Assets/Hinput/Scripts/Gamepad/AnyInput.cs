@@ -1,17 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using HinputClasses.Internal;
 
 namespace HinputClasses {
     /// <summary>
     /// Hinput class representing every input of a controller at once
     /// </summary>
-    public class AnyInput : Pressable {
+    public class AnyInput : GamepadPressable {
         // --------------------
         // CONSTRUCTOR
         // --------------------
 
         public AnyInput(string name, Gamepad gamepad, bool isEnabled) : 
-            base(name, gamepad, gamepad.fullName + "_" + name, isEnabled) {
+            base(name, gamepad, -1, isEnabled) {
             inputs = new List<Pressable> {
                 gamepad.A, gamepad.B, gamepad.X, gamepad.Y,
                 gamepad.leftBumper, gamepad.rightBumper, 

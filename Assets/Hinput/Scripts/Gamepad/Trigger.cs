@@ -5,24 +5,13 @@ namespace HinputClasses {
     /// <summary>
     /// Hinput class representing the left or right trigger of a controller.
     /// </summary>
-    public class Trigger : Pressable {
-    	// --------------------
-    	// ID
-    	// --------------------
-    
-    	/// <summary>
-    	/// The index of a trigger on its gamepad.
-    	/// </summary>
-    	public readonly int index;
-    	
-    	
-    	// --------------------
+    public class Trigger : GamepadPressable {
+        // --------------------
     	// CONSTRUCTOR
     	// --------------------
     
     	public Trigger (string name, Gamepad gamepad, int index, bool isEnabled) : 
-    		base(name, gamepad, gamepad.fullName + "_" + name, isEnabled) {
-    		this.index = index;
+    		base(name, gamepad, index, isEnabled) {
     		initialValue = measuredPosition;
     	}
     
