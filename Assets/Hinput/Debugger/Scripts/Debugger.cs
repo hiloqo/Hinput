@@ -11,6 +11,7 @@ namespace HinputClasses.Internal {
 
 		[Header("GENERAL")]
 		public bool startMessage;
+		public bool lockCurrentInputs;
 
 		public enum SD { none, verticalsAndHorizontals, diagonals, diagonalsInverted, pressedZone }
 		public enum BF { none, simplePress, doublePress, longPress, position }
@@ -264,7 +265,7 @@ namespace HinputClasses.Internal {
 		// --------------------
 
 		private void TestButtons () {
-			if (currentButton == null || currentButton.released) GetNewCurrentButton ();
+			if (!lockCurrentInputs && (currentButton == null || currentButton.released)) GetNewCurrentButton ();
 			if (currentButton != null) TestCurrentButton ();
 		}
 
@@ -380,7 +381,7 @@ namespace HinputClasses.Internal {
 		// --------------------
 
 		private void TestSticks () {
-			if (currentStick == null || !currentStick.inPressedZone) GetNewCurrentStick ();
+			if (!lockCurrentInputs && (currentStick == null || !currentStick.inPressedZone)) GetNewCurrentStick ();
 			if (currentStick != null) TestCurrentStick ();
 		}
 
