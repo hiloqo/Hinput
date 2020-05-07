@@ -65,8 +65,8 @@ namespace HinputClasses.Internal {
 			return Mathf.Clamp01(Mathf.Cos(radAngle)*position.x + Mathf.Sin(radAngle)*position.y);
 		}
 
-		// Returns true if the stick is currently within a (Settings.directionAngle) degree cone from this direction
-		public static bool StickWithinAngle (Stick stick, float angle) { 
+		// Returns true if stick is currently within a (Settings.stickType) degree arc oriented at angle.
+		public static bool PushedTowards (this Stick stick, float angle) { 
 			return (Mathf.Abs(Mathf.DeltaAngle(angle, stick.angle)) < (int)Settings.stickType); 
 		}
 

@@ -29,10 +29,10 @@ namespace HinputClasses {
 		// UPDATE
 		// --------------------
 
-		protected override float GetPosition() { return Utils.DotProduct (stick.position, stick.angle); }
-
-		protected override bool GetPressed() {
-			return (stick.inPressedZone.simplePress.pressed && Utils.StickWithinAngle(stick, angle));
+		protected override float GetPosition() {
+			if (!stick.PushedTowards(angle)) return 0;
+			return stick.distance;
 		}
+
 	}
 }
