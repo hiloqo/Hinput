@@ -11,7 +11,7 @@ namespace HinputClasses.Internal {
 
 		[Header("GENERAL")]
 		public bool startMessage;
-		public bool lockCurrentInputs;
+		public bool lockCurrentInput;
 
 		public enum SD { none, verticalsAndHorizontals, diagonals, diagonalsInverted, pressedZone }
 		public enum BF { none, simplePress, doublePress, longPress, triggerPosition }
@@ -108,8 +108,7 @@ namespace HinputClasses.Internal {
 
 		private void Update () {
 			Time.timeScale = timeScale;
-			// if (playInUpdate) TestEverything();
-			Debug.Log(Hinput.gamepad[0].A.fullName);
+			if (playInUpdate) TestEverything();
 		}
 
 		private void FixedUpdate () {
@@ -259,7 +258,7 @@ namespace HinputClasses.Internal {
 		// --------------------
 
 		private void TestButtons () {
-			if (!lockCurrentInputs && (currentButton == null || currentButton.released)) GetNewCurrentButton ();
+			if (!lockCurrentInput && (currentButton == null || currentButton.released)) GetNewCurrentButton ();
 			if (currentButton != null) TestCurrentButton ();
 		}
 
@@ -373,7 +372,7 @@ namespace HinputClasses.Internal {
 		// --------------------
 
 		private void TestSticks () {
-			if (!lockCurrentInputs && (currentStick == null || !currentStick.inPressedZone)) GetNewCurrentStick ();
+			if (!lockCurrentInput && (currentStick == null || !currentStick.inPressedZone)) GetNewCurrentStick ();
 			if (currentStick != null) TestCurrentStick ();
 		}
 
