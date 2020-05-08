@@ -74,18 +74,4 @@ public static class Hinput {
 	/// A virtual button that returns every input of every gamepad at once.
 	/// </summary>
 	public static Pressable anyInput { get { return anyGamepad.anyInput; } }
-	
-	
-	// --------------------
-	// ACTIVE GAMEPADS
-	// --------------------
-
-	/// <summary>
-	/// A list of all gamepads on which at least one button is currently being pressed.
-	/// </summary>
-	public static List<Gamepad> activeGamepads {
-		get {
-			return gamepad.Where(g => g.anyInput.simplePress.pressed).ToList();
-		} 
-	}
 }

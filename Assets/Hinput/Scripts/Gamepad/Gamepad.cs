@@ -263,18 +263,6 @@ namespace HinputClasses {
 		/// </summary>
 		public List<Pressable> buttons { get; private set; }
 
-		/// <summary>
-		/// The list of all inputs that are currently being pressed on a gamepad.
-		/// </summary>
-		public List<Pressable> activeInputs {
-			get {
-				List<Pressable> allButtons = new List<Pressable>();
-				allButtons.AddRange(buttons);
-				allButtons.AddRange(sticks.Select(stick => (Pressable)stick.inPressedZone));
-				return allButtons.Where(input => input.simplePress.pressed).ToList();
-			}
-		}
-
 		// --------------------
 		// VIBRATION
 		// --------------------

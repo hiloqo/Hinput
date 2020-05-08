@@ -153,11 +153,7 @@ namespace HinputClasses.Internal {
 				}
 				
 				Gamepad currentGamepad = currentButton.gamepad;
-				Debug.Log("active gamepads = " + 
-				          ToString(Hinput.activeGamepads.Select(gamepad => gamepad.fullName).ToList()) + 
-				          ", current gamepad active inputs = " + 
-				          ToString(currentGamepad.activeInputs.Select(input => input.fullName).ToList()) +
-				          ", current gamepad buttons : " + 
+				Debug.Log("current gamepad buttons : " + 
 				          ToString(currentGamepad.buttons.Select(button => button.name).ToList()) +
 				          ", current gamepad sticks : " + 
 				          ToString(currentGamepad.sticks.Select(stick => stick.name).ToList()));
