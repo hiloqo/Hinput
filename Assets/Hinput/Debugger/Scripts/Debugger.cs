@@ -15,9 +15,7 @@ namespace HinputClasses.Internal {
 
 		public enum SD { none, verticalsAndHorizontals, diagonals, diagonalsInverted, pressedZone }
 		public enum BF { none, simplePress, doublePress, longPress, triggerPosition }
-		public enum PF {
-			justPressedAndJustReleased, pressedAndReleased, lastPressedAndLastReleased, pressDurationAndReleaseDuration
-		}
+		public enum PF { justPressedAndJustReleased, pressedAndReleased, pressDurationAndReleaseDuration }
 		[Header("BUTTONS")]
 		public SD stickDirections;
 		public BF buttonFeature;
@@ -363,11 +361,6 @@ namespace HinputClasses.Internal {
 				if (currentPress.justPressed) Debug.Log(currentButton.fullName + " was just " + adjective + "pressed!!");
 				if (currentPress.justReleased) Debug.Log(currentButton.fullName + " was just released after a " + 
 				                                     adjective + "press");
-			}
-
-			if (pressFeature == PF.lastPressedAndLastReleased) {
-				Debug.Log (currentButton.fullName+" last " + adjective + "pressed : " + 
-				           currentPress.lastPressed + ", last released : " + currentPress.lastReleased);
 			}
 
 			if (pressFeature == PF.pressDurationAndReleaseDuration) {

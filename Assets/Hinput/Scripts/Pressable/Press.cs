@@ -26,8 +26,10 @@ namespace HinputClasses {
         // PRIVATE PROPERTIES
         // --------------------
         
-        private int lastPressedFrame = -1;
+        private int lastPressedFrame = -1; // *force wave* this input was never pressed
         private int lastReleasedFrame = -1;
+        private float lastPressed = Mathf.NegativeInfinity;
+        private float lastReleased = Mathf.NegativeInfinity;
         
         
         // --------------------
@@ -48,10 +50,7 @@ namespace HinputClasses {
 
         public Press(Pressable button) {
             this.button = button;
-            
             gamepad = button.gamepad;
-            lastPressed = Mathf.NegativeInfinity; // *force wave* this input was never pressed
-            lastReleased = Mathf.NegativeInfinity;
         }
         
         
@@ -64,10 +63,10 @@ namespace HinputClasses {
             
             if (pressed) {
                 lastPressedFrame = Time.frameCount;
-                lastPressed = Time.unscaledTime;
+                lastPressed = Time.time;
             } else {
                 lastReleasedFrame = Time.frameCount;
-                lastReleased = Time.unscaledTime;
+                lastReleased = Time.time;
             }
         }
         
@@ -95,25 +94,15 @@ namespace HinputClasses {
         /// Returns true if a press has been released this frame. Returns false otherwise.
         /// </summary>
         public bool justReleased { get { return (released && (lastReleasedFrame - lastPressedFrame) == 1); } }
-		
-        /// <summary>
-        /// The time it was the last time a press was pressed.
-        /// </summary>
-        public float lastPressed { get; private set; }
-		
-        /// <summary>
-        /// The time it was the last time a press was released.
-        /// </summary>
-        public float lastReleased { get; private set; }
 
         /// <summary>
         /// How long a press has been pressed (0 if it is released).
         /// </summary>
-        public float pressDuration { get { return Mathf.Clamp(lastPressed - lastReleased, 0, Mathf.Infinity); } }
+        public float pressDuration { get { return Mathf.Max(lastPressed - lastReleased, 0); } }
 
         /// <summary>
         /// How long a press has been released (0 if it is pressed).
         /// </summary>
-        public float releaseDuration { get { return Mathf.Clamp(lastReleased - lastPressed, 0, Mathf.Infinity); } }
+        public float releaseDuration { get { return Mathf.Max(lastReleased - lastPressed, 0); } }
     }
 }

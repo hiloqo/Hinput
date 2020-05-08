@@ -98,16 +98,6 @@ namespace HinputClasses {
 		public bool justReleased { get { return ((Press)this).justReleased; } }
 		
 		/// <summary>
-		/// The time it was the last time an input was pressed.
-		/// </summary>
-		public float lastPressed { get { return ((Press)this).lastPressed; } }
-		
-		/// <summary>
-		/// The time it was the last time an input was released.
-		/// </summary>
-		public float lastReleased { get { return ((Press)this).lastReleased; } }
-		
-		/// <summary>
 		/// How long an input has been pressed (0 if it is released).
 		/// </summary>
 		public float pressDuration { get { return ((Press)this).pressDuration; } }
