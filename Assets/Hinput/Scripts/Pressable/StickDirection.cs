@@ -6,13 +6,10 @@ namespace HinputClasses {
 	/// </summary>
 	public class StickDirection : StickPressable {
 		// --------------------
-		// ID
+		// PRIVATE PROPERTY
 		// --------------------
 
-		/// <summary>
-		/// The value of the angle that defines a direction (in degrees : right=0, up=90, left=180, down=-90).
-		/// </summary>
-		public float angle { get; }
+		private float angle { get; }
 
 
 		// --------------------

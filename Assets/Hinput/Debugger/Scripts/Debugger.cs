@@ -108,7 +108,8 @@ namespace HinputClasses.Internal {
 
 		private void Update () {
 			Time.timeScale = timeScale;
-			if (playInUpdate) TestEverything();
+			// if (playInUpdate) TestEverything();
+			Debug.Log(Hinput.gamepad[0].A.fullName);
 		}
 
 		private void FixedUpdate () {
@@ -188,8 +189,7 @@ namespace HinputClasses.Internal {
 				
 				if (currentButton is StickDirection) {
 					log = "current direction: [" + log +
-					      ", stick = " + ((StickDirection)currentButton).stick.fullName +
-					      ", angle = " + ((StickDirection)currentButton).angle;
+					      ", stick = " + ((StickDirection)currentButton).stick.fullName;
 				} else if (currentButton is StickPressedZone) {
 					log = "current stick pressed zone: [" + log +
 					      ", stick = " + ((StickPressedZone)currentButton).stick.fullName;

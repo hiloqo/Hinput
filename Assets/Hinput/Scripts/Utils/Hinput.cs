@@ -39,7 +39,8 @@ public static class Hinput {
 	/// <summary>
 	/// A virtual gamepad that returns the inputs of every gamepad at once.<br/> <br/>
 	///
-	/// The position of a button on AnyGamepad is the highest position for that button on all gamepads.<br/> 
+	/// A button is pressed on AnyGamepad if there is at least one gamepad on which it is pressed. It is released on
+	/// AnyGamepad if it is released on all gamepads.<br/> 
 	/// The position of a stick on AnyGamepad is the average position of pushed sticks of that type on all
 	/// gamepads.<br/> 
 	/// Vibrating AnyGamepad vibrates all gamepads.<br/> <br/>

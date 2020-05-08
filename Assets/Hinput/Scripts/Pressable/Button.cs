@@ -18,7 +18,7 @@ namespace HinputClasses {
 		// --------------------
 
 		protected override bool GetPressed() {
-			try { return Utils.GetButton(fullName, (name != "XBoxButton")); } 
+			try { return Utils.GetButton(fullName); } 
 			catch { /* Ignore exceptions here */ }
 			return false; }
 	}

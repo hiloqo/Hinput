@@ -209,7 +209,7 @@ namespace HinputClasses {
 
 
 		// --------------------
-		// VIBRATION
+		// VIBRATION DEFAULTS
 		// --------------------
 
 		[Header("Vibration Defaults")]
@@ -263,11 +263,11 @@ namespace HinputClasses {
 		[SerializeField]
 		[Range(0,8)]
 		[Tooltip("The maximum amount of gamepads to be tracked by Hinput.\n\n" +
-		         "Reducing this may improve performance.")]
+		         "Reducing this before entering play mode may improve performance.")]
 		private int _amountOfGamepads = 8;
 		/// <summary>
 		/// The maximum amount of gamepads to be tracked by Hinput.<br/> <br/>
-		/// Reducing this may improve performance.
+		/// Reducing this before entering play mode may improve performance.
 		/// </summary>
 		public static int amountOfGamepads { 
 			get { return instance._amountOfGamepads; } 
@@ -275,12 +275,12 @@ namespace HinputClasses {
 		}
 
 		[SerializeField]
-		[Tooltip("Checking this before starting the game will cause the AnyGamepad feature to not be tracked by " +
+		[Tooltip("Checking this before entering play mode will cause the AnyGamepad feature to not be tracked by " +
 		         "Hinput. \n\n" +
 		         "This may improve performance.")]
 		private bool _disableAnyGamepad = false;
 		/// <summary>
-		/// Checking this before starting the game will cause the AnyGamepad feature to not be tracked by Hinput.
+		/// Checking this before entering play mode will cause the AnyGamepad feature to not be tracked by Hinput.
 		/// <br/> <br/>
 		/// This may improve performance.
 		/// </summary>
@@ -290,12 +290,12 @@ namespace HinputClasses {
 		}
 
 		[SerializeField]
-		[Tooltip("Checking this before starting the game will cause the A button of gamepads to not be tracked by " +
+		[Tooltip("Checking this before entering play mode will cause the A button of gamepads to not be tracked by " +
 		         "Hinput. \n\n" +
 		         "This may improve performance.")]
 		private bool _disableA = false;
 		/// <summary>
-		/// Checking this before starting the game will cause the A button of gamepads to not be tracked by Hinput.
+		/// Checking this before entering play mode will cause the A button of gamepads to not be tracked by Hinput.
 		/// <br/> <br/>
 		/// This may improve performance.
 		/// </summary>
@@ -305,12 +305,12 @@ namespace HinputClasses {
 		}
 
 		[SerializeField]
-		[Tooltip("Checking this before starting the game will cause the B button of gamepads to not be tracked by " +
+		[Tooltip("Checking this before entering play mode will cause the B button of gamepads to not be tracked by " +
 		         "Hinput. \n\n" +
 		         "This may improve performance.")]
 		private bool _disableB = false;
 		/// <summary>
-		/// Checking this before starting the game will cause the B button of gamepads to not be tracked by Hinput.
+		/// Checking this before entering play mode will cause the B button of gamepads to not be tracked by Hinput.
 		/// <br/> <br/>
 		/// This may improve performance.
 		/// </summary>
@@ -320,12 +320,12 @@ namespace HinputClasses {
 		}
 
 		[SerializeField]
-		[Tooltip("Checking this before starting the game will cause the X button of gamepads to not be tracked by " +
+		[Tooltip("Checking this before entering play mode will cause the X button of gamepads to not be tracked by " +
 		         "Hinput. \n\n" +
 		         "This may improve performance.")]
 		private bool _disableX = false;
 		/// <summary>
-		/// Checking this before starting the game will cause the X button of gamepads to not be tracked by Hinput.
+		/// Checking this before entering play mode will cause the X button of gamepads to not be tracked by Hinput.
 		/// <br/> <br/>
 		/// This may improve performance.
 		/// </summary>
@@ -335,12 +335,12 @@ namespace HinputClasses {
 		}
 
 		[SerializeField]
-		[Tooltip("Checking this before starting the game will cause the Y button of gamepads to not be tracked by " +
+		[Tooltip("Checking this before entering play mode will cause the Y button of gamepads to not be tracked by " +
 		         "Hinput. \n\n" +
 		         "This may improve performance.")]
 		private bool _disableY = false;
 		/// <summary>
-		/// Checking this before starting the game will cause the Y button of gamepads to not be tracked by Hinput.
+		/// Checking this before entering play mode will cause the Y button of gamepads to not be tracked by Hinput.
 		/// <br/> <br/>
 		/// This may improve performance.
 		/// </summary>
@@ -350,12 +350,12 @@ namespace HinputClasses {
 		}
 
 		[SerializeField]
-		[Tooltip("Checking this before starting the game will cause the left bumper of gamepads to not be tracked by " +
+		[Tooltip("Checking this before entering play mode will cause the left bumper of gamepads to not be tracked by " +
 		         "Hinput. \n\n" +
 		         "This may improve performance.")]
 		private bool _disableLeftBumper = false;
 		/// <summary>
-		/// Checking this before starting the game will cause the left bumper of gamepads to not be tracked by Hinput.
+		/// Checking this before entering play mode will cause the left bumper of gamepads to not be tracked by Hinput.
 		/// <br/> <br/>
 		/// This may improve performance.
 		/// </summary>
@@ -365,12 +365,12 @@ namespace HinputClasses {
 		}
 
 		[SerializeField]
-		[Tooltip("Checking this before starting the game will cause the right bumper of gamepads to not be tracked " +
+		[Tooltip("Checking this before entering play mode will cause the right bumper of gamepads to not be tracked " +
 		         "by Hinput. \n\n" +
 		         "This may improve performance.")]
 		private bool _disableRightBumper = false;
 		/// <summary>
-		/// Checking this before starting the game will cause the right bumper of gamepads to not be tracked by Hinput.
+		/// Checking this before entering play mode will cause the right bumper of gamepads to not be tracked by Hinput.
 		/// <br/> <br/>
 		/// This may improve performance.
 		/// </summary>
@@ -380,12 +380,12 @@ namespace HinputClasses {
 		}
 
 		[SerializeField]
-		[Tooltip("Checking this before starting the game will cause the left trigger of gamepads to not be tracked " +
+		[Tooltip("Checking this before entering play mode will cause the left trigger of gamepads to not be tracked " +
 		         "by Hinput. \n\n" +
 		         "This may improve performance.")]
 		private bool _disableLeftTrigger = false;
 		/// <summary>
-		/// Checking this before starting the game will cause the left trigger of gamepads to not be tracked by Hinput.
+		/// Checking this before entering play mode will cause the left trigger of gamepads to not be tracked by Hinput.
 		/// <br/> <br/>
 		/// This may improve performance.
 		/// </summary>
@@ -395,12 +395,12 @@ namespace HinputClasses {
 		}
 
 		[SerializeField]
-		[Tooltip("Checking this before starting the game will cause the right trigger of gamepads to not be tracked " +
+		[Tooltip("Checking this before entering play mode will cause the right trigger of gamepads to not be tracked " +
 		         "by Hinput. \n\n" +
 		         "This may improve performance.")]
 		private bool _disableRightTrigger = false;
 		/// <summary>
-		/// Checking this before starting the game will cause the right trigger of gamepads to not be tracked by
+		/// Checking this before entering play mode will cause the right trigger of gamepads to not be tracked by
 		/// Hinput. <br/> <br/>
 		/// This may improve performance.
 		/// </summary>
@@ -410,12 +410,12 @@ namespace HinputClasses {
 		}
 
 		[SerializeField]
-		[Tooltip("Checking this before starting the game will cause the back button of gamepads to not be tracked " +
+		[Tooltip("Checking this before entering play mode will cause the back button of gamepads to not be tracked " +
 		         "by Hinput. \n\n" +
 		         "This may improve performance.")]
 		private bool _disableBack = false;
 		/// <summary>
-		/// Checking this before starting the game will cause the back button of gamepads to not be tracked by Hinput.
+		/// Checking this before entering play mode will cause the back button of gamepads to not be tracked by Hinput.
 		/// <br/> <br/>
 		/// This may improve performance.
 		/// </summary>
@@ -425,12 +425,12 @@ namespace HinputClasses {
 		}
 
 		[SerializeField]
-		[Tooltip("Checking this before starting the game will cause the start button of gamepads to not be tracked " +
+		[Tooltip("Checking this before entering play mode will cause the start button of gamepads to not be tracked " +
 		         "by Hinput. \n\n" +
 		         "This may improve performance.")]
 		private bool _disableStart = false;
 		/// <summary>
-		/// Checking this before starting the game will cause the start button of gamepads to not be tracked by Hinput.
+		/// Checking this before entering play mode will cause the start button of gamepads to not be tracked by Hinput.
 		/// <br/> <br/>
 		/// This may improve performance.
 		/// </summary>
@@ -440,12 +440,12 @@ namespace HinputClasses {
 		}
 
 		[SerializeField]
-		[Tooltip("Checking this before starting the game will cause the left stick click of gamepads to not be " +
+		[Tooltip("Checking this before entering play mode will cause the left stick click of gamepads to not be " +
 		         "tracked by Hinput. \n\n" +
 		         "This may improve performance.")]
 		private bool _disableLeftStickClick = false;
 		/// <summary>
-		/// Checking this before starting the game will cause the left stick click of gamepads to not be tracked by
+		/// Checking this before entering play mode will cause the left stick click of gamepads to not be tracked by
 		/// Hinput. <br/> <br/>
 		/// This may improve performance.
 		/// </summary>
@@ -455,12 +455,12 @@ namespace HinputClasses {
 		}
 
 		[SerializeField]
-		[Tooltip("Checking this before starting the game will cause the right stick click of gamepads to not be " +
+		[Tooltip("Checking this before entering play mode will cause the right stick click of gamepads to not be " +
 		         "tracked by Hinput. \n\n" +
 		         "This may improve performance.")]
 		private bool _disableRightStickClick = false;
 		/// <summary>
-		/// Checking this before starting the game will cause the right stick click of gamepads to not be tracked by
+		/// Checking this before entering play mode will cause the right stick click of gamepads to not be tracked by
 		/// Hinput. <br/> <br/>
 		/// This may improve performance.
 		/// </summary>
@@ -470,12 +470,12 @@ namespace HinputClasses {
 		}
 
 		[SerializeField]
-		[Tooltip("Checking this before starting the game will cause the xBox button of gamepads to not be tracked " +
+		[Tooltip("Checking this before entering play mode will cause the xBox button of gamepads to not be tracked " +
 		         "by Hinput. \n\n" +
 		         "This may improve performance.")]
 		private bool _disableXBoxButton = false;
 		/// <summary>
-		/// Checking this before starting the game will cause the xBox button of gamepads to not be tracked by Hinput.
+		/// Checking this before entering play mode will cause the xBox button of gamepads to not be tracked by Hinput.
 		/// <br/> <br/>
 		/// This may improve performance.
 		/// </summary>
@@ -485,12 +485,12 @@ namespace HinputClasses {
 		}
 
 		[SerializeField]
-		[Tooltip("Checking this before starting the game will cause the left stick of gamepads to not be tracked " +
+		[Tooltip("Checking this before entering play mode will cause the left stick of gamepads to not be tracked " +
 		         "by Hinput. \n\n" +
 		         "This may improve performance.")]
 		private bool _disableLeftStick = false;
 		/// <summary>
-		/// Checking this before starting the game will cause the left stick of gamepads to not be tracked by Hinput.
+		/// Checking this before entering play mode will cause the left stick of gamepads to not be tracked by Hinput.
 		/// <br/> <br/>
 		/// This may improve performance.
 		/// </summary>
@@ -500,12 +500,12 @@ namespace HinputClasses {
 		}
 
 		[SerializeField]
-		[Tooltip("Checking this before starting the game will cause the right stick of gamepads to not be tracked " +
+		[Tooltip("Checking this before entering play mode will cause the right stick of gamepads to not be tracked " +
 		         "by Hinput. \n\n" +
 		         "This may improve performance.")]
 		private bool _disableRightStick = false;
 		/// <summary>
-		/// Checking this before starting the game will cause the right stick of gamepads to not be tracked by Hinput.
+		/// Checking this before entering play mode will cause the right stick of gamepads to not be tracked by Hinput.
 		/// <br/> <br/>
 		/// This may improve performance.
 		/// </summary>
@@ -515,14 +515,14 @@ namespace HinputClasses {
 		}
 
 		[SerializeField]
-		[Tooltip("Checking this before starting the game will cause the D-pad of gamepads to not be tracked by " +
+		[Tooltip("Checking this before entering play mode will cause the D-pad of gamepads to not be tracked by " +
 		         "Hinput. \n\n" +
 		         "This may improve performance.")]
 		private bool _disableDPad = false;
 		/// <summary>
-		/// Checking this before starting the game will cause the D-pad of gamepads to not be tracked by Hinput.
+		/// Checking this before entering play mode will cause the D-pad of gamepads to not be tracked by Hinput.
 		/// <br/> <br/>
-		/// Thisnmay improve performance.
+		/// This may improve performance.
 		/// </summary>
 		public static bool disableDPad { 
 			get { return instance._disableDPad; } 
@@ -530,12 +530,12 @@ namespace HinputClasses {
 		}
 
 		[SerializeField]
-		[Tooltip("Checking this before starting the game will cause the AnyInput feature of gamepads to not be " +
+		[Tooltip("Checking this before entering play mode will cause the AnyInput feature of gamepads to not be " +
 		         "tracked by Hinput. \n\n" +
 		         "This may improve performance.")]
 		private bool _disableAnyInput = false;
 		/// <summary>
-		/// Checking this before starting the game will cause the anyInput feature of gamepads to not be tracked by
+		/// Checking this before entering play mode will cause the anyInput feature of gamepads to not be tracked by
 		/// Hinput. <br/> <br/>
 		/// This may improve performance.
 		/// </summary>

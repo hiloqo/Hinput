@@ -11,7 +11,7 @@ namespace HinputClasses {
 		// --------------------
 
 		/// <summary>
-		/// The name of an input, like “A”, “LeftTrigger” or “AnyInput”.
+		/// The name of an input, like “A”, “DPad_Up” or “AnyInput”.
 		/// </summary>
 		public readonly string name;
 		

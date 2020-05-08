@@ -1,4 +1,6 @@
-﻿namespace HinputClasses.Internal {
+﻿using UnityEngine;
+
+namespace HinputClasses.Internal {
 	// Hinput class measuring a stick axis, and feeding it to a Stick.
     public class Axis {
      	// --------------------
@@ -38,15 +40,15 @@
         
         
         // --------------------
-        // UPDATE
+        // POSITION
         // --------------------
 
-        public void Update() {
+        public float GetPosition() {
 	        // The D-pad will be recorded as two axes or four buttons, depending on the gamepad driver used.
 	        // Measure both the axes and the buttons, and ignore the one that returns an error.
 	        // In the future, always call the one that worked.
-	        if (AxisType == AT.Axis) position = GetAxisValue();
-	        if (AxisType == AT.Buttons) position = GetButtonValue();
+	        if (AxisType == AT.Axis) return GetAxisValue();
+	        if (AxisType == AT.Buttons) return GetButtonValue();
 
 	        float value = GetAxisValue();
 	        if (value.IsNotEqualTo(0))AxisType = AT.Axis;
@@ -55,7 +57,7 @@
 		        if (value.IsNotEqualTo(0)) AxisType = AT.Buttons;
 	        }
 
-	        position = value;
+	        return value;
         }
 
         private float GetAxisValue() {
@@ -64,16 +66,9 @@
 
         private float GetButtonValue() {
 	        float buttonValue = 0f;
-	        if (Utils.GetButton(positiveButtonFullName, false)) buttonValue += 1;
-	        if (Utils.GetButton(negativeButtonFullName, false)) buttonValue -= 1;
+	        if (Utils.GetButton(positiveButtonFullName)) buttonValue += 1;
+	        if (Utils.GetButton(negativeButtonFullName)) buttonValue -= 1;
 	        return buttonValue;
         }
- 
- 
-     	// --------------------
-     	// PUBLIC PROPERTY
-     	// --------------------
- 
-        public float position { get; private set; }
     }
 }

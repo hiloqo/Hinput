@@ -40,9 +40,9 @@ namespace HinputClasses.Internal {
 		// BUTTONS AND AXES
 		// --------------------
 
-		public static bool GetButton (string fullName, bool logError) {
+		public static bool GetButton (string fullName) {
 			try { return Input.GetButton (fullName); } 
-			catch { if (logError) HinputNotSetUpError (); }
+			catch { HinputNotSetUpError (); }
 			return false;
 		}
 

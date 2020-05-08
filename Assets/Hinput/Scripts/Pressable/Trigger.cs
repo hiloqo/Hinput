@@ -54,6 +54,9 @@ namespace HinputClasses {
         // PUBLIC PROPERTY
         // --------------------
         
+        /// <summary>
+        /// The position of a trigger, between 0 and 1.
+        /// </summary>
         public float position { get; private set; }
     }
 }

@@ -79,12 +79,11 @@ namespace HinputClasses {
 		// --------------------
 
 		public static implicit operator Vector2 (Stick stick) { return stick.position; }
-		public static implicit operator Pressable (Stick stick) { return stick.inPressedZone; }
 		public static implicit operator bool (Stick stick) { return stick.inPressedZone; }
 
 
 		// --------------------
-		// CONSTRUCTORS
+		// CONSTRUCTOR
 		// --------------------
 
 		public Stick(string name, Gamepad gamepad, int index, bool isEnabled) {
@@ -149,11 +148,8 @@ namespace HinputClasses {
 			if (!isEnabled) return;
 
 			//Update axes first, then position, then inPressedZone, then directions.
-			if (horizontalAxis != null && verticalAxis != null) {
-				horizontalAxis.Update();
-				verticalAxis.Update();
-				positionRaw = new Vector2(horizontalAxis.position, verticalAxis.position);
-			}
+			if (horizontalAxis != null && verticalAxis != null) 
+				positionRaw = new Vector2(horizontalAxis.GetPosition(), verticalAxis.GetPosition());
 
 			position = GetPosition();
 
@@ -172,59 +168,8 @@ namespace HinputClasses {
 
 		
 		// --------------------
-		// DIRECTIONS
-		// --------------------
-
-		/// <summary>
-		/// The virtual button that is considered pressed if a stick is pushed up.
-		/// </summary>
-		public readonly StickDirection up;
-
-		/// <summary>
-		/// The virtual button that is considered pressed if a stick is pushed down.
-		/// </summary>
-		public readonly StickDirection down;
-
-		/// <summary>
-		/// The virtual button that is considered pressed if a stick is pushed left.
-		/// </summary>
-		public readonly StickDirection left;
-
-		/// <summary>
-		/// The virtual button that is considered pressed if a stick is pushed right.
-		/// </summary>
-		public readonly StickDirection right;
-
-		/// <summary>
-		/// The virtual button that is considered pressed if a stick is pushed up-left.
-		/// </summary>
-		public readonly StickDirection upLeft, leftUp;
-
-		/// <summary>
-		/// The virtual button that is considered pressed if a stick is pushed down-left.
-		/// </summary>
-		public readonly StickDirection downLeft, leftDown;
-
-		/// <summary>
-		/// The virtual button that is considered pressed if a stick is pushed up-right.
-		/// </summary>
-		public readonly StickDirection upRight, rightUp;
-
-		/// <summary>
-		/// The virtual button that is considered pressed if a stick is pushed down-right.
-		/// </summary>
-		public readonly StickDirection downRight, rightDown;
-
-		
-		// --------------------
 		// PUBLIC PROPERTIES
 		// --------------------
-
-		/// <summary>
-		/// The virtual button representing a stick as a button. It is considered pressed if the stick is pushed in any
-		/// direction.
-		/// </summary>
-		public readonly StickPressedZone inPressedZone;
 
 		/// <summary>
 		/// The coordinates of a stick.
@@ -270,9 +215,55 @@ namespace HinputClasses {
 		}
 
 		/// <summary>
-		/// The coordinates of a stick as a horizontal Vector3, with a y value of 0 (The stick’s horizontal and
-		/// vertical coordinates are interpreted as the absolute right and forward directions).
+		/// The coordinates of a stick as a horizontal Vector3, with a y value of 0 (The horizontal and vertical
+		/// coordinates of the stick are interpreted as the absolute right and forward directions).
 		/// </summary>
 		public Vector3 worldPositionFlat { get { return new Vector3 (horizontal, 0, vertical); } }
+
+		/// <summary>
+		/// The virtual button considered pressed if a stick is pushed in any
+		/// direction.
+		/// </summary>
+		public readonly StickPressedZone inPressedZone;
+
+		/// <summary>
+		/// The virtual button that is considered pressed if a stick is pushed up.
+		/// </summary>
+		public readonly StickDirection up;
+
+		/// <summary>
+		/// The virtual button that is considered pressed if a stick is pushed down.
+		/// </summary>
+		public readonly StickDirection down;
+
+		/// <summary>
+		/// The virtual button that is considered pressed if a stick is pushed left.
+		/// </summary>
+		public readonly StickDirection left;
+
+		/// <summary>
+		/// The virtual button that is considered pressed if a stick is pushed right.
+		/// </summary>
+		public readonly StickDirection right;
+
+		/// <summary>
+		/// The virtual button that is considered pressed if a stick is pushed up-left.
+		/// </summary>
+		public readonly StickDirection upLeft, leftUp;
+
+		/// <summary>
+		/// The virtual button that is considered pressed if a stick is pushed down-left.
+		/// </summary>
+		public readonly StickDirection downLeft, leftDown;
+
+		/// <summary>
+		/// The virtual button that is considered pressed if a stick is pushed up-right.
+		/// </summary>
+		public readonly StickDirection upRight, rightUp;
+
+		/// <summary>
+		/// The virtual button that is considered pressed if a stick is pushed down-right.
+		/// </summary>
+		public readonly StickDirection downRight, rightDown;
 	}
 }

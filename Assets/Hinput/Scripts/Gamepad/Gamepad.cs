@@ -80,7 +80,7 @@ namespace HinputClasses {
 
 
 		// --------------------
-		// CONSTRUCTOR
+		// CONSTRUCTORS
 		// --------------------
 
 		protected Gamepad() { }
@@ -140,7 +140,10 @@ namespace HinputClasses {
 		public void Update () {
 			if (UpdateIsRequired() == false) return;
 
-			buttons.ForEach(button => button.Update());
+			// Do not update XBox button on Windows and Linux
+			buttons.Where(button => (button != xBoxButton || Utils.os == "Mac"))
+				.ToList()
+				.ForEach(button => button.Update());
 			sticks.ForEach(stick => stick.Update());
 			anyInput.Update();
 			vibration.Update();
@@ -244,8 +247,8 @@ namespace HinputClasses {
 
 		/// <summary>
 		/// The virtual button that returns every input of a gamepad at once.<br/> <br/>
-		/// The position of AnyInput is the highest position for all inputs on that gamepad. AnyInput is considered
-		/// pressed if any input on that gamepad is pressed.
+		/// AnyInput is considered pressed if at least one input on that gamepad is pressed.
+		/// AnyInput is considered released if every input on that gamepad is released.
 		/// </summary>
 		public AnyInput anyInput { get; private set; }
 

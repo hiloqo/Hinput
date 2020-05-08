@@ -19,7 +19,7 @@ namespace HinputClasses {
                 gamepad.leftTrigger, gamepad.rightTrigger,
                 gamepad.back, gamepad.start, 
                 gamepad.leftStickClick, gamepad.rightStickClick, gamepad.xBoxButton,
-                gamepad.leftStick, gamepad.rightStick, gamepad.dPad
+                gamepad.leftStick.inPressedZone, gamepad.rightStick.inPressedZone, gamepad.dPad.inPressedZone
             };
         }
         
