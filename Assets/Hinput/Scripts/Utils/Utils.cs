@@ -82,26 +82,23 @@ namespace HinputClasses.Internal {
 		// --------------------
 		// OPERATING SYSTEM
 		// --------------------
+		
+		private enum OS { Unknown, Windows, Mac, Linux }
 
 		//The user's operating system. Assigned when first called.
-		private static string _os;
+		private static OS _os = OS.Unknown;
 		public static string os { 
 			get { 
-				if (_os == null) {
-					#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-						_os = "Windows";
-					#elif UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-						_os = "Mac";
-					#elif UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
-						_os = "Linux";
-					#elif UNITY_WEBGL
-						_os = "Windows";
-					#else
-						Debug.LogError("Hinput Error : Unknown OS !");
-					#endif
+				if (_os == OS.Unknown) {
+					string systemOs = SystemInfo.operatingSystem;
+					if (systemOs.Contains("Windows")) _os = OS.Windows;
+					else if (Application.platform == RuntimePlatform.XboxOne) _os = OS.Windows;
+					else if (systemOs.Contains("Mac")) _os = OS.Mac;
+					else if (systemOs.Contains("Linux")) _os = OS.Linux;
+					else Debug.LogError("Hinput Error : Unknown OS !");
 				}
 
-				return _os;
+				return _os.ToString();
 			} 
 		}
 
