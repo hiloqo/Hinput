@@ -36,6 +36,7 @@ namespace HinputClasses {
 		        else hasBeenMoved = true;
 	        }
 	        
+	        if (Settings.triggerDeadZone.IsEqualTo(1)) return 0;
 	        return Mathf.Clamp01((measuredPosition - Settings.triggerDeadZone)/(1 - Settings.triggerDeadZone));
         }
         

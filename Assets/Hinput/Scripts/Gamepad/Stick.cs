@@ -134,11 +134,11 @@ namespace HinputClasses {
 		// --------------------
 
 		protected virtual Vector2 GetPosition() {
+			if (Settings.stickDeadZone.IsEqualTo(1)) return Vector2.zero;
 			if (positionRaw.magnitude < Settings.stickDeadZone) return Vector2.zero;
-			else {
-				return (Utils.stickPositionMultiplier/(1 - Settings.stickDeadZone) 
+			
+			return (Utils.stickPositionMultiplier/(1 - Settings.stickDeadZone) 
 				        *(positionRaw - positionRaw.normalized*Settings.stickDeadZone)).Clamp(-1, 1);
-			}
 		}
 
 		/// <summary>
