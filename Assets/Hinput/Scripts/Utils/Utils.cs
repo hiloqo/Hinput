@@ -83,11 +83,11 @@ namespace HinputClasses.Internal {
 		// OPERATING SYSTEM
 		// --------------------
 		
-		private enum OS { Unknown, Windows, Mac, Linux }
+		public enum OS { Unknown, Windows, Mac, Linux }
 
 		//The user's operating system. Assigned when first called.
 		private static OS _os = OS.Unknown;
-		public static string os { 
+		public static OS os { 
 			get { 
 				if (_os == OS.Unknown) {
 					string systemOs = SystemInfo.operatingSystem;
@@ -98,7 +98,7 @@ namespace HinputClasses.Internal {
 					else Debug.LogError("Hinput Error : Unknown OS !");
 				}
 
-				return _os.ToString();
+				return _os;
 			} 
 		}
 
@@ -148,7 +148,7 @@ namespace HinputClasses.Internal {
 		}
 
 		public static void VibrationNotAvailableError() {
-			if (os != "Windows") Debug.LogWarning("Hinput warning : vibration is only supported on Windows computers.");
+			if (os != OS.Windows) Debug.LogWarning("Hinput warning : vibration is only supported on Windows computers.");
 			else Debug.LogWarning("Hinput warning : vibration is only supported on four controllers.");
 		}
 	}

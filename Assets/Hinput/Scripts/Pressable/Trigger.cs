@@ -43,7 +43,7 @@ namespace HinputClasses {
         // The value of the trigger's position, measured by the gamepad driver.
         private float measuredPosition { 
 	        get { // Triggers range from -1 to 1 on Mac, and from 0 to 1 on Windows and Linux.
-		        if (Utils.os == "Mac") return (Utils.GetAxis(fullName) + 1)/2;
+		        if (Utils.os == Utils.OS.Mac) return (Utils.GetAxis(fullName) + 1)/2;
 		        else return Utils.GetAxis(fullName);	
 	        }
         }

@@ -13,8 +13,8 @@ namespace HinputClasses.Internal {
      		this.positiveButtonFullName = positiveButtonFullName;
      		this.negativeButtonFullName = negativeButtonFullName;
 
-            if (Utils.os == "Windows") AxisType = AT.Axis;
-            if (Utils.os == "Mac") AxisType = AT.Buttons;
+            if (Utils.os == Utils.OS.Windows) AxisType = AT.Axis;
+            if (Utils.os == Utils.OS.Mac) AxisType = AT.Buttons;
         }
  
      	// left/right stick constructor

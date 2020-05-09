@@ -65,7 +65,7 @@ namespace HinputClasses.Internal {
         }
 
         private void UpdateVibrationButton() {
-            if (Utils.os != "Windows" || index > 3) return;
+            if (Utils.os != Utils.OS.Windows || index > 3) return;
             if (Time.time < 5) return;
             if (!Utils.HinputIsInstalled()) return;
             

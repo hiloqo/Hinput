@@ -25,7 +25,7 @@ namespace HinputClasses.Internal {
 		// --------------------
 
 	    public Vibration (int index) {
-		    if (Utils.os != "Windows") return;
+		    if (Utils.os != Utils.OS.Windows) return;
 		    if (index > 3) return;
 		    
 			

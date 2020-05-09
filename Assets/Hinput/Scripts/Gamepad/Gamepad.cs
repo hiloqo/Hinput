@@ -141,7 +141,7 @@ namespace HinputClasses {
 			if (UpdateIsRequired() == false) return;
 
 			// Do not update XBox button on Windows and Linux
-			buttons.Where(button => (button.name != xBoxButton.name || Utils.os == "Mac"))
+			buttons.Where(button => (button.name != xBoxButton.name || Utils.os == Utils.OS.Mac))
 				.ToList()
 				.ForEach(button => button.Update());
 			sticks.ForEach(stick => stick.Update());
