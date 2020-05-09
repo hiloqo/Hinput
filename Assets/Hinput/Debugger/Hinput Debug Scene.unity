@@ -332,9 +332,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startMessage: 1
+  lockCurrentInput: 0
   stickDirections: 1
-  buttonFeature: 1
-  pressFeature: 0
+  buttonFeature: 2
+  pressFeature: 1
   stickFeature: 0
   vibrateOnVPressed: 1
   timeScale: 1
