@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1579596078794682}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.83, y: 10.232828, z: -1.0384194}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -46,14 +46,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _defaultPressType: 0
   _defaultPressFeature: 0
+  _doublePressDuration: 0.3
+  _longPressDuration: 0.3
   _stickType: 45
   _stickDeadZone: 0.2
   _stickPressedZone: 0.5
   _worldCamera: {fileID: 0}
   _triggerDeadZone: 0.1
   _triggerPressedZone: 0.5
-  _doublePressDuration: 0.3
-  _longPressDuration: 0.3
   _vibrationDefaultLeftIntensity: 0.2
   _vibrationDefaultRightIntensity: 0.8
   _vibrationDefaultDuration: 0.2
