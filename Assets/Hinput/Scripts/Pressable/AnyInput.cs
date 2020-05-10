@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using HinputClasses.Internal;
 
-namespace HinputClasses {
+namespace HinputClasses.Internal {
     /// <summary>
     /// Hinput class representing every input of a controller at once
     /// </summary>

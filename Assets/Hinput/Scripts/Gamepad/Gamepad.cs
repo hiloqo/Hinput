@@ -250,7 +250,7 @@ namespace HinputClasses {
 		/// AnyInput is considered pressed if at least one input on that gamepad is pressed.
 		/// AnyInput is considered released if every input on that gamepad is released.
 		/// </summary>
-		public AnyInput anyInput { get; private set; }
+		public Pressable anyInput { get; private set; }
 
 		/// <summary>
 		/// The list containing the sticks of a gamepad, in the following order : { leftStick, rightStick, dPad }
