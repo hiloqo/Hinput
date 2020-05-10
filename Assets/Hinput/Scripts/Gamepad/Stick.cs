@@ -227,42 +227,42 @@ namespace HinputClasses {
 		public readonly StickPressedZone inPressedZone;
 
 		/// <summary>
-		/// The virtual button that is considered pressed if a stick is pushed up.
+		/// The virtual button considered pressed if a stick is pushed up.
 		/// </summary>
 		public readonly StickDirection up;
 
 		/// <summary>
-		/// The virtual button that is considered pressed if a stick is pushed down.
+		/// The virtual button considered pressed if a stick is pushed down.
 		/// </summary>
 		public readonly StickDirection down;
 
 		/// <summary>
-		/// The virtual button that is considered pressed if a stick is pushed left.
+		/// The virtual button considered pressed if a stick is pushed left.
 		/// </summary>
 		public readonly StickDirection left;
 
 		/// <summary>
-		/// The virtual button that is considered pressed if a stick is pushed right.
+		/// The virtual button considered pressed if a stick is pushed right.
 		/// </summary>
 		public readonly StickDirection right;
 
 		/// <summary>
-		/// The virtual button that is considered pressed if a stick is pushed up-left.
+		/// The virtual button considered pressed if a stick is pushed up-left.
 		/// </summary>
 		public readonly StickDirection upLeft, leftUp;
 
 		/// <summary>
-		/// The virtual button that is considered pressed if a stick is pushed down-left.
+		/// The virtual button considered pressed if a stick is pushed down-left.
 		/// </summary>
 		public readonly StickDirection downLeft, leftDown;
 
 		/// <summary>
-		/// The virtual button that is considered pressed if a stick is pushed up-right.
+		/// The virtual button considered pressed if a stick is pushed up-right.
 		/// </summary>
 		public readonly StickDirection upRight, rightUp;
 
 		/// <summary>
-		/// The virtual button that is considered pressed if a stick is pushed down-right.
+		/// The virtual button considered pressed if a stick is pushed down-right.
 		/// </summary>
 		public readonly StickDirection downRight, rightDown;
 	}

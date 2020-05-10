@@ -132,7 +132,7 @@ namespace HinputClasses.Internal {
 		}
 
 		public static void MissingInputArrayError() {
-			Debug.LogError("Hinput setup error : /Assets/Hinput/Scripts/SetUp/Hinput_8Controllers_inputManager" +
+			Debug.LogError("Hinput setup error : /Assets/Hinput/Scripts/Setup/Hinput_8Controllers_inputManager" +
 			               " not found. Make sure this file is present in your project, or reinstall the package.");
 		}
 

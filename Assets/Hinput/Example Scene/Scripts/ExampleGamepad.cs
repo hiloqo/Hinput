@@ -80,9 +80,9 @@ namespace HinputClasses.Internal {
                                                  gamepad.rightStick.worldPositionCamera*stickDistance;
             
             if (gamepad.leftStick.inPressedZone.pressed) 
-                text.text = "Hinput.gamepad[" + index + "].leftStick.position";
+                text.text = "Hinput.gamepad[" + index + "].leftStick";
             if (gamepad.rightStick.inPressedZone.pressed) 
-                text.text = "Hinput.gamepad[" + index + "].rightStick.position";
+                text.text = "Hinput.gamepad[" + index + "].rightStick";
         }
 
         private void UpdateXBoxButton() {

@@ -2,8 +2,8 @@
 
 namespace HinputClasses {
     /// <summary>
-	/// Hinput abstract class representing anything that can be considered pressed and released. It can be an actual
-	/// button, a stick click, a trigger, a stick direction...
+	/// Hinput abstract class representing anything that can be pressed and released. Buttons, stick clicks, triggers
+	/// and stick directions are Pressable.
 	/// </summary>
 	public abstract class Pressable {
 		// --------------------
