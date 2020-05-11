@@ -2,7 +2,6 @@
 // Contact : couvreurhenri@gmail.com, hiloqo.games@gmail.com
 
 using System.Collections.Generic;
-using System.Linq;
 using HinputClasses;
 using HinputClasses.Internal;
 
@@ -72,6 +71,8 @@ public static class Hinput {
 	
 	/// <summary>
 	/// A virtual button that returns every input of every gamepad at once.
+	/// AnyInput is considered pressed if at least one input on that gamepad is pressed.
+	/// AnyInput is considered released if every input on that gamepad is released.
 	/// </summary>
 	public static Pressable anyInput { get { return anyGamepad.anyInput; } }
 }
