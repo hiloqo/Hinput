@@ -103,11 +103,6 @@ namespace HinputClasses {
 			downRight = new StickDirection ("DownRight", -45, this);
 			inPressedZone = new StickPressedZone("PressedZone", this);
 			
-			leftUp = upLeft;
-			leftDown = downLeft;
-			rightUp = upRight;
-			rightDown = downRight;
-			
 			if (index == 0 || index == 1) { // Sticks
 				horizontalAxis = new Axis (fullName+"_Horizontal");
 				verticalAxis = new Axis (fullName+"_Vertical");
@@ -249,21 +244,21 @@ namespace HinputClasses {
 		/// <summary>
 		/// The virtual button considered pressed if a stick is pushed up-left.
 		/// </summary>
-		public readonly StickDirection upLeft, leftUp;
+		public readonly StickDirection upLeft;
 
 		/// <summary>
 		/// The virtual button considered pressed if a stick is pushed down-left.
 		/// </summary>
-		public readonly StickDirection downLeft, leftDown;
+		public readonly StickDirection downLeft;
 
 		/// <summary>
 		/// The virtual button considered pressed if a stick is pushed up-right.
 		/// </summary>
-		public readonly StickDirection upRight, rightUp;
+		public readonly StickDirection upRight;
 
 		/// <summary>
 		/// The virtual button considered pressed if a stick is pushed down-right.
 		/// </summary>
-		public readonly StickDirection downRight, rightDown;
+		public readonly StickDirection downRight;
 	}
 }

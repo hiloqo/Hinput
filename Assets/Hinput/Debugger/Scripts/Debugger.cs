@@ -13,7 +13,7 @@ namespace HinputClasses.Internal {
 		public bool startMessage;
 		public bool lockCurrentInput;
 
-		public enum SD { none, verticalsAndHorizontals, diagonals, diagonalsInverted, pressedZone }
+		public enum SD { none, verticalsAndHorizontals, diagonals, pressedZone }
 		public enum BF { none, defaultCast, simplePress, doublePress, longPress, triggerPosition }
 		public enum PF { defaultCast,  justPressedAndJustReleased, pressedAndReleased, pressDurationAndReleaseDuration }
 		[Header("BUTTONS")]
@@ -306,12 +306,6 @@ namespace HinputClasses.Internal {
 				gamepad.leftStick.upLeft, gamepad.leftStick.upRight, gamepad.leftStick.downLeft, gamepad.leftStick.downRight,
 				gamepad.rightStick.upLeft, gamepad.rightStick.upRight, gamepad.rightStick.downLeft, gamepad.rightStick.downRight,
 				gamepad.dPad.upLeft, gamepad.dPad.upRight, gamepad.dPad.downLeft, gamepad.dPad.downRight
-			});
-
-			if (stickDirections == SD.diagonalsInverted) buttons.AddRange (new List<Pressable> {
-				gamepad.leftStick.leftUp, gamepad.leftStick.rightUp, gamepad.leftStick.leftDown, gamepad.leftStick.rightDown,
-				gamepad.rightStick.leftUp, gamepad.rightStick.rightUp, gamepad.rightStick.leftDown, gamepad.rightStick.rightDown,
-				gamepad.dPad.leftUp, gamepad.dPad.rightUp, gamepad.dPad.leftDown, gamepad.dPad.rightDown
 			});
 
 			if (stickDirections == SD.pressedZone) buttons.AddRange (new List<Pressable> {
