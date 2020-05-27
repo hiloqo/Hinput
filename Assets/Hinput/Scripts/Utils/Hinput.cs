@@ -6,7 +6,7 @@ using HinputClasses;
 using HinputClasses.Internal;
 
 /// <summary>
-/// The main class of the Hinput package, from which you can access gamepads.
+/// The main class of the plugin, used to access gamepads.
 /// </summary>
 public static class Hinput {
 	// --------------------

@@ -128,7 +128,7 @@ namespace HinputClasses {
 		// --------------------
 
 		/// <summary>
-		/// Hinput internal method. You don't need to use it.
+		/// Hinput internal method.
 		/// </summary>
 		public void Update () {
 			if (UpdateIsRequired() == false) return;

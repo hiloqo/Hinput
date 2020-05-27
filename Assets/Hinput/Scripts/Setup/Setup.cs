@@ -24,8 +24,9 @@ namespace HinputClasses.Internal {
 					File.Delete("./Library/SourceAssetDB");
 					Debug.Log("Hinput has been set up successfully. You can start coding!");
 				} catch (IOException) { 
-					Debug.LogWarning("[ACTION NEEDED] You need to reimport your asset database to confirm " +
-					                 "the setup of Hinput. Please click \"Reimport all\" in the Assets menu."); 
+					Debug.LogWarning("[ACTION NEEDED] The asset database needs to be reimported in order " +
+					                 "to confirm the setup of Hinput. Please click \"Reimport all\" in the Assets " +
+					                 "menu."); 
 				}
 			} catch (Exception e) {
 				Utils.SetupError();
@@ -55,8 +56,9 @@ namespace HinputClasses.Internal {
 					File.Delete("./Library/SourceAssetDB");
 					Debug.Log("Hinput has been uninstalled successfully. Bye bye!");
 				} catch (IOException) { 
-					Debug.LogWarning("[ACTION NEEDED] You need to reimport your asset database to confirm " +
-					                 "the uninstall of Hinput. Please click \"Reimport all\" in the Assets menu."); 
+					Debug.LogWarning("[ACTION NEEDED] The asset database needs to be reimported in order " +
+					                 "to confirm the setup of Hinput. Please click \"Reimport all\" in the Assets " +
+					                 "menu."); 
 				}
 			} catch (Exception e) {
 				Utils.UninstallError();

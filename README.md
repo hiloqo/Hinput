@@ -5,7 +5,7 @@ Hinput is a simple gamepad manager for Unity.
 
 Set it up with a single click, learn how to use it in 5 minutes, and start making games for Windows, Mac and Linux!
 
-**[install](http://tiny.cc/hinput_install_v2-0)** | **[learn](http://tiny.cc/hinput_learn_v2-0)** | **[documentation](http://tiny.cc/hinput_doc_v2-0)** | **[contact](mailto:hello@hinput.co)**
+**[install](http://tiny.cc/hinput_install_v3-0)** | **[learn](http://tiny.cc/hinput_learn_v3-0)** | **[documentation](http://tiny.cc/hinput_doc_v3-0)** | **[contact](mailto:hello@hinput.co)**
 
 Hinput is a wrapper around Unity's base input system, with a command to fill up the input manager in a single click, and an intuitive API to expose gamepad controls. It automatically detects the OS you're using, and ajusts to Windows, Mac and Linux at runtime. It also features vibration on Windows for up to 4 gamepads, thanks to the XInput interface. 
 
@@ -18,17 +18,19 @@ Hinput is a wrapper around Unity's base input system, with a command to fill up 
 - Detection of gamepad types and whether gamepads are connected
 - Detection of every gamepad at once
 - Customization of the size of dead zones, the duration of long presses, the default vibration parameters... 
-- Thorough documentation and guides, comments on every class, property and method, and support from developer at **hello@hinput.co**.
+- Thorough documentation and guides, comments on every class, property and method, and support from the developer at **hello@hinput.co**.
 
 ## How to install Hinput
 
 - Download and import the Hinput package into your project.
 
-- In your Unity editor, click **Tools** > **Hinput** > **Set Up Hinput**
+- Click **Tools** > **Hinput** > **Set Up Hinput**
 
 - If a warning message appears in your console click **Assets** > **Reimport all**
 
-- That’s it ! Hinput is ready to use. Here are a few of the most useful controls :
+- That’s it ! Hinput is ready to use.
+
+Here are a few of the most useful controls :
 
 ```csharp
 // Get the state of buttons, triggers and stick directions :
@@ -47,12 +49,12 @@ Hinput.gamepad[0].rightStick.vertical
 Hinput.gamepad[0].Vibrate();
 ```
 
-Feel free to check out the **[learn](http://tiny.cc/hinput_learn_v2-0)** guide or the **[documentation](http://tiny.cc/hinput_doc_v2-0)** for more
+Feel free to have a look at the **[learn](http://tiny.cc/hinput_learn_v2-0)** guide, and open the **Hinput Example Scene** to experiment with the controls for yourself.
 
 ## License: MIT
 
-I allow anyone to download, edit and use the code in this project and its releases, and distribute or sell projects made with  them. Please check out the license files in Assets/Hinput/Licenses for details.
+You are allowed to download, edit and use the code in this project and its releases, and distribute or sell projects made with  them. Please refer yourself to the license files in Assets/Hinput/Licenses for details.
 
 ## Contact
 
-If you want to report a bug, request a feature of contribute to the project feel free to hit me up at **hello@hinput.co**!
+If you want to report a bug, request a feature of contribute to the project, feel free to email **hello@hinput.co**.

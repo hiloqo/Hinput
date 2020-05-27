@@ -138,13 +138,12 @@ namespace HinputClasses.Internal {
 
 		public static void SetupError() {
 			Debug.LogWarning("Error while setting up Hinput. Try reinstalling the plugin and rebooting your" +
-			                 " computer. If the problem persists, please contact me at couvreurhenri@gmail.com.");
+			                 " computer. If the problem persists, please contact me at hello@hinput.co.");
 		}
 
 		public static void UninstallError() {
 			Debug.LogWarning("Error while uninstalling Hinput. Try reinstalling the plugin and rebooting " +
-			                 "your computer. If the problem persists, please contact me at " +
-			                 "couvreurhenri@gmail.com.");
+			                 "your computer. If the problem persists, please contact me at hello@hinput.co.");
 		}
 
 		public static void VibrationNotAvailableError() {

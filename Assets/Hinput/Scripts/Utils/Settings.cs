@@ -3,8 +3,8 @@
 namespace HinputClasses {
     /// <summary>
 	/// Hinput class responsible for handling settings.<br/> <br/>
-	/// You can attach it to a gameobject to expose settings. If you don’t, it will automatically be instantiated at
-	/// runtime the first time you call Hinput, with default settings.
+	/// Can be attached to a gameobject to expose settings. Otherwise it will automatically be instantiated at runtime
+	/// the first time Hinput is called, with default settings.
 	/// </summary>
 	public class Settings : MonoBehaviour {
 		// --------------------
@@ -43,13 +43,13 @@ namespace HinputClasses {
 
 		[SerializeField]
 		[Tooltip("The default conversion of Pressable to Press values\n\n"+
-		         "Determines how Hinput interprets buttons, triggers and stick directions when you don't specify " +
-		         "what kind of Press you want to use.")]
+		         "Determines how Hinput interprets buttons, triggers and stick directions when the type of Press to " +
+		         "use is not specified")]
 		private DefaultPressTypes _defaultPressType = DefaultPressTypes.SimplePress;
 		/// <summary>
 		/// The default conversion of Pressable to boolean values<br/> <br/>
-		/// Determines how Hinput interprets buttons, triggers and stick directions when you don't specify what kind of
-		/// Press you want to use.
+		/// Determines how Hinput interprets buttons, triggers and stick directions when the type of Press to use is
+		/// not specified
 		/// </summary>
 		public static DefaultPressTypes defaultPressType { 
 			get { return instance._defaultPressType; } 
@@ -59,13 +59,13 @@ namespace HinputClasses {
 		public enum DefaultPressFeatures { Pressed, JustPressed, Released, JustReleased }
 		[SerializeField]
 		[Tooltip("The default conversion of Press and Pressable to boolean values\n\n"+
-		         "Determines how Hinput interprets buttons, triggers and stick directions when you don't specify " +
-		         "what feature you want to use.")]
+		         "Determines how Hinput interprets buttons, triggers and stick directions when the feature to use " +
+		         "is not specified.")]
 		private DefaultPressFeatures _defaultPressFeature = DefaultPressFeatures.Pressed;
 		/// <summary>
 		/// The default conversion of Press and Pressable to boolean values<br/> <br/>
-		/// Determines how Hinput interprets buttons, triggers and stick directions when you don't specify what feature
-		/// you want to use.
+		/// Determines how Hinput interprets buttons, triggers and stick directions when the feature to use is not
+		/// specified.
 		/// </summary>
 		public static DefaultPressFeatures defaultPressFeature { 
 			get { return instance._defaultPressFeature; } 
@@ -156,11 +156,11 @@ namespace HinputClasses {
 
 		[SerializeField]
 		[Tooltip("The Camera on which the worldPositionCamera feature of Stick should be based. If no Camera is set, " +
-		         "Hinput will try to find one on your scene.")]
+		         "Hinput will try to find one on the scene.")]
 		private Transform _worldCamera = null;
 		/// <summary>
 		/// The Camera on which the worldPositionCamera feature of Stick should be based. If no Camera is set,  
-		/// Hinput will try to find one on your scene.
+		/// Hinput will try to find one on the scene.
 		/// </summary>
 		public static Transform worldCamera { 
 			get { 

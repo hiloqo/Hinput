@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 
 namespace HinputClasses.Internal {
-	// Hinput class allowing you to test every feature of the plugin and log it to the console.
+	// Hinput class testing every feature of the plugin and logging them to the console.
     public class Debugger : MonoBehaviour {
 		// --------------------
 		// SETTINGS
