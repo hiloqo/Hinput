@@ -1,5 +1,5 @@
 ﻿// Author : Henri Couvreur for hiloqo, 2019
-// Contact : couvreurhenri@gmail.com, hiloqo.games@gmail.com
+// Contact : hello@hinput.co
 
 using System.Collections.Generic;
 using HinputClasses;
