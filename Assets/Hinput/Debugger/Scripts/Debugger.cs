@@ -61,7 +61,7 @@ namespace HinputClasses.Internal {
 			noArgs, duration, intensity, durationAndIntensity, oneCurve, twoCurves, vibrationPreset, advanced
 		}
 		[Header("VIBRATION")]
-		[Range(0,8)] public int gamepadToVibrate;
+		[Range(0,7)] public int gamepadToVibrate;
 		public VM vibrationMode;
 		[Range(0,10)]
 		public float duration;

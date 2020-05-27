@@ -18,9 +18,17 @@ namespace HinputClasses.Internal {
         }
 
         public void Update() {
-            if (Hinput.gamepad.Count(gamepad => gamepad.isConnected) < 2) ActivatePanel(oneGamepad);
-            else if (Hinput.gamepad.Count(gamepad => gamepad.isConnected) < 3) ActivatePanel(twoGamepads);
-            else if (Hinput.gamepad.Count(gamepad => gamepad.isConnected) < 5) ActivatePanel(fourGamepads);
+            int highestConnectedGamepad;
+            try {
+                highestConnectedGamepad = Hinput.gamepad
+                    .Where(gamepad => gamepad.isConnected)
+                    .Select(gamepad => gamepad.index)
+                    .Max();
+            } catch { return; }
+            
+            if (highestConnectedGamepad < 1) ActivatePanel(oneGamepad);
+            else if (highestConnectedGamepad < 2) ActivatePanel(twoGamepads);
+            else if (highestConnectedGamepad < 4) ActivatePanel(fourGamepads);
             else ActivatePanel(eightGamepads);
         }
 
