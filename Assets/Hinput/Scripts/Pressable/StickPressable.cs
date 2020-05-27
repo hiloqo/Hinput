@@ -14,9 +14,10 @@
         // --------------------
         // CONSTRUCTOR
         // --------------------
-        protected StickPressable(string name, Stick stick) :
-            base(name, stick.gamepad, stick.fullName + "_" + name, true) {
+        protected StickPressable(string pressableName, Stick stick) :
+            base(stick.gamepad, true) {
             this.stick = stick;
+            name = stick.name + "_" + pressableName;
         }
     }
 }

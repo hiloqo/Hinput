@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using HinputClasses.Internal;
 
@@ -21,11 +20,6 @@ namespace HinputClasses {
 		/// The name of a gamepad, like "Gamepad0" or "AnyGamepad".
 		/// </summary>
 		public string name { get; protected set; }
-
-		/// <summary>
-		/// The full name of a gamepad, like "Windows_Gamepad0" or "Mac_AnyGamepad".
-		/// </summary>
-		public string fullName { get; protected set; }
 
 		/// <summary>
 		/// The type of a gamepad, like "Controller (Xbox One For Windows)", "Wireless Controller" or "AnyGamepad".
@@ -87,8 +81,8 @@ namespace HinputClasses {
 
 		public Gamepad (int index) {
 			this.index = index;
+			
 			name = "Gamepad" + index;
-			fullName = Utils.os + "_" + name;
 			isEnabled = false;
 			enableWhenConnected = (index < Settings.amountOfGamepads);
 			
@@ -104,7 +98,6 @@ namespace HinputClasses {
 			
 			leftStickClick = new Button ("LeftStickClick", this, 10, !Settings.disableLeftStickClick);
 			rightStickClick = new Button ("RightStickClick", this, 11, !Settings.disableRightStickClick);
-			xBoxButton = new Button ("XBoxButton", this, 12, !Settings.disableXBoxButton);
 			
 			leftStick = new Stick ("LeftStick", this, 0, !Settings.disableLeftStick);
 			rightStick = new Stick ("RightStick", this, 1, !Settings.disableRightStick);
@@ -125,7 +118,7 @@ namespace HinputClasses {
 			buttons = new List<Pressable> {
 				A, B, X, Y,
 				leftBumper, rightBumper, leftTrigger, rightTrigger,
-				back, start, leftStickClick, rightStickClick, xBoxButton
+				back, start, leftStickClick, rightStickClick
 			};
 		}
 
@@ -140,10 +133,7 @@ namespace HinputClasses {
 		public void Update () {
 			if (UpdateIsRequired() == false) return;
 
-			// Do not update XBox button on Windows and Linux
-			buttons.Where(button => (button.name != xBoxButton.name || Utils.os == Utils.OS.Mac))
-				.ToList()
-				.ForEach(button => button.Update());
+			buttons.ForEach(button => button.Update());
 			sticks.ForEach(stick => stick.Update());
 			anyInput.Update();
 			vibration.Update();
@@ -214,13 +204,6 @@ namespace HinputClasses {
 		public Button rightStickClick { get; protected set; }
 
 		/// <summary>
-		/// The XBox button of a gamepad.<br/> <br/>
-		/// Windows and Linux drivers can’t detect the value of this button. Therefore it will be considered released
-		/// at all times on these operating systems.
-		/// </summary>
-		public Button xBoxButton { get; protected set; }
-
-		/// <summary>
 		/// The left trigger of a gamepad.
 		/// </summary>
 		public Trigger leftTrigger { get; private set; }
@@ -259,7 +242,7 @@ namespace HinputClasses {
 
 		/// <summary>
 		/// The list containing the buttons of a gamepad, in the following order : { A, B, X, Y, left bumper, right
-		/// bumper, left trigger, right trigger, back, start, left stick click, right stick click, XBox button }
+		/// bumper, left trigger, right trigger, back, start, left stick click, right stick click }
 		/// </summary>
 		public List<Pressable> buttons { get; private set; }
 

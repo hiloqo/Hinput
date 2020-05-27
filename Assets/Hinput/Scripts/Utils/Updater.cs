@@ -20,15 +20,17 @@ namespace HinputClasses.Internal {
     
     	public static void CheckInstance() {
     		if (_instance != null) return;
-    		
-    		_instance = Settings.instance.gameObject.AddComponent<Updater>();
+
+            GameObject go = new GameObject {name = "Hinput Updater"};
+            go.transform.SetParent(Settings.instance.transform);
+            _instance = go.AddComponent<Updater>();
+            
             UpdateGamepads();
     	}
     
     	private void Awake () {
     		if (_instance == null) _instance = this;
     		if (_instance != this) Destroy(this);
-    		DontDestroyOnLoad (this);
     	}
     
     

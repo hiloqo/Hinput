@@ -19,11 +19,6 @@ namespace HinputClasses {
 		/// The name of a stick, like “LeftStick” or “DPad”.
 		/// </summary>
 		public readonly string name;
-
-		/// <summary>
-		/// The full name of a stick, like "Mac_Gamepad0_LeftStick" or "Windows_AnyGamepad_DPad".
-		/// </summary>
-		public readonly string fullName;
 		
 		/// <summary>
 		/// The gamepad a stick is attached to.
@@ -86,12 +81,12 @@ namespace HinputClasses {
 		// CONSTRUCTOR
 		// --------------------
 
-		public Stick(string name, Gamepad gamepad, int index, bool isEnabled) {
-			this.name = name;
-			fullName = gamepad.fullName + "_" + name;
+		public Stick(string stickName, Gamepad gamepad, int index, bool isEnabled) {
 			this.gamepad = gamepad;
 			this.index = index;
 			this.isEnabled = isEnabled;
+			
+			name = gamepad.name + "_" + stickName;
 
 			up = new StickDirection ("Up", 90, this);
 			down = new StickDirection ("Down", -90, this);
@@ -104,13 +99,17 @@ namespace HinputClasses {
 			inPressedZone = new StickPressedZone("PressedZone", this);
 			
 			if (index == 0 || index == 1) { // Sticks
-				horizontalAxis = new Axis (fullName+"_Horizontal");
-				verticalAxis = new Axis (fullName+"_Vertical");
+				horizontalAxis = new Axis (Utils.os + "_" + name + "_Horizontal");
+				verticalAxis = new Axis (Utils.os + "_" + name + "_Vertical");
 			}
 			
 			if (index == 2) { // DPad
-				horizontalAxis = new Axis (fullName+"_Horizontal", fullName+"_Right", fullName+"_Left");
-				verticalAxis = new Axis (fullName+"_Vertical", fullName+"_Up", fullName+"_Down");
+				horizontalAxis = new Axis (Utils.os + "_" + name + "_Horizontal", 
+					Utils.os + "_" + name + "_Right", 
+					Utils.os + "_" + name + "_Left");
+				verticalAxis = new Axis (Utils.os + "_" + name + "_Vertical", 
+					Utils.os + "_" + name + "_Up", 
+					Utils.os + "_" + name + "_Down");
 			}
 		}
 

@@ -333,7 +333,7 @@ MonoBehaviour:
   rightStickStartPosition: {x: 0, y: 0, z: 0}
   leftStick: {fileID: 2021880933}
   rightStick: {fileID: 1748715564}
-  xBoxButton: {fileID: 1585972328}
+  connectedButton: {fileID: 1585972328}
   vibrate: {fileID: 11410382}
   text: {fileID: 838521059}
   AHighlight: {fileID: 1856715476}
@@ -350,7 +350,6 @@ MonoBehaviour:
   dpadDownHighlight: {fileID: 1197731256}
   dpadLeftHighlight: {fileID: 1240811636}
   dpadRightHighlight: {fileID: 186658804}
-  xBoxButtonHighlight: {fileID: 1147085447}
   leftStickClickHighlight: {fileID: 1278855211}
   rightStickClickHighlight: {fileID: 885325304}
 --- !u!1 &11410382
@@ -2172,7 +2171,7 @@ MonoBehaviour:
   rightStickStartPosition: {x: 0, y: 0, z: 0}
   leftStick: {fileID: 730524074}
   rightStick: {fileID: 854311818}
-  xBoxButton: {fileID: 1274704977}
+  connectedButton: {fileID: 1274704977}
   vibrate: {fileID: 676749429}
   text: {fileID: 894481839}
   AHighlight: {fileID: 2043013680}
@@ -2189,7 +2188,6 @@ MonoBehaviour:
   dpadDownHighlight: {fileID: 1677629275}
   dpadLeftHighlight: {fileID: 1672345968}
   dpadRightHighlight: {fileID: 1985538401}
-  xBoxButtonHighlight: {fileID: 328941890}
   leftStickClickHighlight: {fileID: 65906885}
   rightStickClickHighlight: {fileID: 611207714}
 --- !u!1 &101311030
@@ -3990,7 +3988,7 @@ MonoBehaviour:
   rightStickStartPosition: {x: 0, y: 0, z: 0}
   leftStick: {fileID: 1269504926}
   rightStick: {fileID: 1105088235}
-  xBoxButton: {fileID: 1092125013}
+  connectedButton: {fileID: 1092125013}
   vibrate: {fileID: 1437935265}
   text: {fileID: 1773742916}
   AHighlight: {fileID: 1670068482}
@@ -4007,7 +4005,6 @@ MonoBehaviour:
   dpadDownHighlight: {fileID: 1194089830}
   dpadLeftHighlight: {fileID: 1555861134}
   dpadRightHighlight: {fileID: 642546266}
-  xBoxButtonHighlight: {fileID: 445374470}
   leftStickClickHighlight: {fileID: 1261489655}
   rightStickClickHighlight: {fileID: 2089390124}
 --- !u!1 &217817495
@@ -6020,7 +6017,7 @@ MonoBehaviour:
   rightStickStartPosition: {x: 0, y: 0, z: 0}
   leftStick: {fileID: 1411152403}
   rightStick: {fileID: 1411188298}
-  xBoxButton: {fileID: 1420084526}
+  connectedButton: {fileID: 1420084526}
   vibrate: {fileID: 1032054395}
   text: {fileID: 909319162}
   AHighlight: {fileID: 580820972}
@@ -6037,7 +6034,6 @@ MonoBehaviour:
   dpadDownHighlight: {fileID: 1506031828}
   dpadLeftHighlight: {fileID: 472900632}
   dpadRightHighlight: {fileID: 1615673226}
-  xBoxButtonHighlight: {fileID: 1896787085}
   leftStickClickHighlight: {fileID: 948130003}
   rightStickClickHighlight: {fileID: 1445419387}
 --- !u!1 &410920910
@@ -7061,7 +7057,7 @@ MonoBehaviour:
   rightStickStartPosition: {x: 0, y: 0, z: 0}
   leftStick: {fileID: 1485146182}
   rightStick: {fileID: 1860582091}
-  xBoxButton: {fileID: 1852843719}
+  connectedButton: {fileID: 1852843719}
   vibrate: {fileID: 2036591289}
   text: {fileID: 1546474411}
   AHighlight: {fileID: 917363026}
@@ -7078,7 +7074,6 @@ MonoBehaviour:
   dpadDownHighlight: {fileID: 994777617}
   dpadLeftHighlight: {fileID: 1748076376}
   dpadRightHighlight: {fileID: 124089404}
-  xBoxButtonHighlight: {fileID: 1580688162}
   leftStickClickHighlight: {fileID: 341405878}
   rightStickClickHighlight: {fileID: 2068880842}
 --- !u!1 &472511362
@@ -7400,7 +7395,7 @@ MonoBehaviour:
   rightStickStartPosition: {x: 0, y: 0, z: 0}
   leftStick: {fileID: 1598591136}
   rightStick: {fileID: 1165231602}
-  xBoxButton: {fileID: 608761951}
+  connectedButton: {fileID: 608761951}
   vibrate: {fileID: 825226119}
   text: {fileID: 504656154}
   AHighlight: {fileID: 24544851}
@@ -7417,7 +7412,6 @@ MonoBehaviour:
   dpadDownHighlight: {fileID: 1332416672}
   dpadLeftHighlight: {fileID: 561819784}
   dpadRightHighlight: {fileID: 1114903511}
-  xBoxButtonHighlight: {fileID: 1874141173}
   leftStickClickHighlight: {fileID: 1437479628}
   rightStickClickHighlight: {fileID: 2093762462}
 --- !u!1 &504656153
@@ -15825,7 +15819,7 @@ MonoBehaviour:
   rightStickStartPosition: {x: 0, y: 0, z: 0}
   leftStick: {fileID: 387893098}
   rightStick: {fileID: 1314671025}
-  xBoxButton: {fileID: 718183381}
+  connectedButton: {fileID: 718183381}
   vibrate: {fileID: 140941754}
   text: {fileID: 657337437}
   AHighlight: {fileID: 62110183}
@@ -15842,7 +15836,6 @@ MonoBehaviour:
   dpadDownHighlight: {fileID: 1375569592}
   dpadLeftHighlight: {fileID: 1077793669}
   dpadRightHighlight: {fileID: 456418272}
-  xBoxButtonHighlight: {fileID: 634181365}
   leftStickClickHighlight: {fileID: 603556901}
   rightStickClickHighlight: {fileID: 1739211134}
 --- !u!1 &1114268724
@@ -16090,7 +16083,7 @@ MonoBehaviour:
   rightStickStartPosition: {x: 0, y: 0, z: 0}
   leftStick: {fileID: 15192356}
   rightStick: {fileID: 875488869}
-  xBoxButton: {fileID: 705862738}
+  connectedButton: {fileID: 705862738}
   vibrate: {fileID: 1870449369}
   text: {fileID: 651411558}
   AHighlight: {fileID: 301853295}
@@ -16107,7 +16100,6 @@ MonoBehaviour:
   dpadDownHighlight: {fileID: 2098057120}
   dpadLeftHighlight: {fileID: 1519518604}
   dpadRightHighlight: {fileID: 1742491927}
-  xBoxButtonHighlight: {fileID: 178290203}
   leftStickClickHighlight: {fileID: 94978962}
   rightStickClickHighlight: {fileID: 1065946743}
 --- !u!1 &1147085447
@@ -18856,7 +18848,7 @@ MonoBehaviour:
   rightStickStartPosition: {x: 0, y: 0, z: 0}
   leftStick: {fileID: 580558476}
   rightStick: {fileID: 1325256487}
-  xBoxButton: {fileID: 1288024947}
+  connectedButton: {fileID: 1288024947}
   vibrate: {fileID: 1899706846}
   text: {fileID: 1811681295}
   AHighlight: {fileID: 946166717}
@@ -18873,7 +18865,6 @@ MonoBehaviour:
   dpadDownHighlight: {fileID: 1768818721}
   dpadLeftHighlight: {fileID: 365645956}
   dpadRightHighlight: {fileID: 552467412}
-  xBoxButtonHighlight: {fileID: 2036359877}
   leftStickClickHighlight: {fileID: 1219973382}
   rightStickClickHighlight: {fileID: 2056365543}
 --- !u!1 &1323282171
@@ -19854,7 +19845,7 @@ MonoBehaviour:
   rightStickStartPosition: {x: 0, y: 0, z: 0}
   leftStick: {fileID: 61399400}
   rightStick: {fileID: 1568894439}
-  xBoxButton: {fileID: 1545466780}
+  connectedButton: {fileID: 1545466780}
   vibrate: {fileID: 1038891541}
   text: {fileID: 439405928}
   AHighlight: {fileID: 1362163326}
@@ -19871,7 +19862,6 @@ MonoBehaviour:
   dpadDownHighlight: {fileID: 1341467253}
   dpadLeftHighlight: {fileID: 1665170935}
   dpadRightHighlight: {fileID: 1202808664}
-  xBoxButtonHighlight: {fileID: 1470707452}
   leftStickClickHighlight: {fileID: 947225992}
   rightStickClickHighlight: {fileID: 1147923435}
 --- !u!1 &1405498917
@@ -22042,7 +22032,7 @@ MonoBehaviour:
   rightStickStartPosition: {x: 0, y: 0, z: 0}
   leftStick: {fileID: 1658066650}
   rightStick: {fileID: 1521178934}
-  xBoxButton: {fileID: 252723077}
+  connectedButton: {fileID: 252723077}
   vibrate: {fileID: 1581354323}
   text: {fileID: 1198771624}
   AHighlight: {fileID: 684246811}
@@ -22059,7 +22049,6 @@ MonoBehaviour:
   dpadDownHighlight: {fileID: 478461247}
   dpadLeftHighlight: {fileID: 684538152}
   dpadRightHighlight: {fileID: 1471919803}
-  xBoxButtonHighlight: {fileID: 1040668284}
   leftStickClickHighlight: {fileID: 1829025648}
   rightStickClickHighlight: {fileID: 708815090}
 --- !u!1 &1530504472
@@ -22196,7 +22185,7 @@ MonoBehaviour:
   rightStickStartPosition: {x: 0, y: 0, z: 0}
   leftStick: {fileID: 1816117432}
   rightStick: {fileID: 653056101}
-  xBoxButton: {fileID: 1199047063}
+  connectedButton: {fileID: 1199047063}
   vibrate: {fileID: 96599377}
   text: {fileID: 470081500}
   AHighlight: {fileID: 1375332042}
@@ -22213,7 +22202,6 @@ MonoBehaviour:
   dpadDownHighlight: {fileID: 512470746}
   dpadLeftHighlight: {fileID: 682003473}
   dpadRightHighlight: {fileID: 742409399}
-  xBoxButtonHighlight: {fileID: 210890067}
   leftStickClickHighlight: {fileID: 1643260804}
   rightStickClickHighlight: {fileID: 851579811}
 --- !u!1 &1535745876
@@ -23997,7 +23985,7 @@ MonoBehaviour:
   rightStickStartPosition: {x: 0, y: 0, z: 0}
   leftStick: {fileID: 1328550051}
   rightStick: {fileID: 551705482}
-  xBoxButton: {fileID: 462639065}
+  connectedButton: {fileID: 462639065}
   vibrate: {fileID: 249521972}
   text: {fileID: 1820501423}
   AHighlight: {fileID: 1452963607}
@@ -24014,7 +24002,6 @@ MonoBehaviour:
   dpadDownHighlight: {fileID: 1159285437}
   dpadLeftHighlight: {fileID: 180898360}
   dpadRightHighlight: {fileID: 1865709506}
-  xBoxButtonHighlight: {fileID: 1619447877}
   leftStickClickHighlight: {fileID: 695415600}
   rightStickClickHighlight: {fileID: 860949218}
 --- !u!1 &1665170935
@@ -24595,7 +24582,7 @@ MonoBehaviour:
   rightStickStartPosition: {x: 0, y: 0, z: 0}
   leftStick: {fileID: 778260696}
   rightStick: {fileID: 1208701063}
-  xBoxButton: {fileID: 703701837}
+  connectedButton: {fileID: 703701837}
   vibrate: {fileID: 2067863105}
   text: {fileID: 652648378}
   AHighlight: {fileID: 617244405}
@@ -24612,7 +24599,6 @@ MonoBehaviour:
   dpadDownHighlight: {fileID: 628823327}
   dpadLeftHighlight: {fileID: 12371488}
   dpadRightHighlight: {fileID: 1889616578}
-  xBoxButtonHighlight: {fileID: 768289063}
   leftStickClickHighlight: {fileID: 1878425292}
   rightStickClickHighlight: {fileID: 1345006444}
 --- !u!1 &1701927057
@@ -28536,7 +28522,7 @@ MonoBehaviour:
   rightStickStartPosition: {x: 0, y: 0, z: 0}
   leftStick: {fileID: 1323282171}
   rightStick: {fileID: 1302497730}
-  xBoxButton: {fileID: 1964757974}
+  connectedButton: {fileID: 1964757974}
   vibrate: {fileID: 433436877}
   text: {fileID: 1172486903}
   AHighlight: {fileID: 755292298}
@@ -28553,7 +28539,6 @@ MonoBehaviour:
   dpadDownHighlight: {fileID: 2134115979}
   dpadLeftHighlight: {fileID: 2099870822}
   dpadRightHighlight: {fileID: 24709312}
-  xBoxButtonHighlight: {fileID: 853395658}
   leftStickClickHighlight: {fileID: 757503070}
   rightStickClickHighlight: {fileID: 1076202021}
 --- !u!1 &1960502713

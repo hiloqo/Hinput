@@ -14,9 +14,10 @@
         // --------------------
         // CONSTRUCTOR
         // --------------------
-        protected GamepadPressable(string name, Gamepad gamepad, int index, bool isEnabled) :
-            base(name, gamepad, gamepad.fullName + "_" + name, isEnabled) {
+        protected GamepadPressable(string pressableName, Gamepad gamepad, int index, bool isEnabled) :
+            base(gamepad, isEnabled) {
             this.index = index;
+            name = gamepad.name + "_" + pressableName;
         }
     }
 }

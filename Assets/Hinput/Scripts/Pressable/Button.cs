@@ -9,8 +9,8 @@ namespace HinputClasses {
 		// CONSTRUCTOR
 		// --------------------
 
-		public Button(string name, Gamepad gamepad, int index, bool isEnabled) : 
-			base(name, gamepad, index, isEnabled) { }
+		public Button(string pressableName, Gamepad gamepad, int index, bool isEnabled) : 
+			base(pressableName, gamepad, index, isEnabled) { }
 
 	
 		// --------------------
@@ -18,7 +18,7 @@ namespace HinputClasses {
 		// --------------------
 
 		protected override bool GetPressed() {
-			try { return Utils.GetButton(fullName); } 
+			try { return Utils.GetButton(Utils.os + "_" + name); } 
 			catch { /* Ignore exceptions here */ }
 			return false; }
 	}

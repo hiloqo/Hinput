@@ -10,14 +10,14 @@ namespace HinputClasses.Internal {
         // CONSTRUCTOR
         // --------------------
 
-        public AnyInput(string name, Gamepad gamepad, bool isEnabled) : 
-            base(name, gamepad, -1, isEnabled) {
+        public AnyInput(string pressableName, Gamepad gamepad, bool isEnabled) : 
+            base(pressableName, gamepad, -1, isEnabled) {
             inputs = new List<Pressable> {
                 gamepad.A, gamepad.B, gamepad.X, gamepad.Y,
                 gamepad.leftBumper, gamepad.rightBumper, 
                 gamepad.leftTrigger, gamepad.rightTrigger,
                 gamepad.back, gamepad.start, 
-                gamepad.leftStickClick, gamepad.rightStickClick, gamepad.xBoxButton,
+                gamepad.leftStickClick, gamepad.rightStickClick,
                 gamepad.leftStick.inPressedZone, gamepad.rightStick.inPressedZone, gamepad.dPad.inPressedZone
             };
         }

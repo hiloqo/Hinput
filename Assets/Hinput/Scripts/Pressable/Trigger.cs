@@ -10,8 +10,8 @@ namespace HinputClasses {
     	// CONSTRUCTOR
     	// --------------------
     
-    	public Trigger (string name, Gamepad gamepad, int index, bool isEnabled) : 
-    		base(name, gamepad, index, isEnabled) {
+    	public Trigger (string pressableName, Gamepad gamepad, int index, bool isEnabled) : 
+    		base(pressableName, gamepad, index, isEnabled) {
     		initialValue = measuredPosition;
     	}
     
@@ -43,8 +43,8 @@ namespace HinputClasses {
         // The value of the trigger's position, measured by the gamepad driver.
         private float measuredPosition { 
 	        get { // Triggers range from -1 to 1 on Mac, and from 0 to 1 on Windows and Linux.
-		        if (Utils.os == Utils.OS.Mac) return (Utils.GetAxis(fullName) + 1)/2;
-		        else return Utils.GetAxis(fullName);	
+		        if (Utils.os == Utils.OS.Mac) return (Utils.GetAxis(Utils.os + "_" + name) + 1)/2;
+		        else return Utils.GetAxis(Utils.os + "_" + name);	
 	        }
         }
 

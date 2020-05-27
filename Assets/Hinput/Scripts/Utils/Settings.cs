@@ -23,7 +23,7 @@ namespace HinputClasses {
 		private static void CheckInstance() {
 			if (_instance != null) return;
 			
-			GameObject go = new GameObject {name = "HinputSettings"};
+			GameObject go = new GameObject {name = "Hinput Settings"};
 			_instance = go.AddComponent<Settings>();
 		}
 

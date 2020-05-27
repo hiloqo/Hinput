@@ -350,6 +350,7 @@ MonoBehaviour:
   toggleGamepadOnGPressed: 0
   toggleStickOnPPressed: 0
   toggleButtonOnBPressed: 0
+  gamepadToVibrate: 0
   vibrationMode: 3
   duration: 1
   leftIntensity: 0.5

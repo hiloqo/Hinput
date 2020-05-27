@@ -11,7 +11,7 @@ namespace HinputClasses.Internal {
         // --------------------
 
         public override string type { get { return "AnyGamepad"; } }
-        public override bool isConnected { get { return Input.GetJoystickNames().Any(name => (name != "")); } }
+        public override bool isConnected { get { return Hinput.gamepad.Any(gamepad => gamepad.isConnected); } }
         
         
         // --------------------
@@ -21,7 +21,6 @@ namespace HinputClasses.Internal {
         public AnyGamepad() {
             index = -1;
             name = "AnyGamepad";
-            fullName = Utils.os + "_" + name;
             isEnabled = !Settings.disableAnyGamepad;
 			
             A = new AnyGamepadButton ("A", this, 0, !Settings.disableA); 
@@ -35,9 +34,8 @@ namespace HinputClasses.Internal {
             start = new AnyGamepadButton ("Start", this, 9, !Settings.disableStart);
 			
             leftStickClick = new AnyGamepadButton ("LeftStickClick", this, 10, !Settings.disableLeftStickClick);
-            rightStickClick = new AnyGamepadButton ("RightStickClick", this, 11, !Settings.disableRightStickClick);
-            xBoxButton = new AnyGamepadButton ("XBoxButton", this, 12, !Settings.disableXBoxButton);
-            
+            rightStickClick = new AnyGamepadButton("RightStickClick", this, 11, !Settings.disableRightStickClick);
+
             leftStick = new AnyGamepadStick("LeftStick", this, 0);
             rightStick = new AnyGamepadStick("RightStick", this, 1);
             dPad = new AnyGamepadStick("DPad", this, 2);

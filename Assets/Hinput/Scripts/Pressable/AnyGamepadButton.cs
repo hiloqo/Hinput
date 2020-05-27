@@ -7,8 +7,8 @@ namespace HinputClasses.Internal {
         // CONSTRUCTOR
         // --------------------
         
-        public AnyGamepadButton(string name, Gamepad gamepad, int index, bool isEnabled) :
-            base(name, gamepad, index, isEnabled) {
+        public AnyGamepadButton(string pressableName, Gamepad gamepad, int index, bool isEnabled) :
+            base(pressableName, gamepad, index, isEnabled) {
             buttons = Hinput.gamepad.Select(g => g.buttons[index]).ToList();
         }
 

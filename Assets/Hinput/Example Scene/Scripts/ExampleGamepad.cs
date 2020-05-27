@@ -16,7 +16,7 @@ namespace HinputClasses.Internal {
         [Header("REFERENCES")]
         public GameObject leftStick;
         public GameObject rightStick;
-        public GameObject xBoxButton;
+        public GameObject connectedButton;
         public GameObject vibrate;
         public Text text;
         [Space]
@@ -34,7 +34,6 @@ namespace HinputClasses.Internal {
         public GameObject dpadDownHighlight;
         public GameObject dpadLeftHighlight;
         public GameObject dpadRightHighlight;
-        public GameObject xBoxButtonHighlight;
         public GameObject leftStickClickHighlight;
         public GameObject rightStickClickHighlight;
 
@@ -48,7 +47,7 @@ namespace HinputClasses.Internal {
         private void Update() {
             text.text = "";
             UpdateAllStickPositions();
-            UpdateXBoxButton();
+            UpdateConnectedButton();
             UpdateAllButtonHighlights();
             UpdateVibrationButton();
             CheckSetup();
@@ -85,12 +84,11 @@ namespace HinputClasses.Internal {
                 text.text = "Hinput.gamepad[" + index + "].rightStick";
         }
 
-        private void UpdateXBoxButton() {
-            xBoxButton.SetActive(gamepad.isConnected);
+        private void UpdateConnectedButton() {
+            connectedButton.SetActive(gamepad.isConnected);
         }
 
         private void UpdateAllButtonHighlights() {
-            UpdateButtonHighLight(gamepad.xBoxButton, xBoxButtonHighlight, "xBoxButton");
             UpdateButtonHighLight(gamepad.rightStickClick, rightStickClickHighlight, "rightStickClick");
             UpdateButtonHighLight(gamepad.leftStickClick, leftStickClickHighlight, "leftStickClick");
             UpdateButtonHighLight(gamepad.rightTrigger, rightTriggerHighlight, "rightTrigger");

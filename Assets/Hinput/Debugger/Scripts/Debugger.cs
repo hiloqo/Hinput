@@ -61,6 +61,7 @@ namespace HinputClasses.Internal {
 			noArgs, duration, intensity, durationAndIntensity, oneCurve, twoCurves, vibrationPreset, advanced
 		}
 		[Header("VIBRATION")]
+		[Range(0,8)] public int gamepadToVibrate;
 		public VM vibrationMode;
 		[Range(0,10)]
 		public float duration;
@@ -99,11 +100,7 @@ namespace HinputClasses.Internal {
 
 
 		private void Start () {
-			if (startMessage) {
-				Debug.Log("OS is : "+Utils.os);
-				Debug.Log("Hinput gameObject name is : "+Settings.instance.name);
-				Debug.Log("Camera gameObject name is : "+Settings.worldCamera.name);
-			}
+			if (startMessage) Debug.Log("Press a button to log it in the debugger");
 		}
 
 		private void Update () {
@@ -141,8 +138,7 @@ namespace HinputClasses.Internal {
 				          ", isEnabled = " + currentGamepad.isEnabled +
 				          ", type = " + currentGamepad.type + 
 				          ", index = " + currentGamepad.index + 
-				          ", name = " + currentGamepad.name +
-				          ", full name = " + currentGamepad.fullName+ "]");
+				          ", name = " + currentGamepad.name+ "]");
 			}
 
 			if (gamepadListsOnLPressed && Input.GetKeyDown(KeyCode.L)) {
@@ -167,8 +163,7 @@ namespace HinputClasses.Internal {
 				Debug.Log("current stick: [isEnabled = " + currentStick.isEnabled +
 				          ", index = " + currentStick.index +
 				          ", name = " + currentStick.name +
-				          ", full name = " + currentStick.fullName +
-				          ", gamepad = " + currentStick.gamepad.fullName + "]");
+				          ", gamepad = " + currentStick.gamepad.name + "]");
 			}
 			
 			if (buttonInfoOnBPressed && Input.GetKeyDown(KeyCode.B)) {
@@ -179,15 +174,14 @@ namespace HinputClasses.Internal {
 				
 				string log = "isEnabled = " + currentButton.isEnabled + 
 				             ", name = " + currentButton.name +
-				             ", full name = " + currentButton.fullName +
-				             ", gamepad = " + currentButton.gamepad.fullName;
+				             ", gamepad = " + currentButton.gamepad.name;
 				
 				if (currentButton is StickDirection) {
 					log = "current direction: [" + log +
-					      ", stick = " + ((StickDirection)currentButton).stick.fullName;
+					      ", stick = " + ((StickDirection)currentButton).stick.name;
 				} else if (currentButton is StickPressedZone) {
 					log = "current stick pressed zone: [" + log +
-					      ", stick = " + ((StickPressedZone)currentButton).stick.fullName;
+					      ", stick = " + ((StickPressedZone)currentButton).stick.name;
 				} else if (currentButton is Button) {
 					log = "current button: [" + log +
 					      ", index = " + ((Button)currentButton).index;
@@ -216,10 +210,10 @@ namespace HinputClasses.Internal {
 				}
 				if (currentButton.gamepad.isEnabled) {
 					currentButton.gamepad.Disable();
-					Debug.Log("Disabling " + currentButton.gamepad.fullName);
+					Debug.Log("Disabling " + currentButton.gamepad.name);
 				} else {
 					currentButton.gamepad.Enable();
-					Debug.Log("Enabling "+ currentButton.gamepad.fullName);
+					Debug.Log("Enabling "+ currentButton.gamepad.name);
 				}
 			}
 			
@@ -230,10 +224,10 @@ namespace HinputClasses.Internal {
 				}
 				if (currentStick.isEnabled) {
 					currentStick.Disable();
-					Debug.Log("Disabling " + currentStick.fullName);
+					Debug.Log("Disabling " + currentStick.name);
 				} else {
 					currentStick.Enable();
-					Debug.Log("Enabling " + currentStick.fullName);
+					Debug.Log("Enabling " + currentStick.name);
 				}
 			}
 			
@@ -244,10 +238,10 @@ namespace HinputClasses.Internal {
 				}
 				if (currentButton.isEnabled) {
 					currentButton.Disable();
-					Debug.Log("Disabling " + currentButton.fullName);
+					Debug.Log("Disabling " + currentButton.name);
 				} else {
 					currentButton.Enable();
-					Debug.Log("Enabling " + currentButton.fullName);
+					Debug.Log("Enabling " + currentButton.name);
 				}
 			}
 		}
@@ -293,7 +287,7 @@ namespace HinputClasses.Internal {
 			buttons.AddRange (new List<Pressable>() {
 				gamepad.A, gamepad.B, gamepad.X, gamepad.Y, gamepad.leftBumper, gamepad.rightBumper, 
 				gamepad.leftTrigger, gamepad.rightTrigger, gamepad.leftStickClick, gamepad.rightStickClick, 
-				gamepad.back, gamepad.start, gamepad.xBoxButton
+				gamepad.back, gamepad.start
 			});
 
 			if (stickDirections == SD.verticalsAndHorizontals) buttons.AddRange (new List<Pressable> {
@@ -324,7 +318,7 @@ namespace HinputClasses.Internal {
 			if (buttonFeature == BF.none) return;
 			if (buttonFeature == BF.triggerPosition) {
 				if (currentButton is Trigger) {
-					Debug.Log (currentButton.fullName +  " position : " + ((Trigger)currentButton).position);
+					Debug.Log (currentButton.name +  " position : " + ((Trigger)currentButton).position);
 				} else Debug.Log("Pressable position is only available on triggers!");
 			}
 			
@@ -345,21 +339,21 @@ namespace HinputClasses.Internal {
 			} else return;
 
 			if (pressFeature == PF.defaultCast) {
-				if (currentPress) Debug.Log(currentButton.fullName + " is being " + adjective + "default pressed!!");
-				else Debug.Log(currentButton.fullName + " is not being " + adjective + "default pressed");
+				if (currentPress) Debug.Log(currentButton.name + " is being " + adjective + "default pressed!!");
+				else Debug.Log(currentButton.name + " is not being " + adjective + "default pressed");
 			} else if (pressFeature == PF.pressedAndReleased) {
-				if (currentPress.pressed) Debug.Log(currentButton.fullName + " is being " + adjective + "pressed!!");
-				else Debug.Log(currentButton.fullName + " is not being " + adjective + "pressed");
+				if (currentPress.pressed) Debug.Log(currentButton.name + " is being " + adjective + "pressed!!");
+				else Debug.Log(currentButton.name + " is not being " + adjective + "pressed");
 			} else if (pressFeature == PF.justPressedAndJustReleased) {
 				if (currentPress.justPressed) 
-					Debug.Log(currentButton.fullName + " was just " + adjective + "pressed!!");
+					Debug.Log(currentButton.name + " was just " + adjective + "pressed!!");
 				if (currentPress.justReleased) 
-					Debug.Log(currentButton.fullName + " was just released after a " + adjective + "press");
+					Debug.Log(currentButton.name + " was just released after a " + adjective + "press");
 			} else if (pressFeature == PF.pressDurationAndReleaseDuration) {
 				if (currentPress.pressed) 
-					Debug.Log (currentButton.fullName + " has been held (" + adjective + "press) for " + 
+					Debug.Log (currentButton.name + " has been held (" + adjective + "press) for " + 
 					           currentPress.pressDuration+" seconds!!!");
-				else Debug.Log (currentButton.fullName + " has been released (" + adjective + "press) for " + 
+				else Debug.Log (currentButton.name + " has been released (" + adjective + "press) for " + 
 				                currentPress.releaseDuration + " seconds");
 			}
 		}
@@ -396,14 +390,14 @@ namespace HinputClasses.Internal {
 				plane.gameObject.SetActive(true);
 				redCube.gameObject.SetActive(false);
 				blueSphere.gameObject.SetActive(true);
-				Debug.Log (currentStick.fullName+" is controlling the blue sphere");
+				Debug.Log (currentStick.name+" is controlling the blue sphere");
 				blueSphere.transform.position += moveSpeed * Time.deltaTime * currentStick.worldPositionCamera;
 			} else if (stickFeature == SF.worldPositionFlat) {
 				message.gameObject.SetActive(false);
 				plane.gameObject.SetActive(true);
 				redCube.gameObject.SetActive(true);
 				blueSphere.gameObject.SetActive(false);
-				Debug.Log (currentStick.fullName+" is controlling the red cube");
+				Debug.Log (currentStick.name+" is controlling the red cube");
 				redCube.transform.position += moveSpeed * Time.deltaTime * currentStick.worldPositionFlat;
 			} else {
 				message.gameObject.SetActive(true);
@@ -413,14 +407,14 @@ namespace HinputClasses.Internal {
 			}
 			if (stickFeature == SF.none) return;
 			if (stickFeature == SF.position) 
-				Debug.Log (currentStick.fullName+" position : "+currentStick.position);
-			if (stickFeature == SF.horizontal) Debug.Log (currentStick.fullName+
+				Debug.Log (currentStick.name+" position : "+currentStick.position);
+			if (stickFeature == SF.horizontal) Debug.Log (currentStick.name+
 			                                              " horizontal : "+currentStick.horizontal);
-			if (stickFeature == SF.vertical) Debug.Log (currentStick.fullName+
+			if (stickFeature == SF.vertical) Debug.Log (currentStick.name+
 			                                            " vertical : "+currentStick.vertical);
-			if (stickFeature == SF.angle) Debug.Log (currentStick.fullName+
+			if (stickFeature == SF.angle) Debug.Log (currentStick.name+
 			                                         " angle : "+currentStick.angle);
-			if (stickFeature == SF.distance) Debug.Log (currentStick.fullName+
+			if (stickFeature == SF.distance) Debug.Log (currentStick.name+
 			                                            " distance : "+currentStick.distance);
 		}
 
@@ -430,8 +424,7 @@ namespace HinputClasses.Internal {
 
 		private void TestVibration () {
 			if (gamepadMode == GM.anyGamepad) TestVibrationOnGamepad(Hinput.anyGamepad);
-			if (gamepadMode == GM.individualGamepads && currentButton != null) 
-				TestVibrationOnGamepad(currentButton.gamepad);
+			if (gamepadMode == GM.individualGamepads) TestVibrationOnGamepad(Hinput.gamepad[gamepadToVibrate]);
 		}
 
 		private void TestVibrationOnGamepad(Gamepad gamepad) {

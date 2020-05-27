@@ -10,8 +10,8 @@ namespace HinputClasses {
         // CONSTRUCTOR
         // --------------------
 
-        public StickPressedZone(string name, Stick stick) : 
-            base(name, stick) { }
+        public StickPressedZone(string pressableName, Stick stick) : 
+            base(pressableName, stick) { }
 
 	    
         // --------------------

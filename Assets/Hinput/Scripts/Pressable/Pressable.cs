@@ -13,13 +13,7 @@ namespace HinputClasses {
 		/// <summary>
 		/// The name of an input, like “A”, “DPad_Up” or “AnyInput”.
 		/// </summary>
-		public readonly string name;
-		
-		/// <summary>
-		/// The full name of an input, like “Mac_Gamepad0_A”, "Windows_AnyGamepad_LeftTrigger", or
-		/// "Linux_Gamepad2_AnyInput".
-		/// </summary>
-		public readonly string fullName;
+		public string name { get; protected set; }
 		
 		/// <summary>
 		/// The gamepad an input is attached to.
@@ -111,9 +105,7 @@ namespace HinputClasses {
 		// CONSTRUCTOR
 		// --------------------
 
-		protected Pressable(string name, Gamepad gamepad, string fullName, bool isEnabled) {
-			this.name = name;
-			this.fullName = fullName;
+		protected Pressable(Gamepad gamepad, bool isEnabled) {
 			this.gamepad = gamepad;
 			this.isEnabled = isEnabled;
 			

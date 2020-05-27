@@ -16,8 +16,8 @@ namespace HinputClasses {
 		// CONSTRUCTOR
 		// --------------------
 
-		public StickDirection (string name, float angle, Stick stick) : 
-			base(name, stick) {
+		public StickDirection (string pressableName, float angle, Stick stick) : 
+			base(pressableName, stick) {
 			this.angle = angle;
 		}
 

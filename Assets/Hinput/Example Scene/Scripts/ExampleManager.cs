@@ -18,20 +18,17 @@ namespace HinputClasses.Internal {
         }
 
         public void Update() {
-            UpdatePanel(twoGamepads, 1);
-            UpdatePanel(fourGamepads, 2);
-            UpdatePanel(eightGamepads, 4);
+            if (Hinput.gamepad.Count(gamepad => gamepad.isConnected) < 2) ActivatePanel(oneGamepad);
+            else if (Hinput.gamepad.Count(gamepad => gamepad.isConnected) < 3) ActivatePanel(twoGamepads);
+            else if (Hinput.gamepad.Count(gamepad => gamepad.isConnected) < 5) ActivatePanel(fourGamepads);
+            else ActivatePanel(eightGamepads);
         }
 
-        private void UpdatePanel(GameObject panel, int amountOfGamepads) {
+        private void ActivatePanel(GameObject panel) {
             if (panel == currentPanel) return;
-            if (Hinput.gamepad.Count(gamepad => gamepad.isConnected) == 0) return;
-            
-            if (Hinput.gamepad.Last(gamepad => gamepad.isConnected).index >= amountOfGamepads) {
-                currentPanel.SetActive(false);
-                panel.SetActive(true);
-                currentPanel = panel;
-            }
+            currentPanel.SetActive(false);
+            panel.SetActive(true);
+            currentPanel = panel;
         }
     }
 }
