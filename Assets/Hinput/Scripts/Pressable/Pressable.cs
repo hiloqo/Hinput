@@ -11,7 +11,7 @@ namespace HinputClasses {
 		// --------------------
 
 		/// <summary>
-		/// The name of an input, like “A”, “DPad_Up” or “AnyInput”.
+		/// The name of an input, like “Gamepad0_A”, “AnyGamepad_RightStick_DPad_Up” or “Gamepad2_AnyInput”.
 		/// </summary>
 		public string name { get; protected set; }
 		

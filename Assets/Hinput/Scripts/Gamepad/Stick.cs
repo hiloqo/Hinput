@@ -16,7 +16,7 @@ namespace HinputClasses {
 		public readonly int index;
 
 		/// <summary>
-		/// The name of a stick, like “LeftStick” or “DPad”.
+		/// The name of a stick, like “Gamepad0_LeftStick” or “AnyGamepad_DPad”.
 		/// </summary>
 		public readonly string name;
 		

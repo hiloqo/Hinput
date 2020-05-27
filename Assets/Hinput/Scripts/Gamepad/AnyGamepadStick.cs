@@ -12,8 +12,8 @@ namespace HinputClasses.Internal {
         // CONSTRUCTOR
         // --------------------
 
-        public AnyGamepadStick(string name, Gamepad gamepad, int index)
-            : base(name, gamepad, index, true) {
+        public AnyGamepadStick(string stickName, Gamepad gamepad, int index)
+            : base(stickName, gamepad, index, true) {
             sticks = Hinput.gamepad.Select(g => g.sticks[index]).ToList();
         }
 
