@@ -1000,8 +1000,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "This is my personal debug scene. \nIt can test every feature of hinput,
-    and log it to the console."
+  m_Text: "This the Hinput debug scene. \nIt can test every feature of hinput, and
+    log it to the console."
 --- !u!222 &2050491521
 CanvasRenderer:
   m_ObjectHideFlags: 0
